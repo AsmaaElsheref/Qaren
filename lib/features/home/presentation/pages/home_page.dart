@@ -5,9 +5,9 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../providers/home_providers.dart';
 import '../widgets/home_app_bar.dart';
-import '../widgets/home_search_bar.dart';
 import '../widgets/category_card.dart';
 import '../widgets/home_bottom_nav.dart';
+import '../../../services/serviceProvider/service_provider.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -15,6 +15,7 @@ class HomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final categories = ref.watch(filteredCategoriesProvider);
+    final serviceRoutes = ref.watch(serviceRoutesProvider);
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -34,9 +35,15 @@ class HomePage extends ConsumerWidget {
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
                   final category = categories[index];
+                  final page = serviceRoutes[category.id];
                   return CategoryCard(
                     category: category,
-                    onTap: () {},
+                    onTap: page == null
+                        ? () {} // service not built yet
+                        : () => Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (_) => page),
+                            ),
                   );
                 },
                 childCount: categories.length,

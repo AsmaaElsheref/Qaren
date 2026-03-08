@@ -4,6 +4,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/ui/widgets/AppTextField.dart';
+import '../../../../core/ui/widgets/icon_container.dart';
 import '../providers/home_providers.dart';
 
 class HomeSearchBar extends ConsumerStatefulWidget {
@@ -72,30 +73,14 @@ class _FilterButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(6),
-      child: Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-            color: AppColors.border.withValues(alpha: 0.8),
-            width: 1,
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.06),
-              blurRadius: 4,
-              offset: const Offset(0, 1),
-            ),
-          ],
-        ),
-        child: const Icon(
+      child: IconContainer(
+        onTap: () {},
+        icon: const Icon(
           Icons.tune_rounded,
           color: AppColors.textSecondary,
           size: 18,
         ),
-      ),
+      )
     );
   }
 }

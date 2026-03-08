@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/features/home/presentation/pages/home_page.dart';
-
 import 'core/theme/app_theme.dart';
 import 'features/auth/presentation/pages/login_page.dart';
 
