@@ -11,6 +11,7 @@ class AppTextField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final FormFieldValidator<String>? validator;
   final ValueChanged<String>? onChanged;
+  final ValueChanged<String>? onSubmitted;
   final bool enabled;
   final int maxLines;
   final int? minLines;
@@ -33,7 +34,7 @@ class AppTextField extends StatelessWidget {
     this.maxLines = 1,
     this.minLines,
     this.prefixIcon,
-    this.suffixIcon, this.fillColor, this.nonBorder,
+    this.suffixIcon, this.fillColor, this.nonBorder, this.onSubmitted,
   });
 
   @override
@@ -50,6 +51,7 @@ class AppTextField extends StatelessWidget {
       textInputAction: textInputAction,
       validator: validator,
       onChanged: onChanged,
+      onFieldSubmitted: onSubmitted,
       enabled: enabled,
       maxLines: obscureText ? 1 : maxLines,
       minLines: obscureText ? 1 : minLines,

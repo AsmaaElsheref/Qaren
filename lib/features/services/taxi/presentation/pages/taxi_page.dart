@@ -5,19 +5,6 @@ import '../widgets/taxi_map_view.dart';
 import '../widgets/taxi_top_bar.dart';
 import '../widgets/location_sheet.dart';
 
-/// Taxi booking page.
-///
-/// Layout:
-///  ┌─────────────────────────────┐
-///  │  TaxiMapView  (flex 1)      │  ← never rebuilds
-///  │  TaxiTopBar   (overlay)     │  ← never rebuilds
-///  ├─────────────────────────────┤
-///  │  LocationSheet (intrinsic)  │  ← sub-widgets rebuild in isolation
-///  └─────────────────────────────┘
-///
-/// Using a [Column] (not a [Stack]) for the map+sheet split ensures the
-/// bottom sheet is always exactly as tall as its content and the map
-/// takes all remaining space — no overflow, no layout jank.
 class TaxiPage extends StatelessWidget {
   const TaxiPage({super.key});
 
