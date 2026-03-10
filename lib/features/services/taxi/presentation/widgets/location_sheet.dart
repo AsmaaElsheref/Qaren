@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../core/constants/app_dimensions.dart';
 import '../../../../../core/theme/app_colors.dart';
-import '../providers/taxi_providers.dart';
-import 'location_field.dart';
-import 'location_picker_sheet.dart';
+import 'map/destination_field.dart';
+import 'map/pickup_field.dart';
 import 'price_compare_button.dart';
 
 class LocationSheet extends ConsumerWidget {
@@ -35,7 +34,6 @@ class LocationSheet extends ConsumerWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // ── Drag handle ──────────────────────────────────────────────────
           Container(
             width: 40,
             height: 4,
@@ -45,47 +43,14 @@ class LocationSheet extends ConsumerWidget {
               borderRadius: BorderRadius.circular(AppDimensions.radiusFull),
             ),
           ),
-
-          _PickupField(),
+          PickupField(),
           const SizedBox(height: AppDimensions.paddingM),
-          _DestinationField(),
+          DestinationField(),
           const SizedBox(height: AppDimensions.paddingL),
           const PriceCompareButton(),
           const SizedBox(height: AppDimensions.paddingS),
         ],
       ),
-    );
-  }
-}
-
-// ── Scoped sub-widgets ────────────────────────────────────────────────────────
-
-class _PickupField extends ConsumerWidget {
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final value = ref.watch(taxiProvider.select((s) => s.pickup));
-    return LocationField(
-      hint: 'نقطة الانطلاق',
-      leadingIcon: Icons.location_on_rounded,
-      iconColor: AppColors.primary,
-      iconBgColor: AppColors.primaryLight,
-      value: value,
-      onTap: () => showLocationPickerSheet(context, TaxiActiveField.pickup),
-    );
-  }
-}
-
-class _DestinationField extends ConsumerWidget {
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final value = ref.watch(taxiProvider.select((s) => s.destination));
-    return LocationField(
-      hint: 'الوجهة المطلوبة',
-      leadingIcon: Icons.near_me_rounded,
-      iconColor: const Color(0xFFE85D5D),
-      iconBgColor: const Color(0xFFFFF0F0),
-      value: value,
-      onTap: () => showLocationPickerSheet(context, TaxiActiveField.destination),
     );
   }
 }

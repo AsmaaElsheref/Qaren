@@ -115,8 +115,9 @@ class LocationPickerSheet extends ConsumerWidget {
                 onTap: () {
                   Navigator.of(context).pop();
                   Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => MapPickerPage(field: field),
+                    PageRouteBuilder(
+                      opaque: false,
+                      pageBuilder: (_, __, ___) => MapPickerPage(field: field),
                     ),
                   );
                 },

@@ -11,18 +11,15 @@ class TaxiMapView extends ConsumerStatefulWidget {
 }
 
 class _TaxiMapViewState extends ConsumerState<TaxiMapView> {
-  GoogleMapController? _controller;
-
   @override
   void dispose() {
-    _controller?.dispose();
+    ref.read(taxiMapControllerProvider.notifier).state = null;
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final markers = ref.watch(taxiMarkersProvider);
-
     return GoogleMap(
       initialCameraPosition: kTaxiInitialCameraPosition,
       markers: markers,
@@ -30,10 +27,15 @@ class _TaxiMapViewState extends ConsumerState<TaxiMapView> {
       zoomControlsEnabled: false,
       mapToolbarEnabled: false,
       compassEnabled: false,
-      onMapCreated: (controller) => _controller = controller,
-      onTap: (latLng) {
-        // Future: reverse-geocode & fill pickup or destination
+      onMapCreated: (controller) =>
+          ref.read(taxiMapControllerProvider.notifier).state = controller,
+      onCameraMove: (pos) =>
+          ref.read(taxiCameraPositionProvider.notifier).state = pos.target,
+      onCameraIdle: () {
+        ref.read(taxiCameraIdleProvider.notifier).update((v) => !v);
       },
     );
   }
 }
+
+

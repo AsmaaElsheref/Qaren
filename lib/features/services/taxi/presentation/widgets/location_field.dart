@@ -3,11 +3,6 @@ import '../../../../../core/constants/app_dimensions.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/ui/widgets/AppTextStyles.dart';
 
-/// Reusable RTL location input row.
-///
-/// Tapping anywhere on the row calls [onTap] — the parent opens the
-/// [LocationPickerSheet]; no direct text editing happens here.
-/// [value] drives what's displayed (empty → shows hint).
 class LocationField extends StatelessWidget {
   final String hint;
   final IconData leadingIcon;

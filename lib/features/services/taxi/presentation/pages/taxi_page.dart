@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../core/theme/app_colors.dart';
+import '../providers/taxi_providers.dart';
 import '../widgets/taxi_map_view.dart';
 import '../widgets/taxi_top_bar.dart';
 import '../widgets/location_sheet.dart';
 
-class TaxiPage extends StatelessWidget {
+class TaxiPage extends ConsumerWidget {
   const TaxiPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isPickerActive = ref.watch(taxiMapPickerActiveProvider);
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark.copyWith(
         statusBarColor: Colors.transparent,
@@ -34,13 +37,10 @@ class TaxiPage extends StatelessWidget {
                 ],
               ),
             ),
-
-            // ── Bottom sheet panel ─────────────────────────────────────────
-            const LocationSheet(),
+            if (!isPickerActive) const LocationSheet(),
           ],
         ),
       ),
     );
   }
 }
-
