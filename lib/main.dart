@@ -39,7 +39,7 @@ class QarenApp extends StatelessWidget {
           child: child!,
         );
       },
-      home: const HomePage() //LoginPage(),
+      home: const LoginPage(),
     );
   }
 }

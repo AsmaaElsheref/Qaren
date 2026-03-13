@@ -1,21 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
+import 'package:qaren/features/services/taxi/presentation/providers/currentLocationProvider/current_location_provider.dart';
 import '../../../../../core/constants/app_dimensions.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/ui/widgets/AppText.dart';
 import '../pages/map_picker_page.dart';
 import '../providers/taxi_providers.dart';
 
-/// Modal bottom sheet shown when user taps a [LocationField].
-///
-/// Options:
-///  1. استخدم موقعي الحالي  → (plug in geolocator when ready)
-///  2. تحديد على الخريطة   → push [MapPickerPage]
-///  3. Recent suggestions   → filled from [TaxiState]
-///
-/// Call via [showLocationPickerSheet].
 class LocationPickerSheet extends ConsumerWidget {
   final TaxiActiveField field;
 
@@ -23,19 +15,15 @@ class LocationPickerSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final title = field == TaxiActiveField.pickup
-        ? 'نقطة الانطلاق'
-        : 'الوجهة المطلوبة';
+    final title = field == TaxiActiveField.pickup ? 'نقطة الانطلاق' : 'الوجهة المطلوبة';
+    final isLocationLoading = ref.watch(taxiIsLocationLoadingProvider);
 
-    // Grab the other field's existing label as a suggestion
     final state = ref.watch(taxiProvider);
-    final otherLabel = field == TaxiActiveField.pickup
-        ? state.destination
-        : state.pickup;
-    final otherLatLng = field == TaxiActiveField.pickup
-        ? state.destinationLatLng
-        : state.pickupLatLng;
+    final otherLabel = field == TaxiActiveField.pickup ? state.destination : state.pickup;
+    final otherLatLng = field == TaxiActiveField.pickup ? state.destinationLatLng : state.pickupLatLng;
 
+    final currentLocationRead = ref.read(currentLocationProvider.notifier);
+    final currentLocationWatch = ref.watch(currentLocationProvider);
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Container(
@@ -50,7 +38,7 @@ class LocationPickerSheet extends ConsumerWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // ── Drag handle ───────────────────────────────────────────────
+              // ── Handle ───────────────────────────────────────────────────
               Container(
                 width: 40,
                 height: 4,
@@ -63,8 +51,6 @@ class LocationPickerSheet extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(AppDimensions.radiusFull),
                 ),
               ),
-
-              // ── Title ─────────────────────────────────────────────────────
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: AppDimensions.paddingM,
@@ -82,31 +68,38 @@ class LocationPickerSheet extends ConsumerWidget {
                   ],
                 ),
               ),
-
               const Divider(height: 1, color: AppColors.border),
 
-              // ── استخدم موقعي الحالي ───────────────────────────────────────
+              // ── Use current location ──────────────────────────────────────
               _PickerOption(
                 icon: Icons.my_location_rounded,
                 iconColor: AppColors.primary,
                 iconBgColor: AppColors.primaryLight,
                 label: 'استخدم موقعي الحالي',
                 labelColor: AppColors.primary,
-                onTap: () {
-                  // TODO: integrate geolocator
-                  // For now, use Cairo default as placeholder
-                  ref.read(taxiProvider.notifier).confirmLocation(
-                        field: field,
-                        latLng: const LatLng(30.0444, 31.2357),
-                        label: 'موقعي الحالي',
-                      );
-                  Navigator.of(context).pop();
-                },
+                isLoading: isLocationLoading,
+                onTap: isLocationLoading
+                    ? null
+                    : () async {
+                        final error = await ref
+                            .read(taxiProvider.notifier)
+                            .useCurrentLocation(field,currentLocationWatch.value!.currentLocation!,currentLocationRead.myLocationName);
+                        if (!context.mounted) return;
+                        if (error != null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(error),
+                              backgroundColor: Colors.redAccent,
+                            ),
+                          );
+                        } else {
+                          Navigator.of(context).pop();
+                        }
+                      },
               ),
-
               const Divider(height: 1, indent: 64, color: AppColors.border),
 
-              // ── تحديد على الخريطة ─────────────────────────────────────────
+              // ── Pick on map ───────────────────────────────────────────────
               _PickerOption(
                 icon: Icons.map_outlined,
                 iconColor: AppColors.textSecondary,
@@ -115,9 +108,8 @@ class LocationPickerSheet extends ConsumerWidget {
                 onTap: () {
                   Navigator.of(context).pop();
                   Navigator.of(context).push(
-                    PageRouteBuilder(
-                      opaque: false,
-                      pageBuilder: (_, __, ___) => MapPickerPage(field: field),
+                    MaterialPageRoute(
+                      builder: (_) => MapPickerPage(field: field),
                     ),
                   );
                 },
@@ -166,14 +158,15 @@ class LocationPickerSheet extends ConsumerWidget {
   }
 }
 
-// ── Helper ────────────────────────────────────────────────────────────────────
+// ── Option row ────────────────────────────────────────────────────────────────
 class _PickerOption extends StatelessWidget {
   final IconData icon;
   final Color iconColor;
   final Color iconBgColor;
   final String label;
   final Color? labelColor;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
+  final bool isLoading;
 
   const _PickerOption({
     required this.icon,
@@ -182,6 +175,7 @@ class _PickerOption extends StatelessWidget {
     required this.label,
     required this.onTap,
     this.labelColor,
+    this.isLoading = false,
   });
 
   @override
@@ -214,7 +208,15 @@ class _PickerOption extends StatelessWidget {
                 color: iconBgColor,
                 shape: BoxShape.circle,
               ),
-              child: Icon(icon, color: iconColor, size: AppDimensions.iconS),
+              child: isLoading
+                  ? Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: iconColor,
+                      ),
+                    )
+                  : Icon(icon, color: iconColor, size: AppDimensions.iconS),
             ),
           ],
         ),
@@ -235,4 +237,3 @@ Future<void> showLocationPickerSheet(
     builder: (_) => LocationPickerSheet(field: field),
   );
 }
-

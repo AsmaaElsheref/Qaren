@@ -4,7 +4,9 @@ import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/ui/widgets/icon_container.dart';
 
 class TaxiTopBar extends StatelessWidget {
-  const TaxiTopBar({super.key});
+  const TaxiTopBar({super.key, this.onMenuTap});
+
+  final VoidCallback? onMenuTap;
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +20,7 @@ class TaxiTopBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             IconContainer(
-              onTap: () {
-                Navigator.pop(context);
-              },
+              onTap: () => Navigator.pop(context),
               icon: const Icon(
                 Icons.arrow_back_rounded,
                 color: AppColors.textPrimary,
@@ -29,14 +29,14 @@ class TaxiTopBar extends StatelessWidget {
             ),
             const SizedBox(width: AppDimensions.paddingS),
             IconContainer(
-              onTap: () {},
+              onTap: onMenuTap ?? () {},
               icon: const Icon(
                 Icons.menu_rounded,
                 color: AppColors.textPrimary,
                 size: AppDimensions.iconM,
               ),
             ),
-            Spacer(),
+            const Spacer(),
             IconContainer(
               onTap: () {},
               icon: const Icon(

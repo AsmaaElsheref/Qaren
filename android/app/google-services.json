@@ -1,0 +1,126 @@
+{
+  "project_info": {
+    "project_number": "960284070756",
+    "project_id": "airbnb-60a32",
+    "storage_bucket": "airbnb-60a32.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960284070756:android:cc5fe6c7024d6cd6c7a071",
+        "android_client_info": {
+          "package_name": "com.ebroker.wrteam"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "960284070756-sf28e2n7q9kcqeshadl3ec5dp4rlkmf7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ebroker.wrteam",
+            "certificate_hash": "756d629ebb5656382c4f132375d33cf2d3d0ed8d"
+          }
+        },
+        {
+          "client_id": "960284070756-h1djl867nv07o0saqb1pst32fhj8r2fu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQL6MvNnpW5LBdMEGFEcYkKveWGE47Na0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "960284070756-h1djl867nv07o0saqb1pst32fhj8r2fu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "960284070756-2tp2hb2acpsetssq8lal673k7516ugrp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.stackdeans.royal"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960284070756:android:0129a93a92e50d1ec7a071",
+        "android_client_info": {
+          "package_name": "com.example.assembly"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "960284070756-h1djl867nv07o0saqb1pst32fhj8r2fu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQL6MvNnpW5LBdMEGFEcYkKveWGE47Na0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "960284070756-h1djl867nv07o0saqb1pst32fhj8r2fu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "960284070756-2tp2hb2acpsetssq8lal673k7516ugrp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.stackdeans.royal"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960284070756:android:63ef4975b720f1dcc7a071",
+        "android_client_info": {
+          "package_name": "com.example.qaren"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "960284070756-h1djl867nv07o0saqb1pst32fhj8r2fu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQL6MvNnpW5LBdMEGFEcYkKveWGE47Na0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "960284070756-h1djl867nv07o0saqb1pst32fhj8r2fu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "960284070756-2tp2hb2acpsetssq8lal673k7516ugrp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.stackdeans.royal"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
