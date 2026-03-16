@@ -15,7 +15,6 @@ class TaxiPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final curLocationState = ref.watch(currentLocationProvider);
-
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark.copyWith(
         statusBarColor: Colors.transparent,
@@ -23,14 +22,10 @@ class TaxiPage extends ConsumerWidget {
       child: Scaffold(
         backgroundColor: AppColors.background,
         resizeToAvoidBottomInset: false,
-        // ── Taxi apps drawer (slides from the end / right in RTL) ────────────
         drawer: const TaxiAppsDrawer(),
         body: Builder(
           builder: (innerContext) {
-            // Helper — opens the endDrawer from any child context.
-            void openAppsDrawer() =>
-                Scaffold.of(innerContext).openDrawer();
-
+            void openAppsDrawer() => Scaffold.of(innerContext).openDrawer();
             return curLocationState.when(
               loading: () => Stack(
                 children: [

@@ -36,7 +36,7 @@
         <!-- Google Maps API Key – replace YOUR_API_KEY with your actual key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCD6ItTP8y_bgbmv4jH45Y9AnGQuZtKg7g" />
+            android:value="AIzaSyAdseC43NWVi8d4BAjCOFByov7bFdVQr1M" />
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and

@@ -1,8 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:geocoding/geocoding.dart' as geo;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:qaren/features/services/taxi/presentation/providers/currentLocationProvider/current_location_provider.dart';
-import '../../../../../core/utils/location_service.dart';
 import 'taxi_state.dart';
 
 class TaxiNotifier extends Notifier<TaxiState> {
