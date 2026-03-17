@@ -23,7 +23,7 @@ class ComparePricesAppBar extends ConsumerWidget {
         child: Row(
           children: [
             IconContainer(
-              icon: Icon(Icons.arrow_forward_ios_rounded),
+              icon: Icon(Icons.arrow_back_ios_rounded),
               onTap: () => Navigator.pop(context),
             ),
             const SizedBox(width: AppDimensions.paddingS),
@@ -42,11 +42,6 @@ class ComparePricesAppBar extends ConsumerWidget {
                   Breadcrumb(pickup: pickup, destination: destination),
                 ],
               ),
-            ),
-            const SizedBox(width: AppDimensions.paddingS),
-            IconContainer(
-              icon: Icon(Icons.tune_rounded),
-              onTap: () {},
             ),
           ],
         ),
