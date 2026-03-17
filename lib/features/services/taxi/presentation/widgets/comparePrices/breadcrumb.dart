@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
 
 class Breadcrumb extends StatelessWidget {
-  const Breadcrumb({required this.pickup, required this.destination});
+  const Breadcrumb({super.key, required this.pickup, required this.destination});
 
   final String pickup;
   final String destination;

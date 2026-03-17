@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:qaren/features/services/taxi/presentation/providers/currentLocationProvider/current_location_provider.dart';
 import '../providers/taxi_providers.dart';
 import '../widgets/map/confirmLocation/confirm_location_button.dart';
 import '../widgets/map/pin_map.dart';

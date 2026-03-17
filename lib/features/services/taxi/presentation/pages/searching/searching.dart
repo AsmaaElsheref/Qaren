@@ -6,7 +6,6 @@ import 'package:qaren/core/ui/widgets/AppText.dart';
 import 'package:qaren/core/utils/extensions/contextSizeX.dart';
 import '../../../../../../core/constants/app_images.dart';
 import '../../../../../../core/ui/widgets/custom_app_bar.dart';
-import '../../providers/searchProvider/search_loading_provider.dart';
 import 'search_loading_dialog.dart';
 
 class Searching extends ConsumerWidget {

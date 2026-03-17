@@ -21,7 +21,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.black.withOpacity(0.05),
+            color: AppColors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
