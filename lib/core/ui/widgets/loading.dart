@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/theme/app_colors.dart';
 
 class Loading extends StatelessWidget {
   const Loading({super.key});
@@ -7,7 +8,7 @@ class Loading extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: CircularProgressIndicator(
-        color: Theme.of(context).primaryColor,
+        color: AppColors.primary,
       ),
     );
   }

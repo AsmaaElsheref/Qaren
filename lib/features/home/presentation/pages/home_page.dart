@@ -1,67 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../../../core/theme/app_colors.dart';
-import '../../../../core/constants/app_dimensions.dart';
 import '../providers/home_providers.dart';
 import '../widgets/home_app_bar.dart';
-import '../widgets/category_card.dart';
 import '../widgets/home_bottom_nav.dart';
-import '../../../services/serviceProvider/service_provider.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final categories = ref.watch(filteredCategoriesProvider);
-    final serviceRoutes = ref.watch(serviceRoutesProvider);
-
+    final screens = ref.watch(navigationScreens);
+    final navIndex = ref.watch(bottomNavIndexProvider);
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: const HomeAppBar(),
-      body: CustomScrollView(
-        slivers: [
-          const SliverToBoxAdapter(
-            child: SizedBox(height: AppDimensions.paddingM),
-          ),
-
-          // ── Categories grid ────────────────────────────────────────────
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppDimensions.paddingM,
-            ),
-            sliver: SliverGrid(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  final category = categories[index];
-                  final page = serviceRoutes[category.id];
-                  return CategoryCard(
-                    category: category,
-                    onTap: page == null
-                        ? () {} // service not built yet
-                        : () => Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (_) => page),
-                            ),
-                  );
-                },
-                childCount: categories.length,
-              ),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 12,
-                childAspectRatio: 1.8,
-              ),
-            ),
-          ),
-
-          const SliverToBoxAdapter(
-            child: SizedBox(height: AppDimensions.paddingXL),
-          ),
-        ],
-      ),
+      appBar: HomeAppBar(showSearch: navIndex==0,),
+      body: screens[navIndex],
       bottomNavigationBar: const HomeBottomNav(),
       floatingActionButton: _AiFab(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

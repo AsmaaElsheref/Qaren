@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/features/home/presentation/pages/home_view.dart';
 import '../../domain/entities/service_category.dart';
 
 // ── Categories data provider ────────────────────────────────────────────────
@@ -121,4 +122,13 @@ final filteredCategoriesProvider = Provider<List<ServiceCategory>>((ref) {
 
 // ── Bottom nav index provider ────────────────────────────────────────────────
 final bottomNavIndexProvider = StateProvider<int>((ref) => 0);
+
+final navigationScreens = Provider<List<Widget>>(
+  (ref) => [
+    HomeView(),
+    SizedBox(),
+    SizedBox(),
+    SizedBox(),
+  ],
+);
 

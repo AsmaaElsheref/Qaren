@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/constants/app_strings.dart';
+import '../providers/home_providers.dart';
 import 'home_search_bar.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const HomeAppBar({super.key});
+  const HomeAppBar({super.key,this.showSearch});
+
+  final bool? showSearch;
 
   @override
-  Size get preferredSize => const Size.fromHeight(140);
+  Size get preferredSize => Size.fromHeight(showSearch==true?140:70);
 
   @override
   Widget build(BuildContext context) {
@@ -135,7 +139,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
             ],
           ),
-          // ── Search bar ─────────────────────────────────────────────────
+          if(showSearch==true)
           Padding(
             padding: const EdgeInsets.fromLTRB(
               AppDimensions.paddingM,

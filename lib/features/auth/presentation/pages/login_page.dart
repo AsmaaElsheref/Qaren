@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/core/constants/gap.dart';
+import 'package:qaren/core/utils/extensions/contextSizeX.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/constants/app_dimensions.dart';
@@ -85,21 +87,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 child: Column(
                   children: [
                     const SizedBox(height: AppDimensions.paddingXXL),
-
-                    // ── Logo ────────────────────────────────────────────
                     const QarenLogo(),
-
                     const SizedBox(height: AppDimensions.paddingXL),
-
-                    // ── User Type Tabs ───────────────────────────────────
-                    UserTypeSelector(
-                      selected: loginState.selectedUserType,
-                      onChanged: notifier.changeUserType,
-                    ),
-
-                    const SizedBox(height: AppDimensions.paddingM),
-
-                    // ── Email ────────────────────────────────────────────
+                    // UserTypeSelector(
+                    //   selected: loginState.selectedUserType,
+                    //   onChanged: notifier.changeUserType,
+                    // ),
+                    SizedBox(height: context.screenHeight*0.05),
                     LoginInputField(
                       controller: _emailController,
                       hint: AppStrings.emailHint,
@@ -107,10 +101,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       keyboardType: TextInputType.emailAddress,
                       validator: Validators.validateEmail,
                     ),
-
                     const SizedBox(height: AppDimensions.paddingS),
-
-                    // ── Password ─────────────────────────────────────────
                     LoginInputField(
                       controller: _passwordController,
                       hint: AppStrings.passwordHint,
@@ -139,8 +130,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         ),
                       ),
                     ),
-
-                    // ── Forgot Password ──────────────────────────────────
+                    Gap.gapH10,
                     Align(
                       alignment: Alignment.centerLeft,
                       child: TextButton(
@@ -159,10 +149,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         ),
                       ),
                     ),
-
-                    const SizedBox(height: AppDimensions.paddingM),
-
-                    // ── Login Button ─────────────────────────────────────
+                    SizedBox(height: context.screenHeight*0.06),
                     GradientLoginButton(
                       label: AppStrings.loginButton,
                       isLoading: loginState.status == LoginStatus.loading,
@@ -170,15 +157,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     ),
 
                     const SizedBox(height: AppDimensions.paddingXXL),
-
-                    // ── Biometrics ───────────────────────────────────────
                     BiometricsButton(
                       onPressed: notifier.loginWithBiometrics,
                     ),
-
                     const SizedBox(height: AppDimensions.paddingL),
-
-                    // ── Browse as Guest ──────────────────────────────────
                     TextButton(
                       onPressed: () {},
                       child: const Text(

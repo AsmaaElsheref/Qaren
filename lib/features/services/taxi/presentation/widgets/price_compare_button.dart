@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/core/theme/app_colors.dart';
 import 'package:qaren/features/services/taxi/presentation/pages/searching/searching.dart';
 import '../../../../../core/ui/widgets/AppButton.dart';
 import '../providers/taxi_providers.dart';
@@ -15,6 +16,8 @@ class PriceCompareButton extends ConsumerWidget {
     return AppButton(
       label: 'مقارنة الأسعار',
       isLoading: isLoading,
+      color: AppColors.primary,
+      radius: 15,
       onTap: canCompare && !isLoading
           ? () => Navigator.push(context, MaterialPageRoute(builder: (context) => Searching(),))
           // ref.read(taxiProvider.notifier).comparePrices()
