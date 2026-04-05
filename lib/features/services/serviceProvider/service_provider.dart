@@ -2,14 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/features/services/taxi/presentation/pages/taxi_page.dart';
 
-/// Maps each [ServiceCategory.id] to its corresponding page widget.
-/// Add a new entry here whenever you add a new service — no conditions needed.
+/// Maps each [CategoryEntity.type] (from the API) to its page widget.
+/// Add a new entry whenever you build a new service — keyed by the API `type`.
 final serviceRoutesProvider = Provider<Map<String, Widget>>((ref) {
   return const {
     'taxi': TaxiPage(),
-    // 'food': FoodPage(),
-    // 'flights': FlightsPage(),
-    // ... add more as you build them
+    // 'food_delivery':  FoodPage(),
+    // 'flights':        FlightsPage(),
+    // 'hotels':         HotelsPage(),
+    // 'insurance':      InsurancePage(),
+    // 'car_rental':     CarRentalPage(),
+    // 'shopping':       ShoppingPage(),
+    // 'home_services':  HomeServicesPage(),
+    // 'furniture':      FurniturePage(),
+    // 'parcel':         ParcelPage(),
+    // 'salon':          SalonPage(),
+    // 'events':         EventsPage(),
   };
 });
+
+
 

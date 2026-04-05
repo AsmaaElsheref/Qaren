@@ -22,8 +22,13 @@ class Either<L, R> {
   L get leftValue => _left as L;
   R get rightValue => _right as R;
 
-  T fold<T>(T Function(L left) onLeft, T Function(R right) onRight) {
-    if (_isLeft) return onLeft(_left as L);
-    return onRight(_right as R);
+  /// [onLeft] and [onRight] always receive non-null values —
+  /// the internal nullable fields are an implementation detail.
+  T fold<T>(
+    T Function(L left) onLeft,
+    T Function(R right) onRight,
+  ) {
+    if (_isLeft) return onLeft(_left!);
+    return onRight(_right!);
   }
 }

@@ -6,5 +6,8 @@ class ApiRoutes {
 
   /// Auth endpoints — paths relative to [baseUrl].
   static const String login    = '/api/auth/login';
-  static const String register = '/api/auth/register';
+  static const String register = '/api/auth/registerContinue';
+
+  /// Home endpoints
+  static const String categories = '/api/categories';
 }
