@@ -1,9 +1,10 @@
-import '../../../../core/errors/failures.dart';
+import '../../../../core/network/handelError/errors/failures.dart';
 import '../../../../core/utils/either.dart';
-import '../../domain/entities/login_params.dart';
-import '../../domain/entities/user_entity.dart';
-import '../../domain/repositories/auth_repository.dart';
-import '../datasources/auth_remote_datasource.dart';
+import 'package:qaren/features/auth/domain/entities/login_params.dart';
+import 'package:qaren/features/auth/domain/entities/register_params.dart';
+import 'package:qaren/features/auth/domain/entities/user_entity.dart';
+import 'package:qaren/features/auth/domain/repositories/auth_repository.dart';
+import 'package:qaren/features/auth/data/datasources/auth_remote_datasource.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource _remoteDataSource;
@@ -15,8 +16,22 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final user = await _remoteDataSource.login(params);
       return Either.rightOf(user);
-    } on Exception {
+    } on Failure catch (f) {
+      return Either.leftOf(f);
+    } catch (_) {
       return Either.leftOf(const AuthFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, UserEntity>> register(RegisterParams params) async {
+    try {
+      final user = await _remoteDataSource.register(params);
+      return Either.rightOf(user);
+    } on Failure catch (f) {
+      return Either.leftOf(f);
+    } catch (_) {
+      return Either.leftOf(const AuthFailure('فشل إنشاء الحساب. حاول مرة أخرى.'));
     }
   }
 
@@ -27,7 +42,9 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       await _remoteDataSource.loginWithBiometrics(userType);
       return Either.rightOf(null);
-    } on Exception {
+    } on Failure catch (f) {
+      return Either.leftOf(f);
+    } catch (_) {
       return Either.leftOf(const AuthFailure('فشل التحقق بالبصمة.'));
     }
   }
@@ -37,8 +54,14 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       await _remoteDataSource.forgotPassword(email);
       return Either.rightOf(null);
-    } on Exception {
+    } on Failure catch (f) {
+      return Either.leftOf(f);
+    } catch (_) {
       return Either.leftOf(const NetworkFailure());
     }
   }
 }
+
+
+
+

@@ -38,6 +38,9 @@ dependencies:
   geocoding: ^3.0.0
   geolocator: ^13.0.2
   persistent_bottom_nav_bar_v2: ^6.3.1
+  chalkdart: ^2.2.1
+  dio: ^5.9.2
+  shared_preferences: ^2.5.5
 
 dev_dependencies:
   flutter_test:

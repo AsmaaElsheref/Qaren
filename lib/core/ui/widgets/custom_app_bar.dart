@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/theme/app_colors.dart';
 import 'package:qaren/core/ui/widgets/icon_container.dart';
-import 'package:qaren/core/utils/extensions/contextSizeX.dart';
 import 'AppText.dart';
 
 class CustomAppBar extends ConsumerWidget {

@@ -16,17 +16,22 @@ extension UserTypeTabExtension on UserTypeTab {
 }
 
 class LoginParams extends Equatable {
-  final String email;
+  final String login;
   final String password;
   final UserTypeTab userType;
 
   const LoginParams({
-    required this.email,
+    required this.login,
     required this.password,
     required this.userType,
   });
 
+  Map<String, dynamic> toJson() => {
+        'login': login,
+        'password': password,
+      };
+
   @override
-  List<Object> get props => [email, password, userType];
+  List<Object> get props => [login, password, userType];
 }
 

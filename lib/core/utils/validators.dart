@@ -21,5 +21,37 @@ class Validators {
     }
     return null;
   }
+
+  static String? validateName(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'الاسم مطلوب';
+    }
+    return null;
+  }
+
+  static String? validatePhone(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'رقم الهاتف مطلوب';
+    }
+    final phoneRegex = RegExp(r'^\+?[0-9]{7,15}$');
+    if (!phoneRegex.hasMatch(value.trim())) {
+      return 'رقم الهاتف غير صحيح';
+    }
+    return null;
+  }
+
+  static String? Function(String?) confirmPasswordValidator(
+      String? password) {
+    return (String? value) {
+      if (value == null || value.isEmpty) {
+        return 'تأكيد كلمة المرور مطلوب';
+      }
+      if (value != password) {
+        return 'كلمتا المرور غير متطابقتين';
+      }
+      return null;
+    };
+  }
 }
+
 

@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/constants/app_constants.dart';
+import '../../../../core/localStorage/cache_helper.dart';
 import '../../data/datasources/auth_remote_datasource.dart';
 import '../../data/repositories/auth_repository_impl.dart';
 import '../../domain/entities/login_params.dart';
@@ -9,7 +11,7 @@ import 'login_state.dart';
 
 // ── Data layer ─────────────────────────────────────────────────────────────────
 final authRemoteDataSourceProvider = Provider<AuthRemoteDataSource>(
-  (ref) => AuthRemoteDataSourceImpl(),
+  (ref) => const AuthRemoteDataSourceImpl(),
 );
 
 final authRepositoryProvider = Provider<AuthRepository>(
@@ -35,14 +37,14 @@ class LoginNotifier extends StateNotifier<LoginState> {
         super(const LoginState());
 
   Future<void> login({
-    required String email,
+    required String login,
     required String password,
   }) async {
     state = state.copyWith(status: LoginStatus.loading, errorMessage: null);
 
     final result = await _loginUseCase(
       LoginParams(
-        email: email,
+        login: login,
         password: password,
         userType: state.selectedUserType,
       ),
@@ -53,10 +55,15 @@ class LoginNotifier extends StateNotifier<LoginState> {
         status: LoginStatus.failure,
         errorMessage: failure.message,
       ),
-      (user) => state = state.copyWith(
-        status: LoginStatus.success,
-        user: user,
-      ),
+      (user) async {
+        if (user.token != null) {
+          await CacheHelper.saveData(
+            key: AppConstants.token,
+            value: user.token!,
+          );
+        }
+        state = state.copyWith(status: LoginStatus.success, user: user);
+      },
     );
   }
 

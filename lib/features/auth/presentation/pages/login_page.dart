@@ -9,11 +9,11 @@ import '../../../../core/utils/validators.dart';
 import '../providers/login_providers.dart';
 import '../providers/login_state.dart';
 import '../widgets/qaren_logo.dart';
-import '../widgets/user_type_selector.dart';
 import '../widgets/login_input_field.dart';
 import '../widgets/gradient_login_button.dart';
 import '../widgets/biometrics_button.dart';
 import '../../../home/presentation/pages/home_page.dart';
+import 'signup_page.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -37,7 +37,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   void _onLoginPressed() {
     if (_formKey.currentState?.validate() ?? false) {
       ref.read(loginNotifierProvider.notifier).login(
-            email: _emailController.text.trim(),
+            login: _emailController.text.trim(),
             password: _passwordController.text,
           );
     }
@@ -45,7 +45,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    // Listen for side-effects (snackbars)
     ref.listen<LoginState>(loginNotifierProvider, (previous, next) {
       if (next.status == LoginStatus.success &&
           previous?.status != LoginStatus.success) {
@@ -171,6 +170,42 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           decorationColor: AppColors.textSecondary,
                         ),
                       ),
+                    ),
+
+                    const SizedBox(height: AppDimensions.paddingS),
+
+                    // ── Sign Up link ──────────────────────────────────────────
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          AppStrings.dontHaveAccount,
+                          style: TextStyle(
+                            fontSize: AppDimensions.fontS,
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (_) => const SignupPage()),
+                          ),
+                          style: TextButton.styleFrom(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 6),
+                            minimumSize: Size.zero,
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          ),
+                          child: const Text(
+                            AppStrings.signUpNow,
+                            style: TextStyle(
+                              fontSize: AppDimensions.fontS,
+                              color: AppColors.primary,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
 
                     const SizedBox(height: AppDimensions.paddingL),

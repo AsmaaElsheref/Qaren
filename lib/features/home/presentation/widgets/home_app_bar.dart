@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/constants/app_strings.dart';
-import '../providers/home_providers.dart';
 import 'home_search_bar.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
