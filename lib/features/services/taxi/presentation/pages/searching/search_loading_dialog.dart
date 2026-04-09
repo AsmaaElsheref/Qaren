@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/utils/extensions/contextSizeX.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
+import '../../providers/comparePricesProvider/compare_prices_provider.dart';
+import '../../providers/comparePricesProvider/compare_prices_state.dart';
 import '../../providers/searchProvider/search_loading_provider.dart';
 import '../../providers/searchProvider/search_loading_state.dart';
 import '../../widgets/searching/search_loading.dart';
@@ -29,15 +31,13 @@ class _SearchLoadingDialogState extends ConsumerState<SearchLoadingDialog> with 
   late final AnimationController _spinController;
   late final Animation<double> _spinAnimation;
   ProviderSubscription<SearchLoadingState>? _providerSubscription;
-  ProviderSubscription<SearchLoadingState>? _closeSubscription;
+  ProviderSubscription<ComparePricesState>? _apiSubscription;
   bool _dialogClosed = false;
 
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 2), () {
-      ref.read(searchLoadingProvider.notifier).complete();
-    });
+
     _pageController = PageController();
 
     _spinController = AnimationController(
@@ -54,6 +54,7 @@ class _SearchLoadingDialogState extends ConsumerState<SearchLoadingDialog> with 
       ref.read(searchLoadingProvider.notifier).startAutoCycle();
     });
 
+    // Listen to page step changes for the loading animation
     _providerSubscription = ref.listenManual<SearchLoadingState>(
       searchLoadingProvider,
           (previous, next) {
@@ -68,22 +69,30 @@ class _SearchLoadingDialogState extends ConsumerState<SearchLoadingDialog> with 
       },
     );
 
-    _closeSubscription = ref.listenManual<SearchLoadingState>(
-      searchLoadingProvider,
+    // Listen for API completion (success, empty, or failure)
+    _apiSubscription = ref.listenManual<ComparePricesState>(
+      comparePricesProvider,
           (previous, next) {
-        final shouldClose =
-            previous?.isCompleted != true && next.isCompleted == true;
+        final isDone = next.status == ComparePricesStatus.success ||
+            next.status == ComparePricesStatus.empty ||
+            next.status == ComparePricesStatus.failure;
 
-        if (!shouldClose) return;
+        if (!isDone) return;
         if (_dialogClosed) return;
         if (!mounted) return;
 
         _dialogClosed = true;
 
+        // Complete the loading animation
+        ref.read(searchLoadingProvider.notifier).complete();
+
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (!mounted) return;
           Navigator.of(context, rootNavigator: true).pop(true);
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ComparePricesPage(),));
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const ComparePricesPage()),
+          );
         });
       },
     );
@@ -92,7 +101,7 @@ class _SearchLoadingDialogState extends ConsumerState<SearchLoadingDialog> with 
   @override
   void dispose() {
     _providerSubscription?.close();
-    _closeSubscription?.close();
+    _apiSubscription?.close();
     _pageController.dispose();
     _spinController.dispose();
     super.dispose();

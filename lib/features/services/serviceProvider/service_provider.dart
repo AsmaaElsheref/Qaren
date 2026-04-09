@@ -7,11 +7,11 @@ import 'package:qaren/features/services/taxi/presentation/pages/taxi_page.dart';
 final serviceRoutesProvider = Provider<Map<String, Widget>>((ref) {
   return const {
     'taxi': TaxiPage(),
+    'car_rental': TaxiPage(),
     // 'food_delivery':  FoodPage(),
     // 'flights':        FlightsPage(),
     // 'hotels':         HotelsPage(),
     // 'insurance':      InsurancePage(),
-    // 'car_rental':     CarRentalPage(),
     // 'shopping':       ShoppingPage(),
     // 'home_services':  HomeServicesPage(),
     // 'furniture':      FurniturePage(),

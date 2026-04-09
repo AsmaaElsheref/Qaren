@@ -9,6 +9,8 @@ class TaxiState {
   final bool isLocationLoading;
   final LatLng? pickupLatLng;
   final LatLng? destinationLatLng;
+  final DateTime? pickupDate;
+  final DateTime? returnDate;
 
   const TaxiState({
     this.pickup = '',
@@ -17,6 +19,8 @@ class TaxiState {
     this.isLocationLoading = false,
     this.pickupLatLng,
     this.destinationLatLng,
+    this.pickupDate,
+    this.returnDate,
   });
 
   TaxiState copyWith({
@@ -26,8 +30,12 @@ class TaxiState {
     bool? isLocationLoading,
     LatLng? pickupLatLng,
     LatLng? destinationLatLng,
+    DateTime? pickupDate,
+    DateTime? returnDate,
     bool clearPickupLatLng = false,
     bool clearDestinationLatLng = false,
+    bool clearPickupDate = false,
+    bool clearReturnDate = false,
   }) =>
       TaxiState(
         pickup: pickup ?? this.pickup,
@@ -39,6 +47,10 @@ class TaxiState {
         destinationLatLng: clearDestinationLatLng
             ? null
             : (destinationLatLng ?? this.destinationLatLng),
+        pickupDate:
+            clearPickupDate ? null : (pickupDate ?? this.pickupDate),
+        returnDate:
+            clearReturnDate ? null : (returnDate ?? this.returnDate),
       );
 
   Set<Marker> get markers => {

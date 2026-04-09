@@ -10,4 +10,7 @@ class ApiRoutes {
 
   /// Home endpoints
   static const String categories = '/api/categories';
+
+  /// Car Rental endpoints
+  static const String carRentalSearch = '/api/compare/car-rental/search';
 }

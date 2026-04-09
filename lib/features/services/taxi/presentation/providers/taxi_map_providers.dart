@@ -6,11 +6,17 @@ import 'taxi_notifier.dart';
 
 // ── Granular selectors ────────────────────────────────────────────────────────
 
-/// `true` only when both pickup and destination are non-empty.
+/// `true` only when pickup, destination, dates, and coordinates are all set.
 final taxiCanCompareProvider = Provider<bool>(
   (ref) => ref.watch(
     taxiProvider.select(
-      (s) => s.pickup.isNotEmpty && s.destination.isNotEmpty,
+      (s) =>
+          s.pickup.isNotEmpty &&
+          s.destination.isNotEmpty &&
+          s.pickupLatLng != null &&
+          s.destinationLatLng != null &&
+          s.pickupDate != null &&
+          s.returnDate != null,
     ),
   ),
 );

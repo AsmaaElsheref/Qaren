@@ -32,9 +32,7 @@ class _MapPickerPageState extends ConsumerState<MapPickerPage> {
     final notifier = ref.read(mapPickerProvider(widget.field).notifier);
     final state = ref.watch(mapPickerProvider(widget.field));
     final mapController = ref.watch(taxiMapControllerProvider);
-    final title = widget.field == TaxiActiveField.pickup
-        ? 'تحديد نقطة الانطلاق'
-        : 'تحديد الوجهة';
+    final title = widget.field == TaxiActiveField.pickup ? 'تحديد نقطة الانطلاق' : 'تحديد الوجهة';
 
     return Directionality(
       textDirection: TextDirection.rtl,

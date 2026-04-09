@@ -12,6 +12,17 @@ class TaxiNotifier extends Notifier<TaxiState> {
   void setDestination(String value) =>
       state = state.copyWith(destination: value, clearDestinationLatLng: true);
 
+  void setPickupDate(DateTime date) {
+    state = state.copyWith(pickupDate: date);
+    // Reset return date if it's before the new pickup date.
+    if (state.returnDate != null && state.returnDate!.isBefore(date)) {
+      state = state.copyWith(clearReturnDate: true);
+    }
+  }
+
+  void setReturnDate(DateTime date) =>
+      state = state.copyWith(returnDate: date);
+
   void confirmLocation({
     required TaxiActiveField field,
     required LatLng latLng,

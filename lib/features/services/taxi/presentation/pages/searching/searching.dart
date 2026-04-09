@@ -6,10 +6,16 @@ import 'package:qaren/core/ui/widgets/AppText.dart';
 import 'package:qaren/core/utils/extensions/contextSizeX.dart';
 import '../../../../../../core/constants/app_images.dart';
 import '../../../../../../core/ui/widgets/custom_app_bar.dart';
+import '../../../domain/entities/car_rental_search_params.dart';
+import '../../providers/comparePricesProvider/compare_prices_provider.dart';
+import '../../providers/taxi_notifier.dart';
 import 'search_loading_dialog.dart';
 
 class Searching extends ConsumerWidget {
   const Searching({super.key});
+
+  String _formatDate(DateTime d) =>
+      '${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -27,9 +33,23 @@ class Searching extends ConsumerWidget {
         child: Column(
           children: [
             Image.asset(AppImages.searching),
-            AppText("4 كابتن متاح",style: TextStyle(color: AppColors.textSecondary,fontSize: 17),),
             Spacer(),
             AppButton(label: "عرض النتائج", onTap: () async {
+              // Build search params from taxi state
+              final taxiState = ref.read(taxiProvider);
+              final params = CarRentalSearchParams(
+                pickupLat: taxiState.pickupLatLng!.latitude,
+                pickupLng: taxiState.pickupLatLng!.longitude,
+                dropoffLat: taxiState.destinationLatLng!.latitude,
+                dropoffLng: taxiState.destinationLatLng!.longitude,
+                pickupDate: _formatDate(taxiState.pickupDate!),
+                returnDate: _formatDate(taxiState.returnDate!),
+              );
+
+              // Trigger search API call
+              ref.read(comparePricesProvider.notifier).search(params);
+
+              // Show loading dialog (waits for API completion)
               await SearchLoadingDialog.show(context);
 
             }),
