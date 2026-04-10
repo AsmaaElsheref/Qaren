@@ -6,11 +6,14 @@ class ApiRoutes {
 
   /// Auth endpoints — paths relative to [baseUrl].
   static const String login    = '/api/auth/login';
-  static const String register = '/api/auth/registerContinue';
+  static const String register = '/api/auth/register';
+  static const String me       = '/api/auth/me';
 
   /// Home endpoints
   static const String categories = '/api/categories';
 
   /// Car Rental endpoints
   static const String carRentalSearch = '/api/compare/car-rental/search';
+  static const String carRentalDetails = '/api/compare/car-rental/details'; // /{offer_id}
+  static const String carRentalBook = '/api/compare/car-rental/book';
 }

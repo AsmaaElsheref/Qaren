@@ -57,6 +57,8 @@ class SignupNotifier extends StateNotifier<SignupState> {
             value: user.token!,
           );
         }
+        await CacheHelper.saveData(key: AppConstants.userName, value: user.name);
+        await CacheHelper.saveData(key: AppConstants.userPhone, value: user.phone);
         state = state.copyWith(status: SignupStatus.success, user: user);
       },
     );

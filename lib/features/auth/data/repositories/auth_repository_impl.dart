@@ -36,6 +36,18 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<Either<Failure, UserEntity>> getMe() async {
+    try {
+      final user = await _remoteDataSource.getMe();
+      return Either.rightOf(user);
+    } on Failure catch (f) {
+      return Either.leftOf(f);
+    } catch (_) {
+      return Either.leftOf(const AuthFailure('فشل جلب بيانات المستخدم.'));
+    }
+  }
+
+  @override
   Future<Either<Failure, void>> loginWithBiometrics(
     UserTypeTab userType,
   ) async {

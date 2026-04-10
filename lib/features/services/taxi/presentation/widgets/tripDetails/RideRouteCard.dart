@@ -54,7 +54,7 @@ class RideRouteCard extends ConsumerWidget {
                   alignment: CrossAxisAlignment.start,
                   label: 'من',
                   mainText: pickup,
-                  subText: 'طريق العروبة',
+                  subText: '',
                 ),
               ),
               Expanded(
@@ -62,7 +62,7 @@ class RideRouteCard extends ConsumerWidget {
                   alignment: CrossAxisAlignment.end,
                   label: 'إلى',
                   mainText: destination,
-                  subText: 'جاري تحديد السع...',
+                  subText: '',
                 ),
               ),
             ],

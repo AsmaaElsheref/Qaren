@@ -16,7 +16,11 @@ class AppStrings {
   static const String passwordHint = '••••••';
   static const String forgotPassword = 'نسيت كلمة المرور؟';
   static const String loginButton = 'تسجيل الدخول';
-  static const String faceLogin = 'الدخول ببصمة الوجه';
+  static const String faceLogin = 'الدخول بالبصمة';
+  static const String biometricReason = 'يرجى التحقق من هويتك للدخول';
+  static const String biometricNotAvailable = 'البصمة غير متاحة على هذا الجهاز';
+  static const String biometricNoCredentials = 'سجّل الدخول أولاً لتفعيل البصمة';
+  static const String biometricFailed = 'فشل التحقق بالبصمة';
   static const String browseAsGuest = 'تصفح كزائر';
   static const String dontHaveAccount = 'ليس لديك حساب؟';
   static const String signUpNow = 'إنشاء حساب';

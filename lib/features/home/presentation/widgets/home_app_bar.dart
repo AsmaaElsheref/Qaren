@@ -1,19 +1,73 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/localStorage/cache_helper.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/constants/app_strings.dart';
+import '../../../auth/presentation/pages/login_page.dart';
 import 'home_search_bar.dart';
 
-class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const HomeAppBar({super.key,this.showSearch});
+class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
+  const HomeAppBar({super.key, this.showSearch});
 
   final bool? showSearch;
 
   @override
-  Size get preferredSize => Size.fromHeight(showSearch==true?140:70);
+  Size get preferredSize => Size.fromHeight(showSearch == true ? 140 : 70);
+
+  Future<void> _onLogoutPressed(BuildContext context, WidgetRef ref) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppDimensions.radiusL),
+        ),
+        title: const Text(
+          'تسجيل الخروج',
+          style: TextStyle(
+            fontWeight: FontWeight.w700,
+            color: AppColors.textPrimary,
+          ),
+        ),
+        content: const Text(
+          'هل أنت متأكد أنك تريد تسجيل الخروج؟',
+          style: TextStyle(color: AppColors.textSecondary),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(false),
+            child: const Text(
+              'إلغاء',
+              style: TextStyle(color: AppColors.textSecondary),
+            ),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(true),
+            child: const Text(
+              'تسجيل الخروج',
+              style: TextStyle(
+                color: AppColors.error,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed == true && context.mounted) {
+      // Navigate first — this disposes the home tree (and the autoDispose notifier).
+      // Cache is cleared after navigation so we never touch a disposed notifier.
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (_) => const LoginPage()),
+        (_) => false,
+      );
+      await CacheHelper.clearAll();
+    }
+  }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.surface,
@@ -57,9 +111,9 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                       boxShadow: [
                         BoxShadow(
                           color: AppColors.textHint,
-                          spreadRadius: 0.8
-                        )
-                      ]
+                          spreadRadius: 0.8,
+                        ),
+                      ],
                     ),
                   ),
                   Positioned(
@@ -71,7 +125,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                         border: Border.all(
                           color: AppColors.surface,
                           width: 2,
-                        )
+                        ),
                       ),
                       child: Container(
                         width: 11,
@@ -128,25 +182,25 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                 padding: const EdgeInsets.only(left: 16),
                 child: IconButton(
                   icon: const Icon(
-                    Icons.menu_rounded,
+                    Icons.logout,
                     color: AppColors.textPrimary,
                     size: AppDimensions.iconM,
                   ),
-                  onPressed: () {},
+                  onPressed: () => _onLogoutPressed(context, ref),
                 ),
               ),
             ],
           ),
-          if(showSearch==true)
-          Padding(
-            padding: const EdgeInsets.fromLTRB(
-              AppDimensions.paddingM,
-              AppDimensions.paddingM,
-              AppDimensions.paddingM,
-              AppDimensions.paddingS,
+          if (showSearch == true)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                AppDimensions.paddingM,
+                AppDimensions.paddingM,
+                AppDimensions.paddingM,
+                AppDimensions.paddingS,
+              ),
+              child: const HomeSearchBar(),
             ),
-            child: const HomeSearchBar(),
-          ),
         ],
       ),
     );

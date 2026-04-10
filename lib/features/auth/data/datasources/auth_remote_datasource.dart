@@ -8,6 +8,7 @@ import 'package:qaren/features/auth/data/models/user_model.dart';
 abstract class AuthRemoteDataSource {
   Future<UserModel> login(LoginParams params);
   Future<UserModel> register(RegisterParams params);
+  Future<UserModel> getMe();
   Future<void> loginWithBiometrics(UserTypeTab userType);
   Future<void> forgotPassword(String email);
 }
@@ -49,6 +50,19 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final user  = data['user']  as Map<String, dynamic>;
 
     return UserModel.fromJson(user, token: token);
+  }
+
+  @override
+  Future<UserModel> getMe() async {
+    try {
+      final response = await DioHelper.getData(url: ApiRoutes.me);
+      final body = response.data as Map<String, dynamic>;
+      final user = body['data'] as Map<String, dynamic>;
+      return UserModel.fromJson(user);
+    } catch (e) {
+      customPrint('GetMe Error ===> $e', isError: true);
+      rethrow;
+    }
   }
 
   @override

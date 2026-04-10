@@ -69,27 +69,34 @@ class ContentList extends ConsumerWidget {
             SizedBox(
               height: context.screenHeight * 0.6,
               child: ListView.separated(
-                itemBuilder: (context, index) => GestureDetector(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          TripDetails(serviceName: results[index].appName),
-                    ),
-                  ),
-                  child: PriceResultCard(
-                    result: results[index],
-                    onBook: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              TripDetails(serviceName: results[index].appName),
+                itemBuilder: (context, index) {
+                  final result = results[index];
+                  return GestureDetector(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TripDetails(
+                          serviceName: result.appName,
+                          offerId: result.id,
                         ),
-                      );
-                    },
-                  ),
-                ),
+                      ),
+                    ),
+                    child: PriceResultCard(
+                      result: result,
+                      onBook: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TripDetails(
+                              serviceName: result.appName,
+                              offerId: result.id,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
                 separatorBuilder: (context, index) =>
                     const SizedBox(height: AppDimensions.paddingM),
                 itemCount: results.length,

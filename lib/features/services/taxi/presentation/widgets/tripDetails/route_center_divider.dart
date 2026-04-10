@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../providers/offerDetailsProvider/offer_details_provider.dart';
 
 class RouteCenterDivider extends StatelessWidget {
   const RouteCenterDivider({super.key});
@@ -35,13 +38,18 @@ class RouteCenterDivider extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        const Text(
-          '١٥ دقيقة',
-          style: TextStyle(
-            fontSize: 13,
-            fontWeight: FontWeight.w700,
-            color: Color(0xFF6B7280),
-          ),
+        Consumer(
+          builder: (context, ref, child){
+            final status = ref.watch(offerDetailsProvider);
+            return Text(
+              '${status.details!.terms.minimumAge} دقيقة',
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                color: Color(0xFF6B7280),
+              ),
+            );
+          }
         ),
       ],
     );

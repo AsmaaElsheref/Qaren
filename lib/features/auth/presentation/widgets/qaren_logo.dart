@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/constants/app_images.dart';
+import 'package:qaren/core/utils/extensions/contextSizeX.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/constants/app_dimensions.dart';
 
@@ -8,71 +10,31 @@ class QarenLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
+        // ── Logo mark ──────────────────────────────────────────────────────────
         Container(
-          width: AppDimensions.logoSize,
-          height: AppDimensions.logoSize,
           decoration: BoxDecoration(
-            color: AppColors.primary,
-            shape: BoxShape.circle,
+              borderRadius: BorderRadiusGeometry.circular(10),
+              boxShadow: [
+                BoxShadow(
+                    color: AppColors.textHint,
+                    spreadRadius: 1,
+                    blurRadius: 7,
+                )
+              ]
           ),
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              const Text(
-                'Q',
-                style: TextStyle(
-                  color: AppColors.white,
-                  fontSize: 36,
-                  fontWeight: FontWeight.w900,
-                  fontStyle: FontStyle.italic,
-                  fontFamily: 'serif',
-                ),
-              ),
-              Positioned(
-                bottom: 8,
-                right: 4,
-                child: Container(
-                  width: 22,
-                  height: 22,
-                  decoration: const BoxDecoration(
-                    color: AppColors.primary,
-                    shape: BoxShape.circle,
-                    border: Border.fromBorderSide(
-                      BorderSide(color: AppColors.white, width: 2),
-                    ),
-                  ),
-                  child: const Icon(
-                    Icons.smart_toy_outlined,
-                    color: AppColors.white,
-                    size: 12,
-                  ),
-                ),
-              ),
-            ],
+          child: ClipRRect(
+            borderRadius: BorderRadiusGeometry.circular(10),
+            child: Image.asset(
+              AppImages.qarenLogo,
+              width: context.screenWidth*0.35,
+              height: context.screenHeight*0.15,
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        const SizedBox(height: 12),
-        const Text(
-          'Qaren',
-          style: TextStyle(
-            fontSize: AppDimensions.fontXXL,
-            fontWeight: FontWeight.w800,
-            color: AppColors.textPrimary,
-            letterSpacing: 0.5,
-          ),
-        ),
-        const SizedBox(height: 4),
-        const Text(
-          'بوابتك الذكية لمقارنة الخدمات',
-          style: TextStyle(
-            fontSize: AppDimensions.fontS,
-            color: AppColors.textSecondary,
-            height: 1.5,
-          ),
-        ),
+        )
       ],
     );
   }
 }
-
