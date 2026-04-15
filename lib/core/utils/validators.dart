@@ -1,3 +1,5 @@
+import 'package:qaren/core/utils/print/custom_print.dart';
+
 class Validators {
   Validators._();
 
@@ -40,9 +42,8 @@ class Validators {
     return null;
   }
 
-  static String? Function(String?) confirmPasswordValidator(
-      String? password) {
-    return (String? value) {
+  static String? confirmPasswordValidator(String? password,value) {
+    customPrint('PASS : $password');
       if (value == null || value.isEmpty) {
         return 'تأكيد كلمة المرور مطلوب';
       }
@@ -50,7 +51,6 @@ class Validators {
         return 'كلمتا المرور غير متطابقتين';
       }
       return null;
-    };
   }
 }
 

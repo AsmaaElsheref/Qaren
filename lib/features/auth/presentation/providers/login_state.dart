@@ -10,6 +10,7 @@ class LoginState extends Equatable {
   final bool isPasswordVisible;
   final UserEntity? user;
   final String? errorMessage;
+  final bool showBiometricPrompt;
 
   const LoginState({
     this.status = LoginStatus.initial,
@@ -17,6 +18,7 @@ class LoginState extends Equatable {
     this.isPasswordVisible = false,
     this.user,
     this.errorMessage,
+    this.showBiometricPrompt = false,
   });
 
   LoginState copyWith({
@@ -25,6 +27,7 @@ class LoginState extends Equatable {
     bool? isPasswordVisible,
     UserEntity? user,
     String? errorMessage,
+    bool? showBiometricPrompt,
   }) {
     return LoginState(
       status: status ?? this.status,
@@ -32,6 +35,7 @@ class LoginState extends Equatable {
       isPasswordVisible: isPasswordVisible ?? this.isPasswordVisible,
       user: user ?? this.user,
       errorMessage: errorMessage,
+      showBiometricPrompt: showBiometricPrompt ?? this.showBiometricPrompt,
     );
   }
 
@@ -42,6 +46,7 @@ class LoginState extends Equatable {
         isPasswordVisible,
         user,
         errorMessage,
+        showBiometricPrompt,
       ];
 }
 

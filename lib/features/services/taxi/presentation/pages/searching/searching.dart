@@ -42,8 +42,6 @@ class Searching extends ConsumerWidget {
                 pickupLng: taxiState.pickupLatLng!.longitude,
                 dropoffLat: taxiState.destinationLatLng!.latitude,
                 dropoffLng: taxiState.destinationLatLng!.longitude,
-                pickupDate: _formatDate(taxiState.pickupDate!),
-                returnDate: _formatDate(taxiState.returnDate!),
               );
 
               // Trigger search API call

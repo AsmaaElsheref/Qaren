@@ -26,6 +26,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  bool _biometricAutoPrompted = false;
 
   @override
   void dispose() {
@@ -34,17 +35,68 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     super.dispose();
   }
 
+  /// Ask user if they want to enable biometric login after first success.
+  Future<bool> _showEnableBiometricDialog() async {
+    final result = await showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppDimensions.radiusL),
+        ),
+        title: const Text(
+          'تفعيل الدخول بالبصمة',
+          style: TextStyle(
+            fontWeight: FontWeight.w700,
+            color: AppColors.textPrimary,
+          ),
+        ),
+        content: const Text(
+          'هل تريد تفعيل الدخول بالبصمة في المرات القادمة؟\n'
+          'بياناتك ستُحفظ بشكل مشفّر وآمن.',
+          style: TextStyle(color: AppColors.textSecondary),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(false),
+            child: const Text(
+              'لاحقاً',
+              style: TextStyle(color: AppColors.textSecondary),
+            ),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(true),
+            child: const Text(
+              'تفعيل',
+              style: TextStyle(
+                color: AppColors.primary,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+    return result ?? false;
+  }
+
   void _onLoginPressed() {
     if (_formKey.currentState?.validate() ?? false) {
       ref.read(loginNotifierProvider.notifier).login(
             login: _emailController.text.trim(),
             password: _passwordController.text,
+            askEnableBiometrics: _showEnableBiometricDialog,
           );
     }
   }
 
+  void _onBiometricPressed() {
+    ref.read(loginNotifierProvider.notifier).loginWithBiometrics();
+  }
+
   @override
   Widget build(BuildContext context) {
+    // ── Listen for login success / failure ──────────────────────
     ref.listen<LoginState>(loginNotifierProvider, (previous, next) {
       if (next.status == LoginStatus.success &&
           previous?.status != LoginStatus.success) {
@@ -64,6 +116,16 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             ),
           ),
         );
+      }
+
+      // ── Auto-prompt biometrics once when page loads ──────────
+      if (next.showBiometricPrompt && !_biometricAutoPrompted) {
+        _biometricAutoPrompted = true;
+        Future.microtask(() {
+          if (mounted) {
+            ref.read(loginNotifierProvider.notifier).loginWithBiometrics();
+          }
+        });
       }
     });
 
@@ -88,11 +150,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     const SizedBox(height: AppDimensions.paddingXXL),
                     const QarenLogo(),
                     const SizedBox(height: AppDimensions.paddingXL),
-                    // UserTypeSelector(
-                    //   selected: loginState.selectedUserType,
-                    //   onChanged: notifier.changeUserType,
-                    // ),
-                    SizedBox(height: context.screenHeight*0.05),
+                    SizedBox(height: context.screenHeight * 0.05),
                     LoginInputField(
                       controller: _emailController,
                       hint: AppStrings.emailHint,
@@ -121,8 +179,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           padding: const EdgeInsets.only(left: 4),
                           child: Icon(
                             loginState.isPasswordVisible
-                              ? Icons.visibility_off_outlined
-                              : Icons.visibility_outlined,
+                                ? Icons.visibility_off_outlined
+                                : Icons.visibility_outlined,
                             color: AppColors.textSecondary,
                             size: AppDimensions.iconS,
                           ),
@@ -148,7 +206,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         ),
                       ),
                     ),
-                    SizedBox(height: context.screenHeight*0.06),
+                    SizedBox(height: context.screenHeight * 0.06),
                     GradientLoginButton(
                       label: AppStrings.loginButton,
                       isLoading: loginState.status == LoginStatus.loading,
@@ -156,9 +214,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     ),
 
                     const SizedBox(height: AppDimensions.paddingXXL),
-                    BiometricsButton(
-                      onPressed: notifier.loginWithBiometrics,
-                    ),
+
+                    // ── Biometric button ─────────────────────────────────
+                    // Always shown — if biometrics not configured yet,
+                    // tapping it shows a friendly "سجّل أولاً" message.
+                    BiometricsButton(onPressed: _onBiometricPressed),
+
                     const SizedBox(height: AppDimensions.paddingL),
                     TextButton(
                       onPressed: () {},
@@ -174,7 +235,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
                     const SizedBox(height: AppDimensions.paddingS),
 
-                    // ── Sign Up link ──────────────────────────────────────────
+                    // ── Sign Up link ──────────────────────────────────────
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -219,3 +280,4 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     );
   }
 }
+

@@ -1,38 +1,70 @@
 import 'package:local_auth/local_auth.dart';
 
-/// Thin abstraction over [LocalAuthentication] so the rest of the app
-/// depends on an interface, not a concrete plugin class.
-abstract class BiometricService {
-  /// Returns `true` when the device has at least one enrolled biometric.
-  Future<bool> isAvailable();
-
-  /// Prompts the user to authenticate via fingerprint / face.
-  /// Returns `true` on success.
-  Future<bool> authenticate({required String reason});
+enum BiometricResult {
+  success,
+  failed,
+  cancelled,
+  notAvailable,
+  notEnrolled,
+  error,
 }
 
-class BiometricServiceImpl implements BiometricService {
-  BiometricServiceImpl();
+class BiometricService {
+  final LocalAuthentication _auth;
 
-  final LocalAuthentication _auth = LocalAuthentication();
+  BiometricService({LocalAuthentication? auth})
+      : _auth = auth ?? LocalAuthentication();
 
-  @override
-  Future<bool> isAvailable() async {
-    final canCheck = await _auth.canCheckBiometrics;
-    final isSupported = await _auth.isDeviceSupported();
-    return canCheck && isSupported;
+  /// Check if device has biometric hardware.
+  Future<bool> isDeviceSupported() => _auth.isDeviceSupported();
+
+  /// Check if at least one biometric is enrolled.
+  Future<bool> hasEnrolledBiometrics() async {
+    final biometrics = await _auth.getAvailableBiometrics();
+    return biometrics.isNotEmpty;
   }
 
-  @override
-  Future<bool> authenticate({required String reason}) async {
+  /// Full availability check: hardware + enrolled.
+  Future<bool> isAvailable() async {
+    final supported = await _auth.isDeviceSupported();
+    if (!supported) return false;
+    final canCheck = await _auth.canCheckBiometrics;
+    if (!canCheck) return false;
+    final biometrics = await _auth.getAvailableBiometrics();
+    return biometrics.isNotEmpty;
+  }
+
+  /// Prompt biometric authentication. Returns a typed result.
+  Future<BiometricResult> authenticate({
+    String reason = 'قم بالتحقق من هويتك للدخول',
+  }) async {
     try {
-      return await _auth.authenticate(
+      final supported = await isDeviceSupported();
+      if (!supported) return BiometricResult.notAvailable;
+
+      final enrolled = await hasEnrolledBiometrics();
+      if (!enrolled) return BiometricResult.notEnrolled;
+
+      final success = await _auth.authenticate(
         localizedReason: reason,
         biometricOnly: true,
         persistAcrossBackgrounding: true,
       );
-    } catch (_) {
-      return false;
+
+      return success ? BiometricResult.success : BiometricResult.failed;
+    } catch (e) {
+      // PlatformException with code "NotAvailable", "NotEnrolled", etc.
+      final msg = e.toString().toLowerCase();
+      if (msg.contains('cancel') || msg.contains('user cancel')) {
+        return BiometricResult.cancelled;
+      }
+      if (msg.contains('notenrolled')) {
+        return BiometricResult.notEnrolled;
+      }
+      if (msg.contains('notavailable')) {
+        return BiometricResult.notAvailable;
+      }
+      return BiometricResult.error;
     }
   }
 }

@@ -48,9 +48,9 @@ dependencies:
 dev_dependencies:
   flutter_launcher_icons: ^0.14.4
 flutter_launcher_icons:
-  android: "launcher_icon"
+  android: "ic_launcher"
   ios: true
-  image_path: "assets/appLogo/QLogo.jpg"
+  image_path: "assets/appLogo/QLogo.png"
 
   flutter_test:
     sdk: flutter

@@ -180,8 +180,9 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                       hint: AppStrings.confirmPasswordHint,
                       prefixIcon: Icons.lock_outline,
                       obscureText: !signupState.isConfirmPasswordVisible,
-                      validator: Validators.confirmPasswordValidator(
+                      validator: (value) => Validators.confirmPasswordValidator(
                         _passwordController.text,
+                        value
                       ),
                       customSuffix: const Padding(
                         padding: EdgeInsets.only(right: 16),

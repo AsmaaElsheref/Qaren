@@ -9,32 +9,11 @@ class QarenLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        // ── Logo mark ──────────────────────────────────────────────────────────
-        Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadiusGeometry.circular(10),
-              boxShadow: [
-                BoxShadow(
-                    color: AppColors.textHint,
-                    spreadRadius: 1,
-                    blurRadius: 7,
-                )
-              ]
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadiusGeometry.circular(10),
-            child: Image.asset(
-              AppImages.qarenLogo,
-              width: context.screenWidth*0.35,
-              height: context.screenHeight*0.15,
-              fit: BoxFit.cover,
-            ),
-          ),
-        )
-      ],
+    return Image.asset(
+      AppImages.qarenLogo,
+      width: context.screenWidth*0.35,
+      height: context.screenHeight*0.15,
+      fit: BoxFit.cover,
     );
   }
 }

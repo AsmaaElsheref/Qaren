@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/localStorage/cache_helper.dart';
+import '../../../../core/providers/service_providers.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/constants/app_strings.dart';
@@ -57,11 +58,13 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
 
     if (confirmed == true && context.mounted) {
       // Navigate first — this disposes the home tree (and the autoDispose notifier).
-      // Cache is cleared after navigation so we never touch a disposed notifier.
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (_) => const LoginPage()),
         (_) => false,
       );
+      // Clear non-sensitive cache (token, name, phone).
+      // Biometric data in SecureStorage is preserved so the user can
+      // quick-login with biometrics after logout.
       await CacheHelper.clearAll();
     }
   }

@@ -6,16 +6,12 @@ class CarRentalSearchParams extends Equatable {
   final double pickupLng;
   final double dropoffLat;
   final double dropoffLng;
-  final String pickupDate;
-  final String returnDate;
 
   const CarRentalSearchParams({
     required this.pickupLat,
     required this.pickupLng,
     required this.dropoffLat,
     required this.dropoffLng,
-    required this.pickupDate,
-    required this.returnDate,
   });
 
   Map<String, dynamic> toQueryParameters() {
@@ -24,8 +20,6 @@ class CarRentalSearchParams extends Equatable {
       'pickup_lng': pickupLng,
       'dropoff_lat': dropoffLat,
       'dropoff_lng': dropoffLng,
-      'pickup_date': pickupDate,
-      'return_date': returnDate,
     };
   }
 
@@ -35,8 +29,6 @@ class CarRentalSearchParams extends Equatable {
         pickupLng,
         dropoffLat,
         dropoffLng,
-        pickupDate,
-        returnDate,
       ];
 }
 

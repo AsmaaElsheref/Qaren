@@ -14,9 +14,7 @@ final taxiCanCompareProvider = Provider<bool>(
           s.pickup.isNotEmpty &&
           s.destination.isNotEmpty &&
           s.pickupLatLng != null &&
-          s.destinationLatLng != null &&
-          s.pickupDate != null &&
-          s.returnDate != null,
+          s.destinationLatLng != null
     ),
   ),
 );

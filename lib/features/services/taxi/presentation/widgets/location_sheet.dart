@@ -48,10 +48,10 @@ class LocationSheet extends ConsumerWidget {
           PickupField(),
           const SizedBox(height: AppDimensions.paddingM),
           DestinationField(),
-          const SizedBox(height: AppDimensions.paddingM),
+          const SizedBox(height: AppDimensions.paddingXL),
           // ── Date pickers ──────────────────────────────────────────────
-          const _DatePickersRow(),
-          const SizedBox(height: AppDimensions.paddingL),
+          // const _DatePickersRow(),
+          // const SizedBox(height: AppDimensions.paddingL),
           const PriceCompareButton(),
           const SizedBox(height: AppDimensions.paddingS),
         ],
