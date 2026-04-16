@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../domain/entities/cart_item.dart';
 import 'food_cart_state.dart';
 
 /// Notifier that owns all cart mutations. Zero UI / BuildContext.
@@ -7,23 +8,48 @@ class FoodCartNotifier extends Notifier<FoodCartState> {
   @override
   FoodCartState build() => const FoodCartState();
 
-  /// Increment quantity of [itemId] by 1.
-  void increment(String itemId) {
-    final current = Map<String, int>.from(state.quantities);
-    current[itemId] = (current[itemId] ?? 0) + 1;
-    state = state.copyWith(quantities: current);
+  /// Add or increment an item in the cart.
+  /// Requires item metadata for first-time additions.
+  void increment(
+    String itemId, {
+    required String name,
+    required String imageUrl,
+    required double price,
+  }) {
+    final current = Map<String, CartItem>.from(state.items);
+    final existing = current[itemId];
+    if (existing != null) {
+      current[itemId] = existing.copyWith(quantity: existing.quantity + 1);
+    } else {
+      current[itemId] = CartItem(
+        id: itemId,
+        name: name,
+        imageUrl: imageUrl,
+        price: price,
+        quantity: 1,
+      );
+    }
+    state = state.copyWith(items: current);
   }
 
   /// Decrement quantity of [itemId] by 1; removes entry when reaching 0.
   void decrement(String itemId) {
-    final current = Map<String, int>.from(state.quantities);
-    final qty = (current[itemId] ?? 0) - 1;
-    if (qty <= 0) {
+    final current = Map<String, CartItem>.from(state.items);
+    final existing = current[itemId];
+    if (existing == null) return;
+    if (existing.quantity <= 1) {
       current.remove(itemId);
     } else {
-      current[itemId] = qty;
+      current[itemId] = existing.copyWith(quantity: existing.quantity - 1);
     }
-    state = state.copyWith(quantities: current);
+    state = state.copyWith(items: current);
+  }
+
+  /// Remove an item completely from the cart.
+  void remove(String itemId) {
+    final current = Map<String, CartItem>.from(state.items);
+    current.remove(itemId);
+    state = state.copyWith(items: current);
   }
 
   /// Clear all items from the cart.
@@ -44,5 +70,30 @@ final foodCartTotalCountProvider = Provider<int>(
 final foodItemQuantityProvider = Provider.family<int, String>(
   (ref, itemId) =>
       ref.watch(foodCartProvider.select((s) => s.quantityOf(itemId))),
+);
+
+/// Whether the cart is empty — drives empty/filled UI switch.
+final foodCartIsEmptyProvider = Provider<bool>(
+  (ref) => ref.watch(foodCartProvider.select((s) => s.isEmpty)),
+);
+
+/// Cart items list for the cart page.
+final foodCartItemsProvider = Provider<List<CartItem>>(
+  (ref) => ref.watch(foodCartProvider.select((s) => s.cartItems)),
+);
+
+/// Subtotal before tax.
+final foodCartSubtotalProvider = Provider<double>(
+  (ref) => ref.watch(foodCartProvider.select((s) => s.subtotal)),
+);
+
+/// Tax amount (15%).
+final foodCartTaxProvider = Provider<double>(
+  (ref) => ref.watch(foodCartProvider.select((s) => s.tax)),
+);
+
+/// Grand total.
+final foodCartTotalProvider = Provider<double>(
+  (ref) => ref.watch(foodCartProvider.select((s) => s.total)),
 );
 

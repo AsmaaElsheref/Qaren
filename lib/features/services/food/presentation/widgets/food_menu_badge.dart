@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/ui/widgets/icon_container.dart';
 import '../../../../../core/theme/app_colors.dart';
 
 class FoodMenuBadge extends StatelessWidget {
@@ -9,10 +10,13 @@ class FoodMenuBadge extends StatelessWidget {
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        const Icon(
-          Icons.menu_rounded,
-          size: 26,
-          color: AppColors.textPrimary,
+        IconContainer(
+          icon: const Icon(
+            Icons.menu_rounded,
+            size: 26,
+            color: AppColors.textPrimary,
+          ),
+          onTap: (){}
         ),
         Positioned(
           top: -4,

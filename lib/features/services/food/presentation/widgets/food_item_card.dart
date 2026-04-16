@@ -13,6 +13,15 @@ class FoodItemCard extends ConsumerWidget {
 
   final FoodItem item;
 
+  void _increment(WidgetRef ref) {
+    ref.read(foodCartProvider.notifier).increment(
+      item.id,
+      name: item.name,
+      imageUrl: item.imageUrl,
+      price: item.price,
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final quantity = ref.watch(foodItemQuantityProvider(item.id));
@@ -164,11 +173,11 @@ class FoodItemCard extends ConsumerWidget {
               ),
               const SizedBox(height: 8),
               if (quantity == 0)
-                FoodAddButton(onTap: () => ref.read(foodCartProvider.notifier).increment(item.id),)
+                FoodAddButton(onTap: () => _increment(ref),)
               else
                 FoodQuantityStepper(
                   quantity: quantity,
-                  onIncrement: () => ref.read(foodCartProvider.notifier).increment(item.id),
+                  onIncrement: () => _increment(ref),
                   onDecrement: () => ref.read(foodCartProvider.notifier).decrement(item.id),
                 ),
             ],

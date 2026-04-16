@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../core/ui/widgets/icon_container.dart';
+import '../pages/food_cart_page.dart';
 import '../providers/food_providers.dart';
 
 /// Cart icon with a live badge showing total items count.
@@ -16,10 +18,13 @@ class FoodCartBadge extends ConsumerWidget {
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        const Icon(
-          Icons.shopping_bag_outlined,
-          size: 26,
-          color: AppColors.textPrimary,
+        IconContainer(
+          icon:  const Icon(
+            Icons.shopping_bag_outlined,
+            size: 26,
+            color: AppColors.textPrimary,
+          ),
+          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => FoodCartPage()),),
         ),
         if (totalCount > 0)
           Positioned(
@@ -28,7 +33,7 @@ class FoodCartBadge extends ConsumerWidget {
             child: Container(
               padding: const EdgeInsets.all(4),
               decoration: const BoxDecoration(
-                color: AppColors.primary,
+                color: AppColors.secondary,
                 shape: BoxShape.circle,
               ),
               constraints: const BoxConstraints(minWidth: 18, minHeight: 18),
