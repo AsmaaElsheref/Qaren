@@ -18,5 +18,6 @@ class ApiRoutes {
   static const String carRentalBook = '/api/compare/car-rental/book';
 
   /// Food delivery endpoints
-  static const String foodProducts = '/api/compare/food-delivery/products';
+  static const String foodProducts    = '/api/compare/food-delivery/products';
+  static const String foodCategories  = '/api/compare/food-delivery/categories';
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/utils/extensions/contextSizeX.dart';
 
 import '../../../../../core/constants/app_dimensions.dart';
 import '../../../../../core/theme/app_colors.dart';
@@ -62,12 +63,15 @@ class CartItemCard extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AppText(
-                item.name,
-                style: const TextStyle(
-                  fontSize: AppDimensions.fontM,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.textPrimary,
+              SizedBox(
+                width: context.screenWidth*0.28,
+                child: AppText(
+                  item.name,
+                  style: const TextStyle(
+                    fontSize: AppDimensions.fontM,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.textPrimary,
+                  ),
                 ),
               ),
               const SizedBox(height: 2),
