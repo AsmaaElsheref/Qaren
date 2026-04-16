@@ -1,33 +1,43 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../data/datasources/food_local_datasource.dart';
 import '../../domain/entities/food_item.dart';
-import '../../domain/entities/restaurant.dart';
-import 'food_category_provider.dart';
+import 'food_data_providers.dart';
 
-// ── Data layer ───────────────────────────────────────────────────────────────
+// ── Filtered food items (by category + search) ──────────────────────────────
 
-final _foodDataSourceProvider = Provider<FoodLocalDataSource>(
-  (ref) => const FoodLocalDataSourceImpl(),
-);
+/// Food items filtered by selected category and search query.
+/// This is the main provider the UI should watch for displaying items.
+final foodItemsProvider = Provider<AsyncValue<List<FoodItem>>>((ref) {
+  final asyncProducts = ref.watch(allFoodProductsProvider);
+  final selectedCategory = ref.watch(selectedFoodCategoryProvider);
+  final searchQuery = ref.watch(foodSearchQueryProvider).trim().toLowerCase();
 
-// ── Restaurant ───────────────────────────────────────────────────────────────
+  return asyncProducts.whenData((products) {
+    var filtered = products;
 
-/// The featured restaurant for the selected category.
-final foodRestaurantProvider = Provider<Restaurant>(
-  (ref) {
-    final categoryId = ref.watch(selectedFoodCategoryProvider);
-    return ref.watch(_foodDataSourceProvider).getRestaurant(categoryId);
-  },
-);
+    // Filter by category if not "all"
+    if (selectedCategory != 'all') {
+      filtered = filtered
+          .where((item) =>
+              item.categoryNameAr == selectedCategory ||
+              item.categoryNameEn.toLowerCase() == selectedCategory.toLowerCase() ||
+              item.categoryId == selectedCategory)
+          .toList();
+    }
 
-// ── Food items ───────────────────────────────────────────────────────────────
+    // Filter by search query
+    if (searchQuery.isNotEmpty) {
+      filtered = filtered
+          .where((item) =>
+              item.name.toLowerCase().contains(searchQuery) ||
+              item.description.toLowerCase().contains(searchQuery) ||
+              item.shortDescription.toLowerCase().contains(searchQuery) ||
+              item.categoryNameAr.contains(searchQuery) ||
+              item.categoryNameEn.toLowerCase().contains(searchQuery))
+          .toList();
+    }
 
-/// Food items for the selected category.
-final foodItemsProvider = Provider<List<FoodItem>>(
-  (ref) {
-    final categoryId = ref.watch(selectedFoodCategoryProvider);
-    return ref.watch(_foodDataSourceProvider).getFoodItems(categoryId);
-  },
-);
+    return filtered;
+  });
+});
 

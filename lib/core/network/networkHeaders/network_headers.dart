@@ -7,6 +7,7 @@ Map<String, String> networkHeaders() {
     if (token != null && token.isNotEmpty) 'Authorization': 'Bearer $token',
     'Accept': 'application/json',
     'Content-Type': 'application/json',
+    'Accept-Language': 'ar'
   };
 }
 

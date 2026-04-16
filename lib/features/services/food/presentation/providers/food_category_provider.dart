@@ -1,23 +1,35 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../data/datasources/food_local_datasource.dart';
 import '../../domain/entities/food_category.dart';
+import 'food_data_providers.dart';
 
-// ── Data layer ───────────────────────────────────────────────────────────────
+// ── Categories derived from API ──────────────────────────────────────────────
 
-final _foodDataSourceProvider = Provider<FoodLocalDataSource>(
-  (ref) => const FoodLocalDataSourceImpl(),
-);
-
-// ── Categories ───────────────────────────────────────────────────────────────
-
-/// All available food categories (static list for now).
-final foodCategoriesProvider = Provider<List<FoodCategory>>(
-  (ref) => ref.watch(_foodDataSourceProvider).getCategories(),
-);
-
-/// Currently selected category ID.
-final selectedFoodCategoryProvider = StateProvider<String>(
-  (ref) => 'burger',
-);
+/// All available food categories extracted from API products.
+/// Includes "الكل" as the first entry.
+final foodCategoriesProvider = Provider<List<FoodCategory>>((ref) {
+  final asyncProducts = ref.watch(allFoodProductsProvider);
+  return asyncProducts.when(
+    data: (products) {
+      final seen = <String>{};
+      final categories = <FoodCategory>[
+        const FoodCategory(id: 'all', name: 'الكل'),
+      ];
+      for (final item in products) {
+        final key = item.categoryId;
+        if (key.isNotEmpty && seen.add(key)) {
+          categories.add(FoodCategory(
+            id: key,
+            name: item.categoryNameAr.isNotEmpty
+                ? item.categoryNameAr
+                : item.categoryNameEn,
+          ));
+        }
+      }
+      return categories;
+    },
+    loading: () => const [FoodCategory(id: 'all', name: 'الكل')],
+    error: (_, __) => const [FoodCategory(id: 'all', name: 'الكل')],
+  );
+});
 
