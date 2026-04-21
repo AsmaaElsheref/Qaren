@@ -20,4 +20,5 @@ class ApiRoutes {
   /// Food delivery endpoints
   static const String foodProducts    = '/api/compare/food-delivery/products';
   static const String foodCategories  = '/api/compare/food-delivery/categories';
+  static const String foodCompare     = '/api/food-products/compare';
 }

@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'food_provider_model.dart';
 
 /// Immutable model for the order invoice / receipt screen.
+// ignore_for_file: unused_element
 class FoodInvoiceModel extends Equatable {
   final FoodProviderModel provider;
   final String fromLocation;
@@ -13,16 +14,17 @@ class FoodInvoiceModel extends Equatable {
   final String orderTime;
   final String date;
 
+
   const FoodInvoiceModel({
-    required this.provider,
-    required this.fromLocation,
-    required this.toLocation,
-    required this.distance,
-    required this.deliveryTimeMinutes,
-    required this.itemsCount,
-    required this.orderTime,
-    required this.date,
-  });
+    FoodProviderModel? provider,
+    this.fromLocation = '',
+    this.toLocation = '',
+    this.distance = '',
+    this.deliveryTimeMinutes = 0,
+    this.itemsCount = 0,
+    this.orderTime = '',
+    this.date = '',
+  }) : provider = provider ?? const FoodProviderModel(id: '', name: '', price: 0);
 
   @override
   List<Object?> get props => [provider, fromLocation, toLocation];

@@ -9,8 +9,6 @@ import '../food_strings.dart';
 import 'food_best_value_badge.dart';
 
 /// A single provider comparison card.
-/// Shows: badge (if best value), provider icon + name + tag + rating,
-/// price, estimated delivery time, divider, and CTA button.
 class FoodProviderCard extends StatelessWidget {
   const FoodProviderCard({
     super.key,
@@ -51,19 +49,28 @@ class FoodProviderCard extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // Provider logo / fallback icon
                   Container(
                     width: 48,
                     height: 48,
                     decoration: BoxDecoration(
                       color: AppColors.surfaceVariant,
                       borderRadius:
-                      BorderRadius.circular(AppDimensions.radiusM),
+                          BorderRadius.circular(AppDimensions.radiusM),
+                      image: provider.logoUrl != null
+                          ? DecorationImage(
+                              image: NetworkImage(provider.logoUrl!),
+                              fit: BoxFit.cover,
+                            )
+                          : null,
                     ),
-                    child: const Icon(
-                      Icons.rocket_launch_rounded,
-                      color: AppColors.textHint,
-                      size: 24,
-                    ),
+                    child: provider.logoUrl == null
+                        ? const Icon(
+                            Icons.restaurant_rounded,
+                            color: AppColors.textHint,
+                            size: 24,
+                          )
+                        : null,
                   ),
                   const SizedBox(width: AppDimensions.paddingM),
                   Column(
@@ -81,34 +88,42 @@ class FoodProviderCard extends StatelessWidget {
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(Icons.star_rounded,
-                              size: 13, color: Color(0xFFFFC107)),
-                          const SizedBox(width: 2),
-                          AppText(
-                            provider.rating.toStringAsFixed(1),
-                            secondary: true,
-                            style: const TextStyle(
-                                fontSize: AppDimensions.fontXS),
-                          ),
-                          const SizedBox(width: 6),
-                          const AppText(
-                            '·',
-                            style: TextStyle(color: AppColors.textHint),
-                          ),
-                          const SizedBox(width: 6),
-                          AppText(
-                            provider.tag,
-                            secondary: true,
-                            style: const TextStyle(
-                                fontSize: AppDimensions.fontXS),
-                          ),
+                          if (provider.rating != null) ...[
+                            const Icon(Icons.star_rounded,
+                                size: 13, color: Color(0xFFFFC107)),
+                            const SizedBox(width: 2),
+                            AppText(
+                              provider.rating!.toStringAsFixed(1),
+                              secondary: true,
+                              style: const TextStyle(
+                                  fontSize: AppDimensions.fontXS),
+                            ),
+                            const SizedBox(width: 6),
+                            const AppText(
+                              '·',
+                              style: TextStyle(color: AppColors.textHint),
+                            ),
+                            const SizedBox(width: 6),
+                          ],
+                          if (provider.tag.isNotEmpty)
+                            AppText(
+                              provider.tag,
+                              secondary: true,
+                              style: const TextStyle(
+                                  fontSize: AppDimensions.fontXS),
+                            ),
+                          if (provider.isVerified) ...[
+                            const SizedBox(width: 6),
+                            const Icon(Icons.verified_rounded,
+                                size: 14, color: AppColors.primary),
+                          ],
                         ],
                       ),
                     ],
                   ),
                   Expanded(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -125,10 +140,18 @@ class FoodProviderCard extends StatelessWidget {
                             const AppText(
                               FoodStrings.currencyFull,
                               secondary: true,
-                              style: TextStyle(fontSize: AppDimensions.fontXS),
+                              style:
+                                  TextStyle(fontSize: AppDimensions.fontXS),
                             ),
                           ],
                         ),
+                        if (provider.matchedCount > 0)
+                          AppText(
+                            '${provider.matchedCount}/${provider.totalRequested} عنصر',
+                            secondary: true,
+                            style: const TextStyle(
+                                fontSize: AppDimensions.fontXS),
+                          ),
                       ],
                     ),
                   ),
@@ -143,31 +166,43 @@ class FoodProviderCard extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      const AppText(
-                        FoodStrings.estimatedPrice,
-                        secondary: true,
-                        style: TextStyle(fontSize: AppDimensions.fontXS),
-                      ),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(
-                            Icons.access_time_rounded,
-                            size: 14,
-                            color: AppColors.primary,
-                          ),
-                          const SizedBox(width: 4),
-                          AppText(
-                            '${provider.deliveryTimeMinutes} ${FoodStrings.minutes}',
-                            secondary: true,
-                            style: const TextStyle(
-                              fontSize: AppDimensions.fontXS,
-                              color: AppColors.textPrimary,
-                              fontWeight: FontWeight.w600,
+                      if (provider.distanceKm != null)
+                        AppText(
+                          '${provider.distanceKm!.toStringAsFixed(1)} كم',
+                          secondary: true,
+                          style: const TextStyle(
+                              fontSize: AppDimensions.fontXS),
+                        ),
+                      if (provider.deliveryTimeMinutes > 0)
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.access_time_rounded,
+                              size: 14,
+                              color: AppColors.primary,
                             ),
-                          ),
-                        ],
-                      ),
+                            const SizedBox(width: 4),
+                            AppText(
+                              '${provider.deliveryTimeMinutes} ${FoodStrings.minutes}',
+                              secondary: true,
+                              style: const TextStyle(
+                                fontSize: AppDimensions.fontXS,
+                                color: AppColors.textPrimary,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      if (provider.deliveryFee != null)
+                        AppText(
+                          provider.deliveryFee == 0
+                              ? 'توصيل مجاني'
+                              : 'توصيل ${provider.deliveryFee!.toInt()} ${provider.currency}',
+                          secondary: true,
+                          style: const TextStyle(
+                              fontSize: AppDimensions.fontXS),
+                        ),
                     ],
                   ),
                   const Spacer(),
@@ -190,3 +225,4 @@ class FoodProviderCard extends StatelessWidget {
     );
   }
 }
+

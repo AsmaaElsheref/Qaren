@@ -32,7 +32,7 @@ class FoodResult extends StatelessWidget {
                     const SizedBox(height: AppDimensions.paddingM),
                     const ComparisonFilterChips(),
                     const SizedBox(height: AppDimensions.paddingM),
-                    foodResultItems()
+                    const FoodResultItems()
                   ],
                 )
               ],

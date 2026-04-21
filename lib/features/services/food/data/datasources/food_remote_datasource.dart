@@ -3,7 +3,10 @@ import '../../../../../core/network/dioHelper/dio_helper.dart';
 import '../../../../../core/utils/print/custom_print.dart';
 import '../../domain/entities/food_category.dart';
 import '../../domain/entities/food_item.dart';
+import '../../domain/entities/food_provider_model.dart';
 import '../models/food_category_model.dart';
+import '../models/food_compare_request_model.dart';
+import '../models/food_compare_response_model.dart';
 import '../models/food_product_model.dart';
 
 /// Remote data source for the food delivery feature.
@@ -18,6 +21,9 @@ abstract class FoodRemoteDataSource {
 
   /// Fetches all food categories from the API.
   Future<List<FoodCategory>> getCategories();
+
+  /// Compares products and returns the result.
+  Future<List<FoodProviderModel>> compareProducts(FoodCompareRequestModel request);
 }
 
 class FoodRemoteDataSourceImpl implements FoodRemoteDataSource {
@@ -61,6 +67,21 @@ class FoodRemoteDataSourceImpl implements FoodRemoteDataSource {
       return FoodCategoryModel.fromJsonList(dataList);
     } catch (e) {
       customPrint('Food categories error ===> $e', isError: true);
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<FoodProviderModel>> compareProducts(FoodCompareRequestModel request) async {
+    try {
+      final response = await DioHelper.postData(
+        url: ApiRoutes.foodCompare,
+        data: request.toJson(),
+      );
+      final body = response.data as Map<String, dynamic>;
+      return FoodCompareResponseModel.fromJson(body);
+    } catch (e) {
+      customPrint('Food compare error ===> $e', isError: true);
       rethrow;
     }
   }
