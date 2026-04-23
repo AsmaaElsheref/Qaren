@@ -21,4 +21,9 @@ class ApiRoutes {
   static const String foodProducts    = '/api/compare/food-delivery/products';
   static const String foodCategories  = '/api/compare/food-delivery/categories';
   static const String foodCompare     = '/api/food-products/compare';
+
+  /// Returns the invoice-detail endpoint for a specific partner.
+  /// e.g. /api/food-products/compare/2
+  static String foodInvoiceDetail(int partnerId) =>
+      '/api/food-products/compare/$partnerId';
 }

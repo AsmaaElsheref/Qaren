@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/features/services/taxi/presentation/pages/taxi_page.dart';
 
-import '../food/presentation/pages/food_page.dart';
+import '../food/presentation/pages/foodPage/food_page.dart';
 
 /// Maps each [CategoryEntity.type] (from the API) to its page widget.
 /// Add a new entry whenever you build a new service — keyed by the API `type`.

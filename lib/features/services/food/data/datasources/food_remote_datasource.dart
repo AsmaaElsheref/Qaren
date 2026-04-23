@@ -2,28 +2,32 @@ import '../../../../../core/network/apiRoutes/api_routes.dart';
 import '../../../../../core/network/dioHelper/dio_helper.dart';
 import '../../../../../core/utils/print/custom_print.dart';
 import '../../domain/entities/food_category.dart';
+import '../../domain/entities/food_invoice_detail.dart';
 import '../../domain/entities/food_item.dart';
 import '../../domain/entities/food_provider_model.dart';
 import '../models/food_category_model.dart';
 import '../models/food_compare_request_model.dart';
 import '../models/food_compare_response_model.dart';
+import '../models/food_invoice_detail_model.dart';
 import '../models/food_product_model.dart';
 
 /// Remote data source for the food delivery feature.
-///
-/// Responsibilities:
-///  - Fetch all products (with optional server-side search & category filter)
-///  - Fetch all categories
 abstract class FoodRemoteDataSource {
-  /// [search]     → `?search=`     query param (server-side full-text search)
-  /// [categoryId] → `?category_id=` query param (server-side category filter)
   Future<List<FoodItem>> getProducts({String? search, String? categoryId});
-
-  /// Fetches all food categories from the API.
   Future<List<FoodCategory>> getCategories();
-
-  /// Compares products and returns the result.
   Future<List<FoodProviderModel>> compareProducts(FoodCompareRequestModel request);
+
+  /// Fetches full invoice detail for a single partner.
+  /// [partnerId]  — the partner to fetch
+  /// [productIds] — the cart product ids
+  /// [userLat]    — user latitude
+  /// [userLng]    — user longitude
+  Future<FoodInvoiceDetail> getInvoiceDetail({
+    required int partnerId,
+    required List<int> productIds,
+    required double userLat,
+    required double userLng,
+  });
 }
 
 class FoodRemoteDataSourceImpl implements FoodRemoteDataSource {
@@ -82,6 +86,34 @@ class FoodRemoteDataSourceImpl implements FoodRemoteDataSource {
       return FoodCompareResponseModel.fromJson(body);
     } catch (e) {
       customPrint('Food compare error ===> $e', isError: true);
+      rethrow;
+    }
+  }
+
+  @override
+  Future<FoodInvoiceDetail> getInvoiceDetail({
+    required int partnerId,
+    required List<int> productIds,
+    required double userLat,
+    required double userLng,
+  }) async {
+    try {
+      // Build query: product_ids[]=1&product_ids[]=2&...
+      final query = <String, dynamic>{
+        'product_ids[]': productIds,
+        'user_lat': userLat,
+        'user_lng': userLng,
+      };
+
+      final response = await DioHelper.getData(
+        url: ApiRoutes.foodInvoiceDetail(partnerId),
+        query: query,
+      );
+
+      final body = response.data as Map<String, dynamic>;
+      return FoodInvoiceDetailModel.fromJson(body);
+    } catch (e) {
+      customPrint('Food invoice detail error ===> $e', isError: true);
       rethrow;
     }
   }

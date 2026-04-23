@@ -97,3 +97,19 @@ final foodCartTotalProvider = Provider<double>(
   (ref) => ref.watch(foodCartProvider.select((s) => s.total)),
 );
 
+/// Map of cart product ids (as int, parsed from CartItem.id) → product name.
+/// Used by the comparison screen to derive missing items for partial-match
+/// restaurants. Rebuilds only when the cart keys change (not on qty changes).
+final cartProductsNameMapProvider = Provider<Map<int, String>>(
+  (ref) => ref.watch(
+    foodCartProvider.select((s) {
+      final map = <int, String>{};
+      for (final item in s.items.values) {
+        final id = int.tryParse(item.id);
+        if (id != null) map[id] = item.name;
+      }
+      return map;
+    }),
+  ),
+);
+

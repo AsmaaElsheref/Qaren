@@ -38,6 +38,22 @@ class FoodStrings {
   static const String fromLabel = 'من';
   static const String toLabel = 'إلى';
 
+  // Partial-match comparison
+  static const String orderNow = 'اطلب الآن';
+  static const String Rial = 'ر.س';
+  static const String orderAvailable = 'اطلب المتوفر';
+  static const String fullMatchLabel = 'يوفر الطلب كاملًا';
+  static const String partialMatchTitle = 'بعض العناصر غير متوفرة';
+  static const String partialMatchDescription =
+      'هذا المطعم يوفر جزءًا من طلبك فقط. سيتم طلب العناصر المتوفرة فقط، '
+      'ولن يتم تضمين العناصر غير المتوفرة.';
+  static const String availableItems = 'العناصر المتوفرة';
+  static const String missingItems = 'العناصر غير المتوفرة';
+  static const String continueOrder = 'متابعة الطلب';
+  static const String cancel = 'إلغاء';
+  static String partialCoverage(int matched, int total) =>
+      'يوفر $matched من $total عناصر';
+
   // Invoice page
   static const String invoiceTitle = 'فاتورة الطلب';
   static const String foodDeliveryService = 'خدمة توصيل طعام';
