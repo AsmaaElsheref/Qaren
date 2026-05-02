@@ -4,6 +4,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geocoding/geocoding.dart' as geo;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import '../../data/models/carRental/map_place_suggestion.dart';
 import 'map_picker_state.dart';
 import 'taxi_map_providers.dart';
 import 'taxi_notifier.dart';
@@ -49,7 +50,75 @@ class MapPickerNotifier extends AutoDisposeFamilyNotifier<MapPickerState, TaxiAc
     });
 
     return MapPickerState(center: initial);
+
   }
+
+  // Timer? _searchDebounce;
+  //
+  // void onSearchChanged(String value) {
+  //   _searchDebounce?.cancel();
+  //
+  //   final query = value.trim();
+  //
+  //   if (query.isEmpty) {
+  //     state = state.copyWith(
+  //       suggestions: [],
+  //       isSearching: false,
+  //     );
+  //     return;
+  //   }
+  //
+  //   _searchDebounce = Timer(const Duration(milliseconds: 400), () {
+  //     fetchSuggestions(query);
+  //   });
+  // }
+
+  // Future<void> fetchSuggestions(String query) async {
+  //   if (query.isEmpty) return;
+  //
+  //   state = state.copyWith(isSearching: true);
+  //
+  //   try {
+  //     final suggestions = await placesRepository.getSuggestions(query);
+  //
+  //     state = state.copyWith(
+  //       suggestions: suggestions,
+  //       isSearching: false,
+  //     );
+  //   } catch (_) {
+  //     state = state.copyWith(
+  //       suggestions: [],
+  //       isSearching: false,
+  //     );
+  //   }
+  // }
+
+  // Future<void> selectSuggestion(MapPlaceSuggestion suggestion) async {
+  //   searchController.text = suggestion.title;
+  //
+  //   state = state.copyWith(
+  //     suggestions: [],
+  //     isResolving: true,
+  //   );
+  //
+  //   try {
+  //     final placeDetails = await placesRepository.getPlaceDetails(
+  //       suggestion.placeId,
+  //     );
+  //
+  //     await mapController?.animateCamera(
+  //       CameraUpdate.newLatLng(placeDetails.latLng),
+  //     );
+  //
+  //     state = state.copyWith(
+  //       selectedLatLng: placeDetails.latLng,
+  //       addressLabel: suggestion.title,
+  //       isResolving: false,
+  //     );
+  //   } catch (_) {
+  //     state = state.copyWith(isResolving: false);
+  //   }
+  // }
 
   // ── Reverse geocode ───────────────────────────────────────────────────────
 

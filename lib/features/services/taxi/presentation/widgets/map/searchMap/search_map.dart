@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../../../../core/config/config.dart';
 import '../../../../../../../core/constants/app_dimensions.dart';
 import 'search_icon.dart';
 import 'search_map_bar.dart';
@@ -23,7 +24,7 @@ class SearchMap extends StatelessWidget {
           ),
           child: Row(
             children: [
-              SearchMapBar(searchController: searchController,searchAddress: searchAddress,),
+              SearchMapBar(searchController: searchController,searchAddress: searchAddress,googleApiKey: AppConfig.googleMapsApiKey,),
               const SizedBox(width: AppDimensions.paddingS),
               SearchIcon(searchAddress: searchAddress,),
             ],

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/constants/app_constants.dart';
+import '../../../../core/localStorage/cache_helper.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/ui/widgets/AppText.dart';
 import '../../../../core/ui/widgets/AppTextStyles.dart';
@@ -17,8 +19,7 @@ class PersonalProfileCard extends ConsumerWidget {
     // Granular selectors — each rebuilds only its section
     final avatarUrl = ref.watch(profileAvatarUrlProvider);
     final identity = ref.watch(profileIdentityProvider);
-    final stats = ref.watch(profileStatsProvider);
-
+    final name = CacheHelper.getData(key: AppConstants.userName);
     return Container(
       decoration: BoxDecoration(
         color: AppColors.white,
@@ -56,37 +57,37 @@ class PersonalProfileCard extends ConsumerWidget {
 
           // ── Name & location ──────────────────────────────────────────
           AppText(
-            identity.name,
+            name,
             style: AppTextStyles.title.copyWith(fontWeight: FontWeight.w700),
           ),
-          const SizedBox(height: 4),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              AppText(
-                identity.location,
-                style: AppTextStyles.bodySecondary,
-              ),
-              const SizedBox(width: 4),
-              const Icon(
-                Icons.location_on_outlined,
-                size: 14,
-                color: AppColors.textSecondary,
-              ),
-            ],
-          ),
-
-          // ── Stats row ────────────────────────────────────────────────
-          const SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: ProfileStatsRow(
-              ordersCount: stats.orders,
-              tripsCount: stats.trips,
-              savingsAmount: stats.savings,
-              savingsCurrency: stats.currency,
-            ),
-          ),
+          // const SizedBox(height: 4),
+          // Row(
+          //   mainAxisSize: MainAxisSize.min,
+          //   children: [
+          //     AppText(
+          //       identity.location,
+          //       style: AppTextStyles.bodySecondary,
+          //     ),
+          //     const SizedBox(width: 4),
+          //     const Icon(
+          //       Icons.location_on_outlined,
+          //       size: 14,
+          //       color: AppColors.textSecondary,
+          //     ),
+          //   ],
+          // ),
+          //
+          // // ── Stats row ────────────────────────────────────────────────
+          // const SizedBox(height: 20),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 16),
+          //   child: ProfileStatsRow(
+          //     ordersCount: stats.orders,
+          //     tripsCount: stats.trips,
+          //     savingsAmount: stats.savings,
+          //     savingsCurrency: stats.currency,
+          //   ),
+          // ),
           const SizedBox(height: 20),
         ],
       ),

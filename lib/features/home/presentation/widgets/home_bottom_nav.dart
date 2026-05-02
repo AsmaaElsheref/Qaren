@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../profile/presentation/pages/personal_profile_page.dart';
 import '../providers/home_providers.dart';
 
 class HomeBottomNav extends ConsumerWidget {
@@ -48,8 +49,7 @@ class HomeBottomNav extends ConsumerWidget {
                 icon: Icons.person_outline_rounded,
                 index: 3,
                 currentIndex: currentIndex,
-                onTap: (i) =>
-                ref.read(bottomNavIndexProvider.notifier).state = i,
+                onTap: (i) => Navigator.push(context, MaterialPageRoute(builder: (context) => const PersonalProfilePage())),
               ),
             ],
           ),

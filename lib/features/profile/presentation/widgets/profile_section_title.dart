@@ -13,7 +13,7 @@ class ProfileSectionTitle extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(4, 20, 4, 8),
       child: Align(
-        alignment: AlignmentDirectional.centerEnd,
+        alignment: AlignmentDirectional.centerStart,
         child: AppText(
           title,
           style: AppTextStyles.caption.copyWith(

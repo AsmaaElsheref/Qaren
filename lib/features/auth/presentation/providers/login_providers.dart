@@ -114,6 +114,10 @@ class LoginNotifier extends StateNotifier<LoginState> {
           key: AppConstants.userPhone,
           value: user.phone,
         );
+        await CacheHelper.saveData(
+          key: AppConstants.userEmail,
+          value: user.email,
+        );
 
         // Ask user to enable biometric login (only on manual login)
         if (askEnableBiometrics != null) {

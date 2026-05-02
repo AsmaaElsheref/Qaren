@@ -59,7 +59,7 @@ class _HomeSearchBarState extends ConsumerState<HomeSearchBar> {
             ),
           ),
           // Filter button — RTL: this appears on the left (text end)
-          suffixIcon: _FilterButton(),
+          // suffixIcon: _FilterButton(),
           onChanged: (v) =>
               ref.read(searchQueryProvider.notifier).state = v,
         ),

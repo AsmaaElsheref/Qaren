@@ -32,6 +32,6 @@ final navigationScreens = Provider<List<Widget>>(
     const HomeView(),
     const SizedBox(),
     const SizedBox(),
-    const PersonalProfilePage(),
+    const SizedBox(),
   ],
 );

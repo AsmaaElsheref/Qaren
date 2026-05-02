@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/constants/gap.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/ui/widgets/AppText.dart';
 import '../../../../core/ui/widgets/AppTextStyles.dart';
@@ -16,16 +17,8 @@ class LogoutMenuItem extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            AppText(
-              'تسجيل الخروج',
-              style: AppTextStyles.body.copyWith(
-                color: AppColors.error,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            const SizedBox(width: 12),
             Container(
               width: 40,
               height: 40,
@@ -39,6 +32,15 @@ class LogoutMenuItem extends StatelessWidget {
                 color: AppColors.error,
               ),
             ),
+            Gap.gapW10,
+            AppText(
+              'تسجيل الخروج',
+              style: AppTextStyles.body.copyWith(
+                color: AppColors.error,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+
           ],
         ),
       ),

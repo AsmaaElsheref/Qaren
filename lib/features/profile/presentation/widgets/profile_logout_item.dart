@@ -17,15 +17,6 @@ class ProfileLogoutItem extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         child: Row(
           children: [
-            const Spacer(),
-            AppText(
-              'تسجيل الخروج',
-              style: AppTextStyles.body.copyWith(
-                color: AppColors.error,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            const SizedBox(width: 14),
             Container(
               width: 40,
               height: 40,
@@ -39,6 +30,15 @@ class ProfileLogoutItem extends StatelessWidget {
                 color: AppColors.error,
               ),
             ),
+            const SizedBox(width: 14),
+            AppText(
+              'تسجيل الخروج',
+              style: AppTextStyles.body.copyWith(
+                color: AppColors.error,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const Spacer(),
           ],
         ),
       ),

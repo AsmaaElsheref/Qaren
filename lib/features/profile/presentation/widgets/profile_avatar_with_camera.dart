@@ -41,27 +41,27 @@ class ProfileAvatarWithCamera extends StatelessWidget {
                 : const ProfileAvatarFallbackIcon(),
           ),
         ),
-        Positioned(
-          bottom: 0,
-          right: 0,
-          child: GestureDetector(
-            onTap: onCameraTap,
-            child: Container(
-              width: 28,
-              height: 28,
-              decoration: BoxDecoration(
-                color: AppColors.textPrimary,
-                shape: BoxShape.circle,
-                border: Border.all(color: AppColors.white, width: 2),
-              ),
-              child: const Icon(
-                Icons.camera_alt_rounded,
-                size: 14,
-                color: AppColors.white,
-              ),
-            ),
-          ),
-        ),
+        // Positioned(
+        //   bottom: 0,
+        //   right: 0,
+        //   child: GestureDetector(
+        //     onTap: onCameraTap,
+        //     child: Container(
+        //       width: 28,
+        //       height: 28,
+        //       decoration: BoxDecoration(
+        //         color: AppColors.textPrimary,
+        //         shape: BoxShape.circle,
+        //         border: Border.all(color: AppColors.white, width: 2),
+        //       ),
+        //       child: const Icon(
+        //         Icons.camera_alt_rounded,
+        //         size: 14,
+        //         color: AppColors.white,
+        //       ),
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }

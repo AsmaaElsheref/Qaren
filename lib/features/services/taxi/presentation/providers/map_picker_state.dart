@@ -1,4 +1,5 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import '../../data/models/carRental/map_place_suggestion.dart';
 
 class MapPickerState {
   final LatLng center;
@@ -23,7 +24,7 @@ class MapPickerState {
         center: center ?? this.center,
         addressLabel: addressLabel ?? this.addressLabel,
         isResolving: isResolving ?? this.isResolving,
-        isConfirming: isConfirming ?? this.isConfirming,
+        isConfirming: isConfirming ?? this.isConfirming
       );
 }
 

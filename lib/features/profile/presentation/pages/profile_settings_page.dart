@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/core/utils/extensions/contextSizeX.dart';
 import 'package:qaren/features/profile/presentation/pages/personal_profile_page.dart';
 import '../../../../core/localStorage/cache_helper.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -78,63 +79,63 @@ class ProfileSettingsPage extends ConsumerWidget {
                     const Divider(height: 1, color: AppColors.border),
 
                     // ── حسابي ─────────────────────────────────────────────
-                    const SettingsSectionTitle(title: 'حسابي'),
-
-                    NotificationsMenuItem(
-                      onTap: () {
-                        // Navigate to notifications
-                      },
-                    ),
-
-                    SettingsMenuItem(
-                      icon: Icons.account_balance_wallet_outlined,
-                      iconColor: const Color(0xFF27AAE1),
-                      iconBackground: const Color(0xFFE8F4FD),
-                      label: 'طرق الدفع',
-                      onTap: () {
-                        // Navigate to payment methods
-                      },
-                    ),
-
-                    SettingsMenuItem(
-                      icon: Icons.favorite_outline_rounded,
-                      iconColor: const Color(0xFFE91E8C),
-                      iconBackground: const Color(0xFFFDE8F5),
-                      label: 'الأماكن المحفوظة',
-                      onTap: () {
-                        // Navigate to saved places
-                      },
-                    ),
-
-                    // ── Divider ───────────────────────────────────────────
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Divider(height: 1, color: AppColors.border),
-                    ),
-
-                    // ── الإعدادات العامة ──────────────────────────────────
-                    const SettingsSectionTitle(title: 'الإعدادات العامة'),
-
-                    const LanguageToggleItem(),
-                    const DarkModeToggleItem(),
-
-                    // ── Divider ───────────────────────────────────────────
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Divider(height: 1, color: AppColors.border),
-                    ),
-
-                    // ── الدعم والقانونية ──────────────────────────────────
-                    const SettingsSectionTitle(title: 'الدعم والقانونية'),
-
-                    const SizedBox(height: 8),
-
-                    // ── Divider ───────────────────────────────────────────
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Divider(height: 1, color: AppColors.border),
-                    ),
-
+                    // const SettingsSectionTitle(title: 'حسابي'),
+                    //
+                    // NotificationsMenuItem(
+                    //   onTap: () {
+                    //     // Navigate to notifications
+                    //   },
+                    // ),
+                    //
+                    // SettingsMenuItem(
+                    //   icon: Icons.account_balance_wallet_outlined,
+                    //   iconColor: const Color(0xFF27AAE1),
+                    //   iconBackground: const Color(0xFFE8F4FD),
+                    //   label: 'طرق الدفع',
+                    //   onTap: () {
+                    //     // Navigate to payment methods
+                    //   },
+                    // ),
+                    //
+                    // SettingsMenuItem(
+                    //   icon: Icons.favorite_outline_rounded,
+                    //   iconColor: const Color(0xFFE91E8C),
+                    //   iconBackground: const Color(0xFFFDE8F5),
+                    //   label: 'الأماكن المحفوظة',
+                    //   onTap: () {
+                    //     // Navigate to saved places
+                    //   },
+                    // ),
+                    //
+                    // // ── Divider ───────────────────────────────────────────
+                    // const Padding(
+                    //   padding: EdgeInsets.symmetric(horizontal: 20),
+                    //   child: Divider(height: 1, color: AppColors.border),
+                    // ),
+                    //
+                    // // ── الإعدادات العامة ──────────────────────────────────
+                    // const SettingsSectionTitle(title: 'الإعدادات العامة'),
+                    //
+                    // const LanguageToggleItem(),
+                    // const DarkModeToggleItem(),
+                    //
+                    // // ── Divider ───────────────────────────────────────────
+                    // const Padding(
+                    //   padding: EdgeInsets.symmetric(horizontal: 20),
+                    //   child: Divider(height: 1, color: AppColors.border),
+                    // ),
+                    //
+                    // // ── الدعم والقانونية ──────────────────────────────────
+                    // const SettingsSectionTitle(title: 'الدعم والقانونية'),
+                    //
+                    // const SizedBox(height: 8),
+                    //
+                    // // ── Divider ───────────────────────────────────────────
+                    // const Padding(
+                    //   padding: EdgeInsets.symmetric(horizontal: 20),
+                    //   child: Divider(height: 1, color: AppColors.border),
+                    // ),
+                    SizedBox(height: context.screenHeight*0.4,),
                     // ── Logout ────────────────────────────────────────────
                     LogoutMenuItem(
                       onTap: () => _showLogoutSheet(context, ref),
