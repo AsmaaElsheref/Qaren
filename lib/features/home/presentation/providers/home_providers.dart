@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/features/home/presentation/pages/home_view.dart';
+import '../../../profile/presentation/pages/personal_profile_page.dart';
 import '../../domain/entities/category_entity.dart';
 import 'categories_providers.dart';
 
@@ -31,6 +32,6 @@ final navigationScreens = Provider<List<Widget>>(
     const HomeView(),
     const SizedBox(),
     const SizedBox(),
-    const SizedBox(),
+    const PersonalProfilePage(),
   ],
 );

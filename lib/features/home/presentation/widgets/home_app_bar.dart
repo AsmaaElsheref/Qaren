@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/localStorage/cache_helper.dart';
-import '../../../../core/providers/service_providers.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/constants/app_strings.dart';
@@ -17,58 +16,6 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => Size.fromHeight(showSearch == true ? 140 : 70);
 
-  Future<void> _onLogoutPressed(BuildContext context, WidgetRef ref) async {
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppDimensions.radiusL),
-        ),
-        title: const Text(
-          'تسجيل الخروج',
-          style: TextStyle(
-            fontWeight: FontWeight.w700,
-            color: AppColors.textPrimary,
-          ),
-        ),
-        content: const Text(
-          'هل أنت متأكد أنك تريد تسجيل الخروج؟',
-          style: TextStyle(color: AppColors.textSecondary),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(false),
-            child: const Text(
-              'إلغاء',
-              style: TextStyle(color: AppColors.textSecondary),
-            ),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(true),
-            child: const Text(
-              'تسجيل الخروج',
-              style: TextStyle(
-                color: AppColors.error,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-
-    if (confirmed == true && context.mounted) {
-      // Navigate first — this disposes the home tree (and the autoDispose notifier).
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (_) => const LoginPage()),
-        (_) => false,
-      );
-      // Clear non-sensitive cache (token, name, phone).
-      // Biometric data in SecureStorage is preserved so the user can
-      // quick-login with biometrics after logout.
-      await CacheHelper.clearAll();
-    }
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -190,7 +137,7 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
                     color: AppColors.textPrimary,
                     size: AppDimensions.iconM,
                   ),
-                  onTap: () {},
+                  onTap: () => Scaffold.of(context).openDrawer(),
                 ),
               ),
               // Padding(
