@@ -21,9 +21,17 @@ class ApiRoutes {
   static const String foodProducts    = '/api/compare/food-delivery/products';
   static const String foodCategories  = '/api/compare/food-delivery/categories';
   static const String foodCompare     = '/api/food-products/compare';
+  static const String foodBooking     = '/api/compare/booking';
 
-  /// Returns the invoice-detail endpoint for a specific partner.
-  /// e.g. /api/food-products/compare/2
-  static String foodInvoiceDetail(int partnerId) =>
-      '/api/food-products/compare/$partnerId';
+  static String foodInvoiceDetail(int partnerId) => '/api/food-products/compare/$partnerId';
+
+  /// Resolves a food thumbnail filename (e.g. "classic-burger.jpg") to a
+  /// full network URL. Returns the value unchanged if it already looks like
+  /// a full URL.
+  static String foodImageUrl(String thumbnail) {
+    if (thumbnail.isEmpty) return '';
+    final uri = Uri.tryParse(thumbnail);
+    if (uri != null && uri.hasScheme) return thumbnail;
+    return '$baseUrl/storage/$thumbnail';
+  }
 }

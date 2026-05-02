@@ -63,5 +63,29 @@ class FoodStrings {
   static const String itemsLabel = 'العناصر';
   static const String orderUnit = 'طلب';
   static const String saveInvoice = 'حفظ الفاتورة';
+
+  // Checkout page
+  static const String checkoutTitle = 'إتمام الطلب';
+  static const String restaurantSection = 'المطعم';
+  static const String deliverySection = 'تفاصيل التوصيل';
+  static const String orderItemsSection = 'الطلبات';
+  static const String summarySection = 'ملخص الطلب';
+  static const String paymentSection = 'طريقة الدفع';
+  static const String notesHint = 'أي ملاحظات للمطعم؟ (اختياري)';
+  static const String paymentCash = 'الدفع عند الاستلام';
+  static const String confirmOrder = 'تأكيد الطلب';
+  static const String deliveryFeeLabel = 'رسوم التوصيل';
+  static const String discountLabel = 'الخصم';
+  static const String totalLabel = 'الإجمالي';
+  static const String estimatedDelivery = 'وقت التوصيل المتوقع';
+  static const String quantityShort = 'الكمية';
+
+  // Success page
+  static const String successTitle = 'تم الطلب بنجاح';
+  static const String successSubtitle = 'تم استلام طلبك وجاري تجهيزه';
+  static const String bookingNumberLabel = 'رقم الطلب';
+  static const String paymentMethodLabel = 'طريقة الدفع';
+  static const String viewInvoice = 'عرض الفاتورة';
+  static const String backToHome = 'العودة للرئيسية';
 }
 

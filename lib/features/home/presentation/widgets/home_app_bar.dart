@@ -5,6 +5,7 @@ import '../../../../core/providers/service_providers.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/constants/app_strings.dart';
+import '../../../../core/ui/widgets/icon_container.dart';
 import '../../../auth/presentation/pages/login_page.dart';
 import 'home_search_bar.dart';
 
@@ -182,16 +183,23 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
             ),
             actions: [
               Padding(
-                padding: const EdgeInsets.only(left: 16),
-                child: IconButton(
+                padding: const EdgeInsets.only(left: 20),
+                child: IconContainer(
                   icon: const Icon(
-                    Icons.logout,
+                  Icons.menu,
                     color: AppColors.textPrimary,
                     size: AppDimensions.iconM,
                   ),
-                  onPressed: () => _onLogoutPressed(context, ref),
+                  onTap: () {},
                 ),
               ),
+              // Padding(
+              //   padding:
+              //   child: IconButton(
+              //     icon:
+              //     onPressed: () => _onLogoutPressed(context, ref),
+              //   ),
+              // ),
             ],
           ),
           if (showSearch == true)

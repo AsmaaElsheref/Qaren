@@ -6,4 +6,7 @@ export 'food_category_provider.dart';
 export 'food_comparison_provider.dart';
 export 'food_data_providers.dart';
 export 'food_items_provider.dart';
+export 'food_booking_provider.dart';
+export 'food_checkout_provider.dart';
+export 'food_checkout_items_provider.dart';
 

@@ -25,13 +25,31 @@ class FoodPage extends ConsumerStatefulWidget {
 }
 
 class _FoodPageState extends ConsumerState<FoodPage> {
+  // Notifiers are cached in initState so dispose() never needs to call ref
+  // (which would be invalid after the element is unmounted).
+  late final StateController<String> _categoryNotifier;
+  late final StateController<String> _searchNotifier;
+
+  @override
+  void initState() {
+    super.initState();
+    _categoryNotifier = ref.read(selectedFoodCategoryProvider.notifier);
+    _searchNotifier   = ref.read(foodSearchQueryProvider.notifier);
+  }
+
   /// Resets filter/search state when the user leaves the screen.
-  /// Called by the framework before the widget is removed from the tree,
-  /// so [ref] is still valid here (before super.dispose()).
+  ///
+  /// The reset is intentionally deferred with [Future] so it runs **after**
+  /// the current frame is finalised. Riverpod forbids mutating provider state
+  /// during the widget-tree build/finalise phase (which includes dispose on
+  /// unmount), so a synchronous write here would throw:
+  ///   "Tried to modify a provider while the widget tree was building."
   @override
   void dispose() {
-    ref.read(selectedFoodCategoryProvider.notifier).state = 'all';
-    ref.read(foodSearchQueryProvider.notifier).state = '';
+    Future(() {
+      _categoryNotifier.state = 'all';
+      _searchNotifier.state   = '';
+    });
     super.dispose();
   }
 

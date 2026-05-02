@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import 'food_warehouse.dart';
+
 /// Immutable entity representing a single food menu item.
 class FoodItem extends Equatable {
   final String id;
@@ -20,6 +22,7 @@ class FoodItem extends Equatable {
   final bool isFeatured;
   final bool isNew;
   final int prepTimeMinutes;
+  final List<FoodWarehouse> warehouses;
 
   const FoodItem({
     required this.id,
@@ -40,7 +43,12 @@ class FoodItem extends Equatable {
     this.isFeatured = false,
     this.isNew = false,
     this.prepTimeMinutes = 0,
+    this.warehouses = const [],
   });
+
+  /// Active warehouses only — filtered helper used by branch picker.
+  List<FoodWarehouse> get activeWarehouses =>
+      warehouses.where((w) => w.isActive).toList(growable: false);
 
   @override
   List<Object?> get props => [id];

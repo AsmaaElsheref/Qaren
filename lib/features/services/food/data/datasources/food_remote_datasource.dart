@@ -8,6 +8,8 @@ import '../../domain/entities/food_provider_model.dart';
 import '../models/food_category_model.dart';
 import '../models/food_compare_request_model.dart';
 import '../models/food_compare_response_model.dart';
+import '../models/food_booking_request_model.dart';
+import '../models/food_booking_response.dart'; // FoodBookingResponse
 import '../models/food_invoice_detail_model.dart';
 import '../models/food_product_model.dart';
 
@@ -28,6 +30,9 @@ abstract class FoodRemoteDataSource {
     required double userLat,
     required double userLng,
   });
+
+  /// Submits a booking and returns a typed [FoodBookingResponse].
+  Future<FoodBookingResponse> createBooking(FoodBookingRequestModel request);
 }
 
 class FoodRemoteDataSourceImpl implements FoodRemoteDataSource {
@@ -114,6 +119,24 @@ class FoodRemoteDataSourceImpl implements FoodRemoteDataSource {
       return FoodInvoiceDetailModel.fromJson(body);
     } catch (e) {
       customPrint('Food invoice detail error ===> $e', isError: true);
+      rethrow;
+    }
+  }
+
+  @override
+  Future<FoodBookingResponse> createBooking(
+    FoodBookingRequestModel request,
+  ) async {
+    try {
+      final response = await DioHelper.postData(
+        url: ApiRoutes.foodBooking,
+        data: request.toJson(),
+      );
+      return FoodBookingResponse.fromJson(
+        response.data as Map<String, dynamic>,
+      );
+    } catch (e) {
+      customPrint('Food booking error ===> $e', isError: true);
       rethrow;
     }
   }

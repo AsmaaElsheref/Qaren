@@ -51,7 +51,7 @@ final foodCategoriesProvider = FutureProvider<List<FoodCategory>>((ref) async {
 /// Rebuild scope: only rebuilds when [selectedFoodCategoryProvider] or
 /// [foodSearchQueryProvider] change — not on every keystroke because
 /// [FoodSearchField] debounces updates to [foodSearchQueryProvider].
-final foodItemsProvider = FutureProvider<List<FoodItem>>((ref) {
+final foodItemsProvider = FutureProvider.autoDispose<List<FoodItem>>((ref) {
   final categoryId = ref.watch(selectedFoodCategoryProvider);
   final search     = ref.watch(foodSearchQueryProvider);
 

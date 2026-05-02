@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/utils/extensions/contextSizeX.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import 'food_item_list.dart';
@@ -13,6 +14,7 @@ class FoodRestaurantCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: context.screenHeight*0.63,
       margin: const EdgeInsets.symmetric(
         horizontal: AppDimensions.paddingM,
       ),

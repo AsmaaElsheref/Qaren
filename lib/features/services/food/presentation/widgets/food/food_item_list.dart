@@ -52,7 +52,7 @@ class FoodItemList extends ConsumerWidget {
         }
         return ListView.separated(
           shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
+          // physics: const NeverScrollableScrollPhysics(),
           padding: const EdgeInsets.only(bottom: AppDimensions.paddingS),
           itemCount: items.length,
           separatorBuilder: (_, __) => const Divider(

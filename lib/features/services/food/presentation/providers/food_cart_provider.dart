@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../domain/entities/cart_item.dart';
+import '../../domain/entities/food_warehouse.dart';
 import 'food_cart_state.dart';
 
 /// Notifier that owns all cart mutations. Zero UI / BuildContext.
@@ -10,25 +11,50 @@ class FoodCartNotifier extends Notifier<FoodCartState> {
 
   /// Add or increment an item in the cart.
   /// Requires item metadata for first-time additions.
+  ///
+  /// [warehouse] is the branch the user selected for this product. Each
+  /// product keeps its own warehouse — mixing warehouses across cart
+  /// items is allowed by design.
   void increment(
     String itemId, {
     required String name,
     required String imageUrl,
     required double price,
+    double? comparePrice,
+    FoodWarehouse? warehouse,
+    List<CartItemModifier> modifiers = const [],
+    String specialInstructions = '',
   }) {
     final current = Map<String, CartItem>.from(state.items);
     final existing = current[itemId];
     if (existing != null) {
-      current[itemId] = existing.copyWith(quantity: existing.quantity + 1);
+      // Allow updating the selected warehouse later without losing qty.
+      current[itemId] = existing.copyWith(
+        quantity: existing.quantity + 1,
+        warehouse: warehouse ?? existing.warehouse,
+      );
     } else {
       current[itemId] = CartItem(
         id: itemId,
         name: name,
         imageUrl: imageUrl,
         price: price,
+        comparePrice: comparePrice,
         quantity: 1,
+        warehouse: warehouse,
+        modifiers: modifiers,
+        specialInstructions: specialInstructions,
       );
     }
+    state = state.copyWith(items: current);
+  }
+
+  /// Replace the selected warehouse for an existing cart item.
+  void updateWarehouse(String itemId, FoodWarehouse warehouse) {
+    final current = Map<String, CartItem>.from(state.items);
+    final existing = current[itemId];
+    if (existing == null) return;
+    current[itemId] = existing.copyWith(warehouse: warehouse);
     state = state.copyWith(items: current);
   }
 
@@ -70,6 +96,14 @@ final foodCartTotalCountProvider = Provider<int>(
 final foodItemQuantityProvider = Provider.family<int, String>(
   (ref, itemId) =>
       ref.watch(foodCartProvider.select((s) => s.quantityOf(itemId))),
+);
+
+/// Family provider — selected warehouse for a single cart item, or null
+/// when the item is not in the cart yet.
+final foodItemSelectedWarehouseProvider =
+    Provider.family<FoodWarehouse?, String>(
+  (ref, itemId) =>
+      ref.watch(foodCartProvider.select((s) => s.items[itemId]?.warehouse)),
 );
 
 /// Whether the cart is empty — drives empty/filled UI switch.

@@ -1,4 +1,5 @@
 import '../../domain/entities/food_item.dart';
+import '../../domain/entities/food_warehouse.dart';
 
 /// Model that maps the API JSON response to domain [FoodItem].
 class FoodProductModel {
@@ -8,6 +9,7 @@ class FoodProductModel {
     final nutrition = json['nutrition'] as Map<String, dynamic>?;
     final category = json['category'] as Map<String, dynamic>?;
     final categoryName = category?['name'] as Map<String, dynamic>?;
+    final warehousesJson = json['warehouses'] as List<dynamic>?;
 
     return FoodItem(
       id: json['id'].toString(),
@@ -27,7 +29,32 @@ class FoodProductModel {
       isAvailable: json['is_available'] as bool? ?? true,
       isFeatured: json['is_featured'] as bool? ?? false,
       isNew: json['is_new'] as bool? ?? false,
-      prepTimeMinutes: int.tryParse(json['prep_time_minutes']?.toString() ?? '') ?? 0,
+      prepTimeMinutes:
+          int.tryParse(json['prep_time_minutes']?.toString() ?? '') ?? 0,
+      warehouses: warehousesJson == null
+          ? const []
+          : warehousesJson
+              .whereType<Map<String, dynamic>>()
+              .map(_warehouseFromJson)
+              .toList(growable: false),
+    );
+  }
+
+  static FoodWarehouse _warehouseFromJson(Map<String, dynamic> json) {
+    final location = json['location'] as Map<String, dynamic>?;
+    return FoodWarehouse(
+      foodProductWarehouseId:
+          int.tryParse(json['food_product_warehouse_id']?.toString() ?? '') ??
+              0,
+      warehouseId:
+          int.tryParse(json['warehouse_id']?.toString() ?? '') ?? 0,
+      name: json['name'] as String? ?? '',
+      city: json['city'] as String? ?? '',
+      area: json['area'] as String? ?? '',
+      address: json['address'] as String? ?? '',
+      isActive: json['is_active'] as bool? ?? true,
+      latitude: (location?['latitude'] as num?)?.toDouble(),
+      longitude: (location?['longitude'] as num?)?.toDouble(),
     );
   }
 
@@ -37,4 +64,6 @@ class FoodProductModel {
         .toList();
   }
 }
+
+
 

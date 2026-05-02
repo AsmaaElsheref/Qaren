@@ -4,22 +4,65 @@ import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
 import '../../../domain/entities/food_item.dart';
+import '../../../domain/entities/food_warehouse.dart';
 import '../../providers/food_cart_provider.dart';
 import '../foodCart/food_quantity_stepper.dart';
+import 'branch_selection_sheet.dart';
 import 'food_add_button.dart';
+import 'selected_branch_label.dart';
 
 class FoodItemCard extends ConsumerWidget {
   const FoodItemCard({super.key, required this.item});
 
   final FoodItem item;
 
-  void _increment(WidgetRef ref) {
-    ref.read(foodCartProvider.notifier).increment(
-      item.id,
-      name: item.name,
-      imageUrl: item.imageUrl,
-      price: item.price,
+  /// First add: resolves which warehouse to use, prompting the user when
+  /// more than one active branch is available. Subsequent increments reuse
+  /// the previously selected warehouse stored on the cart item.
+  Future<void> _onAddTap(BuildContext context, WidgetRef ref) async {
+    final cartState = ref.read(foodCartProvider);
+    final existing  = cartState.items[item.id];
+
+    // Already in cart → just increment, keep selected warehouse.
+    if (existing != null) {
+      _commit(ref, existing.warehouse);
+      return;
+    }
+
+    final active = item.activeWarehouses;
+
+    // No branches → unavailable.
+    if (active.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('هذا المنتج غير متوفر حالياً')),
+      );
+      return;
+    }
+
+    // Single branch → silent commit.
+    if (active.length == 1) {
+      _commit(ref, active.first);
+      return;
+    }
+
+    // Multiple branches → ask the user.
+    final picked = await BranchSelectionSheet.show(
+      context,
+      warehouses: active,
     );
+    if (picked == null) return;
+    _commit(ref, picked);
+  }
+
+  void _commit(WidgetRef ref, FoodWarehouse? warehouse) {
+    ref.read(foodCartProvider.notifier).increment(
+          item.id,
+          name: item.name,
+          imageUrl: item.imageUrl,
+          price: item.price,
+          comparePrice: item.comparePrice,
+          warehouse: warehouse,
+        );
   }
 
   @override
@@ -144,6 +187,8 @@ class FoodItemCard extends ConsumerWidget {
                     ),
                   ],
                 ),
+                const SizedBox(height: 2),
+                SelectedBranchLabel(itemId: item.id),
               ],
             ),
           ),
@@ -173,12 +218,13 @@ class FoodItemCard extends ConsumerWidget {
               ),
               const SizedBox(height: 8),
               if (quantity == 0)
-                FoodAddButton(onTap: () => _increment(ref),)
+                FoodAddButton(onTap: () => _onAddTap(context, ref))
               else
                 FoodQuantityStepper(
                   quantity: quantity,
-                  onIncrement: () => _increment(ref),
-                  onDecrement: () => ref.read(foodCartProvider.notifier).decrement(item.id),
+                  onIncrement: () => _onAddTap(context, ref),
+                  onDecrement: () =>
+                      ref.read(foodCartProvider.notifier).decrement(item.id),
                 ),
             ],
           ),
@@ -187,4 +233,5 @@ class FoodItemCard extends ConsumerWidget {
     );
   }
 }
+
 
