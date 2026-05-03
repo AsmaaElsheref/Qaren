@@ -54,11 +54,11 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
                         width: 1.5,
                       ),
                       borderRadius: BorderRadius.circular(15),
-                      image: const DecorationImage(
-                        image: NetworkImage(
-                          'https://i.pravatar.cc/150?img=47',
-                        ),
-                      ),
+                      // image: const DecorationImage(
+                      //   image: NetworkImage(
+                      //     'https://i.pravatar.cc/150?img=47',
+                      //   ),
+                      // ),
                       boxShadow: [
                         BoxShadow(
                           color: AppColors.textHint,
@@ -66,6 +66,7 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
                         ),
                       ],
                     ),
+                    child: Icon(Icons.person,),
                   ),
                   Positioned(
                     bottom: 2,

@@ -52,6 +52,34 @@ class AppStrings {
   static const String passwordMismatch = 'كلمتا المرور غير متطابقتين';
   static const String genderRequired = 'يرجى اختيار الجنس';
 
+  // Forgot Password
+  static const String forgotPasswordTitle = 'نسيت كلمة المرور؟';
+  static const String forgotPasswordSubtitle = 'أدخل بريدك الإلكتروني وسنرسل لك رابط إعادة تعيين كلمة المرور';
+  static const String forgotPasswordButton = 'إرسال الكود';
+  static const String forgotPasswordSuccessTitle = 'تم الإرسال!';
+  static const String forgotPasswordSuccessSubtitle = 'تحقق من بريدك الإلكتروني واتبع التعليمات لإعادة تعيين كلمة المرور';
+  static const String forgotPasswordBackToLogin = 'العودة لتسجيل الدخول';
+  static const String forgotPasswordFailed = 'فشل إرسال البريد. تحقق من العنوان وحاول مجدداً.';
+
+  // Verify Code
+  static const String verifyCodeTitle = 'التحقق من الكود';
+  static const String verifyCodeSubtitle = 'أدخل الكود المرسل إلى';
+  static const String verifyCodeButton = 'تأكيد الكود';
+  static const String verifyCodeResend = 'إعادة إرسال الكود';
+  static const String verifyCodeRequired = 'الكود مطلوب';
+  static const String verifyCodeInvalid = 'الكود يجب أن يكون أرقاماً فقط';
+  static const String verifyCodeFailed = 'الكود غير صحيح. حاول مجدداً.';
+  static const String verifyCodeResendSuccess = 'تم إعادة إرسال الكود';
+
+  // Reset Password
+  static const String resetPasswordTitle = 'إنشاء كلمة مرور جديدة';
+  static const String resetPasswordSubtitle = 'أدخل كلمة مرور جديدة وقوية';
+  static const String resetPasswordButton = 'تغيير كلمة المرور';
+  static const String resetPasswordHint = 'كلمة المرور الجديدة';
+  static const String resetPasswordConfirmHint = 'تأكيد كلمة المرور';
+  static const String resetPasswordSuccess = 'تم تغيير كلمة المرور بنجاح';
+  static const String resetPasswordFailed = 'فشل تغيير كلمة المرور. حاول مجدداً.';
+
   // Errors
   static const String loginFailed = 'فشل تسجيل الدخول. تحقق من بياناتك.';
   static const String signUpFailed = 'فشل إنشاء الحساب. حاول مرة أخرى.';

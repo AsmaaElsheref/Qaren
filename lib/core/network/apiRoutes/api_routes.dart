@@ -5,9 +5,12 @@ class ApiRoutes {
   static const String baseUrl = 'http://qaren.zynqor.org';
 
   /// Auth endpoints — paths relative to [baseUrl].
-  static const String login    = '/api/auth/login';
-  static const String register = '/api/auth/register';
-  static const String me       = '/api/auth/me';
+  static const String login          = '/api/auth/login';
+  static const String register       = '/api/auth/register';
+  static const String me             = '/api/auth/me';
+  static const String forgotPassword = '/api/auth/forgot-password';
+  static const String verifyCode     = '/api/auth/verify-code';
+  static const String resetPassword  = '/api/auth/reset-password';
 
   /// Home endpoints
   static const String categories = '/api/categories';

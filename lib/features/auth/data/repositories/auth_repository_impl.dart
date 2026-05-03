@@ -62,14 +62,43 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, void>> forgotPassword(String email) async {
+  Future<Either<Failure, void>> forgotPassword(String login) async {
     try {
-      await _remoteDataSource.forgotPassword(email);
+      await _remoteDataSource.forgotPassword(login);
       return Either.rightOf(null);
     } on Failure catch (f) {
       return Either.leftOf(f);
     } catch (_) {
       return Either.leftOf(const NetworkFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> verifyCode(String login, String code) async {
+    try {
+      await _remoteDataSource.verifyCode(login, code);
+      return Either.rightOf(null);
+    } on Failure catch (f) {
+      return Either.leftOf(f);
+    } catch (_) {
+      return Either.leftOf(const ServerFailure('الكود غير صحيح. حاول مجدداً.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> resetPassword(
+    String login,
+    String code,
+    String password,
+    String passwordConfirmation,
+  ) async {
+    try {
+      await _remoteDataSource.resetPassword(login, code, password, passwordConfirmation);
+      return Either.rightOf(null);
+    } on Failure catch (f) {
+      return Either.leftOf(f);
+    } catch (_) {
+      return Either.leftOf(const ServerFailure('فشل تغيير كلمة المرور. حاول مجدداً.'));
     }
   }
 }

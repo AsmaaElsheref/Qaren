@@ -24,11 +24,12 @@ class Either<L, R> {
 
   /// [onLeft] and [onRight] always receive non-null values —
   /// the internal nullable fields are an implementation detail.
+  /// Note: right value may legitimately be null when R is void.
   T fold<T>(
     T Function(L left) onLeft,
     T Function(R right) onRight,
   ) {
     if (_isLeft) return onLeft(_left!);
-    return onRight(_right!);
+    return onRight(_right as R);
   }
 }

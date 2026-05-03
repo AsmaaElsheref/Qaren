@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/core/constants/app_images.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../profile/presentation/pages/profile_settings_page.dart';
 import '../providers/home_providers.dart';
@@ -33,8 +34,9 @@ class _AiFab extends StatelessWidget {
       width: 60,
       height: 60,
       margin: const EdgeInsets.only(bottom: 8),
+      padding: EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: AppColors.textPrimary,
+        color: AppColors.surface,
         shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(
@@ -44,11 +46,12 @@ class _AiFab extends StatelessWidget {
           ),
         ],
       ),
-      child: const Icon(
-        Icons.smart_toy_outlined,
-        color: AppColors.white,
-        size: 26,
-      ),
+      child: Image.asset(AppImages.qarenLogo)
+      // const Icon(
+      //   Icons.smart_toy_outlined,
+      //   color: AppColors.white,
+      //   size: 26,
+      // ),
     );
   }
 }

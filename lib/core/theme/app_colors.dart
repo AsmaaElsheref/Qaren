@@ -20,6 +20,7 @@ class AppColors {
   static const Color borderFocused = Color(0xFF1DB899);
 
   static const Color error = Color(0xFFEF4444);
+  static const Color success = Color(0xFF22C55E);
 
   static const Color white = Color(0xFFFFFFFF);
   static const Color black = Color(0xFF000000);

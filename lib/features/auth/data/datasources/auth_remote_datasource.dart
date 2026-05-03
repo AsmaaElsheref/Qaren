@@ -10,7 +10,9 @@ abstract class AuthRemoteDataSource {
   Future<UserModel> register(RegisterParams params);
   Future<UserModel> getMe();
   Future<void> loginWithBiometrics(UserTypeTab userType);
-  Future<void> forgotPassword(String email);
+  Future<void> forgotPassword(String login);
+  Future<void> verifyCode(String login, String code);
+  Future<void> resetPassword(String login, String code, String password, String passwordConfirmation);
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -72,8 +74,36 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<void> forgotPassword(String email) async {
-    // TODO: implement when backend exposes forgot-password endpoint
-    await Future.delayed(const Duration(milliseconds: 800));
+  Future<void> forgotPassword(String login) async {
+    await DioHelper.postData(
+      url: ApiRoutes.forgotPassword,
+      data: {'login': login},
+    );
+  }
+
+  @override
+  Future<void> verifyCode(String login, String code) async {
+    await DioHelper.postData(
+      url: ApiRoutes.verifyCode,
+      data: {'login': login, 'code': int.parse(code)},
+    );
+  }
+
+  @override
+  Future<void> resetPassword(
+    String login,
+    String code,
+    String password,
+    String passwordConfirmation,
+  ) async {
+    await DioHelper.postData(
+      url: ApiRoutes.resetPassword,
+      data: {
+        'login': login,
+        'code': int.parse(code),
+        'password': password,
+        'password_confirmation': passwordConfirmation,
+      },
+    );
   }
 }
