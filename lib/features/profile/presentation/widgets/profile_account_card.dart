@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:qaren/core/constants/app_constants.dart';
-import 'package:qaren/core/localStorage/cache_helper.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../providers/personal_profile_provider.dart';
 import 'profile_account_info_item.dart';
 
 class ProfileAccountCard extends StatelessWidget {
-  const ProfileAccountCard({super.key});
+  final String email;
+  final String phone;
+
+  const ProfileAccountCard({
+    super.key,
+    required this.email,
+    required this.phone,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final email = CacheHelper.getData(key: AppConstants.userEmail);
-    final phone = CacheHelper.getData(key: AppConstants.userPhone);
     return Container(
       decoration: BoxDecoration(
         color: AppColors.white,
@@ -41,4 +42,3 @@ class ProfileAccountCard extends StatelessWidget {
     );
   }
 }
-

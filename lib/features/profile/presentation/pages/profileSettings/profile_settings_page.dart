@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/utils/extensions/contextSizeX.dart';
-import 'package:qaren/features/profile/presentation/pages/personal_profile_page.dart';
-import '../../../../core/localStorage/cache_helper.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../auth/presentation/pages/login_page.dart';
-import '../providers/profile_settings_provider.dart';
-import '../widgets/app_version_text.dart';
-import '../widgets/dark_mode_toggle_item.dart';
-import '../widgets/language_toggle_item.dart';
-import '../widgets/logout_confirmation_sheet.dart';
-import '../widgets/logout_menu_item.dart';
-import '../widgets/notifications_menu_item.dart';
-import '../widgets/profile_header.dart';
-import '../widgets/settings_menu_item.dart';
-import '../widgets/settings_section_title.dart';
+import 'package:qaren/features/profile/presentation/pages/personalProfile/personal_profile_page.dart';
+import '../../../../auth/presentation/pages/login_page.dart';
+import '../../../../../core/localStorage/cache_helper.dart';
+import '../../../../../core/theme/app_colors.dart';
+import '../../widgets/logout_confirmation_sheet.dart';
+import '../../providers/profileSettings/profile_settings_provider.dart';
+import '../../widgets/app_version_text.dart';
+import '../../widgets/logout_menu_item.dart';
+import '../../widgets/profile_header.dart';
 
 class ProfileSettingsPage extends ConsumerWidget {
   const ProfileSettingsPage({super.key});
@@ -50,7 +45,6 @@ class ProfileSettingsPage extends ConsumerWidget {
     final appVersion = ref.watch(
       profileSettingsProvider.select((s) => s.appVersion),
     );
-
     return Drawer(
       backgroundColor: AppColors.white,
       shape: const RoundedRectangleBorder(

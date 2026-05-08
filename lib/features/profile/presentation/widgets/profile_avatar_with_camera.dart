@@ -1,14 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 
 class ProfileAvatarWithCamera extends StatelessWidget {
   final String? avatarUrl;
-  final VoidCallback onCameraTap;
 
   const ProfileAvatarWithCamera({
     super.key,
     this.avatarUrl,
-    required this.onCameraTap,
   });
 
   @override
@@ -30,38 +29,17 @@ class ProfileAvatarWithCamera extends StatelessWidget {
               ),
             ],
           ),
-          child: ClipOval(
-            child: avatarUrl != null
-                ? Image.network(
-                    avatarUrl!,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) =>
-                        const ProfileAvatarFallbackIcon(),
-                  )
-                : const ProfileAvatarFallbackIcon(),
+          child: RepaintBoundary(
+            child: ClipOval(
+              child: CachedNetworkImage(
+              imageUrl: avatarUrl??'',
+              placeholder: (context, url) => const ProfileAvatarFallbackIcon(),
+              errorWidget: (context, url, error) => const ProfileAvatarFallbackIcon(),
+              fit: BoxFit.cover,
+            ),
+            ),
           ),
         ),
-        // Positioned(
-        //   bottom: 0,
-        //   right: 0,
-        //   child: GestureDetector(
-        //     onTap: onCameraTap,
-        //     child: Container(
-        //       width: 28,
-        //       height: 28,
-        //       decoration: BoxDecoration(
-        //         color: AppColors.textPrimary,
-        //         shape: BoxShape.circle,
-        //         border: Border.all(color: AppColors.white, width: 2),
-        //       ),
-        //       child: const Icon(
-        //         Icons.camera_alt_rounded,
-        //         size: 14,
-        //         color: AppColors.white,
-        //       ),
-        //     ),
-        //   ),
-        // ),
       ],
     );
   }

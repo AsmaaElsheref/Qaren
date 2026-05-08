@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/features/bookings/presentation/pages/booking_history_page.dart';
+import 'package:qaren/features/coming_soon/presentation/pages/coming_soon_page.dart';
 import 'package:qaren/features/home/presentation/pages/home_view.dart';
-import '../../../profile/presentation/pages/personal_profile_page.dart';
+import 'package:qaren/features/profile/presentation/pages/personalProfile/personal_profile_page.dart';
 import '../../domain/entities/category_entity.dart';
 import 'categories_providers.dart';
 
@@ -25,13 +27,13 @@ final filteredCategoriesProvider = Provider<List<CategoryEntity>>((ref) {
 });
 
 // ── Bottom nav index provider ─────────────────────────────────────────────────
-final bottomNavIndexProvider = StateProvider<int>((ref) => 0);
+final bottomNavIndexProvider = StateProvider.autoDispose<int>((ref) => 0);
 
 final navigationScreens = Provider<List<Widget>>(
-  (ref) => [
-    const HomeView(),
-    const SizedBox(),
-    const SizedBox(),
-    const SizedBox(),
+  (ref) => const [
+    HomeView(),
+    BookingHistoryPage(),
+    ComingSoonPage(),
+    PersonalProfilePage(isHome: true),
   ],
 );

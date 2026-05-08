@@ -13,6 +13,7 @@ import '../providers/signup_state.dart';
 import '../widgets/gradient_login_button.dart';
 import '../widgets/login_input_field.dart';
 import '../widgets/qaren_logo.dart';
+import '../widgets/signup_avatar_picker.dart';
 
 class SignupPage extends ConsumerStatefulWidget {
   const SignupPage({super.key});
@@ -104,7 +105,15 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                         color: AppColors.textPrimary,
                       ),
                     ),
-                    SizedBox(height: context.screenHeight * 0.03),
+                    SizedBox(height: context.screenHeight * 0.025),
+
+                    // ── Avatar picker ─────────────────────────────────────────
+                    SignupAvatarPicker(
+                      imagePath: signupState.imagePath,
+                      onImagePicked: notifier.setImage,
+                      onImageRemoved: () => notifier.setImage(null),
+                    ),
+                    SizedBox(height: context.screenHeight * 0.025),
 
                     // ── Name ──────────────────────────────────────────────────
                     LoginInputField(
@@ -137,7 +146,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                     const SizedBox(height: AppDimensions.paddingS),
 
                     // ── Gender ────────────────────────────────────────────────
-                    _GenderSelector(
+                    GenderSelector(
                       selected: signupState.selectedGender,
                       onChanged: notifier.selectGender,
                     ),
@@ -180,9 +189,10 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                       hint: AppStrings.confirmPasswordHint,
                       prefixIcon: Icons.lock_outline,
                       obscureText: !signupState.isConfirmPasswordVisible,
-                      validator: (value) => Validators.confirmPasswordValidator(
+                      validator: (value) =>
+                          Validators.confirmPasswordValidator(
                         _passwordController.text,
-                        value
+                        value,
                       ),
                       customSuffix: const Padding(
                         padding: EdgeInsets.only(right: 16),
@@ -261,19 +271,24 @@ class _SignupPageState extends ConsumerState<SignupPage> {
   }
 }
 
-// ── Gender Selector Widget ─────────────────────────────────────────────────────
-class _GenderSelector extends StatelessWidget {
+// ── Gender Selector ────────────────────────────────────────────────────────────
+
+class GenderSelector extends StatelessWidget {
   final String selected;
   final void Function(String) onChanged;
 
-  const _GenderSelector({required this.selected, required this.onChanged});
+  const GenderSelector({
+    super.key,
+    required this.selected,
+    required this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         Expanded(
-          child: _GenderOption(
+          child: GenderOption(
             label: AppStrings.genderMale,
             value: 'male',
             icon: Icons.male_rounded,
@@ -283,7 +298,7 @@ class _GenderSelector extends StatelessWidget {
         ),
         const SizedBox(width: AppDimensions.paddingS),
         Expanded(
-          child: _GenderOption(
+          child: GenderOption(
             label: AppStrings.genderFemale,
             value: 'female',
             icon: Icons.female_rounded,
@@ -296,14 +311,15 @@ class _GenderSelector extends StatelessWidget {
   }
 }
 
-class _GenderOption extends StatelessWidget {
+class GenderOption extends StatelessWidget {
   final String label;
   final String value;
   final IconData icon;
   final bool isSelected;
   final VoidCallback onTap;
 
-  const _GenderOption({
+  const GenderOption({
+    super.key,
     required this.label,
     required this.value,
     required this.icon,
@@ -319,7 +335,9 @@ class _GenderOption extends StatelessWidget {
         duration: const Duration(milliseconds: 200),
         height: AppDimensions.inputHeight,
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.primary.withValues(alpha: 0.08) : AppColors.surface,
+          color: isSelected
+              ? AppColors.primary.withValues(alpha: 0.08)
+              : AppColors.surface,
           border: Border.all(
             color: isSelected ? AppColors.primary : AppColors.border,
             width: isSelected ? 1.5 : 1.0,
@@ -339,8 +357,11 @@ class _GenderOption extends StatelessWidget {
               label,
               style: TextStyle(
                 fontSize: AppDimensions.fontM,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-                color: isSelected ? AppColors.primary : AppColors.textSecondary,
+                fontWeight:
+                    isSelected ? FontWeight.w600 : FontWeight.w400,
+                color: isSelected
+                    ? AppColors.primary
+                    : AppColors.textSecondary,
               ),
             ),
           ],
@@ -349,4 +370,3 @@ class _GenderOption extends StatelessWidget {
     );
   }
 }
-

@@ -11,6 +11,7 @@ class ApiRoutes {
   static const String forgotPassword = '/api/auth/forgot-password';
   static const String verifyCode     = '/api/auth/verify-code';
   static const String resetPassword  = '/api/auth/reset-password';
+  static const String updateProfile  = '/api/auth/update-profile';
 
   /// Home endpoints
   static const String categories = '/api/categories';

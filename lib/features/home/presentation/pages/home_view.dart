@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../auth/presentation/providers/user_profile_provider.dart';
 import '../../../services/serviceProvider/service_provider.dart';
 import '../providers/categories_providers.dart';
 import '../providers/categories_state.dart';
@@ -14,7 +15,6 @@ class HomeView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final categoriesState = ref.watch(categoriesNotifierProvider);
-
     return switch (categoriesState.status) {
       CategoriesStatus.loading || CategoriesStatus.initial => const _LoadingGrid(),
       CategoriesStatus.failure  => _ErrorView(

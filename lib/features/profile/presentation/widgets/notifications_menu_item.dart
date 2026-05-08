@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../providers/profile_settings_provider.dart';
+import '../providers/profileSettings/profile_settings_provider.dart';
 import 'notification_badge.dart';
 import 'settings_menu_item.dart';
 

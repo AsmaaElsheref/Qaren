@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/localStorage/cache_helper.dart';
 import '../../../../core/utils/print/custom_print.dart';
+import '../../domain/entities/user_entity.dart';
 import '../../domain/usecases/get_me_usecase.dart';
 import 'login_providers.dart';
 
@@ -11,35 +11,27 @@ final getMeUseCaseProvider = Provider<GetMeUseCase>(
   (ref) => GetMeUseCase(ref.watch(authRepositoryProvider)),
 );
 
-// ── User profile notifier ──────────────────────────────────────────────────────
-/// Fetches the logged-in user from the API when the cached name is missing,
-/// then persists the result in [CacheHelper] so the rest of the app can read
-/// name / phone synchronously without an extra network call.
-final userProfileProvider = FutureProvider<void>((ref) async {
-  final cachedName =
-      CacheHelper.getData(key: AppConstants.userName) as String?;
-
-  // Already have the name cached — nothing to do.
-  if (cachedName != null && cachedName.isNotEmpty) return;
-
+// ── User profile provider ──────────────────────────────────────────────────────
+/// Fetches the logged-in user from the API and returns [UserEntity].
+/// Also persists name/email/phone in [CacheHelper] as a side-effect.
+final userProfileProvider = FutureProvider.autoDispose<UserEntity>((ref) async {
   final getMe = ref.read(getMeUseCaseProvider);
   final result = await getMe();
 
-  result.fold(
-    (failure) => customPrint(
-      'UserProfile: failed to fetch me — ${failure.message}',
-      isError: true,
-    ),
+  return result.fold(
+    (failure) {
+      customPrint(
+        'UserProfile: failed to fetch me — ${failure.message}',
+        isError: true,
+      );
+      throw Exception(failure.message);
+    },
     (user) async {
-      await CacheHelper.saveData(
-        key: AppConstants.userName,
-        value: user.name,
-      );
-      await CacheHelper.saveData(
-        key: AppConstants.userPhone,
-        value: user.phone,
-      );
-      customPrint('UserProfile: cached name=${user.name} phone=${user.phone}');
+      await CacheHelper.saveData(key: AppConstants.userName, value: user.name);
+      await CacheHelper.saveData(key: AppConstants.userEmail, value: user.email);
+      await CacheHelper.saveData(key: AppConstants.userPhone, value: user.phone);
+      customPrint('UserProfile: fetched name=${user.name} phone=${user.phone}');
+      return user;
     },
   );
 });

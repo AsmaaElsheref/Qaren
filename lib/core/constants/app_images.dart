@@ -5,4 +5,5 @@ class AppImages {
   static const searchLoading = "assets/gifs/searchLoading.gif";
   static const foodLoading = "assets/gifs/foodLoading.gif";
   static const qarenLogo = "assets/appLogo/Q1.png";
+  static const splashImg = "assets/images/splashImg.png";
 }

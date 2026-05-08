@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/localStorage/cache_helper.dart';
-import '../../../../core/constants/app_constants.dart';
+import '../../../../../core/localStorage/cache_helper.dart';
+import '../../../../../core/constants/app_constants.dart';
 
 // ── Profile view-model ────────────────────────────────────────────────────────
 

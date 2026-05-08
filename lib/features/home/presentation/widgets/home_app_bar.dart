@@ -1,11 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/localStorage/cache_helper.dart';
+import 'package:qaren/core/utils/print/custom_print.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/ui/widgets/icon_container.dart';
-import '../../../auth/presentation/pages/login_page.dart';
+import '../../../auth/presentation/providers/user_profile_provider.dart';
 import 'home_search_bar.dart';
 
 class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
@@ -19,6 +20,9 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final userData = ref.watch(userProfileProvider);
+    final hasError = userData.hasError;
+    final user = hasError==true?null:userData.value;
     return Container(
       decoration: BoxDecoration(
         color: AppColors.surface,
@@ -54,11 +58,6 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
                         width: 1.5,
                       ),
                       borderRadius: BorderRadius.circular(15),
-                      // image: const DecorationImage(
-                      //   image: NetworkImage(
-                      //     'https://i.pravatar.cc/150?img=47',
-                      //   ),
-                      // ),
                       boxShadow: [
                         BoxShadow(
                           color: AppColors.textHint,
@@ -66,7 +65,15 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
                         ),
                       ],
                     ),
-                    child: Icon(Icons.person,),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: CachedNetworkImage(
+                        imageUrl: user?.image??'',
+                        placeholder: (context, url) => Icon(Icons.person),
+                        errorWidget: (context, url, error) => Icon(Icons.person),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
                   Positioned(
                     bottom: 2,
@@ -103,7 +110,7 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      AppStrings.appName,
+                      user?.name??'Qaren',
                       style: const TextStyle(
                         fontSize: AppDimensions.fontL,
                         fontWeight: FontWeight.w800,

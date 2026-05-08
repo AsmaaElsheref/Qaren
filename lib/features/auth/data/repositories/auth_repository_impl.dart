@@ -2,6 +2,7 @@ import '../../../../core/network/handelError/errors/failures.dart';
 import '../../../../core/utils/either.dart';
 import 'package:qaren/features/auth/domain/entities/login_params.dart';
 import 'package:qaren/features/auth/domain/entities/register_params.dart';
+import 'package:qaren/features/auth/domain/entities/update_profile_params.dart';
 import 'package:qaren/features/auth/domain/entities/user_entity.dart';
 import 'package:qaren/features/auth/domain/repositories/auth_repository.dart';
 import 'package:qaren/features/auth/data/datasources/auth_remote_datasource.dart';
@@ -44,6 +45,20 @@ class AuthRepositoryImpl implements AuthRepository {
       return Either.leftOf(f);
     } catch (_) {
       return Either.leftOf(const AuthFailure('فشل جلب بيانات المستخدم.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, UserEntity>> updateProfile(
+    UpdateProfileParams params,
+  ) async {
+    try {
+      final user = await _remoteDataSource.updateProfile(params);
+      return Either.rightOf(user);
+    } on Failure catch (f) {
+      return Either.leftOf(f);
+    } catch (_) {
+      return Either.leftOf(const AuthFailure('فشل تحديث بيانات الملف الشخصي.'));
     }
   }
 
@@ -102,7 +117,4 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 }
-
-
-
 

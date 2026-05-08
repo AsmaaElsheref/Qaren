@@ -7,6 +7,8 @@ class RegisterParams extends Equatable {
   final String passwordConfirmation;
   final String phone;
   final String gender;
+  /// Local file path of the selected avatar image. Null if not provided.
+  final String? imagePath;
 
   const RegisterParams({
     required this.name,
@@ -15,9 +17,13 @@ class RegisterParams extends Equatable {
     required this.passwordConfirmation,
     required this.phone,
     required this.gender,
+    this.imagePath,
   });
 
-  Map<String, dynamic> toJson() => {
+  /// Returns the plain-text fields only.
+  /// The [imagePath] is handled separately as a multipart file in the
+  /// data source layer via [FormData].
+  Map<String, dynamic> toFields() => {
         'name': name,
         'email': email,
         'password': password,
@@ -27,7 +33,6 @@ class RegisterParams extends Equatable {
       };
 
   @override
-  List<Object> get props =>
-      [name, email, password, passwordConfirmation, phone, gender];
+  List<Object?> get props =>
+      [name, email, password, passwordConfirmation, phone, gender, imagePath];
 }
-

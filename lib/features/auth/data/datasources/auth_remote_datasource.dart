@@ -1,14 +1,17 @@
+import 'package:dio/dio.dart';
 import 'package:qaren/core/network/apiRoutes/api_routes.dart';
 import 'package:qaren/core/network/dioHelper/dio_helper.dart';
 import 'package:qaren/core/utils/print/custom_print.dart';
 import 'package:qaren/features/auth/domain/entities/login_params.dart';
 import 'package:qaren/features/auth/domain/entities/register_params.dart';
+import 'package:qaren/features/auth/domain/entities/update_profile_params.dart';
 import 'package:qaren/features/auth/data/models/user_model.dart';
 
 abstract class AuthRemoteDataSource {
   Future<UserModel> login(LoginParams params);
   Future<UserModel> register(RegisterParams params);
   Future<UserModel> getMe();
+  Future<UserModel> updateProfile(UpdateProfileParams params);
   Future<void> loginWithBiometrics(UserTypeTab userType);
   Future<void> forgotPassword(String login);
   Future<void> verifyCode(String login, String code);
@@ -40,10 +43,23 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<UserModel> register(RegisterParams params) async {
+    // Build FormData — always multipart so the server accepts `image` as a file.
+    final fields = params.toFields();
+    final formDataMap = <String, dynamic>{...fields};
+
+    if (params.imagePath != null && params.imagePath!.isNotEmpty) {
+      formDataMap['image'] = await MultipartFile.fromFile(
+        params.imagePath!,
+        filename: params.imagePath!.split('/').last,
+      );
+    }
+
+    final formData = FormData.fromMap(formDataMap);
+
     final response = await DioHelper.postData(
       url: ApiRoutes.register,
-      data: params.toJson(),
-      removeHeader: true
+      data: formData,
+      removeHeader: true,
     );
 
     final body  = response.data as Map<String, dynamic>;
@@ -65,6 +81,27 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       customPrint('GetMe Error ===> $e', isError: true);
       rethrow;
     }
+  }
+
+  @override
+  Future<UserModel> updateProfile(UpdateProfileParams params) async {
+    final formDataMap = <String, dynamic>{...params.toFields()};
+
+    if (params.imagePath != null && params.imagePath!.isNotEmpty) {
+      formDataMap['image'] = await MultipartFile.fromFile(
+        params.imagePath!,
+        filename: params.imagePath!.split('/').last,
+      );
+    }
+
+    final response = await DioHelper.postData(
+      url: ApiRoutes.updateProfile,
+      data: FormData.fromMap(formDataMap),
+    );
+
+    final body = response.data as Map<String, dynamic>;
+    final data = body['data'] as Map<String, dynamic>;
+    return UserModel.fromJson(data);
   }
 
   @override

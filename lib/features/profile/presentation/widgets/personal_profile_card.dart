@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/constants/app_constants.dart';
-import '../../../../core/localStorage/cache_helper.dart';
+import 'package:qaren/core/constants/app_strings.dart';
+import 'package:qaren/core/constants/gap.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/ui/widgets/AppText.dart';
 import '../../../../core/ui/widgets/AppTextStyles.dart';
-import '../providers/personal_profile_provider.dart';
 import 'profile_avatar_with_camera.dart';
-import 'profile_stats_row.dart';
 
-class PersonalProfileCard extends ConsumerWidget {
-  final VoidCallback onCameraTap;
+class PersonalProfileCard extends StatelessWidget {
+  final String name;
+  final String? avatarUrl;
+  final VoidCallback? onEdit;
 
-  const PersonalProfileCard({super.key, required this.onCameraTap});
+  const PersonalProfileCard({
+    super.key,
+    required this.name,
+    this.avatarUrl,
+    this.onEdit,
+  });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // Granular selectors — each rebuilds only its section
-    final avatarUrl = ref.watch(profileAvatarUrlProvider);
-    final identity = ref.watch(profileIdentityProvider);
-    final name = CacheHelper.getData(key: AppConstants.userName);
+  Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.white,
@@ -41,57 +41,52 @@ class PersonalProfileCard extends ConsumerWidget {
                   borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
                 ),
               ),
-              // Avatar centred, half overlapping the strip
               Positioned(
                 bottom: -45,
                 child: ProfileAvatarWithCamera(
                   avatarUrl: avatarUrl,
-                  onCameraTap: onCameraTap,
+                ),
+              ),
+              Positioned(
+                top: 8,
+                right: 10,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(12),
+                  onTap: onEdit,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.edit, color: AppColors.borderFocused, size: 17),
+                        Gap.gapW5,
+                        AppText(
+                          AppStrings.edit,
+                          style: const TextStyle(
+                            color: AppColors.borderFocused,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ],
           ),
-
-          // Space for the overlapping part of the avatar
           const SizedBox(height: 52),
-
-          // ── Name & location ──────────────────────────────────────────
-          AppText(
-            name,
-            style: AppTextStyles.title.copyWith(fontWeight: FontWeight.w700),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AppText(
+                name,
+                style: AppTextStyles.title.copyWith(fontWeight: FontWeight.w700),
+              ),
+              Gap.gapW10,
+            ],
           ),
-          // const SizedBox(height: 4),
-          // Row(
-          //   mainAxisSize: MainAxisSize.min,
-          //   children: [
-          //     AppText(
-          //       identity.location,
-          //       style: AppTextStyles.bodySecondary,
-          //     ),
-          //     const SizedBox(width: 4),
-          //     const Icon(
-          //       Icons.location_on_outlined,
-          //       size: 14,
-          //       color: AppColors.textSecondary,
-          //     ),
-          //   ],
-          // ),
-          //
-          // // ── Stats row ────────────────────────────────────────────────
-          // const SizedBox(height: 20),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 16),
-          //   child: ProfileStatsRow(
-          //     ordersCount: stats.orders,
-          //     tripsCount: stats.trips,
-          //     savingsAmount: stats.savings,
-          //     savingsCurrency: stats.currency,
-          //   ),
-          // ),
           const SizedBox(height: 20),
         ],
       ),
     );
   }
 }
-

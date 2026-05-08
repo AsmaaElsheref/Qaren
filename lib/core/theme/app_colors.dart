@@ -25,6 +25,8 @@ class AppColors {
   static const Color white = Color(0xFFFFFFFF);
   static const Color black = Color(0xFF000000);
 
+  static const Color darkBlue = Color(0xFF020B18);
+
   static const LinearGradient primaryGradient = LinearGradient(
     colors: [primary,primaryGlow],
     begin: Alignment.centerLeft,

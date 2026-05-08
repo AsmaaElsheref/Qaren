@@ -41,6 +41,7 @@ class SignupNotifier extends StateNotifier<SignupState> {
         passwordConfirmation: passwordConfirmation,
         phone: phone,
         gender: state.selectedGender,
+        imagePath: state.imagePath,
       ),
     );
 
@@ -61,6 +62,14 @@ class SignupNotifier extends StateNotifier<SignupState> {
         state = state.copyWith(status: SignupStatus.success, user: user);
       },
     );
+  }
+
+  void setImage(String? path) {
+    if (path == null) {
+      state = state.copyWith(clearImage: true);
+    } else {
+      state = state.copyWith(imagePath: path);
+    }
   }
 
   void selectGender(String gender) {

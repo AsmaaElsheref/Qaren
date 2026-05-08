@@ -80,6 +80,10 @@ class AppStrings {
   static const String resetPasswordSuccess = 'تم تغيير كلمة المرور بنجاح';
   static const String resetPasswordFailed = 'فشل تغيير كلمة المرور. حاول مجدداً.';
 
+  // Profile
+  static const String edit = 'تعديل';
+  static const String editSuccess = 'تم تحديث الملف الشخصي بنجاح';
+
   // Errors
   static const String loginFailed = 'فشل تسجيل الدخول. تحقق من بياناتك.';
   static const String signUpFailed = 'فشل إنشاء الحساب. حاول مرة أخرى.';
