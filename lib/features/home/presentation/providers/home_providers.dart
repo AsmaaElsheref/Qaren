@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/features/bookings/presentation/pages/booking_history_page.dart';
-import 'package:qaren/features/coming_soon/presentation/pages/coming_soon_page.dart';
 import 'package:qaren/features/home/presentation/pages/home_view.dart';
 import 'package:qaren/features/profile/presentation/pages/personalProfile/personal_profile_page.dart';
+import 'package:qaren/features/wallet/presentation/pages/wallet_page.dart';
 import '../../domain/entities/category_entity.dart';
 import 'categories_providers.dart';
 
@@ -33,7 +33,7 @@ final navigationScreens = Provider<List<Widget>>(
   (ref) => const [
     HomeView(),
     BookingHistoryPage(),
-    ComingSoonPage(),
+    WalletPage(),
     PersonalProfilePage(isHome: true),
   ],
 );

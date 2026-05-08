@@ -1,0 +1,3 @@
+Analyzing wallet...
+No issues found!
+EXIT:0 
