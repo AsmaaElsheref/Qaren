@@ -1,10 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'map_controller_notifier.dart';
 import 'taxi_state.dart';
 
 class TaxiNotifier extends Notifier<TaxiState> {
   @override
   TaxiState build() => const TaxiState();
+
+  void resetTaxiSearchState() => state = const TaxiState();
 
   void setPickup(String value) =>
       state = state.copyWith(pickup: value, clearPickupLatLng: true);
@@ -29,19 +32,38 @@ class TaxiNotifier extends Notifier<TaxiState> {
     required String label,
   }) {
     if (field == TaxiActiveField.pickup) {
-      state = state.copyWith(pickup: label, pickupLatLng: latLng);
+      state = state.copyWith(pickup: _labelOrFallback(label, latLng), pickupLatLng: latLng);
     } else {
-      state = state.copyWith(destination: label, destinationLatLng: latLng);
+      state = state.copyWith(
+        destination: _labelOrFallback(label, latLng),
+        destinationLatLng: latLng,
+      );
     }
+
+    ref.read(taxiMapControllerProvider.notifier).animateForLocations(
+          pickup: state.pickupLatLng,
+          destination: state.destinationLatLng,
+        );
   }
 
-  Future<String?> useCurrentLocation(TaxiActiveField field,latLng,label) async {
+  Future<String?> useCurrentLocation(
+    TaxiActiveField field,
+    LatLng? latLng,
+    String? label,
+  ) async {
     try {
-      confirmLocation(field: field, latLng: latLng, label: label);
+      if (latLng == null) return 'تعذّر تحديد الموقع الحالي';
+      confirmLocation(field: field, latLng: latLng, label: label ?? '');
       return null;
     } finally {
       state = state.copyWith(isLocationLoading: false);
     }
+  }
+
+  String _labelOrFallback(String label, LatLng latLng) {
+    final trimmed = label.trim();
+    if (trimmed.isNotEmpty && trimmed != 'تعذّر تحديد الموقع') return trimmed;
+    return '${latLng.latitude.toStringAsFixed(6)}, ${latLng.longitude.toStringAsFixed(6)}';
   }
 
   Future<void> comparePrices() async {
@@ -55,4 +77,3 @@ class TaxiNotifier extends Notifier<TaxiState> {
 
 /// Global provider for the taxi notifier.
 final taxiProvider = NotifierProvider<TaxiNotifier, TaxiState>(TaxiNotifier.new);
-

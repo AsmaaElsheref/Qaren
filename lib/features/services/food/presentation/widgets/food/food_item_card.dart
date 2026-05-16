@@ -34,7 +34,7 @@ class FoodItemCard extends ConsumerWidget {
     // No branches → unavailable.
     if (active.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('هذا المنتج غير متوفر حالياً')),
+        const SnackBar(content: AppText('هذا المنتج غير متوفر حالياً')),
       );
       return;
     }
@@ -150,7 +150,6 @@ class FoodItemCard extends ConsumerWidget {
                 AppText(
                   item.name,
                   style: const TextStyle(
-                    fontSize: AppDimensions.fontM,
                     fontWeight: FontWeight.w700,
                     color: AppColors.textPrimary,
                   ),
@@ -163,7 +162,7 @@ class FoodItemCard extends ConsumerWidget {
                     color: AppColors.textSecondary,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  maxLines: 1,
+                  maxLines: 2,
                 ),
                 const SizedBox(height: 4),
                 Row(

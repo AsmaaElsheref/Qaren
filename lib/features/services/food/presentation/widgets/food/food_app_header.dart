@@ -30,7 +30,7 @@ class FoodAppHeader extends StatelessWidget {
             ),
           ),
           const SizedBox(width: AppDimensions.paddingS),
-          AppText(FoodStrings.pageTitle,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+          AppText(FoodStrings.pageTitle,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15),),
           const Spacer(),
           // const FoodMenuBadge(),
           // const SizedBox(width: AppDimensions.paddingM),

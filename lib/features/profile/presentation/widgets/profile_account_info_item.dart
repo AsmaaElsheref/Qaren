@@ -52,11 +52,10 @@ class ProfileAccountInfoItem extends StatelessWidget {
                         letterSpacing: 0.5,
                       ),
                     ),
-                    const SizedBox(height: 2),
+                    const SizedBox(height: 5),
                     AppText(
                       value,
-                      style: AppTextStyles.body
-                          .copyWith(fontWeight: FontWeight.w600),
+                      style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600),
                     ),
                   ],
                 ),

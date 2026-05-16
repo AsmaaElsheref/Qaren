@@ -5,6 +5,7 @@ import 'package:qaren/core/utils/extensions/contextSizeX.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/constants/app_dimensions.dart';
+import '../../../../core/ui/widgets/AppText.dart';
 import '../../../../core/utils/validators.dart';
 import '../providers/login_providers.dart';
 import '../providers/login_state.dart';
@@ -45,14 +46,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppDimensions.radiusL),
         ),
-        title: const Text(
+        title: const AppText(
           'تفعيل الدخول بالبصمة',
           style: TextStyle(
             fontWeight: FontWeight.w700,
             color: AppColors.textPrimary,
           ),
         ),
-        content: const Text(
+        content: const AppText(
           'هل تريد تفعيل الدخول بالبصمة في المرات القادمة؟\n'
           'بياناتك ستُحفظ بشكل مشفّر وآمن.',
           style: TextStyle(color: AppColors.textSecondary),
@@ -60,14 +61,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(false),
-            child: const Text(
+            child: const AppText(
               'لاحقاً',
               style: TextStyle(color: AppColors.textSecondary),
             ),
           ),
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(true),
-            child: const Text(
+            child: const AppText(
               'تفعيل',
               style: TextStyle(
                 color: AppColors.primary,
@@ -109,7 +110,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           previous?.status != LoginStatus.failure) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(next.errorMessage ?? AppStrings.loginFailed),
+            content: AppText(next.errorMessage ?? AppStrings.loginFailed),
             backgroundColor: AppColors.error,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
@@ -202,7 +203,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           minimumSize: Size.zero,
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
-                        child: const Text(
+                        child: const AppText(
                           AppStrings.forgotPassword,
                           style: TextStyle(
                             fontSize: AppDimensions.fontS,
@@ -228,7 +229,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     const SizedBox(height: AppDimensions.paddingL),
                     TextButton(
                       onPressed: () {},
-                      child: const Text(
+                      child: const AppText(
                         AppStrings.browseAsGuest,
                         style: TextStyle(
                           fontSize: AppDimensions.fontS,
@@ -244,7 +245,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
+                        const AppText(
                           AppStrings.dontHaveAccount,
                           style: TextStyle(
                             fontSize: AppDimensions.fontS,
@@ -262,7 +263,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             minimumSize: Size.zero,
                             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           ),
-                          child: const Text(
+                          child: const AppText(
                             AppStrings.signUpNow,
                             style: TextStyle(
                               fontSize: AppDimensions.fontS,

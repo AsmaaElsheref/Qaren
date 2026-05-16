@@ -5,39 +5,39 @@ class AppTextStyles {
   AppTextStyles._();
 
   static const TextStyle headline = TextStyle(
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: FontWeight.w700,
-    height: 1.3,
-    fontFamily: 'Cairo',
+    height: 1.35,
+    fontFamily: 'DroidKufi',
     color: AppColors.textPrimary,
   );
 
   static const TextStyle title = TextStyle(
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: FontWeight.w600,
-    height: 1.4,
-    fontFamily: 'Cairo',
+    height: 1.45,
+    fontFamily: 'DroidKufi',
     color: AppColors.textPrimary,
   );
 
   static const TextStyle body = TextStyle(
-    fontSize: 16,
-    height: 1.5,
-    fontFamily: 'Cairo',
+    fontSize: 13,
+    height: 1.55,
+    fontFamily: 'DroidKufi',
     color: AppColors.textPrimary,
   );
 
   static const TextStyle bodySecondary = TextStyle(
-    fontSize: 14,
-    height: 1.5,
-    fontFamily: 'Cairo',
+    fontSize: 12,
+    height: 1.55,
+    fontFamily: 'DroidKufi',
     color: AppColors.textSecondary,
   );
 
   static const TextStyle caption = TextStyle(
-    fontSize: 12,
-    height: 1.4,
-    fontFamily: 'Cairo',
+    fontSize: 11,
+    height: 1.45,
+    fontFamily: 'DroidKufi',
     color: AppColors.textSecondary,
   );
 }

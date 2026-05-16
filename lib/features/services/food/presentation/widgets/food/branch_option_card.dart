@@ -43,7 +43,7 @@ class BranchOptionCard extends StatelessWidget {
                   AppText(
                     warehouse.name,
                     style: const TextStyle(
-                      fontSize: AppDimensions.fontM,
+                      // fontSize: AppDimensions.fontM,
                       fontWeight: FontWeight.w700,
                       color: AppColors.textPrimary,
                     ),

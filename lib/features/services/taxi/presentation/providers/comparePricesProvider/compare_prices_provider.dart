@@ -31,6 +31,8 @@ class ComparePricesNotifier extends Notifier<ComparePricesState> {
   @override
   ComparePricesState build() => const ComparePricesState();
 
+  void reset() => state = const ComparePricesState();
+
   void setSort(CompareSortType sort) =>
       state = state.copyWith(sortType: sort);
 

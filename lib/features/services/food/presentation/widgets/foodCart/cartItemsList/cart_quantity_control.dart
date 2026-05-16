@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../../core/theme/app_colors.dart';
+import '../../../../../../../core/ui/widgets/AppText.dart';
 import '../../../providers/food_providers.dart';
 import '../food_stepper_icon_button.dart';
 
@@ -30,7 +31,7 @@ class CartQuantityControl extends ConsumerWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Text(
+            child: AppText(
               '$quantity',
               style: const TextStyle(
                 fontSize: AppDimensions.fontM,

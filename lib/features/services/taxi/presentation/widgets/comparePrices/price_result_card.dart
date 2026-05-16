@@ -63,8 +63,9 @@ class PriceResultCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                if (result.distance != null)
-                  EstimatedTime(distance: result.distance!),
+                (result.distance != null)?
+                  EstimatedTime(distance: result.distance!):
+                Spacer(),
                 AppButton(
                   height: 35,
                   width: context.screenWidth * 0.27,

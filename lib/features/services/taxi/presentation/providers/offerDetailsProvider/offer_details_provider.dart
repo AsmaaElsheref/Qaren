@@ -26,6 +26,8 @@ class OfferDetailsNotifier extends Notifier<OfferDetailsState> {
   @override
   OfferDetailsState build() => const OfferDetailsState();
 
+  void reset() => state = const OfferDetailsState();
+
   Future<void> fetch(String offerId) async {
     state = state.copyWith(
       status: OfferDetailsStatus.loading,

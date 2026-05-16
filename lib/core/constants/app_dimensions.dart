@@ -18,11 +18,11 @@ class AppDimensions {
 
   // Font sizes
   static const double fontXS = 11.0;
-  static const double fontS = 13.0;
-  static const double fontM = 15.0;
-  static const double fontL = 18.0;
-  static const double fontXL = 22.0;
-  static const double fontXXL = 28.0;
+  static const double fontS = 12.0;
+  static const double fontM = 14.0;
+  static const double fontL = 17.0;
+  static const double fontXL = 21.0;
+  static const double fontXXL = 26.0;
 
   // Icon sizes
   static const double iconS = 18.0;
@@ -36,4 +36,3 @@ class AppDimensions {
   static const double inputHeight = 56.0;
   static const double tabHeight = 48.0;
 }
-

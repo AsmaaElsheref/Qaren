@@ -52,27 +52,4 @@ class TaxiState {
         returnDate:
             clearReturnDate ? null : (returnDate ?? this.returnDate),
       );
-
-  Set<Marker> get markers => {
-        if (pickupLatLng != null)
-          Marker(
-            markerId: const MarkerId('pickup'),
-            position: pickupLatLng!,
-            infoWindow: InfoWindow(
-              title: pickup.isNotEmpty ? pickup : 'نقطة الانطلاق',
-            ),
-          ),
-        if (destinationLatLng != null)
-          Marker(
-            markerId: const MarkerId('destination'),
-            position: destinationLatLng!,
-            infoWindow: InfoWindow(
-              title: destination.isNotEmpty ? destination : 'الوجهة',
-            ),
-            icon: BitmapDescriptor.defaultMarkerWithHue(
-              BitmapDescriptor.hueRed,
-            ),
-          ),
-      };
 }
-

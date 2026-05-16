@@ -4,6 +4,8 @@ export 'taxi_constants.dart';
 export 'taxi_state.dart' show TaxiState, TaxiActiveField;
 export 'taxi_notifier.dart' show TaxiNotifier, taxiProvider;
 export 'taxi_map_providers.dart';
+export 'map_controller_notifier.dart' show TaxiMapControllerNotifier, taxiMapControllerProvider;
+export 'taxi_reset_controller.dart' show TaxiResetController, taxiResetControllerProvider;
 export 'map_picker_state.dart' show MapPickerState;
 export 'map_picker_notifier.dart' show MapPickerNotifier;
 export 'map_picker_providers.dart' show mapPickerProvider;

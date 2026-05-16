@@ -1,12 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:qaren/core/utils/print/custom_print.dart';
+import 'package:qaren/core/constants/gap.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/constants/app_strings.dart';
+import '../../../../core/ui/widgets/AppText.dart';
 import '../../../../core/ui/widgets/icon_container.dart';
 import '../../../auth/presentation/providers/user_profile_provider.dart';
+import '../../../notifications/presentation/pages/notifications_page.dart';
 import 'home_search_bar.dart';
 
 class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
@@ -109,11 +111,11 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
+                    AppText(
                       user?.name??'Qaren',
                       style: const TextStyle(
-                        fontSize: AppDimensions.fontL,
-                        fontWeight: FontWeight.w800,
+                        fontSize: 17,
+                        fontWeight: FontWeight.w900,
                         color: AppColors.textPrimary,
                         letterSpacing: 0.3,
                       ),
@@ -126,10 +128,10 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
                     ),
                   ],
                 ),
-                Text(
+                AppText(
                   AppStrings.appSubtitle,
                   style: const TextStyle(
-                    fontSize: 11,
+                    fontSize: 12,
                     color: AppColors.textSecondary,
                     fontWeight: FontWeight.w400,
                   ),
@@ -137,6 +139,15 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
               ],
             ),
             actions: [
+              IconContainer(
+                icon: const Icon(
+                  Icons.notifications,
+                  color: AppColors.textPrimary,
+                  size: AppDimensions.iconM,
+                ),
+                onTap: () => Navigator.push(context,MaterialPageRoute(builder: (context) => NotificationsPage(),)),
+              ),
+              Gap.gapW10,
               Padding(
                 padding: const EdgeInsets.only(left: 20),
                 child: IconContainer(
@@ -148,13 +159,6 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
                   onTap: () => Scaffold.of(context).openDrawer(),
                 ),
               ),
-              // Padding(
-              //   padding:
-              //   child: IconButton(
-              //     icon:
-              //     onPressed: () => _onLogoutPressed(context, ref),
-              //   ),
-              // ),
             ],
           ),
           if (showSearch == true)

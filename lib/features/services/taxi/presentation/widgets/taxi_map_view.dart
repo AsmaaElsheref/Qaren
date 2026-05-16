@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import '../providers/map_controller_notifier.dart';
 import '../providers/taxi_providers.dart';
 
 /// The single GoogleMap instance for the whole taxi flow.
@@ -15,24 +16,37 @@ class TaxiMapView extends ConsumerStatefulWidget {
 
 class _TaxiMapViewState extends ConsumerState<TaxiMapView> {
   GoogleMapController? _controller;
+  bool _didAnimateInitial = false;
+
+  // Cached so dispose() never touches `ref` after unmount.
+  TaxiMapControllerNotifier? _controllerNotifier;
 
   @override
   void dispose() {
-    _controller?.dispose();
+    final controller = _controller;
+    if (controller != null) {
+      // Use the cached notifier — ref is already invalid at this point.
+      _controllerNotifier?.detach(controller);
+      controller.dispose();
+    }
     _controller = null;
+    _controllerNotifier = null;
     super.dispose();
   }
 
   /// Called once the controller is ready AND the GPS future resolved.
   /// Animates to the real position and seeds [taxiCameraPositionProvider].
   void _animateToInitial(CameraPosition pos) {
-    _controller?.animateCamera(CameraUpdate.newCameraPosition(pos));
+    if (_didAnimateInitial) return;
+    _didAnimateInitial = true;
+    ref.read(taxiMapControllerProvider.notifier).animateToInitial(pos);
     ref.read(taxiCameraPositionProvider.notifier).state = pos.target;
   }
 
   @override
   Widget build(BuildContext context) {
-    final markers = widget.isPicker!=null? const <Marker>{} : ref.watch(taxiMarkersProvider);
+    final markers = ref.watch(taxiMarkersProvider);
+    final polylines = ref.watch(taxiRoutePolylineProvider);
 
     // Watch the initial-position future.
     final initialAsync = ref.watch(taxiInitialPositionProvider);
@@ -40,22 +54,27 @@ class _TaxiMapViewState extends ConsumerState<TaxiMapView> {
     return initialAsync.when(
       // While GPS is resolving, show the map at the Cairo fallback so it
       // renders immediately — then we animate once the future completes.
-      loading: () => _buildMap(kTaxiInitialCameraPosition, markers),
-      error: (_, __) => _buildMap(kTaxiInitialCameraPosition, markers),
+      loading: () => _buildMap(kTaxiInitialCameraPosition, markers, polylines),
+      error: (_, __) => _buildMap(kTaxiInitialCameraPosition, markers, polylines),
       data: (realPos) {
         // Animate if the controller is already attached (page was warm).
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (_controller != null) _animateToInitial(realPos);
         });
-        return _buildMap(realPos, markers);
+        return _buildMap(realPos, markers, polylines);
       },
     );
   }
 
-  Widget _buildMap(CameraPosition initialPos, Set<Marker> markers) {
+  Widget _buildMap(
+    CameraPosition initialPos,
+    Set<Marker> markers,
+    Set<Polyline> polylines,
+  ) {
     return GoogleMap(
       initialCameraPosition: initialPos,
-      markers: widget.isPicker==null?markers:{},
+      markers: markers,
+      polylines: polylines,
       myLocationEnabled: true,
       myLocationButtonEnabled: false,
       zoomControlsEnabled: false,
@@ -63,7 +82,7 @@ class _TaxiMapViewState extends ConsumerState<TaxiMapView> {
       compassEnabled: false,
       onMapCreated: (controller) {
         _controller = controller;
-        ref.read(taxiMapControllerProvider.notifier).state = controller;
+        ref.read(taxiMapControllerProvider.notifier).attach(controller);
         // Animate to the resolved GPS position if already available.
         final pos = ref.read(taxiInitialPositionProvider).valueOrNull;
         if (pos != null) _animateToInitial(pos);

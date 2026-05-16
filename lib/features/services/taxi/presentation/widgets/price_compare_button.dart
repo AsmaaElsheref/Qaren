@@ -16,7 +16,6 @@ class PriceCompareButton extends ConsumerWidget {
     return AppButton(
       label: 'مقارنة الأسعار',
       isLoading: isLoading,
-      color: AppColors.primary,
       radius: 15,
       onTap: canCompare && !isLoading
           ? () => Navigator.push(context, MaterialPageRoute(builder: (context) => const Searching()))

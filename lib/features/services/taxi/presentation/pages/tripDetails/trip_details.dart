@@ -47,6 +47,7 @@ class _TripDetailsState extends ConsumerState<TripDetails> {
       if (next.status == BookingStatus.success &&
           previous?.status != BookingStatus.success) {
         final result = next.result;
+        ref.read(bookingProvider.notifier).reset();
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
             builder: (_) => BookingSuccessPage(

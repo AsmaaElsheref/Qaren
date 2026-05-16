@@ -27,6 +27,11 @@ class ApiRoutes {
   static const String foodCompare     = '/api/food-products/compare';
   static const String foodBooking     = '/api/compare/booking';
 
+  /// Notifications
+  static const String notificationsEndpoint = '/api/notifications';
+  static const String unreadCountEndpoint = '/api/notifications/unread-count';
+  static const String readAllEndpoint = '/api/notifications/read-all';
+
   static String foodInvoiceDetail(int partnerId) => '/api/food-products/compare/$partnerId';
 
   /// Resolves a food thumbnail filename (e.g. "classic-burger.jpg") to a

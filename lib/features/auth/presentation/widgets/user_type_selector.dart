@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/constants/app_dimensions.dart';
+import '../../../../core/ui/widgets/AppText.dart';
 import '../../domain/entities/login_params.dart';
 
 class UserTypeSelector extends StatelessWidget {
@@ -56,7 +57,7 @@ class UserTypeSelector extends StatelessWidget {
                         : AppColors.textSecondary,
                     ),
                     const SizedBox(width: 4),
-                    Text(
+                    AppText(
                       tab.label,
                       style: TextStyle(
                         fontSize: AppDimensions.fontS,

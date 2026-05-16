@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/constants/app_strings.dart';
+import '../../../../core/ui/widgets/AppText.dart';
 
 class BiometricsButton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -37,7 +38,7 @@ class BiometricsButton extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        const Text(
+        const AppText(
           AppStrings.faceLogin,
           style: TextStyle(
             fontSize: AppDimensions.fontXS,

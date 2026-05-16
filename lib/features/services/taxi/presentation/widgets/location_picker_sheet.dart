@@ -16,13 +16,17 @@ class LocationPickerSheet extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final title = field == TaxiActiveField.pickup ? 'نقطة الانطلاق' : 'الوجهة المطلوبة';
     final isLocationLoading = ref.watch(taxiIsLocationLoadingProvider);
+    final otherLocation = ref.watch(
+      taxiProvider.select(
+        (s) => field == TaxiActiveField.pickup
+            ? (label: s.destination, latLng: s.destinationLatLng)
+            : (label: s.pickup, latLng: s.pickupLatLng),
+      ),
+    );
+    final otherLabel = otherLocation.label;
+    final otherLatLng = otherLocation.latLng;
+    final currentLocation = ref.watch(currentLocationProvider).valueOrNull;
 
-    final state = ref.watch(taxiProvider);
-    final otherLabel = field == TaxiActiveField.pickup ? state.destination : state.pickup;
-    final otherLatLng = field == TaxiActiveField.pickup ? state.destinationLatLng : state.pickupLatLng;
-
-    final currentLocationRead = ref.read(currentLocationProvider.notifier);
-    final currentLocationWatch = ref.watch(currentLocationProvider);
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Container(
@@ -82,7 +86,11 @@ class LocationPickerSheet extends ConsumerWidget {
                     : () async {
                         final error = await ref
                             .read(taxiProvider.notifier)
-                            .useCurrentLocation(field,currentLocationWatch.value!.currentLocation!,currentLocationRead.myLocationName);
+                            .useCurrentLocation(
+                              field,
+                              currentLocation?.currentLocation,
+                              currentLocation?.locationName,
+                            );
                         if (!context.mounted) return;
                         if (error != null) {
                           ScaffoldMessenger.of(context).showSnackBar(

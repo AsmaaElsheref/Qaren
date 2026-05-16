@@ -60,7 +60,7 @@ class BranchSelectionSheet extends StatelessWidget {
             const AppText(
               'اختر الفرع',
               style: TextStyle(
-                fontSize: AppDimensions.fontL,
+                // fontSize: AppDimensions.fontL,
                 fontWeight: FontWeight.w800,
                 color: AppColors.textPrimary,
               ),
@@ -69,7 +69,7 @@ class BranchSelectionSheet extends StatelessWidget {
             const AppText(
               'اختر الفرع المناسب لهذا المنتج',
               secondary: true,
-              style: TextStyle(fontSize: AppDimensions.fontXS),
+              // style: TextStyle(fontSize: AppDimensions.fontXS),
             ),
             const SizedBox(height: AppDimensions.paddingM),
             Flexible(

@@ -6,6 +6,7 @@ import '../../../data/repositories/car_rental_repository_impl.dart';
 import '../../../domain/entities/book_car_rental_params.dart';
 import '../../../domain/repositories/car_rental_repository.dart';
 import '../../../domain/usecases/book_car_rental_usecase.dart';
+import '../taxi_reset_controller.dart';
 import 'booking_state.dart';
 
 // ── Data layer providers (private) ──────────────────────────────────────────
@@ -50,10 +51,13 @@ class BookingNotifier extends Notifier<BookingState> {
         status: BookingStatus.failure,
         errorMessage: failure.message,
       ),
-      (data) => state = state.copyWith(
-        status: BookingStatus.success,
-        result: data,
-      ),
+      (data) {
+        ref.read(taxiResetControllerProvider).resetAfterSuccessfulBooking();
+        state = state.copyWith(
+          status: BookingStatus.success,
+          result: data,
+        );
+      },
     );
   }
 }

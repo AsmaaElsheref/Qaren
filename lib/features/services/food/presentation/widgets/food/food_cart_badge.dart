@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../../core/theme/app_colors.dart';
+import '../../../../../../core/ui/widgets/AppText.dart';
 import '../../../../../../core/ui/widgets/icon_container.dart';
 import '../../pages/foodCartPage/food_cart_page.dart';
 import '../../providers/food_cart_provider.dart';
@@ -37,11 +38,11 @@ class FoodCartBadge extends ConsumerWidget {
                 shape: BoxShape.circle,
               ),
               constraints: const BoxConstraints(minWidth: 18, minHeight: 18),
-              child: Text(
+              child: AppText(
                 '$totalCount',
                 style: const TextStyle(
                   color: AppColors.white,
-                  fontSize: 10,
+                  fontSize: 11,
                   fontWeight: FontWeight.w700,
                 ),
                 textAlign: TextAlign.center,

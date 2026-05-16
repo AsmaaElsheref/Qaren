@@ -6,7 +6,7 @@ class ComingSoonTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const AppText(
-      'الميزة قيد التطوير',
+      'هذه الخدمة ستصبح متاحة قريبا',
       style: AppTextStyles.headline,
       textAlign: TextAlign.center,
     );

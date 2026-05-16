@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qaren/core/ui/widgets/icon_container.dart';
 import '../../../../../../core/theme/app_colors.dart';
+import '../../../../../../core/ui/widgets/AppText.dart';
 
 class FoodMenuBadge extends StatelessWidget {
   const FoodMenuBadge({super.key});
@@ -28,11 +29,11 @@ class FoodMenuBadge extends StatelessWidget {
               shape: BoxShape.circle,
             ),
             constraints: const BoxConstraints(minWidth: 16, minHeight: 16),
-            child: const Text(
+            child: const AppText(
               '7',
               style: TextStyle(
                 color: AppColors.white,
-                fontSize: 9,
+                fontSize: 10,
                 fontWeight: FontWeight.w700,
               ),
               textAlign: TextAlign.center,

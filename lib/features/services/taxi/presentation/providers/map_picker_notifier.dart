@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geocoding/geocoding.dart' as geo;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../data/models/carRental/map_place_suggestion.dart';
+import 'map_controller_notifier.dart';
 import 'map_picker_state.dart';
 import 'taxi_map_providers.dart';
 import 'taxi_notifier.dart';

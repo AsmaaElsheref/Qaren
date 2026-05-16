@@ -6,6 +6,7 @@ import 'package:qaren/core/utils/extensions/contextSizeX.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/ui/widgets/AppText.dart';
 import '../../../../core/utils/validators.dart';
 import '../../../home/presentation/pages/home_page.dart';
 import '../providers/signup_providers.dart';
@@ -65,7 +66,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
           previous?.status != SignupStatus.failure) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(next.errorMessage ?? AppStrings.signUpFailed),
+            content: AppText(next.errorMessage ?? AppStrings.signUpFailed),
             backgroundColor: AppColors.error,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
@@ -97,7 +98,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                     const SizedBox(height: AppDimensions.paddingXL),
                     const QarenLogo(),
                     const SizedBox(height: AppDimensions.paddingM),
-                    const Text(
+                    const AppText(
                       AppStrings.signUpTitle,
                       style: TextStyle(
                         fontSize: AppDimensions.fontL,
@@ -232,7 +233,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
+                        const AppText(
                           AppStrings.alreadyHaveAccount,
                           style: TextStyle(
                             fontSize: AppDimensions.fontS,
@@ -247,7 +248,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                             minimumSize: Size.zero,
                             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           ),
-                          child: const Text(
+                          child: const AppText(
                             AppStrings.loginNow,
                             style: TextStyle(
                               fontSize: AppDimensions.fontS,
@@ -353,7 +354,7 @@ class GenderOption extends StatelessWidget {
               size: AppDimensions.iconM,
             ),
             const SizedBox(width: 6),
-            Text(
+            AppText(
               label,
               style: TextStyle(
                 fontSize: AppDimensions.fontM,

@@ -23,14 +23,14 @@ class ProfileAccountCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           ProfileAccountInfoItem(
-            label: 'EMAIL',
+            label: 'البريد الإلكتروني',
             value: email,
             icon: Icons.mail_outline_rounded,
             iconColor: const Color(0xFF27AAE1),
             iconBackground: const Color(0xFFE8F4FD),
           ),
           ProfileAccountInfoItem(
-            label: 'PHONE',
+            label: 'رقم الهاتف',
             value: phone,
             icon: Icons.phone_outlined,
             iconColor: const Color(0xFF8DC73F),

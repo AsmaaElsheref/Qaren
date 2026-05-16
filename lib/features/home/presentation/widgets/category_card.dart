@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/constants/gap.dart';
 import 'package:qaren/core/theme/app_colors.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
 import 'package:qaren/features/home/domain/entities/category_entity.dart';
+
+import '../../../../core/ui/widgets/AppText.dart';
 
 // ── Icon & colour resolver ─────────────────────────────────────────────────────
 
@@ -129,23 +132,24 @@ class _CategoryLabels extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
+        AppText(
           name,
           textAlign: TextAlign.right,
           style: const TextStyle(
-            fontSize: AppDimensions.fontS,
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w500,
             color: AppColors.textPrimary,
+            fontSize: 13,
             height: 1.3,
           ),
         ),
-        Text(
+        Gap.gapH5,
+        AppText(
           description,
           textAlign: TextAlign.right,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(
-            fontSize: AppDimensions.fontXS,
+            fontSize: 11,
             color: AppColors.textSecondary,
             height: 1.3,
           ),

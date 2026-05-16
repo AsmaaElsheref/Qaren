@@ -17,7 +17,7 @@ class FoodSectionTitle extends StatelessWidget {
       ),
       child: Align(
         alignment: Alignment.centerRight,
-        child: AppText(title,style: TextStyle(fontSize: AppDimensions.fontM, fontWeight: FontWeight.w700,color: AppColors.textSecondary),)
+        child: AppText(title,style: TextStyle(fontWeight: FontWeight.w700,color: AppColors.textSecondary),)
       ),
     );
   }

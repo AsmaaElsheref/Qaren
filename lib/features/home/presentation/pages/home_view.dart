@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/features/coming_soon/presentation/pages/coming_soon_page.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/ui/widgets/AppText.dart';
 import '../../../auth/presentation/providers/user_profile_provider.dart';
 import '../../../services/serviceProvider/service_provider.dart';
 import '../providers/categories_providers.dart';
@@ -52,12 +54,9 @@ class _CategoriesGrid extends ConsumerWidget {
                 final page     = serviceRoutes[category.type];
                 return CategoryCard(
                   category: category,
-                  onTap: page == null
-                      ? () {}
-                      : () => Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (_) => page),
-                          ),
+                  onTap: page == null ?
+                    () => Navigator.push(context, MaterialPageRoute(builder: (_) => ComingSoonPage()),) :
+                    () => Navigator.push(context, MaterialPageRoute(builder: (_) => page),),
                 );
               },
               childCount: categories.length,
@@ -135,10 +134,9 @@ class _EmptyView extends StatelessWidget {
         children: [
           Icon(Icons.grid_off_outlined, size: 48, color: AppColors.textSecondary),
           SizedBox(height: 12),
-          Text(
+          AppText(
             'لا توجد تصنيفات متاحة',
             style: TextStyle(
-              fontSize: AppDimensions.fontM,
               color: AppColors.textSecondary,
             ),
           ),
@@ -166,7 +164,7 @@ class _ErrorView extends StatelessWidget {
           children: [
             const Icon(Icons.wifi_off_rounded, size: 48, color: AppColors.error),
             const SizedBox(height: 12),
-            Text(
+            AppText(
               message ?? 'حدث خطأ. يرجى المحاولة مرة أخرى.',
               textAlign: TextAlign.center,
               style: const TextStyle(
@@ -178,7 +176,7 @@ class _ErrorView extends StatelessWidget {
             ElevatedButton.icon(
               onPressed: onRetry,
               icon: const Icon(Icons.refresh_rounded),
-              label: const Text('إعادة المحاولة'),
+              label: const AppText('إعادة المحاولة'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
                 foregroundColor: AppColors.white,

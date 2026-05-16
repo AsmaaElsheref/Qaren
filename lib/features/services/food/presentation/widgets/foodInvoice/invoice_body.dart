@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
+import '../../../../../../core/ui/widgets/AppText.dart';
 import '../../../domain/entities/food_invoice_model.dart';
 import '../../providers/food_comparison_provider.dart';
 import '../foodInvoice/invoice_info_grid.dart';
@@ -39,7 +40,7 @@ class InvoiceBody extends StatelessWidget {
       return Center(
         child: Padding(
           padding: const EdgeInsets.all(AppDimensions.paddingL),
-          child: Text(
+          child: AppText(
             'حدث خطأ: ${detailState.error}',
             textAlign: TextAlign.center,
             style: const TextStyle(

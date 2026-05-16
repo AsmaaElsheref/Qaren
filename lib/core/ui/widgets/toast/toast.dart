@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../theme/app_colors.dart';
+import '../AppText.dart';
 
 /// Shows a brief floating [SnackBar]-style notification.
 ///
@@ -21,9 +22,9 @@ void toast({
     ..hideCurrentSnackBar()
     ..showSnackBar(
       SnackBar(
-        content: Text(
+        content: AppText(
           msg,
-          style: const TextStyle(color: AppColors.white, fontSize: 14),
+          style: const TextStyle(color: AppColors.white),
         ),
         backgroundColor: backgroundColor,
         behavior: SnackBarBehavior.floating,
