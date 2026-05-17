@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:qaren/core/utils/extensions/contextSizeX.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
+import '../../../../../../core/theme/app_colors_ext.dart';
 import '../../../../../../core/ui/widgets/AppButton.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
+import '../../../../../../core/ui/widgets/AppTextStyles.dart';
 import '../../../data/models/comparePrices/compare_prices_model.dart';
 import 'app_info.dart';
 import 'best_value_badge.dart';
@@ -21,16 +23,17 @@ class PriceResultCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: colors.card,
         borderRadius: BorderRadius.circular(AppDimensions.radiusL),
         border: result.isBestValue
             ? Border.all(color: AppColors.primary.withValues(alpha: 0.3))
-            : Border.all(color: AppColors.border),
+            : Border.all(color: colors.border),
         boxShadow: [
           BoxShadow(
-            color: AppColors.black.withValues(alpha: 0.04),
+            color: colors.shadow,
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -47,29 +50,28 @@ class PriceResultCard extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _ProviderIcon(
-                  imageUrl: result.icon,
-                  bgColor: result.iconBgColor,
-                ),
+                _ProviderIcon(imageUrl: result.icon, bgColor: result.iconBgColor),
                 const SizedBox(width: AppDimensions.paddingM),
                 AppInfo(result: result),
                 const Spacer(),
-                AppText('${result.price} ريال'),
+                AppText('${result.price} ريال',
+                    style: AppTextStyles.body.copyWith(color: colors.textPrimary)),
               ],
             ),
             const SizedBox(height: AppDimensions.paddingM),
-            const Divider(height: 1, color: AppColors.border),
+            Divider(height: 1, color: colors.divider),
             const SizedBox(height: AppDimensions.paddingM),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                (result.distance != null)?
-                  EstimatedTime(distance: result.distance!):
-                Spacer(),
+                if (result.distance != null)
+                  EstimatedTime(distance: result.distance!)
+                else
+                  const Spacer(),
                 AppButton(
                   height: 35,
                   width: context.screenWidth * 0.27,
-                  color: AppColors.black,
+                  color: colors.textPrimary,
                   radius: 10,
                   removeShadow: true,
                   label: 'احجز الآن',
@@ -85,10 +87,6 @@ class PriceResultCard extends StatelessWidget {
   }
 }
 
-// ── Private widget ────────────────────────────────────────────────────────────
-
-/// Renders the provider/car image from a URL.
-/// Falls back to a car icon when the URL is empty, null, or fails to load.
 class _ProviderIcon extends StatelessWidget {
   const _ProviderIcon({required this.imageUrl, required this.bgColor});
 
@@ -102,8 +100,7 @@ class _ProviderIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 48,
-      height: 48,
+      width: 48, height: 48,
       decoration: BoxDecoration(
         color: bgColor,
         borderRadius: BorderRadius.circular(AppDimensions.radiusM),
@@ -115,42 +112,28 @@ class _ProviderIcon extends StatelessWidget {
 
   Widget _networkImage() {
     return Image.network(
-      imageUrl,
-      width: 48,
-      height: 48,
-      fit: BoxFit.cover,
-      // Show a shimmer-style placeholder while loading
+      imageUrl, width: 48, height: 48, fit: BoxFit.cover,
       loadingBuilder: (_, child, progress) {
         if (progress == null) return child;
         return _shimmer();
       },
-      // Fall back to the car icon if the URL is broken
       errorBuilder: (_, __, ___) => _fallbackIcon(),
     );
   }
 
   Widget _shimmer() {
     return Container(
-      color: AppColors.surfaceVariant,
+      color: AppColors.primary.withValues(alpha: 0.08),
       child: const Center(
         child: SizedBox(
-          width: 20,
-          height: 20,
-          child: CircularProgressIndicator(
-            strokeWidth: 2,
-            color: AppColors.primary,
-          ),
+          width: 20, height: 20,
+          child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.primary),
         ),
       ),
     );
   }
 
   Widget _fallbackIcon() {
-    return const Icon(
-      Icons.directions_car_rounded,
-      color: AppColors.white,
-      size: 26,
-    );
+    return const Icon(Icons.directions_car_rounded, color: AppColors.white, size: 26);
   }
 }
-

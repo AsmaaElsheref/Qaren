@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../../core/constants/app_dimensions.dart';
-import '../../../../../core/theme/app_colors.dart';
+import '../../../../../core/theme/app_colors_ext.dart';
 import '../../../../../core/ui/widgets/AppTextStyles.dart';
 
 class LocationField extends StatelessWidget {
@@ -24,17 +24,18 @@ class LocationField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isEmpty = value.isEmpty;
+    final colors = context.appColors;
 
     return GestureDetector(
       onTap: onTap,
       child: Container(
         height: AppDimensions.inputHeight,
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: colors.surface,
           borderRadius: BorderRadius.circular(AppDimensions.radiusM),
           boxShadow: [
             BoxShadow(
-              color: AppColors.black.withValues(alpha: 0.05),
+              color: colors.shadow,
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -63,8 +64,8 @@ class LocationField extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: isEmpty
-                    ? AppTextStyles.bodySecondary.copyWith(color: AppColors.textHint)
-                    : AppTextStyles.body,
+                    ? AppTextStyles.bodySecondary.copyWith(color: colors.textMuted)
+                    : AppTextStyles.body.copyWith(color: colors.textPrimary),
               ),
             ),
           ],

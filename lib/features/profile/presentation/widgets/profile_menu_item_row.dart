@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_colors_ext.dart';
 import '../../../../core/ui/widgets/AppText.dart';
 import '../../../../core/ui/widgets/AppTextStyles.dart';
 
@@ -23,6 +23,7 @@ class ProfileMenuItemRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -33,16 +34,14 @@ class ProfileMenuItemRow extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             child: Row(
               children: [
-                const Icon(
-                  Icons.chevron_left_rounded,
-                  size: 20,
-                  color: AppColors.textHint,
-                ),
+                Icon(Icons.chevron_left_rounded, size: 20, color: colors.textMuted),
                 const Spacer(),
                 AppText(
                   label,
-                  style:
-                      AppTextStyles.body.copyWith(fontWeight: FontWeight.w500),
+                  style: AppTextStyles.body.copyWith(
+                    fontWeight: FontWeight.w500,
+                    color: colors.textPrimary,
+                  ),
                 ),
                 const SizedBox(width: 14),
                 Container(
@@ -59,12 +58,11 @@ class ProfileMenuItemRow extends StatelessWidget {
           ),
         ),
         if (showDivider)
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Divider(height: 1, color: AppColors.border),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Divider(height: 1, color: colors.divider),
           ),
       ],
     );
   }
 }
-

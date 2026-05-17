@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_colors_ext.dart';
 import '../../../../core/ui/widgets/AppText.dart';
 import '../../../../core/ui/widgets/AppTextStyles.dart';
 
@@ -23,6 +24,7 @@ class SettingsToggleItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
       child: Row(
@@ -42,7 +44,10 @@ class SettingsToggleItem extends StatelessWidget {
           Expanded(
             child: AppText(
               label,
-              style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w500),
+              style: AppTextStyles.body.copyWith(
+                fontWeight: FontWeight.w500,
+                color: colors.textPrimary,
+              ),
             ),
           ),
           // Toggle switch
@@ -52,7 +57,7 @@ class SettingsToggleItem extends StatelessWidget {
             activeThumbColor: AppColors.white,
             activeTrackColor: AppColors.secondary,
             inactiveThumbColor: AppColors.white,
-            inactiveTrackColor: AppColors.border,
+            inactiveTrackColor: colors.border,
             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
         ],
@@ -60,4 +65,3 @@ class SettingsToggleItem extends StatelessWidget {
     );
   }
 }
-

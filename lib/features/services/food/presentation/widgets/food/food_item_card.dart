@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
-import '../../../../../../core/theme/app_colors.dart';
+import '../../../../../../core/theme/app_colors_ext.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
 import '../../../domain/entities/food_item.dart';
 import '../../../domain/entities/food_warehouse.dart';
@@ -67,6 +67,7 @@ class FoodItemCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.appColors;
     final quantity = ref.watch(foodItemQuantityProvider(item.id));
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -89,13 +90,12 @@ class FoodItemCard extends ConsumerWidget {
                     width: 80,
                     height: 80,
                     decoration: BoxDecoration(
-                      color: AppColors.surfaceVariant,
-                      borderRadius:
-                      BorderRadius.circular(AppDimensions.radiusM),
+                      color: colors.disabledBackground,
+                      borderRadius: BorderRadius.circular(AppDimensions.radiusM),
                     ),
-                    child: const Icon(
+                    child: Icon(
                       Icons.restaurant_rounded,
-                      color: AppColors.textHint,
+                      color: colors.textMuted,
                     ),
                   ),
                 ),
@@ -108,12 +108,12 @@ class FoodItemCard extends ConsumerWidget {
                   padding:
                   const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                   decoration: BoxDecoration(
-                    color: AppColors.white,
+                    color: colors.card,
                     borderRadius:
                     BorderRadius.circular(AppDimensions.radiusS),
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.black.withValues(alpha: 0.1),
+                        color: colors.shadow,
                         blurRadius: 4,
                       ),
                     ],
@@ -129,10 +129,10 @@ class FoodItemCard extends ConsumerWidget {
                       const SizedBox(width: 2),
                       AppText(
                         item.rating.toStringAsFixed(1),
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 10,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.textPrimary,
+                          color: colors.textPrimary,
                         ),
                       ),
                     ],
@@ -149,17 +149,17 @@ class FoodItemCard extends ConsumerWidget {
               children: [
                 AppText(
                   item.name,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.w700,
-                    color: AppColors.textPrimary,
+                    color: colors.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 2),
                 AppText(
                   item.description,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: AppDimensions.fontXS,
-                    color: AppColors.textSecondary,
+                    color: colors.textSecondary,
                     overflow: TextOverflow.ellipsis,
                   ),
                   maxLines: 2,
@@ -170,18 +170,18 @@ class FoodItemCard extends ConsumerWidget {
                   children: [
                     AppText(
                       'ر.س',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: AppDimensions.fontXS,
-                        color: AppColors.textSecondary,
+                        color: colors.textSecondary,
                       ),
                     ),
                     const SizedBox(width: 4),
                     AppText(
                       '${item.price.toInt()}',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: AppDimensions.fontM,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.textPrimary,
+                        color: colors.textPrimary,
                       ),
                     ),
                   ],
@@ -208,9 +208,9 @@ class FoodItemCard extends ConsumerWidget {
                   const SizedBox(width: 2),
                   AppText(
                     '${item.calories}',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: AppDimensions.fontXS,
-                      color: AppColors.textSecondary,
+                      color: colors.textSecondary,
                     ),
                   ),
                 ],
@@ -232,5 +232,4 @@ class FoodItemCard extends ConsumerWidget {
     );
   }
 }
-
 

@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import '../../theme/app_colors_ext.dart';
 import 'AppTextStyles.dart';
 
+/// Theme-aware text widget.
+/// Uses [AppColorTokens.textPrimary] by default, or [AppColorTokens.textSecondary]
+/// when [secondary] is true.
+/// Any explicit [style] color will override the token color.
 class AppText extends StatelessWidget {
   final String text;
   final TextStyle? style;
@@ -23,9 +28,12 @@ class AppText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final baseStyle = secondary
-        ? AppTextStyles.bodySecondary
-        : AppTextStyles.body;
+    final tokens = context.appColors;
+    final defaultColor =
+        secondary ? tokens.textSecondary : tokens.textPrimary;
+
+    final baseStyle = (secondary ? AppTextStyles.bodySecondary : AppTextStyles.body)
+        .copyWith(color: defaultColor);
 
     return Text(
       text,
@@ -37,3 +45,5 @@ class AppText extends StatelessWidget {
     );
   }
 }
+
+

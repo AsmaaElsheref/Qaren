@@ -53,7 +53,6 @@ class PersonalProfilePage extends ConsumerWidget {
     }
 
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: isHome == true ? null : PersonalProfileAppBar(
         onBack: () => Navigator.of(context).pop(),
         onEdit: () {

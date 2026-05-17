@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/constants/gap.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_colors_ext.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/ui/widgets/AppText.dart';
+import '../../../../core/ui/widgets/AppTextStyles.dart';
 import '../../../../core/ui/widgets/icon_container.dart';
 import '../../../auth/presentation/providers/user_profile_provider.dart';
 import '../../../notifications/presentation/pages/notifications_page.dart';
@@ -19,22 +21,22 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => Size.fromHeight(showSearch == true ? 140 : 70);
 
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userData = ref.watch(userProfileProvider);
-    final hasError = userData.hasError;
-    final user = hasError==true?null:userData.value;
+    final user = userData.hasError ? null : userData.value;
+    final colors = context.appColors;
+
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: colors.surface,
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(AppDimensions.radiusXL),
           bottomRight: Radius.circular(AppDimensions.radiusXL),
         ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.black.withValues(alpha: 0.05),
+            color: colors.shadow,
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -43,7 +45,7 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
       child: Column(
         children: [
           AppBar(
-            backgroundColor: AppColors.surface,
+            backgroundColor: colors.surface,
             elevation: 0,
             scrolledUnderElevation: 0,
             leading: Padding(
@@ -56,23 +58,19 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
                     height: 45,
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: AppColors.surface,
+                        color: colors.border,
                         width: 1.5,
                       ),
                       borderRadius: BorderRadius.circular(15),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.textHint,
-                          spreadRadius: 0.8,
-                        ),
-                      ],
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(15),
                       child: CachedNetworkImage(
-                        imageUrl: user?.image??'',
-                        placeholder: (context, url) => Icon(Icons.person),
-                        errorWidget: (context, url, error) => Icon(Icons.person),
+                        imageUrl: user?.image ?? '',
+                        placeholder: (context, url) =>
+                            Icon(Icons.person, color: colors.textSecondary),
+                        errorWidget: (context, url, error) =>
+                            Icon(Icons.person, color: colors.textSecondary),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -83,16 +81,13 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
                     child: Container(
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        border: Border.all(
-                          color: AppColors.surface,
-                          width: 2,
-                        ),
+                        border: Border.all(color: colors.surface, width: 2),
                       ),
                       child: Container(
                         width: 11,
                         height: 11,
                         decoration: BoxDecoration(
-                          color: AppColors.surface,
+                          color: colors.surface,
                           shape: BoxShape.circle,
                           border: Border.all(
                             color: AppColors.primary,
@@ -112,11 +107,11 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     AppText(
-                      user?.name??'Qaren',
-                      style: const TextStyle(
+                      user?.name ?? 'Qaren',
+                      style: AppTextStyles.title.copyWith(
                         fontSize: 17,
                         fontWeight: FontWeight.w900,
-                        color: AppColors.textPrimary,
+                        color: colors.textPrimary,
                         letterSpacing: 0.3,
                       ),
                     ),
@@ -130,9 +125,8 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
                 ),
                 AppText(
                   AppStrings.appSubtitle,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: AppColors.textSecondary,
+                  style: AppTextStyles.caption.copyWith(
+                    color: colors.textSecondary,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
@@ -140,20 +134,23 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
             ),
             actions: [
               IconContainer(
-                icon: const Icon(
+                icon: Icon(
                   Icons.notifications,
-                  color: AppColors.textPrimary,
+                  color: colors.textPrimary,
                   size: AppDimensions.iconM,
                 ),
-                onTap: () => Navigator.push(context,MaterialPageRoute(builder: (context) => NotificationsPage(),)),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => NotificationsPage()),
+                ),
               ),
               Gap.gapW10,
               Padding(
                 padding: const EdgeInsets.only(left: 20),
                 child: IconContainer(
-                  icon: const Icon(
-                  Icons.menu,
-                    color: AppColors.textPrimary,
+                  icon: Icon(
+                    Icons.menu,
+                    color: colors.textPrimary,
                     size: AppDimensions.iconM,
                   ),
                   onTap: () => Scaffold.of(context).openDrawer(),
@@ -176,4 +173,6 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
     );
   }
 }
+
+
 

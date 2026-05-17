@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'map_controller_notifier.dart';
 import 'taxi_state.dart';
 
 class TaxiNotifier extends Notifier<TaxiState> {
@@ -32,18 +31,16 @@ class TaxiNotifier extends Notifier<TaxiState> {
     required String label,
   }) {
     if (field == TaxiActiveField.pickup) {
-      state = state.copyWith(pickup: _labelOrFallback(label, latLng), pickupLatLng: latLng);
+      state = state.copyWith(
+        pickup: _labelOrFallback(label, latLng),
+        pickupLatLng: latLng,
+      );
     } else {
       state = state.copyWith(
         destination: _labelOrFallback(label, latLng),
         destinationLatLng: latLng,
       );
     }
-
-    ref.read(taxiMapControllerProvider.notifier).animateForLocations(
-          pickup: state.pickupLatLng,
-          destination: state.destinationLatLng,
-        );
   }
 
   Future<String?> useCurrentLocation(

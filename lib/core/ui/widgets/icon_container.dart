@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../theme/app_colors.dart';
+import '../../theme/app_colors_ext.dart';
 
 class IconContainer extends StatelessWidget {
   const IconContainer({super.key, required this.icon, required this.onTap});
@@ -9,21 +9,22 @@ class IconContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return GestureDetector(
       onTap: onTap,
       child: Container(
         width: 40,
         height: 40,
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: colors.surface,
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
-            color: AppColors.border.withValues(alpha: 0.8),
+            color: colors.border.withValues(alpha: 0.8),
             width: 1,
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.06),
+              color: colors.shadow,
               blurRadius: 4,
               offset: const Offset(0, 1),
             ),
@@ -34,3 +35,5 @@ class IconContainer extends StatelessWidget {
     );
   }
 }
+
+

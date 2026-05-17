@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_colors_ext.dart';
 import 'profile_logout_item.dart';
 import 'profile_menu_item_row.dart';
 
@@ -21,9 +21,10 @@ class ProfileGeneralMenuCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: colors.card,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
@@ -63,4 +64,3 @@ class ProfileGeneralMenuCard extends StatelessWidget {
     );
   }
 }
-

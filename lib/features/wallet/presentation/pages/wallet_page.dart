@@ -21,7 +21,6 @@ class WalletPage extends ConsumerWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        backgroundColor: AppColors.background,
         // appBar: const WalletAppBar(),
         body: SafeArea(
           child: isInitialLoading

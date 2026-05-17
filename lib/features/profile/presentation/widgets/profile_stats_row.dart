@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_colors_ext.dart';
 import 'profile_stat_item.dart';
 
 class ProfileStatsRow extends StatelessWidget {
@@ -46,8 +46,7 @@ class ProfileStatsDivider extends StatelessWidget {
     return Container(
       height: 36,
       width: 1,
-      color: AppColors.border,
+      color: context.appColors.divider,
     );
   }
 }
-

@@ -3,13 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/features/coming_soon/presentation/pages/coming_soon_page.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_colors_ext.dart';
 import '../../../../core/ui/widgets/AppText.dart';
-import '../../../auth/presentation/providers/user_profile_provider.dart';
+import '../../../../core/ui/widgets/AppTextStyles.dart';
 import '../../../services/serviceProvider/service_provider.dart';
 import '../providers/categories_providers.dart';
 import '../providers/categories_state.dart';
 import '../providers/home_providers.dart';
 import '../widgets/category_card.dart';
+
 
 class HomeView extends ConsumerWidget {
   const HomeView({super.key});
@@ -114,7 +116,7 @@ class _SkeletonCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.surfaceVariant,
+        color: context.appColors.disabledBackground,
         borderRadius: BorderRadius.circular(AppDimensions.radiusL),
       ),
     );
@@ -128,17 +130,16 @@ class _EmptyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    final colors = context.appColors;
+    return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.grid_off_outlined, size: 48, color: AppColors.textSecondary),
-          SizedBox(height: 12),
+          Icon(Icons.grid_off_outlined, size: 48, color: colors.textSecondary),
+          const SizedBox(height: 12),
           AppText(
             'لا توجد تصنيفات متاحة',
-            style: TextStyle(
-              color: AppColors.textSecondary,
-            ),
+            style: AppTextStyles.body.copyWith(color: colors.textSecondary),
           ),
         ],
       ),
@@ -156,6 +157,7 @@ class _ErrorView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(AppDimensions.paddingL),
@@ -167,9 +169,9 @@ class _ErrorView extends StatelessWidget {
             AppText(
               message ?? 'حدث خطأ. يرجى المحاولة مرة أخرى.',
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: AppTextStyles.body.copyWith(
                 fontSize: AppDimensions.fontM,
-                color: AppColors.textSecondary,
+                color: colors.textSecondary,
               ),
             ),
             const SizedBox(height: 20),

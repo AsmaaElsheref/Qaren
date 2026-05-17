@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
 import 'package:qaren/core/theme/app_colors.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:qaren/core/ui/widgets/AppText.dart';
 import 'package:qaren/core/ui/widgets/AppTextStyles.dart';
 
@@ -13,7 +14,8 @@ class WalletAmountInput extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final amount = ref.watch(walletDepositProvider.select((state) => state.amount));
+    final colors = context.appColors;
+    final amount = ref.watch(walletDepositProvider.select((s) => s.amount));
 
     return TextFormField(
       key: ValueKey(amount),
@@ -22,22 +24,23 @@ class WalletAmountInput extends ConsumerWidget {
       inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))],
       onChanged: ref.read(walletDepositProvider.notifier).updateAmount,
       textDirection: TextDirection.ltr,
+      style: AppTextStyles.body.copyWith(color: colors.textPrimary),
       decoration: InputDecoration(
-        label: const AppText('المبلغ', style: AppTextStyles.bodySecondary),
+        label: AppText('المبلغ', style: AppTextStyles.bodySecondary.copyWith(color: colors.textMuted)),
         hintText: '100',
         filled: true,
-        fillColor: AppColors.surfaceVariant,
+        fillColor: colors.inputBackground,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: AppDimensions.paddingM,
           vertical: AppDimensions.paddingM,
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppDimensions.radiusM),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: colors.border),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppDimensions.radiusM),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: colors.border),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppDimensions.radiusM),
@@ -47,4 +50,3 @@ class WalletAmountInput extends ConsumerWidget {
     );
   }
 }
-

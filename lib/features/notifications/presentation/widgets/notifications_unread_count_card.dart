@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
 import 'package:qaren/core/theme/app_colors.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:qaren/core/ui/widgets/AppText.dart';
 import 'package:qaren/core/ui/widgets/AppTextStyles.dart';
 
@@ -13,12 +14,13 @@ class NotificationsUnreadCountCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final unreadCount = ref.watch(notificationsProvider.select((state) => state.unreadCount));
+    final colors = context.appColors;
 
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(AppDimensions.paddingM),
       decoration: BoxDecoration(
-        color: AppColors.primaryLight,
+        color: AppColors.primary.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(AppDimensions.radiusL),
         border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
       ),
@@ -34,7 +36,10 @@ class NotificationsUnreadCountCard extends ConsumerWidget {
           Expanded(
             child: AppText(
               '$unreadCount إشعارات غير مقروءة',
-              style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700),
+              style: AppTextStyles.body.copyWith(
+                fontWeight: FontWeight.w700,
+                color: colors.textPrimary,
+              ),
             ),
           ),
         ],
@@ -42,4 +47,3 @@ class NotificationsUnreadCountCard extends ConsumerWidget {
     );
   }
 }
-

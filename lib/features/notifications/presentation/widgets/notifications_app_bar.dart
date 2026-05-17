@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:qaren/core/theme/app_colors.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:qaren/core/ui/widgets/AppText.dart';
 import 'package:qaren/core/ui/widgets/AppTextStyles.dart';
 
@@ -13,17 +13,20 @@ class NotificationsAppBar extends StatelessWidget implements PreferredSizeWidget
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return AppBar(
-      backgroundColor: AppColors.background,
+      backgroundColor: colors.background,
       elevation: 0,
       centerTitle: true,
       leading: IconButton(
         onPressed: () => Navigator.maybePop(context),
-        icon: const Icon(Icons.arrow_back_ios_new_rounded, color: AppColors.textPrimary),
+        icon: Icon(Icons.arrow_back_ios_new_rounded, color: colors.textPrimary),
       ),
-      title: const AppText('الإشعارات', style: AppTextStyles.title),
+      title: AppText(
+        'الإشعارات',
+        style: AppTextStyles.title.copyWith(color: colors.textPrimary),
+      ),
       actions: const [MarkAllReadButton()],
     );
   }
 }
-

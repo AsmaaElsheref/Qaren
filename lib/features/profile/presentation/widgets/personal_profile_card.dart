@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:qaren/core/constants/app_strings.dart';
 import 'package:qaren/core/constants/gap.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/ui/widgets/AppText.dart';
-import '../../../../core/ui/widgets/AppTextStyles.dart';
+import 'package:qaren/core/theme/app_colors.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
+import 'package:qaren/core/ui/widgets/AppText.dart';
+import 'package:qaren/core/ui/widgets/AppTextStyles.dart';
 import 'profile_avatar_with_camera.dart';
 
 class PersonalProfileCard extends StatelessWidget {
@@ -20,9 +21,10 @@ class PersonalProfileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: colors.card,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
@@ -36,9 +38,9 @@ class PersonalProfileCard extends StatelessWidget {
               // Mint background strip
               Container(
                 height: 90,
-                decoration: const BoxDecoration(
-                  color: Color(0xFFEAF7F2),
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withValues(alpha: 0.10),
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
                 ),
               ),
               Positioned(
@@ -57,7 +59,7 @@ class PersonalProfileCard extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
                     child: Row(
                       children: [
-                        const Icon(Icons.edit, color: AppColors.borderFocused, size: 17),
+                        Icon(Icons.edit, color: AppColors.borderFocused, size: 17),
                         Gap.gapW5,
                         AppText(
                           AppStrings.edit,
@@ -79,7 +81,10 @@ class PersonalProfileCard extends StatelessWidget {
             children: [
               AppText(
                 name,
-                style: AppTextStyles.title.copyWith(fontWeight: FontWeight.w700),
+                style: AppTextStyles.title.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: colors.textPrimary,
+                ),
               ),
               Gap.gapW10,
             ],

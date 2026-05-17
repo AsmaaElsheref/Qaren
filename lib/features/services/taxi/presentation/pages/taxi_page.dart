@@ -35,6 +35,7 @@ class _TaxiPageState extends ConsumerState<TaxiPage> {
 
   @override
   Widget build(BuildContext context) {
+
     final curLocationState = ref.watch(currentLocationProvider);
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark.copyWith(
@@ -94,4 +95,6 @@ class _TaxiPageState extends ConsumerState<TaxiPage> {
       ),
     );
   }
+
 }
+

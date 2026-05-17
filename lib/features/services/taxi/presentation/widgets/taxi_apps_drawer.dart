@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../core/constants/app_dimensions.dart';
-import '../../../../../core/theme/app_colors.dart';
+import '../../../../../core/theme/app_colors_ext.dart';
 import '../../../../../core/ui/widgets/AppButton.dart';
 import '../../../../../core/ui/widgets/AppText.dart';
+import '../../../../../core/ui/widgets/AppTextStyles.dart';
 import '../providers/taxi_apps/taxi_apps_notifier.dart';
+import 'taxi_action_chip.dart';
 import 'taxi_app_tile.dart';
+import 'taxi_counter_chip.dart';
 
 /// Slide-in end-drawer that shows the taxi apps selection panel.
 /// Pure UI — all logic lives in [TaxiAppsNotifier].
@@ -16,12 +19,13 @@ class TaxiAppsDrawer extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(taxiAppsProvider);
     final notifier = ref.read(taxiAppsProvider.notifier);
+    final colors = context.appColors;
 
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Drawer(
         width: MediaQuery.sizeOf(context).width * 0.88,
-        backgroundColor: AppColors.background,
+        backgroundColor: colors.bottomSheetBackground,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.horizontal(
             left: Radius.circular(AppDimensions.radiusXL),
@@ -43,26 +47,26 @@ class TaxiAppsDrawer extends ConsumerWidget {
                     Expanded(
                       child: AppText(
                         'تطبيقات التوصيل',
-                        style: const TextStyle(
+                        style: AppTextStyles.title.copyWith(
                           fontSize: AppDimensions.fontL,
                           fontWeight: FontWeight.w800,
+                          color: colors.textPrimary,
                         ),
                       ),
                     ),
-                    // Close button
                     GestureDetector(
                       onTap: () => Navigator.of(context).pop(),
                       child: Container(
                         width: 36,
                         height: 36,
                         decoration: BoxDecoration(
-                          color: AppColors.surfaceVariant,
+                          color: colors.iconBackground,
                           shape: BoxShape.circle,
                         ),
-                        child: const Icon(
+                        child: Icon(
                           Icons.close_rounded,
                           size: AppDimensions.iconS,
-                          color: AppColors.textSecondary,
+                          color: colors.textSecondary,
                         ),
                       ),
                     ),
@@ -77,12 +81,12 @@ class TaxiAppsDrawer extends ConsumerWidget {
                 ),
                 child: Row(
                   children: [
-                    _CounterChip(
+                    TaxiCounterChip(
                       label: 'محدد: ${state.selectedCount}',
                       active: true,
                     ),
                     const SizedBox(width: AppDimensions.paddingS),
-                    _CounterChip(
+                    TaxiCounterChip(
                       label: 'غير محدد: ${state.unselectedCount}',
                       active: false,
                     ),
@@ -99,13 +103,13 @@ class TaxiAppsDrawer extends ConsumerWidget {
                 ),
                 child: Row(
                   children: [
-                    _ActionChip(
+                    TaxiActionChip(
                       label: 'تحديد الكل',
                       onTap: notifier.selectAll,
                       isPrimary: true,
                     ),
                     const SizedBox(width: AppDimensions.paddingS),
-                    _ActionChip(
+                    TaxiActionChip(
                       label: 'إلغاء',
                       onTap: notifier.clearAll,
                       isPrimary: false,
@@ -115,7 +119,7 @@ class TaxiAppsDrawer extends ConsumerWidget {
               ),
 
               const SizedBox(height: AppDimensions.paddingM),
-              const Divider(height: 1, color: AppColors.border),
+              Divider(height: 1, color: colors.divider),
               const SizedBox(height: AppDimensions.paddingS),
 
               // ── Apps list ────────────────────────────────────────────────────
@@ -150,72 +154,6 @@ class TaxiAppsDrawer extends ConsumerWidget {
                 ),
               ),
             ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// ── Private helpers ───────────────────────────────────────────────────────────
-
-class _CounterChip extends StatelessWidget {
-  final String label;
-  final bool active;
-  const _CounterChip({required this.label, required this.active});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppDimensions.paddingS,
-        vertical: AppDimensions.paddingXS,
-      ),
-      decoration: BoxDecoration(
-        color: active ? AppColors.primaryLight : AppColors.surfaceVariant,
-        borderRadius: BorderRadius.circular(AppDimensions.radiusFull),
-      ),
-      child: AppText(
-        label,
-        style: TextStyle(
-          fontSize: AppDimensions.fontS,
-          fontWeight: FontWeight.w600,
-          color: active ? AppColors.primary : AppColors.textSecondary,
-        ),
-      ),
-    );
-  }
-}
-
-class _ActionChip extends StatelessWidget {
-  final String label;
-  final VoidCallback onTap;
-  final bool isPrimary;
-  const _ActionChip({
-    required this.label,
-    required this.onTap,
-    required this.isPrimary,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppDimensions.paddingM,
-          vertical: AppDimensions.paddingS,
-        ),
-        decoration: BoxDecoration(
-          color: isPrimary ? AppColors.primaryLight : AppColors.surfaceVariant,
-          borderRadius: BorderRadius.circular(AppDimensions.radiusFull),
-        ),
-        child: AppText(
-          label,
-          style: TextStyle(
-            fontSize: AppDimensions.fontS,
-            fontWeight: FontWeight.w600,
-            color: isPrimary ? AppColors.primary : AppColors.textSecondary,
           ),
         ),
       ),

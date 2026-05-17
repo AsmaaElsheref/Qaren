@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
 import 'package:qaren/core/theme/app_colors.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:qaren/core/ui/widgets/AppText.dart';
 import 'package:qaren/features/services/taxi/presentation/providers/taxi_apps/taxi_app_model.dart';
 
@@ -20,20 +21,21 @@ class TaxiAppTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: colors.card,
           borderRadius: BorderRadius.circular(AppDimensions.radiusL),
           border: Border.all(
-            color: isSelected ? AppColors.primary : AppColors.border,
+            color: isSelected ? AppColors.primary : colors.border,
             width: 1,
           ),
           boxShadow: [
             BoxShadow(
-              color: AppColors.black.withValues(alpha: 0.04),
+              color: colors.shadow,
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -65,9 +67,10 @@ class TaxiAppTile extends StatelessWidget {
                 children: [
                   AppText(
                     app.name,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: AppDimensions.fontM,
                       fontWeight: FontWeight.w700,
+                      color: colors.textPrimary,
                     ),
                     textDirection: TextDirection.rtl,
                   ),
@@ -75,7 +78,10 @@ class TaxiAppTile extends StatelessWidget {
                   AppText(
                     app.description,
                     secondary: true,
-                    style: const TextStyle(fontSize: AppDimensions.fontS),
+                    style: TextStyle(
+                      fontSize: AppDimensions.fontS,
+                      color: colors.textSecondary,
+                    ),
                     textDirection: TextDirection.rtl,
                   ),
                 ],
@@ -90,7 +96,7 @@ class TaxiAppTile extends StatelessWidget {
                 shape: BoxShape.circle,
                 color: isSelected ? AppColors.primary : Colors.transparent,
                 border: Border.all(
-                  color: isSelected ? AppColors.primary : AppColors.border,
+                  color: isSelected ? AppColors.primary : colors.border,
                   width: 1.5,
                 ),
               ),
@@ -102,7 +108,6 @@ class TaxiAppTile extends StatelessWidget {
                     )
                   : null,
             ),
-
           ],
         ),
       ),

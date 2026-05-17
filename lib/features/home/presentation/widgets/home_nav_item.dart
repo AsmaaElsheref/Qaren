@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_colors_ext.dart';
 
 class HomeNavItem extends StatelessWidget {
   final IconData icon;
@@ -19,6 +19,7 @@ class HomeNavItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isActive = index == currentIndex;
+    final colors = context.appColors;
 
     return GestureDetector(
       onTap: () => onTap(index),
@@ -31,7 +32,7 @@ class HomeNavItem extends StatelessWidget {
             Icon(
               icon,
               size: 24,
-              color: isActive ? AppColors.primary : AppColors.textSecondary,
+              color: isActive ? AppColors.primary : colors.textSecondary,
             ),
             if (isActive)
               Container(
@@ -49,4 +50,6 @@ class HomeNavItem extends StatelessWidget {
     );
   }
 }
+
+
 

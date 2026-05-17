@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
 import 'package:qaren/core/theme/app_colors.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:qaren/core/ui/widgets/AppText.dart';
 import 'package:qaren/core/ui/widgets/AppTextStyles.dart';
 
@@ -20,15 +21,16 @@ class WalletTransactionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     final sign = transaction.type.isPositive ? '+' : '-';
     final amountColor = transaction.type.isPositive ? AppColors.success : AppColors.error;
 
     return Container(
       padding: const EdgeInsets.all(AppDimensions.paddingM),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: colors.card,
         borderRadius: BorderRadius.circular(AppDimensions.radiusL),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: colors.border),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,7 +46,10 @@ class WalletTransactionCard extends StatelessWidget {
                     Expanded(
                       child: AppText(
                         transaction.type.label,
-                        style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w700),
+                        style: AppTextStyles.body.copyWith(
+                          fontWeight: FontWeight.w700,
+                          color: colors.textPrimary,
+                        ),
                       ),
                     ),
                     AppText(

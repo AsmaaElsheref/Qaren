@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
 import 'package:qaren/core/theme/app_colors.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:qaren/core/ui/widgets/AppText.dart';
 import 'package:qaren/core/ui/widgets/AppTextStyles.dart';
 
@@ -23,9 +24,10 @@ class BookingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     final icon = switch (booking.serviceType) {
-      BookingServiceType.foodOrder => Icons.restaurant_rounded,
-      BookingServiceType.carRental => Icons.directions_car_rounded,
+      BookingServiceType.foodOrder   => Icons.restaurant_rounded,
+      BookingServiceType.carRental   => Icons.directions_car_rounded,
       BookingServiceType.all || BookingServiceType.unknown => Icons.receipt_long_rounded,
     };
 
@@ -35,12 +37,12 @@ class BookingCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(AppDimensions.paddingM),
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: colors.card,
           borderRadius: BorderRadius.circular(AppDimensions.radiusL),
-          border: Border.all(color: AppColors.border),
+          border: Border.all(color: colors.border),
           boxShadow: [
             BoxShadow(
-              color: AppColors.black.withValues(alpha: 0.04),
+              color: colors.shadow,
               blurRadius: 14,
               offset: const Offset(0, 8),
             ),
@@ -52,10 +54,9 @@ class BookingCard extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  width: 44,
-                  height: 44,
+                  width: 44, height: 44,
                   decoration: BoxDecoration(
-                    color: AppColors.primaryLight,
+                    color: AppColors.primary.withValues(alpha: 0.10),
                     borderRadius: BorderRadius.circular(AppDimensions.radiusM),
                   ),
                   child: Icon(icon, color: AppColors.primary),
@@ -66,14 +67,16 @@ class BookingCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AppText(
-                        booking.bookingReference.isEmpty ? '#${booking.id}' : booking.bookingReference,
-                        style: AppTextStyles.title,
+                        booking.bookingReference.isEmpty
+                            ? '#${booking.id}'
+                            : booking.bookingReference,
+                        style: AppTextStyles.title.copyWith(color: colors.textPrimary),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                       AppText(
                         booking.serviceType.cardLabel,
-                        style: AppTextStyles.caption,
+                        style: AppTextStyles.caption.copyWith(color: colors.textSecondary),
                       ),
                     ],
                   ),
@@ -87,7 +90,7 @@ class BookingCard extends StatelessWidget {
                 Expanded(
                   child: AppText(
                     booking.providerSlug.isEmpty ? 'مزود الخدمة' : booking.providerSlug,
-                    style: AppTextStyles.bodySecondary,
+                    style: AppTextStyles.bodySecondary.copyWith(color: colors.textSecondary),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -97,19 +100,24 @@ class BookingCard extends StatelessWidget {
             ),
             if (booking.bookedAtLabel.isNotEmpty) ...[
               const SizedBox(height: AppDimensions.paddingXS),
-              AppText(booking.bookedAtLabel, style: AppTextStyles.caption),
+              AppText(
+                booking.bookedAtLabel,
+                style: AppTextStyles.caption.copyWith(color: colors.textMuted),
+              ),
             ],
-            const Divider(height: AppDimensions.paddingL, color: AppColors.border),
+            Divider(height: AppDimensions.paddingL, color: colors.divider),
             if (booking.foodOrder != null)
               FoodBookingCardContent(foodOrder: booking.foodOrder!)
             else if (booking.carRental != null)
               CarBookingCardContent(carRental: booking.carRental!)
             else
-              AppText('تفاصيل الطلب متاحة داخل صفحة التفاصيل', style: AppTextStyles.caption),
+              AppText(
+                'تفاصيل الطلب متاحة داخل صفحة التفاصيل',
+                style: AppTextStyles.caption.copyWith(color: colors.textSecondary),
+              ),
           ],
         ),
       ),
     );
   }
 }
-

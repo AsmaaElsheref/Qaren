@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../constants/app_dimensions.dart';
 import '../../theme/app_colors.dart';
+import '../../theme/app_colors_ext.dart';
 import 'AppText.dart';
 
 class AppButton extends StatelessWidget {
@@ -26,30 +27,32 @@ class AppButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return SizedBox(
-      width: width??double.infinity,
-      height: height??AppDimensions.buttonHeight,
+      width: width ?? double.infinity,
+      height: height ?? AppDimensions.buttonHeight,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         decoration: BoxDecoration(
-          color: _enabled ? null : AppColors.textHint.withValues(alpha: 0.4),
+          color: _enabled ? null : colors.disabledBackground,
           gradient: _enabled ? AppColors.primaryGradient : null,
-          borderRadius: BorderRadius.circular(radius??AppDimensions.radiusL),
-          boxShadow: _enabled&&removeShadow!=true
-            ? [
-                BoxShadow(
-                  color: AppColors.primary.withValues(alpha: 0.35),
-                  blurRadius: 16,
-                  offset: const Offset(0, 6),
-                ),
-              ]
-            : [],
+          borderRadius: BorderRadius.circular(radius ?? AppDimensions.radiusL),
+          boxShadow: _enabled && removeShadow != true
+              ? [
+                  BoxShadow(
+                    color: AppColors.primary.withValues(alpha: 0.35),
+                    blurRadius: 16,
+                    offset: const Offset(0, 6),
+                  ),
+                ]
+              : [],
         ),
         child: Material(
-          color: color??Colors.transparent,
-          borderRadius: BorderRadius.circular(radius??0),
+          color: color ?? Colors.transparent,
+          borderRadius: BorderRadius.circular(radius ?? 0),
           child: InkWell(
-            borderRadius: BorderRadius.circular(radius??AppDimensions.radiusL),
+            borderRadius:
+                BorderRadius.circular(radius ?? AppDimensions.radiusL),
             onTap: _enabled ? onTap : null,
             child: Center(
               child: isLoading
@@ -87,4 +90,3 @@ class AppButton extends StatelessWidget {
     );
   }
 }
-

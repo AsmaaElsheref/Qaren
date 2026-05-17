@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_colors_ext.dart';
 import 'profile_account_info_item.dart';
 
 class ProfileAccountCard extends StatelessWidget {
+  const ProfileAccountCard({super.key, required this.email, required this.phone});
   final String email;
   final String phone;
 
-  const ProfileAccountCard({
-    super.key,
-    required this.email,
-    required this.phone,
-  });
-
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: colors.card,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(

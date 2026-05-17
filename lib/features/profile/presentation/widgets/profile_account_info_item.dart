@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_colors_ext.dart';
 import '../../../../core/ui/widgets/AppText.dart';
 import '../../../../core/ui/widgets/AppTextStyles.dart';
 
@@ -23,6 +23,7 @@ class ProfileAccountInfoItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -47,7 +48,7 @@ class ProfileAccountInfoItem extends StatelessWidget {
                     AppText(
                       label,
                       style: AppTextStyles.caption.copyWith(
-                        color: AppColors.textHint,
+                        color: colors.textMuted,
                         fontWeight: FontWeight.w600,
                         letterSpacing: 0.5,
                       ),
@@ -55,7 +56,10 @@ class ProfileAccountInfoItem extends StatelessWidget {
                     const SizedBox(height: 5),
                     AppText(
                       value,
-                      style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600),
+                      style: AppTextStyles.body.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: colors.textPrimary,
+                      ),
                     ),
                   ],
                 ),
@@ -64,12 +68,11 @@ class ProfileAccountInfoItem extends StatelessWidget {
           ),
         ),
         if (showDivider)
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Divider(height: 1, color: AppColors.border),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Divider(height: 1, color: colors.divider),
           ),
       ],
     );
   }
 }
-

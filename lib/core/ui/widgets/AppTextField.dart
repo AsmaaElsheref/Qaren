@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../theme/app_colors.dart';
+import '../../theme/app_colors_ext.dart';
 import 'AppTextStyles.dart';
 
 class AppTextField extends StatelessWidget {
@@ -39,9 +40,13 @@ class AppTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
+    final borderColor = colors.border;
     final border = OutlineInputBorder(
       borderRadius: BorderRadius.circular(15),
-      borderSide: nonBorder==true?BorderSide.none:const BorderSide(color: AppColors.border, width: 1),
+      borderSide: nonBorder == true
+          ? BorderSide.none
+          : BorderSide(color: borderColor, width: 1),
     );
 
     return TextFormField(
@@ -58,29 +63,27 @@ class AppTextField extends StatelessWidget {
       textAlign: TextAlign.right,
       textDirection: TextDirection.rtl,
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      style: AppTextStyles.body,
+      style: AppTextStyles.body.copyWith(color: colors.textPrimary),
       decoration: InputDecoration(
         labelText: label,
         hintText: hint,
         filled: true,
-        fillColor: fillColor??AppColors.surface,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        fillColor: fillColor ?? colors.inputBackground,
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
-        labelStyle: AppTextStyles.bodySecondary,
-        hintStyle: AppTextStyles.bodySecondary,
+        labelStyle: AppTextStyles.bodySecondary.copyWith(color: colors.textSecondary),
+        hintStyle: AppTextStyles.bodySecondary.copyWith(color: colors.textMuted),
         enabledBorder: border,
-        focusedBorder: border?.copyWith(
-          borderSide:
-              const BorderSide(color: AppColors.primary, width: 1.2),
+        focusedBorder: border.copyWith(
+          borderSide: const BorderSide(color: AppColors.primary, width: 1.2),
         ),
-        errorBorder: border?.copyWith(
-          borderSide:
-              const BorderSide(color: AppColors.error, width: 1.2),
+        errorBorder: border.copyWith(
+          borderSide: const BorderSide(color: AppColors.error, width: 1.2),
         ),
-        focusedErrorBorder: border?.copyWith(
-          borderSide:
-              const BorderSide(color: AppColors.error, width: 1.2),
+        focusedErrorBorder: border.copyWith(
+          borderSide: const BorderSide(color: AppColors.error, width: 1.2),
         ),
       ),
     );

@@ -14,7 +14,6 @@ class BookingHistoryPage extends StatelessWidget {
     return const Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        backgroundColor: AppColors.background,
         appBar: BookingHistoryHeader(),
         body: SafeArea(
           child: Column(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
-import 'package:qaren/core/theme/app_colors.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:shimmer/shimmer.dart';
 
 class NotificationsLoadingSkeleton extends StatelessWidget {
@@ -8,24 +8,24 @@ class NotificationsLoadingSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return ListView.separated(
       padding: const EdgeInsets.all(AppDimensions.paddingM),
       itemBuilder: (context, index) {
         return Shimmer.fromColors(
-          baseColor: AppColors.surfaceVariant,
-          highlightColor: AppColors.white,
+          baseColor: colors.disabledBackground,
+          highlightColor: colors.surface,
           child: Container(
             height: index == 0 ? 78 : 116,
             decoration: BoxDecoration(
-              color: AppColors.surfaceVariant,
+              color: colors.disabledBackground,
               borderRadius: BorderRadius.circular(AppDimensions.radiusL),
             ),
           ),
         );
       },
-      separatorBuilder: (context, index) => const SizedBox(height: AppDimensions.paddingM),
+      separatorBuilder: (_, __) => const SizedBox(height: AppDimensions.paddingM),
       itemCount: 6,
     );
   }
 }
-

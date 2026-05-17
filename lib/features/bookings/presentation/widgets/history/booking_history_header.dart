@@ -15,7 +15,6 @@ class BookingHistoryHeader extends StatelessWidget implements PreferredSizeWidge
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: AppColors.background,
       elevation: 0,
       centerTitle: true,
       actionsPadding: EdgeInsets.only(left: 20),

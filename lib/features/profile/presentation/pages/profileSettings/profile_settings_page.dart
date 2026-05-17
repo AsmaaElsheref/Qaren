@@ -4,12 +4,15 @@ import 'package:qaren/core/utils/extensions/contextSizeX.dart';
 import 'package:qaren/features/profile/presentation/pages/personalProfile/personal_profile_page.dart';
 import '../../../../auth/presentation/pages/login_page.dart';
 import '../../../../../core/localStorage/cache_helper.dart';
-import '../../../../../core/theme/app_colors.dart';
+import '../../widgets/dark_mode_toggle_item.dart';
 import '../../widgets/logout_confirmation_sheet.dart';
 import '../../providers/profileSettings/profile_settings_provider.dart';
 import '../../widgets/app_version_text.dart';
 import '../../widgets/logout_menu_item.dart';
 import '../../widgets/profile_header.dart';
+import '../../widgets/settings_section_title.dart';
+import '../../../../../core/theme/app_color_tokens.dart';
+import '../../../../../core/theme/app_colors_ext.dart';
 
 class ProfileSettingsPage extends ConsumerWidget {
   const ProfileSettingsPage({super.key});
@@ -46,7 +49,7 @@ class ProfileSettingsPage extends ConsumerWidget {
       profileSettingsProvider.select((s) => s.appVersion),
     );
     return Drawer(
-      backgroundColor: AppColors.white,
+      backgroundColor: Theme.of(context).extension<AppColorTokens>()?.surface ?? Colors.white,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(24),
@@ -70,7 +73,7 @@ class ProfileSettingsPage extends ConsumerWidget {
                     ),
 
                     // ── Divider ───────────────────────────────────────────
-                    const Divider(height: 1, color: AppColors.border),
+                    Divider(height: 1, color: context.appColors.divider),
 
                     // ── حسابي ─────────────────────────────────────────────
                     // const SettingsSectionTitle(title: 'حسابي'),
@@ -107,11 +110,11 @@ class ProfileSettingsPage extends ConsumerWidget {
                     //   child: Divider(height: 1, color: AppColors.border),
                     // ),
                     //
-                    // // ── الإعدادات العامة ──────────────────────────────────
-                    // const SettingsSectionTitle(title: 'الإعدادات العامة'),
-                    //
+                    // // ── الإعدادات العامة ─────────────────────────────────
+                    const SettingsSectionTitle(title: 'الإعدادات العامة'),
+
                     // const LanguageToggleItem(),
-                    // const DarkModeToggleItem(),
+                    const DarkModeToggleItem(),
                     //
                     // // ── Divider ───────────────────────────────────────────
                     // const Padding(

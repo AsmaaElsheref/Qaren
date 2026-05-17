@@ -1,7 +1,8 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import '../providers/map_controller_notifier.dart';
 import '../providers/taxi_providers.dart';
 
 /// The single GoogleMap instance for the whole taxi flow.
@@ -16,17 +17,20 @@ class TaxiMapView extends ConsumerStatefulWidget {
 
 class _TaxiMapViewState extends ConsumerState<TaxiMapView> {
   GoogleMapController? _controller;
+  TaxiMapControllerNotifier? _controllerNotifier;
   bool _didAnimateInitial = false;
 
-  // Cached so dispose() never touches `ref` after unmount.
-  TaxiMapControllerNotifier? _controllerNotifier;
+  // ── Padding ───────────────────────────────────────────────────────────────
+  /// Bottom padding so the LocationSheet never covers markers/polyline.
+  static const double _boundsPadding = 160.0;
+  static const double _pickupZoom = 15.5;
+  static const double _singleZoom = 15.0;
 
   @override
   void dispose() {
     final controller = _controller;
     if (controller != null) {
-      // Use the cached notifier — ref is already invalid at this point.
-      _controllerNotifier?.detach(controller);
+      _controllerNotifier?.detachAfterDispose(controller);
       controller.dispose();
     }
     _controller = null;
@@ -34,32 +38,119 @@ class _TaxiMapViewState extends ConsumerState<TaxiMapView> {
     super.dispose();
   }
 
-  /// Called once the controller is ready AND the GPS future resolved.
-  /// Animates to the real position and seeds [taxiCameraPositionProvider].
+  // ── Initial GPS animation ─────────────────────────────────────────────────
+  /// Called once after the map is created and the GPS future resolves.
+  /// Must NOT be called again when markers/polyline providers rebuild.
   void _animateToInitial(CameraPosition pos) {
     if (_didAnimateInitial) return;
     _didAnimateInitial = true;
-    ref.read(taxiMapControllerProvider.notifier).animateToInitial(pos);
+    _controllerNotifier?.animateToInitial(pos);
     ref.read(taxiCameraPositionProvider.notifier).state = pos.target;
+  }
+
+  // ── Camera helpers (side effects, never rebuild the widget) ───────────────
+
+  /// Animate to a single location (pickup only or destination only).
+  Future<void> _animateToSingleLocation(LatLng target, double zoom) async {
+    final controller = _controller;
+    if (controller == null || !mounted) return;
+    await controller.animateCamera(
+      CameraUpdate.newLatLngZoom(target, zoom),
+    );
+  }
+
+  /// Fit both pickup and destination inside the viewport with proper padding.
+  Future<void> _fitPickupAndDestination(
+    LatLng pickup,
+    LatLng destination,
+  ) async {
+    final controller = _controller;
+    if (controller == null || !mounted) return;
+
+    // Same point – just zoom in.
+    if (pickup.latitude == destination.latitude &&
+        pickup.longitude == destination.longitude) {
+      await _animateToSingleLocation(pickup, _singleZoom);
+      return;
+    }
+
+    final bounds = LatLngBounds(
+      southwest: LatLng(
+        math.min(pickup.latitude, destination.latitude),
+        math.min(pickup.longitude, destination.longitude),
+      ),
+      northeast: LatLng(
+        math.max(pickup.latitude, destination.latitude),
+        math.max(pickup.longitude, destination.longitude),
+      ),
+    );
+
+    await controller.animateCamera(
+      CameraUpdate.newLatLngBounds(bounds, _boundsPadding),
+    );
+  }
+
+  /// Called by both listeners; decides which camera action is appropriate.
+  Future<void> _handleLocationChange({
+    required LatLng? pickup,
+    required LatLng? destination,
+  }) async {
+    if (!mounted || _controller == null) return;
+
+    if (pickup != null && destination != null) {
+      await _fitPickupAndDestination(pickup, destination);
+      return;
+    }
+
+    if (pickup != null) {
+      await _animateToSingleLocation(pickup, _pickupZoom);
+      return;
+    }
+
+    if (destination != null) {
+      await _animateToSingleLocation(destination, _singleZoom);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    // ── Pickup listener – camera side effect only, no rebuild ─────────────
+    ref.listen<LatLng?>(taxiPickupLocationProvider, (prev, next) {
+      if (next == null) return;
+      if (prev?.latitude == next.latitude &&
+          prev?.longitude == next.longitude) return;
+      _handleLocationChange(
+        pickup: next,
+        destination: ref.read(taxiDestinationLocationProvider),
+      );
+    });
+
+    // ── Destination listener – camera side effect only, no rebuild ─────────
+    ref.listen<LatLng?>(taxiDestinationLocationProvider, (prev, next) {
+      if (next == null) return;
+      if (prev?.latitude == next.latitude &&
+          prev?.longitude == next.longitude) return;
+      _handleLocationChange(
+        pickup: ref.read(taxiPickupLocationProvider),
+        destination: next,
+      );
+    });
+
+    // ── Map overlays (markers + polyline) ─────────────────────────────────
     final markers = ref.watch(taxiMarkersProvider);
     final polylines = ref.watch(taxiRoutePolylineProvider);
 
-    // Watch the initial-position future.
+    // ── Initial camera position ───────────────────────────────────────────
     final initialAsync = ref.watch(taxiInitialPositionProvider);
 
     return initialAsync.when(
-      // While GPS is resolving, show the map at the Cairo fallback so it
-      // renders immediately — then we animate once the future completes.
       loading: () => _buildMap(kTaxiInitialCameraPosition, markers, polylines),
-      error: (_, __) => _buildMap(kTaxiInitialCameraPosition, markers, polylines),
+      error: (_, __) =>
+          _buildMap(kTaxiInitialCameraPosition, markers, polylines),
       data: (realPos) {
-        // Animate if the controller is already attached (page was warm).
+        // Animate once only; marker/polyline rebuilds must not reset camera.
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (_controller != null) _animateToInitial(realPos);
+          if (mounted && _controller != null) _animateToInitial(realPos);
         });
         return _buildMap(realPos, markers, polylines);
       },
@@ -82,8 +173,10 @@ class _TaxiMapViewState extends ConsumerState<TaxiMapView> {
       compassEnabled: false,
       onMapCreated: (controller) {
         _controller = controller;
-        ref.read(taxiMapControllerProvider.notifier).attach(controller);
-        // Animate to the resolved GPS position if already available.
+        final notifier = ref.read(taxiMapControllerProvider.notifier);
+        notifier.attach(controller);
+        _controllerNotifier = notifier;
+        // Animate to GPS position if it already resolved before map was ready.
         final pos = ref.read(taxiInitialPositionProvider).valueOrNull;
         if (pos != null) _animateToInitial(pos);
       },

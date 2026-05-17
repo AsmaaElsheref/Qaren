@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:qaren/core/theme/app_colors.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:qaren/core/ui/widgets/AppText.dart';
 import 'package:qaren/core/ui/widgets/AppTextStyles.dart';
 
@@ -14,12 +14,15 @@ class WalletAppBar extends ConsumerWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.appColors;
     return AppBar(
-      backgroundColor: AppColors.background,
+      backgroundColor: colors.background,
       elevation: 0,
       centerTitle: true,
-      title: const AppText('المحفظة', style: AppTextStyles.title),
+      title: AppText(
+        'المحفظة',
+        style: AppTextStyles.title.copyWith(color: colors.textPrimary),
+      ),
     );
   }
 }
-

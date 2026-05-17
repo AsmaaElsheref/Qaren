@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
-import 'package:qaren/core/theme/app_colors.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:qaren/core/ui/widgets/AppText.dart';
 import 'package:qaren/core/ui/widgets/AppTextStyles.dart';
 
@@ -15,15 +15,22 @@ class WalletDepositSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final errorMessage = ref.watch(walletDepositProvider.select((state) => state.errorMessage));
+    final colors = context.appColors;
+    final errorMessage = ref.watch(
+      walletDepositProvider.select((state) => state.errorMessage),
+    );
 
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Container(
-        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-        decoration: const BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(AppDimensions.radiusXL)),
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        decoration: BoxDecoration(
+          color: colors.bottomSheetBackground,
+          borderRadius: const BorderRadius.vertical(
+            top: Radius.circular(AppDimensions.radiusXL),
+          ),
         ),
         child: SingleChildScrollView(
           padding: EdgeInsets.fromLTRB(
@@ -41,7 +48,7 @@ class WalletDepositSheet extends ConsumerWidget {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: AppColors.border,
+                    color: colors.border,
                     borderRadius: BorderRadius.circular(AppDimensions.radiusFull),
                   ),
                 ),
@@ -49,10 +56,15 @@ class WalletDepositSheet extends ConsumerWidget {
               const SizedBox(height: AppDimensions.paddingM),
               Row(
                 children: [
-                  const Expanded(child: AppText('إضافة رصيد', style: AppTextStyles.title)),
+                  Expanded(
+                    child: AppText(
+                      'إضافة رصيد',
+                      style: AppTextStyles.title.copyWith(color: colors.textPrimary),
+                    ),
+                  ),
                   IconButton(
                     onPressed: () => Navigator.pop(context),
-                    icon: const Icon(Icons.close_rounded, color: AppColors.textSecondary),
+                    icon: Icon(Icons.close_rounded, color: colors.textSecondary),
                   ),
                 ],
               ),
@@ -60,23 +72,17 @@ class WalletDepositSheet extends ConsumerWidget {
               const WalletAmountInput(),
               const SizedBox(height: AppDimensions.paddingM),
               const WalletQuickAmountChips(),
-              if (errorMessage != null && errorMessage.isNotEmpty) ...[
-                const SizedBox(height: AppDimensions.paddingM),
+              if (errorMessage != null) ...[
+                const SizedBox(height: AppDimensions.paddingS),
                 AppText(
                   errorMessage,
-                  style: AppTextStyles.caption.copyWith(color: AppColors.error),
+                  style: AppTextStyles.caption.copyWith(
+                    color: Theme.of(context).colorScheme.error,
+                  ),
                 ),
               ],
-              const SizedBox(height: AppDimensions.paddingL),
+              const SizedBox(height: AppDimensions.paddingM),
               const WalletDepositButton(),
-              const SizedBox(height: AppDimensions.paddingS),
-              SizedBox(
-                width: double.infinity,
-                child: TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const AppText('إلغاء'),
-                ),
-              ),
             ],
           ),
         ),
