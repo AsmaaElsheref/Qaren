@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
@@ -18,13 +19,14 @@ class BranchOptionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(AppDimensions.radiusM),
       child: Container(
         padding: const EdgeInsets.all(AppDimensions.paddingM),
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: colors.surface,
           borderRadius: BorderRadius.circular(AppDimensions.radiusM),
           border: Border.all(color: AppColors.border),
         ),
@@ -42,10 +44,10 @@ class BranchOptionCard extends StatelessWidget {
                 children: [
                   AppText(
                     warehouse.name,
-                    style: const TextStyle(
+                    style: TextStyle(
                       // fontSize: AppDimensions.fontM,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.textPrimary,
+                      color: colors.textPrimary,
                     ),
                   ),
                   if (warehouse.address.isNotEmpty ||

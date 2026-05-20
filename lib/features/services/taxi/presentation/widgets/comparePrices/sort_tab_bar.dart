@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
@@ -18,7 +19,7 @@ class SortTabBar extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: AppColors.surfaceVariant,
+        // color: AppColors.surfaceVariant,
         borderRadius: BorderRadius.circular(AppDimensions.radiusL),
       ),
       child: Row(
@@ -52,6 +53,7 @@ class _SortTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
@@ -67,7 +69,7 @@ class _SortTab extends StatelessWidget {
             Icon(
               type.icon,
               size: 14,
-              color: isActive ? AppColors.white : AppColors.textSecondary,
+              color: isActive ? AppColors.white : colors.textSecondary,
             ),
             const SizedBox(width: 4),
             AppText(
@@ -76,7 +78,7 @@ class _SortTab extends StatelessWidget {
                 fontSize: AppDimensions.fontS,
                 fontWeight:
                     isActive ? FontWeight.w700 : FontWeight.w500,
-                color: isActive ? AppColors.white : AppColors.textSecondary,
+                color: isActive ? AppColors.white : colors.textSecondary,
               ),
             ),
           ],

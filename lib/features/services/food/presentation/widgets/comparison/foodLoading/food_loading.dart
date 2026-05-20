@@ -22,7 +22,6 @@ class Searching extends ConsumerWidget {
     final hasError  = ref.watch(foodCompareErrorProvider) != null;
 
     return Scaffold(
-      backgroundColor: AppColors.surface,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(70),
         child: SafeArea(

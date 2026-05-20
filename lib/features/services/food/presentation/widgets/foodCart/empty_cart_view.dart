@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
@@ -11,6 +12,7 @@ class EmptyCartView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -19,7 +21,7 @@ class EmptyCartView extends StatelessWidget {
             width: 96,
             height: 96,
             decoration: BoxDecoration(
-              color: AppColors.surfaceVariant,
+              color: colors.surface,
               shape: BoxShape.circle,
             ),
             child: const Icon(
@@ -31,10 +33,10 @@ class EmptyCartView extends StatelessWidget {
           const SizedBox(height: AppDimensions.paddingM),
           AppText(
             FoodStrings.emptyCart,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: AppDimensions.fontL,
               fontWeight: FontWeight.w600,
-              color: AppColors.textSecondary,
+              color: colors.textSecondary,
             ),
           ),
         ],

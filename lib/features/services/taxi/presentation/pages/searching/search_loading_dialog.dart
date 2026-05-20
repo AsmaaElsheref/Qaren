@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:qaren/core/utils/extensions/contextSizeX.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
@@ -110,7 +111,7 @@ class _SearchLoadingDialogState extends ConsumerState<SearchLoadingDialog> with 
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(searchLoadingProvider);
-
+    final colors = context.appColors;
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Dialog(
@@ -119,7 +120,7 @@ class _SearchLoadingDialogState extends ConsumerState<SearchLoadingDialog> with 
         insetPadding: const EdgeInsets.symmetric(horizontal: 32),
         child: Container(
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: colors.surface,
             border: const Border(
               top: BorderSide(
                 color: AppColors.primary,
@@ -155,11 +156,11 @@ class _SearchLoadingDialogState extends ConsumerState<SearchLoadingDialog> with 
                       child: Text(
                         state.steps[index],
                         textAlign: TextAlign.center,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontFamily: 'Cairo',
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.textPrimary,
+                          color: colors.textPrimary,
                         ),
                       ),
                     );

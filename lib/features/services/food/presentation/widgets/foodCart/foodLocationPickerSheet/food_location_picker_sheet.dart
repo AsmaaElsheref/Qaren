@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../../core/theme/app_colors.dart';
 import '../../../../../../../core/ui/widgets/AppText.dart';
@@ -59,11 +60,12 @@ class _FoodLocationPickerSheetState
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Container(
-        decoration: const BoxDecoration(
-          color: AppColors.surface,
+        decoration: BoxDecoration(
+          color: colors.surface,
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(AppDimensions.radiusXL),
           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
@@ -8,10 +9,6 @@ import '../../food_strings.dart';
 import '../../providers/food_providers.dart';
 import 'success_item_card.dart';
 
-/// Renders the ordered items returned in `data.children`.
-///
-/// Watches only [foodBookingResultProvider] (selecting children list) so
-/// the section is fully isolated.
 class SuccessItemsList extends ConsumerWidget {
   const SuccessItemsList({super.key});
 
@@ -21,30 +18,29 @@ class SuccessItemsList extends ConsumerWidget {
       foodBookingResultProvider.select((r) => r?.children ?? const []),
     );
     if (items.isEmpty) return const SizedBox.shrink();
-
+    final colors = context.appColors;
     return Container(
-      margin:
-          const EdgeInsets.symmetric(horizontal: AppDimensions.paddingM),
+      margin: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingM),
       padding: const EdgeInsets.symmetric(
         horizontal: AppDimensions.paddingM,
         vertical: AppDimensions.paddingS,
       ),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: colors.surface,
         borderRadius: BorderRadius.circular(AppDimensions.radiusL),
         border: Border.all(color: AppColors.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
+          Padding(
             padding: EdgeInsets.symmetric(vertical: AppDimensions.paddingS),
             child: AppText(
               FoodStrings.orderItemsSection,
               style: TextStyle(
                 fontSize: AppDimensions.fontM,
                 fontWeight: FontWeight.w800,
-                color: AppColors.textPrimary,
+                color: colors.textPrimary,
               ),
             ),
           ),

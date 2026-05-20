@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../../../../core/constants/app_dimensions.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/ui/widgets/icon_container.dart';
@@ -10,6 +11,7 @@ class TaxiTopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(
@@ -21,18 +23,18 @@ class TaxiTopBar extends StatelessWidget {
           children: [
             IconContainer(
               onTap: () => Navigator.pop(context),
-              icon: const Icon(
+              icon: Icon(
                 Icons.arrow_back_rounded,
-                color: AppColors.textPrimary,
+                color: colors.textPrimary,
                 size: AppDimensions.iconM,
               ),
             ),
             const SizedBox(width: AppDimensions.paddingS),
             IconContainer(
               onTap: onMenuTap ?? () {},
-              icon: const Icon(
+              icon: Icon(
                 Icons.menu_rounded,
-                color: AppColors.textPrimary,
+                color: colors.textPrimary,
                 size: AppDimensions.iconM,
               ),
             ),

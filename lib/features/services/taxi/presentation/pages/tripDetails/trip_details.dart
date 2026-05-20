@@ -131,14 +131,6 @@ class _TripDetailsState extends ConsumerState<TripDetails> {
                 const SizedBox(height: AppDimensions.paddingM),
                 TripContainer(serviceName: widget.serviceName),
                 const SizedBox(height: AppDimensions.paddingL),
-                // AppButton(
-                //   color: AppColors.black,
-                //   radius: 15,
-                //   removeShadow: true,
-                //   icon: Icons.file_download_outlined,
-                //   label: 'حفظ الفاتورة',
-                //   onTap: () {},
-                // ),
                 AppButton(
                   color: AppColors.black,
                   radius: 15,

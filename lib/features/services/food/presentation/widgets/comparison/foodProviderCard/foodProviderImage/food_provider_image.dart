@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../../../core/theme/app_colors.dart';
 import '../../../../../domain/entities/food_provider_model.dart';
@@ -22,12 +23,13 @@ class FoodProviderImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return ClipRRect(
       borderRadius: BorderRadius.circular(AppDimensions.radiusM),
       child: Container(
         width: 48,
         height: 48,
-        color: AppColors.surfaceVariant,
+        color: colors.disabledBackground,
         child: _hasValidNetworkImage
             ? CachedNetworkImage(
           imageUrl: provider.logoUrl!.trim(),

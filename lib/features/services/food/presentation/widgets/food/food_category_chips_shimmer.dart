@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 
-/// Shimmer skeleton that mimics the layout of the [FoodCategoryChips] row.
-///
-/// Rendered inside [FoodCategoryChips] while [foodCategoriesProvider] is loading.
 class FoodCategoryChipsShimmer extends StatelessWidget {
   const FoodCategoryChipsShimmer({super.key});
 
@@ -14,9 +12,10 @@ class FoodCategoryChipsShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Shimmer.fromColors(
-      baseColor: AppColors.surfaceVariant,
-      highlightColor: AppColors.surface,
+      baseColor: colors.disabledBackground,
+      highlightColor: colors.surface,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         physics: const NeverScrollableScrollPhysics(),
@@ -24,8 +23,7 @@ class FoodCategoryChipsShimmer extends StatelessWidget {
           horizontal: AppDimensions.paddingM,
         ),
         itemCount: _chipCount,
-        separatorBuilder: (_, __) =>
-            const SizedBox(width: AppDimensions.paddingS),
+        separatorBuilder: (_, __) => const SizedBox(width: AppDimensions.paddingS),
         itemBuilder: (_, index) => FoodCategoryChipShimmer(
           width: index == 0 ? 52 : 72.0 + (index % 2) * 16,
         ),

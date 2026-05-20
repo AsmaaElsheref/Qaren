@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
@@ -20,6 +21,7 @@ class InvoiceMainCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Column(
       children: [
         // Provider logo
@@ -28,7 +30,7 @@ class InvoiceMainCard extends StatelessWidget {
           height: 64,
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
-            color: AppColors.surfaceVariant,
+            color: colors.disabledBackground,
             borderRadius: BorderRadius.circular(AppDimensions.radiusL),
           ),
           child: logoUrl != null
@@ -44,10 +46,10 @@ class InvoiceMainCard extends StatelessWidget {
         // Provider name
         AppText(
           providerName,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: AppDimensions.fontL,
             fontWeight: FontWeight.w700,
-            color: AppColors.textPrimary,
+            color: colors.textPrimary,
           ),
         ),
         const SizedBox(height: AppDimensions.paddingS),

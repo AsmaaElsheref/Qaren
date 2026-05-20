@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import 'invoice_info_cell_shimmer.dart';
 
-/// Shimmer skeleton that mimics the layout of [FoodInvoicePage] while data loads.
 class InvoiceShimmer extends StatelessWidget {
   const InvoiceShimmer({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Shimmer.fromColors(
-      baseColor: AppColors.surfaceVariant,
-      highlightColor: AppColors.surface,
+      baseColor: colors.disabledBackground,
+      highlightColor: colors.surface,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingM),
         child: Container(
           width: double.infinity,
           padding: const EdgeInsets.symmetric(vertical: AppDimensions.paddingL),
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: colors.surface,
             borderRadius: BorderRadius.circular(AppDimensions.radiusXL),
           ),
           child: Column(
@@ -30,7 +31,7 @@ class InvoiceShimmer extends StatelessWidget {
                 width: 64,
                 height: 64,
                 decoration: BoxDecoration(
-                  color: AppColors.surfaceVariant,
+                  color: colors.disabledBackground,
                   borderRadius: BorderRadius.circular(AppDimensions.radiusL),
                 ),
               ),
@@ -40,7 +41,7 @@ class InvoiceShimmer extends StatelessWidget {
                 width: 140,
                 height: 16,
                 decoration: BoxDecoration(
-                  color: AppColors.surfaceVariant,
+                  color: colors.disabledBackground,
                   borderRadius: BorderRadius.circular(AppDimensions.radiusS),
                 ),
               ),
@@ -50,7 +51,7 @@ class InvoiceShimmer extends StatelessWidget {
                 width: 90,
                 height: 22,
                 decoration: BoxDecoration(
-                  color: AppColors.surfaceVariant,
+                  color: colors.disabledBackground,
                   borderRadius:
                       BorderRadius.circular(AppDimensions.radiusFull),
                 ),
@@ -63,7 +64,7 @@ class InvoiceShimmer extends StatelessWidget {
                 child: Container(
                   height: 70,
                   decoration: BoxDecoration(
-                    color: AppColors.surfaceVariant,
+                    color: colors.disabledBackground,
                     borderRadius:
                         BorderRadius.circular(AppDimensions.radiusL),
                   ),
@@ -72,8 +73,7 @@ class InvoiceShimmer extends StatelessWidget {
               const SizedBox(height: AppDimensions.paddingL),
               // Info grid placeholder — 2x2
               Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: AppDimensions.paddingL),
+                padding: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingL),
                 child: Column(
                   children: [
                     Row(

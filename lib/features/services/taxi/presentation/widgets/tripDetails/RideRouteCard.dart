@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../providers/taxi_notifier.dart';
 import 'route_center_divider.dart';
 import 'route_point_column.dart';
@@ -11,11 +12,12 @@ class RideRouteCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final pickup = ref.watch(taxiProvider.select((s) => s.pickup));
     final destination = ref.watch(taxiProvider.select((s) => s.destination));
+    final colors = context.appColors;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 20),
       decoration: BoxDecoration(
-        color: const Color(0xFFF2F2F2),
+        color: colors.surface,
         borderRadius: BorderRadius.circular(22),
         border: Border.all(
           color: const Color(0xFFE6E6E6),

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 
-/// Shimmer cell that mimics a single [InvoiceInfoCell] label + value pair.
 class InvoiceInfoCellShimmer extends StatelessWidget {
   const InvoiceInfoCellShimmer({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -16,7 +17,7 @@ class InvoiceInfoCellShimmer extends StatelessWidget {
           width: 60,
           height: 10,
           decoration: BoxDecoration(
-            color: AppColors.surfaceVariant,
+            color: colors.disabledBackground,
             borderRadius: BorderRadius.circular(AppDimensions.radiusS),
           ),
         ),
@@ -25,7 +26,7 @@ class InvoiceInfoCellShimmer extends StatelessWidget {
           width: 90,
           height: 14,
           decoration: BoxDecoration(
-            color: AppColors.surfaceVariant,
+            color: colors.disabledBackground,
             borderRadius: BorderRadius.circular(AppDimensions.radiusS),
           ),
         ),

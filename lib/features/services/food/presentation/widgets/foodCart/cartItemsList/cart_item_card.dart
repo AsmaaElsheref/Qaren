@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:qaren/core/utils/extensions/contextSizeX.dart';
 
 import '../../../../../../../core/constants/app_dimensions.dart';
@@ -18,6 +19,7 @@ class CartItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Container(
       margin: const EdgeInsets.symmetric(
         horizontal: AppDimensions.paddingM,
@@ -25,7 +27,7 @@ class CartItemCard extends StatelessWidget {
       ),
       padding: const EdgeInsets.all(AppDimensions.paddingM),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: colors.surface,
         borderRadius: BorderRadius.circular(AppDimensions.radiusL),
         border: Border.all(color: AppColors.border),
         boxShadow: [
@@ -49,7 +51,7 @@ class CartItemCard extends StatelessWidget {
                 width: 72,
                 height: 72,
                 decoration: BoxDecoration(
-                  color: AppColors.surfaceVariant,
+                  color: colors.disabledBackground,
                   borderRadius: BorderRadius.circular(AppDimensions.radiusM),
                 ),
                 child: const Icon(
@@ -67,10 +69,10 @@ class CartItemCard extends StatelessWidget {
                 width: context.screenWidth*0.28,
                 child: AppText(
                   item.name,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: AppDimensions.fontM,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.textPrimary,
+                    color: colors.textPrimary,
                   ),
                 ),
               ),

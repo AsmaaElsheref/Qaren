@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 
 class RideServiceTitleSection extends StatelessWidget {
   const RideServiceTitleSection({super.key, required this.serviceName});
@@ -7,6 +8,7 @@ class RideServiceTitleSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Column(
       children: [
         Text(
@@ -14,7 +16,7 @@ class RideServiceTitleSection extends StatelessWidget {
           style: TextStyle(
             fontSize: 26,
             fontWeight: FontWeight.w800,
-            color: Color(0xFF1F2937),
+            color: colors.textPrimary,
           ),
         ),
         const SizedBox(height: 10),

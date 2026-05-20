@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
@@ -11,8 +12,6 @@ import '../foodInvoice/invoice_main_card.dart';
 import '../foodInvoice/invoice_route_section.dart';
 import '../foodInvoice/invoice_shimmer.dart';
 
-/// Handles loading / error / data states for the invoice body.
-/// Separated to keep [FoodInvoicePage.build] purely compositional.
 class InvoiceBody extends StatelessWidget {
   const InvoiceBody({
     super.key,
@@ -75,16 +74,14 @@ class InvoiceBody extends StatelessWidget {
       orderTime:  DateFormat('hh:mm a').format(now),
       date:       DateFormat('dd/MM/yyyy').format(now),
     );
-
+    final colors = context.appColors;
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(
-          horizontal: AppDimensions.paddingM),
+      padding: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingM),
       child: Container(
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(
-            vertical: AppDimensions.paddingL),
+        padding: const EdgeInsets.symmetric(vertical: AppDimensions.paddingL),
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: colors.surface,
           borderRadius: BorderRadius.circular(AppDimensions.radiusXL),
           boxShadow: [
             BoxShadow(

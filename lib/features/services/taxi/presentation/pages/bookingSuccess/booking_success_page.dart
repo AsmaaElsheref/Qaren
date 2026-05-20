@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/ui/widgets/AppButton.dart';
@@ -19,8 +20,8 @@ class BookingSuccessPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Scaffold(
-      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(
@@ -51,10 +52,10 @@ class BookingSuccessPage extends StatelessWidget {
               // ── Title ──────────────────────────────────────────────────
               AppText(
                 'تم الحجز بنجاح!',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: AppDimensions.fontXXL,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.textPrimary,
+                  color: colors.textPrimary,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -79,7 +80,7 @@ class BookingSuccessPage extends StatelessWidget {
                 width: double.infinity,
                 padding: const EdgeInsets.all(AppDimensions.paddingM),
                 decoration: BoxDecoration(
-                  color: AppColors.surface,
+                  color: colors.surface,
                   borderRadius: BorderRadius.circular(AppDimensions.radiusM),
                   border: Border.all(color: AppColors.border),
                 ),

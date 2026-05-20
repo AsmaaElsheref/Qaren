@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:qaren/core/ui/widgets/AppText.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
@@ -18,13 +19,14 @@ class FoodCategoryChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 3,),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.black : AppColors.surface,
+          color: isSelected ? AppColors.black : colors.surface,
           borderRadius: BorderRadius.circular(AppDimensions.radiusFull),
           border: Border.all(color: isSelected ? const Color(0xFF2D3436) : AppColors.border,),
         ),

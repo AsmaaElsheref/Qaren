@@ -71,7 +71,7 @@ class PriceResultCard extends StatelessWidget {
                 AppButton(
                   height: 35,
                   width: context.screenWidth * 0.27,
-                  color: colors.textPrimary,
+                  color: AppColors.textPrimary,
                   radius: 10,
                   removeShadow: true,
                   label: 'احجز الآن',

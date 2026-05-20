@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 
 import '../../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../../core/theme/app_colors.dart';
@@ -7,12 +8,6 @@ import '../../../../../../../core/ui/widgets/AppText.dart';
 import '../../../../domain/entities/food_provider_model.dart';
 import '../../../food_strings.dart';
 
-/// Confirmation bottom sheet shown before checking out from a partial-match
-/// restaurant. Explains that only the available items will be ordered.
-///
-/// [availableNames] comes from the partner's `products_preview`.
-/// [missingNames] is derived by the caller by comparing cart items against
-/// the matched product ids.
 class FoodPartialMatchSheet extends StatelessWidget {
   const FoodPartialMatchSheet({
     super.key,
@@ -25,18 +20,17 @@ class FoodPartialMatchSheet extends StatelessWidget {
   final List<String> availableNames;
   final List<String> missingNames;
 
-  /// Shows the sheet and returns `true` when user confirms, `false`/`null`
-  /// otherwise.
   static Future<bool?> show(
     BuildContext context, {
     required FoodProviderModel provider,
     required List<String> availableNames,
     required List<String> missingNames,
   }) {
+    final colors = context.appColors;
     return showModalBottomSheet<bool>(
       context: context,
       isScrollControlled: true,
-      backgroundColor: AppColors.surface,
+      backgroundColor: colors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(AppDimensions.radiusXL),
@@ -52,6 +46,7 @@ class FoodPartialMatchSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.only(
@@ -91,13 +86,13 @@ class FoodPartialMatchSheet extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: AppDimensions.paddingM),
-                const Expanded(
+                Expanded(
                   child: AppText(
                     FoodStrings.partialMatchTitle,
                     style: TextStyle(
                       fontSize: AppDimensions.fontL,
                       fontWeight: FontWeight.w800,
-                      color: AppColors.textPrimary,
+                      color: colors.textPrimary,
                     ),
                   ),
                 ),
@@ -140,9 +135,9 @@ class FoodPartialMatchSheet extends StatelessWidget {
                           Expanded(
                             child: AppText(
                               name,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: AppDimensions.fontS,
-                                color: AppColors.textPrimary,
+                                color: colors.textPrimary,
                               ),
                             ),
                           ),
@@ -180,9 +175,9 @@ class FoodPartialMatchSheet extends StatelessWidget {
                           Expanded(
                             child: AppText(
                               name,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: AppDimensions.fontS,
-                                color: AppColors.textPrimary,
+                                color: colors.textPrimary,
                               ),
                             ),
                           ),

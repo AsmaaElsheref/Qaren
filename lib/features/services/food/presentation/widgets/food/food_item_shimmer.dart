@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 
-/// Shimmer skeleton that mimics the layout of [FoodItemCard].
-///
-/// Rendered inside [FoodItemList] while [foodItemsProvider] is loading.
-/// Shows 4 placeholder rows so the skeleton fills the card area naturally.
 class FoodItemShimmer extends StatelessWidget {
   const FoodItemShimmer({super.key});
 
@@ -15,9 +12,10 @@ class FoodItemShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Shimmer.fromColors(
-      baseColor: AppColors.surfaceVariant,
-      highlightColor: AppColors.surface,
+      baseColor: colors.disabledBackground,
+      highlightColor: colors.surface,
       child: ListView.separated(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),

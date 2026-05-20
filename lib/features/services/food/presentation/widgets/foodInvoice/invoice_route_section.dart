@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qaren/core/constants/gap.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
@@ -20,6 +21,7 @@ class InvoiceRouteSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingM),
       padding: const EdgeInsets.symmetric(
@@ -27,7 +29,7 @@ class InvoiceRouteSection extends StatelessWidget {
         vertical: AppDimensions.paddingM,
       ),
       decoration: BoxDecoration(
-        color: AppColors.surfaceVariant,
+        color: colors.disabledBackground,
         borderRadius: BorderRadius.circular(AppDimensions.radiusL),
       ),
       child: Row(
@@ -45,10 +47,10 @@ class InvoiceRouteSection extends StatelessWidget {
                 const SizedBox(height: 2),
                 AppText(
                   from,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: AppDimensions.fontM,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.textPrimary,
+                    color: colors.textPrimary,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -73,9 +75,9 @@ class InvoiceRouteSection extends StatelessWidget {
                 width: 30,
                 height: 30,
                 decoration: BoxDecoration(
-                  color: AppColors.surface,
+                  color: colors.surface,
                   shape: BoxShape.circle,
-                  border: Border.all(color: AppColors.border),
+                  border: Border.all(color: colors.border),
                 ),
                 child: const Icon(
                   Icons.restaurant,
@@ -107,10 +109,10 @@ class InvoiceRouteSection extends StatelessWidget {
                 const SizedBox(height: 2),
                 AppText(
                   to,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: AppDimensions.fontM,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.textPrimary,
+                    color: colors.textPrimary,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,

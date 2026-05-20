@@ -13,9 +13,6 @@ import '../../widgets/checkout/checkout_payment_section.dart';
 import '../../widgets/checkout/checkout_restaurant_section.dart';
 import '../../widgets/checkout/checkout_summary_section.dart';
 
-/// Pure compositional checkout screen — every section is its own widget
-/// listening to its own granular provider, so this page never rebuilds
-/// itself on state change.
 class CheckoutPage extends ConsumerWidget {
   const CheckoutPage({super.key});
 
@@ -28,7 +25,6 @@ class CheckoutPage extends ConsumerWidget {
       child: Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-          backgroundColor: AppColors.background,
           body: SafeArea(
             child: Column(
               children: [

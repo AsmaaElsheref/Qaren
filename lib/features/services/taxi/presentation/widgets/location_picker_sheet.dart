@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:qaren/features/services/taxi/presentation/providers/currentLocationProvider/current_location_provider.dart';
 import '../../../../../core/constants/app_dimensions.dart';
 import '../../../../../core/theme/app_colors.dart';
@@ -26,12 +27,12 @@ class LocationPickerSheet extends ConsumerWidget {
     final otherLabel = otherLocation.label;
     final otherLatLng = otherLocation.latLng;
     final currentLocation = ref.watch(currentLocationProvider).valueOrNull;
-
+    final colors = context.appColors;
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Container(
-        decoration: const BoxDecoration(
-          color: AppColors.surface,
+        decoration: BoxDecoration(
+          color: colors.surface,
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(AppDimensions.radiusXL),
           ),
@@ -237,10 +238,11 @@ Future<void> showLocationPickerSheet(
   BuildContext context,
   TaxiActiveField field,
 ) {
+  final colors = context.appColors;
   return showModalBottomSheet(
     context: context,
     isScrollControlled: true,
-    backgroundColor: Colors.transparent,
+    backgroundColor: colors.surface,
     builder: (_) => LocationPickerSheet(field: field),
   );
 }

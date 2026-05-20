@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
@@ -20,6 +21,7 @@ class ComparisonHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: AppDimensions.paddingM,
@@ -28,10 +30,10 @@ class ComparisonHeader extends StatelessWidget {
       child: Row(
         children: [
           IconContainer(
-            icon: const Icon(
+            icon: Icon(
               Icons.arrow_back_ios_rounded,
               size: 18,
-              color: AppColors.textPrimary,
+              color: colors.textPrimary,
             ),
             onTap: () => Navigator.pop(context),
           ),
@@ -39,12 +41,12 @@ class ComparisonHeader extends StatelessWidget {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const AppText(
+              AppText(
                 FoodStrings.comparisonTitle,
                 style: TextStyle(
                   fontSize: AppDimensions.fontL,
                   fontWeight: FontWeight.w800,
-                  color: AppColors.textPrimary,
+                  color: colors.textPrimary,
                 ),
               ),
               Row(
@@ -57,12 +59,12 @@ class ComparisonHeader extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(fontSize: AppDimensions.fontXS),
                   ),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.symmetric(horizontal: 4),
                     child: Icon(
                       Icons.arrow_back_ios_rounded,
                       size: 10,
-                      color: AppColors.textSecondary,
+                      color: colors.textSecondary,
                     ),
                   ),
                   AppText(
@@ -77,14 +79,14 @@ class ComparisonHeader extends StatelessWidget {
             ],
           ),
           const Spacer(),
-          IconContainer(
-            icon: const Icon(
-              Icons.filter_alt_outlined,
-              size: 20,
-              color: AppColors.textPrimary,
-            ),
-            onTap: () {},
-          ),
+          // IconContainer(
+          //   icon: Icon(
+          //     Icons.filter_alt_outlined,
+          //     size: 20,
+          //     color: colors.textPrimary,
+          //   ),
+          //   onTap: () {},
+          // ),
         ],
       ),
     );

@@ -244,7 +244,7 @@ class FoodProviderCard extends StatelessWidget {
                   AppButton(
                     height: 35,
                     width: 120,
-                    color: colors.textPrimary,
+                    color: AppColors.textPrimary,
                     radius: 10,
                     removeShadow: true,
                     label: _isPartialMatch ? FoodStrings.orderAvailable : FoodStrings.orderNow,

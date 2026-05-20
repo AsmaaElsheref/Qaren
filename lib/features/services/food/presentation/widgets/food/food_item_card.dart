@@ -16,9 +16,6 @@ class FoodItemCard extends ConsumerWidget {
 
   final FoodItem item;
 
-  /// First add: resolves which warehouse to use, prompting the user when
-  /// more than one active branch is available. Subsequent increments reuse
-  /// the previously selected warehouse stored on the cart item.
   Future<void> _onAddTap(BuildContext context, WidgetRef ref) async {
     final cartState = ref.read(foodCartProvider);
     final existing  = cartState.items[item.id];

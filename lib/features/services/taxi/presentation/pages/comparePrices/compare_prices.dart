@@ -17,7 +17,6 @@ class ComparePricesPage extends ConsumerWidget {
       child: Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-          backgroundColor: AppColors.background,
           appBar: PreferredSize(preferredSize: Size.fromHeight(70), child: const ComparePricesAppBar()),
           body: ContentList(),
         ),

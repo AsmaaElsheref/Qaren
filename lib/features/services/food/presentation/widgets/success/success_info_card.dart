@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
@@ -8,10 +9,6 @@ import '../../../data/models/food_booking_response.dart';
 import '../../food_strings.dart';
 import '../../providers/food_providers.dart';
 
-/// Booking summary card on the success screen.
-///
-/// Watches only [foodBookingResultProvider] and the selected partner — it
-/// stays untouched if anything else in the tree changes.
 class SuccessInfoCard extends ConsumerWidget {
   const SuccessInfoCard({super.key});
 
@@ -24,33 +21,31 @@ class SuccessInfoCard extends ConsumerWidget {
     final partnerName = ref.watch(
       selectedProviderForBookingProvider.select((p) => p?.name ?? ''),
     );
-
+    final colors = context.appColors;
     return Container(
-      margin:
-          const EdgeInsets.symmetric(horizontal: AppDimensions.paddingM),
+      margin: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingM),
       padding: const EdgeInsets.all(AppDimensions.paddingM),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: colors.surface,
         borderRadius: BorderRadius.circular(AppDimensions.radiusL),
         border: Border.all(color: AppColors.border),
       ),
       child: Column(
         children: [
-          _row(FoodStrings.bookingNumberLabel, result.bookingNumber),
+          _row(FoodStrings.bookingNumberLabel, result.bookingNumber,color: colors.textPrimary),
           if (partnerName.isNotEmpty)
-            _row(FoodStrings.restaurantSection, partnerName),
-          _row(FoodStrings.paymentMethodLabel, _paymentLabel(result)),
+            _row(FoodStrings.restaurantSection, partnerName,color: colors.textPrimary),
+          _row(FoodStrings.paymentMethodLabel, _paymentLabel(result),color: colors.textPrimary),
           _row(
             FoodStrings.totalLabel,
             '${result.totalPrice.toInt()} ${result.currency}',
-            highlight: true,
+            highlight: true
           ),
           if (result.deliveryAddress.isNotEmpty)
-            _row(FoodStrings.deliverySection, result.deliveryAddress),
+            _row(FoodStrings.deliverySection, result.deliveryAddress,color: colors.textPrimary),
           if (result.estimatedDeliveryMinutes != null)
             _row(
-              FoodStrings.estimatedDelivery,
-              '${result.estimatedDeliveryMinutes} ${FoodStrings.minutes}',
+              FoodStrings.estimatedDelivery, '${result.estimatedDeliveryMinutes} ${FoodStrings.minutes}',color: colors.textPrimary
             ),
         ],
       ),
@@ -66,7 +61,7 @@ class SuccessInfoCard extends ConsumerWidget {
     }
   }
 
-  Widget _row(String label, String value, {bool highlight = false}) {
+  Widget _row(String label, String value, {bool highlight = false,color}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
@@ -87,11 +82,8 @@ class SuccessInfoCard extends ConsumerWidget {
               maxLines: 2,
               style: TextStyle(
                 fontSize: AppDimensions.fontS,
-                fontWeight:
-                    highlight ? FontWeight.w800 : FontWeight.w600,
-                color: highlight
-                    ? AppColors.primary
-                    : AppColors.textPrimary,
+                fontWeight: highlight ? FontWeight.w800 : FontWeight.w600,
+                color: highlight ? AppColors.primary : color,
                 overflow: TextOverflow.ellipsis,
               ),
             ),

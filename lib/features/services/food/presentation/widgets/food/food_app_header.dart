@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
 import 'package:qaren/core/theme/app_colors.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:qaren/core/ui/widgets/AppText.dart';
 import 'package:qaren/core/ui/widgets/icon_container.dart';
 import 'package:qaren/features/services/food/presentation/food_strings.dart';
@@ -14,6 +15,7 @@ class FoodAppHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: AppDimensions.paddingM,
@@ -23,10 +25,10 @@ class FoodAppHeader extends StatelessWidget {
         children: [
           IconContainer(
             onTap: () => Navigator.pop(context),
-            icon: const Icon(
+            icon: Icon(
               Icons.arrow_back,
               size: AppDimensions.iconS,
-              color: AppColors.textSecondary,
+              color: colors.textSecondary,
             ),
           ),
           const SizedBox(width: AppDimensions.paddingS),

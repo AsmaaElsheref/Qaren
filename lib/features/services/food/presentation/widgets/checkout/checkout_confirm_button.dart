@@ -8,10 +8,6 @@ import '../../food_strings.dart';
 import '../../pages/successPage/success_page.dart';
 import '../../providers/food_providers.dart';
 
-/// Bottom CTA — submits the booking and navigates to the success screen.
-///
-/// Listens to [foodBookingIsLoadingProvider] only — typing notes etc. do
-/// not rebuild it.
 class CheckoutConfirmButton extends ConsumerWidget {
   const CheckoutConfirmButton({super.key});
 

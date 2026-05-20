@@ -42,7 +42,6 @@ class _TaxiPageState extends ConsumerState<TaxiPage> {
         statusBarColor: Colors.transparent,
       ),
       child: Scaffold(
-        backgroundColor: AppColors.background,
         resizeToAvoidBottomInset: false,
         drawer: const TaxiAppsDrawer(),
         body: Builder(

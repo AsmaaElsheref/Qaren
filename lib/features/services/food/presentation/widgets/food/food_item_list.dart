@@ -7,10 +7,6 @@ import '../../providers/food_providers.dart';
 import 'food_item_card.dart';
 import 'food_item_shimmer.dart';
 
-/// Renders the list of food items based on the current API response.
-///
-/// Handles loading, error, empty, and data states.
-/// Rebuild scope: only this widget rebuilds when [foodItemsProvider] changes.
 class FoodItemList extends ConsumerWidget {
   const FoodItemList({super.key});
 
@@ -52,7 +48,6 @@ class FoodItemList extends ConsumerWidget {
         }
         return ListView.separated(
           shrinkWrap: true,
-          // physics: const NeverScrollableScrollPhysics(),
           padding: const EdgeInsets.only(bottom: AppDimensions.paddingS),
           itemCount: items.length,
           separatorBuilder: (_, __) => const Divider(

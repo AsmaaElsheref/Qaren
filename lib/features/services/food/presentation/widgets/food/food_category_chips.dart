@@ -29,8 +29,7 @@ class FoodCategoryChips extends ConsumerWidget {
             horizontal: AppDimensions.paddingM,
           ),
           itemCount: categories.length,
-          separatorBuilder: (_, __) =>
-              const SizedBox(width: AppDimensions.paddingS),
+          separatorBuilder: (_, __) => const SizedBox(width: AppDimensions.paddingS),
           itemBuilder: (context, index) {
             final category = categories[index];
             return FoodCategoryChip(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
-import '../../../../../../core/theme/app_colors.dart';
 import '../../widgets/comparison/comparison_filter_chips.dart';
 import '../../widgets/comparison/comparison_header.dart';
 import '../../widgets/comparison/comparison_info_card.dart';
@@ -19,7 +18,6 @@ class FoodResult extends StatelessWidget {
       child: Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-          backgroundColor: AppColors.background,
           body: SafeArea(
             child: Column(
               children: [

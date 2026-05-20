@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
@@ -6,11 +7,6 @@ import '../../../../../../core/ui/widgets/AppText.dart';
 import '../../../domain/entities/food_warehouse.dart';
 import 'branch_option_card.dart';
 
-/// Bottom sheet that lets the user pick a branch/warehouse for a food product
-/// when the product is offered by more than one active branch.
-///
-/// Returns the selected [FoodWarehouse] via [Navigator.pop], or null if the
-/// user dismisses the sheet.
 class BranchSelectionSheet extends StatelessWidget {
   const BranchSelectionSheet({super.key, required this.warehouses});
 
@@ -21,10 +17,11 @@ class BranchSelectionSheet extends StatelessWidget {
     BuildContext context, {
     required List<FoodWarehouse> warehouses,
   }) {
+    final colors = context.appColors;
     return showModalBottomSheet<FoodWarehouse>(
       context: context,
       isScrollControlled: true,
-      backgroundColor: AppColors.surface,
+      backgroundColor: colors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(AppDimensions.radiusXL),
@@ -60,7 +57,6 @@ class BranchSelectionSheet extends StatelessWidget {
             const AppText(
               'اختر الفرع',
               style: TextStyle(
-                // fontSize: AppDimensions.fontL,
                 fontWeight: FontWeight.w800,
                 color: AppColors.textPrimary,
               ),
@@ -69,7 +65,6 @@ class BranchSelectionSheet extends StatelessWidget {
             const AppText(
               'اختر الفرع المناسب لهذا المنتج',
               secondary: true,
-              // style: TextStyle(fontSize: AppDimensions.fontXS),
             ),
             const SizedBox(height: AppDimensions.paddingM),
             Flexible(

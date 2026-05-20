@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 
 import '../../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../../core/theme/app_colors.dart';
@@ -15,6 +16,7 @@ class CartHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: AppDimensions.paddingM,
@@ -29,10 +31,10 @@ class CartHeader extends StatelessWidget {
             children: [
               AppText(
                 FoodStrings.orderSummary,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: AppDimensions.fontL,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.textPrimary,
+                  color: colors.textPrimary,
                 ),
               ),
               const CartItemsCount(),

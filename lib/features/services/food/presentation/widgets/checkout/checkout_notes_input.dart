@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
@@ -8,9 +9,6 @@ import '../../../../../../core/ui/widgets/AppTextField.dart';
 import '../../food_strings.dart';
 import '../../providers/food_providers.dart';
 
-/// Notes input. Owns its own [TextEditingController] so typing doesn't
-/// flow into other widgets — only [checkoutNotesProvider] is updated, and
-/// only widgets that select that provider rebuild.
 class CheckoutNotesInput extends ConsumerStatefulWidget {
   const CheckoutNotesInput({super.key});
 
@@ -38,24 +36,24 @@ class CheckoutNotesInputState extends ConsumerState<CheckoutNotesInput> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Container(
-      margin:
-          const EdgeInsets.symmetric(horizontal: AppDimensions.paddingM),
+      margin: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingM),
       padding: const EdgeInsets.all(AppDimensions.paddingM),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: colors.surface,
         borderRadius: BorderRadius.circular(AppDimensions.radiusL),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: colors.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const AppText(
+          AppText(
             'ملاحظات',
             style: TextStyle(
               fontSize: AppDimensions.fontM,
               fontWeight: FontWeight.w800,
-              color: AppColors.textPrimary,
+              color: colors.textPrimary,
             ),
           ),
           const SizedBox(height: AppDimensions.paddingS),
@@ -64,8 +62,7 @@ class CheckoutNotesInputState extends ConsumerState<CheckoutNotesInput> {
             hint: FoodStrings.notesHint,
             maxLines: 3,
             minLines: 2,
-            onChanged: (v) =>
-                ref.read(checkoutNotesProvider.notifier).state = v,
+            onChanged: (v) => ref.read(checkoutNotesProvider.notifier).state = v,
           ),
         ],
       ),

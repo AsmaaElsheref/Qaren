@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart' as geo;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 
 import '../../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../../core/theme/app_colors.dart';
@@ -116,7 +117,7 @@ class _FoodMapPickerPageState extends State<FoodMapPickerPage> {
               top: MediaQuery.of(context).padding.top + AppDimensions.paddingS,
               right: AppDimensions.paddingM,
               child: _CircleIconButton(
-                icon: Icons.arrow_forward_ios_rounded,
+                icon: Icons.arrow_back_ios_rounded,
                 onTap: () => Navigator.of(context).pop(),
               ),
             ),
@@ -187,6 +188,7 @@ class _AddressCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(
@@ -194,7 +196,7 @@ class _AddressCard extends StatelessWidget {
         vertical: AppDimensions.paddingM,
       ),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: colors.surface,
         borderRadius: BorderRadius.circular(AppDimensions.radiusL),
         boxShadow: [
           BoxShadow(
@@ -229,10 +231,10 @@ class _AddressCard extends StatelessWidget {
                   )
                 : AppText(
                     address,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: AppDimensions.fontS,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.textPrimary,
+                      color: colors.textPrimary,
                     ),
                     textAlign: TextAlign.right,
                     maxLines: 2,
@@ -261,13 +263,14 @@ class _CircleIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return GestureDetector(
       onTap: onTap,
       child: Container(
         width: 44,
         height: 44,
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: colors.surface,
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
@@ -277,7 +280,7 @@ class _CircleIconButton extends StatelessWidget {
             ),
           ],
         ),
-        child: Icon(icon, size: 18, color: AppColors.textPrimary),
+        child: Icon(icon, size: 18, color: colors.textPrimary),
       ),
     );
   }

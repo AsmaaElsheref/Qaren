@@ -10,8 +10,6 @@ import '../../widgets/comparison/foodPartialSheet/food_partial_match_sheet.dart'
 import '../../widgets/comparison/foodProviderCard/food_provider_card.dart';
 import '../foodInvoicePage/food_invoice_page.dart';
 
-/// Scrollable list of provider comparison cards.
-/// Only rebuilds when [sortedFoodProvidersProvider] changes.
 class FoodResultItems extends ConsumerWidget {
   const FoodResultItems({super.key});
 
@@ -46,8 +44,7 @@ class FoodResultItems extends ConsumerWidget {
 
     // Fetch full invoice detail from API — invoice page shows shimmer meanwhile.
     final cartItems = ref.read(foodCartItemsProvider);
-    final productIds =
-        cartItems.map((item) => int.tryParse(item.id) ?? 0).toList();
+    final productIds = cartItems.map((item) => int.tryParse(item.id) ?? 0).toList();
     final location = ref.read(foodSelectedLocationProvider);
 
     ref.read(foodInvoiceDetailProvider.notifier).fetch(

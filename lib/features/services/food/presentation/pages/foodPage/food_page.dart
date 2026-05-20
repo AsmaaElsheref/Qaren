@@ -58,7 +58,6 @@ class _FoodPageState extends ConsumerState<FoodPage> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        backgroundColor: AppColors.background,
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(

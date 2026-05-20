@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
@@ -10,6 +11,7 @@ class InvoiceHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: AppDimensions.paddingM,
@@ -18,31 +20,31 @@ class InvoiceHeader extends StatelessWidget {
       child: Row(
         children: [
           IconContainer(
-            icon: const Icon(
+            icon: Icon(
               Icons.arrow_back_ios_rounded,
               size: 18,
-              color: AppColors.textPrimary,
+              color: colors.textPrimary,
             ),
             onTap: () => Navigator.pop(context),
           ),
           const Spacer(),
-          const AppText(
+          AppText(
             FoodStrings.invoiceTitle,
             style: TextStyle(
               fontSize: AppDimensions.fontL,
               fontWeight: FontWeight.w800,
-              color: AppColors.textPrimary,
+              color: colors.textPrimary,
             ),
           ),
           const Spacer(),
-          IconContainer(
-            icon: const Icon(
-              Icons.share_outlined,
-              size: 20,
-              color: AppColors.textPrimary,
-            ),
-            onTap: () {},
-          ),
+          // IconContainer(
+          //   icon: Icon(
+          //     Icons.share_outlined,
+          //     size: 20,
+          //     color: colors.textPrimary,
+          //   ),
+          //   onTap: () {},
+          // ),
         ],
       ),
     );

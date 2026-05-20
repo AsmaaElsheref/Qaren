@@ -38,8 +38,6 @@ class _MapPickerPageState extends ConsumerState<MapPickerPage> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        // Transparent so the shared GoogleMap behind it shows through.
-        backgroundColor: Colors.transparent,
           body: Stack(
           children: [
             const RepaintBoundary(

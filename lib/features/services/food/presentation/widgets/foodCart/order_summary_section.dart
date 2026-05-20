@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
@@ -17,14 +18,14 @@ class OrderSummarySection extends ConsumerWidget {
     final subtotal = ref.watch(foodCartSubtotalProvider);
     final tax = ref.watch(foodCartTaxProvider);
     final total = ref.watch(foodCartTotalProvider);
-
+    final colors = context.appColors;
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: AppDimensions.paddingL,
         vertical: AppDimensions.paddingM,
       ),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: colors.surface,
         borderRadius: const BorderRadius.vertical(
           top: Radius.circular(AppDimensions.radiusXL),
         ),
@@ -54,10 +55,10 @@ class OrderSummarySection extends ConsumerWidget {
             children: [
               AppText(
                 FoodStrings.total,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: AppDimensions.fontL,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.textPrimary,
+                  color: colors.textPrimary,
                 ),
               ),
               AppText(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
@@ -20,6 +21,7 @@ class InvoiceInfoCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Column(
       crossAxisAlignment: crossAlign,
       children: [
@@ -34,7 +36,7 @@ class InvoiceInfoCell extends StatelessWidget {
           style: TextStyle(
             fontSize: AppDimensions.fontM,
             fontWeight: FontWeight.w700,
-            color: valueColor ?? AppColors.textPrimary,
+            color: valueColor ?? colors.textPrimary,
           ),
         ),
       ],

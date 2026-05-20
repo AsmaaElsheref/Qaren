@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
@@ -15,15 +16,15 @@ class FoodCartBadge extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final totalCount = ref.watch(foodCartTotalCountProvider);
-
+    final colors = context.appColors;
     return Stack(
       clipBehavior: Clip.none,
       children: [
         IconContainer(
-          icon:  const Icon(
+          icon:  Icon(
             Icons.shopping_bag_outlined,
             size: 26,
-            color: AppColors.textPrimary,
+            color: colors.textPrimary,
           ),
           onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => FoodCartPage()),),
         ),

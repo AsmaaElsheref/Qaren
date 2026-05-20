@@ -5,10 +5,6 @@ import '../../../../../../core/ui/widgets/AppButton.dart';
 import '../../food_strings.dart';
 import '../../pages/checkoutPage/checkout_page.dart';
 
-/// Full-width CTA button at the bottom of the invoice screen.
-///
-/// Navigates to the checkout screen — the actual booking submission
-/// happens there.
 class SaveInvoiceButton extends StatelessWidget {
   const SaveInvoiceButton({super.key, this.amount});
 

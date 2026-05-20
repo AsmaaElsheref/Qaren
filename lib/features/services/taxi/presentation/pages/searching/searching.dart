@@ -14,13 +14,9 @@ import 'search_loading_dialog.dart';
 class Searching extends ConsumerWidget {
   const Searching({super.key});
 
-  String _formatDate(DateTime d) =>
-      '${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}';
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      backgroundColor: AppColors.surface,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(70),
         child: SafeArea(

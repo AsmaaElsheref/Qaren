@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/network/apiRoutes/api_routes.dart';
@@ -8,8 +9,6 @@ import '../../../../../../core/ui/widgets/AppText.dart';
 import '../../../data/models/food_booking_item_response.dart';
 import '../../food_strings.dart';
 
-/// One ordered-item row on the success screen, fed by a single
-/// [FoodBookingItemResponse]. Pure presentational, no providers.
 class SuccessItemCard extends StatelessWidget {
   const SuccessItemCard({super.key, required this.item});
 
@@ -17,9 +16,8 @@ class SuccessItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final imageUrl =
-        ApiRoutes.foodImageUrl(item.productThumbnailSnapshot);
-
+    final imageUrl = ApiRoutes.foodImageUrl(item.productThumbnailSnapshot);
+    final colors = context.appColors;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: AppDimensions.paddingS),
       child: Row(
@@ -32,8 +30,8 @@ class SuccessItemCard extends StatelessWidget {
               width: 48,
               height: 48,
               fit: BoxFit.cover,
-              placeholder: (_, __) => _placeholder(),
-              errorWidget: (_, __, ___) => _placeholder(),
+              placeholder: (_, __) => _placeholder(colors),
+              errorWidget: (_, __, ___) => _placeholder(colors),
             ),
           ),
           const SizedBox(width: AppDimensions.paddingM),
@@ -44,10 +42,10 @@ class SuccessItemCard extends StatelessWidget {
                 AppText(
                   item.displayName,
                   maxLines: 1,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: AppDimensions.fontS,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.textPrimary,
+                    color: colors.textPrimary,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -61,10 +59,10 @@ class SuccessItemCard extends StatelessWidget {
           ),
           AppText(
             '${item.subtotal.toInt()} ${FoodStrings.currencyShort}',
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: AppDimensions.fontS,
               fontWeight: FontWeight.w800,
-              color: AppColors.textPrimary,
+              color: colors.textPrimary,
             ),
           ),
         ],
@@ -72,11 +70,11 @@ class SuccessItemCard extends StatelessWidget {
     );
   }
 
-  Widget _placeholder() => Container(
+  Widget _placeholder(colors) => Container(
         width: 48,
         height: 48,
         decoration: BoxDecoration(
-          color: AppColors.surfaceVariant,
+          color: colors.disabledBackground,
           borderRadius: BorderRadius.circular(AppDimensions.radiusM),
         ),
         child: const Icon(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 
 class RoutePointColumn extends StatelessWidget {
   const RoutePointColumn({super.key,
@@ -16,16 +17,17 @@ class RoutePointColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textAlign = alignment == CrossAxisAlignment.end ? TextAlign.left : TextAlign.right;
+    final colors = context.appColors;
     return Column(
       crossAxisAlignment: alignment,
       children: [
         Text(
           mainText,
           textAlign: textAlign,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w800,
-            color: Color(0xFF1F2937),
+            color: colors.textPrimary,
           ),
         ),
         const SizedBox(height: 4),

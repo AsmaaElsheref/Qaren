@@ -24,8 +24,7 @@ class AppTheme {
     return InputDecorationTheme(
       filled: true,
       fillColor: fill,
-      contentPadding:
-          const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide(color: border),
