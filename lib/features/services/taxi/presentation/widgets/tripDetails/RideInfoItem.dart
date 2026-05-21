@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 
 class RideInfoItem extends StatelessWidget {
   const RideInfoItem({
@@ -12,6 +13,7 @@ class RideInfoItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -26,10 +28,10 @@ class RideInfoItem extends StatelessWidget {
         const SizedBox(height: 6),
         Text(
           value,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 17,
             fontWeight: FontWeight.w800,
-            color: Color(0xFF1F2937),
+            color: colors.textPrimary,
           ),
         ),
       ],

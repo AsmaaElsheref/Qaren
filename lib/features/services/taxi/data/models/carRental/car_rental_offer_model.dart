@@ -45,7 +45,7 @@ class CarRentalOfferModel extends CarRentalOfferEntity {
       seats: _parseInt(json['seats']),
       bags: _parseInt(json['bags']),
       available: json['available'] != false,
-      distance: _asString(json['distance']),
+      distance: _asString(json['distance_km']),
       providerData: ProviderDataModel.fromJson(providerDataJson),
     );
   }

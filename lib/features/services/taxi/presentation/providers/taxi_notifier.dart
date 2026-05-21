@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import '../../../../../core/utils/reverse_geocoder.dart';
+import '../../domain/entities/parsed_ai_parameters_entity.dart';
 import 'taxi_state.dart';
 
 class TaxiNotifier extends Notifier<TaxiState> {
@@ -61,6 +63,42 @@ class TaxiNotifier extends Notifier<TaxiState> {
     final trimmed = label.trim();
     if (trimmed.isNotEmpty && trimmed != 'تعذّر تحديد الموقع') return trimmed;
     return '${latLng.latitude.toStringAsFixed(6)}, ${latLng.longitude.toStringAsFixed(6)}';
+  }
+
+  /// Fills pickup / destination from the AI assistant's parsed parameters
+  /// **only when the corresponding field is currently empty**.
+  ///
+  /// Coordinates are reverse-geocoded so the field shows a real address.
+  /// If reverse-geocoding fails the lat/lng string is used as fallback.
+  /// Does nothing for fields the user has already set manually.
+  Future<void> fillFromParsedParameters(
+    ParsedAiParametersEntity params, {
+    String? aiDestinationName,
+  }) async {
+    final pickupLatLng = params.pickup;
+    final dropoffLatLng = params.dropoff;
+    final needsPickup =
+        state.pickup.isEmpty || state.pickupLatLng == null;
+    final needsDestination =
+        state.destination.isEmpty || state.destinationLatLng == null;
+
+    if (needsPickup && pickupLatLng != null) {
+      final name = await ReverseGeocoder.resolve(pickupLatLng);
+      state = state.copyWith(
+        pickup: _labelOrFallback(name ?? '', pickupLatLng),
+        pickupLatLng: pickupLatLng,
+      );
+    }
+
+    if (needsDestination && dropoffLatLng != null) {
+      final resolved = await ReverseGeocoder.resolve(dropoffLatLng);
+      final preferred =
+          (resolved?.trim().isNotEmpty ?? false) ? resolved! : (aiDestinationName ?? '');
+      state = state.copyWith(
+        destination: _labelOrFallback(preferred, dropoffLatLng),
+        destinationLatLng: dropoffLatLng,
+      );
+    }
   }
 
   Future<void> comparePrices() async {

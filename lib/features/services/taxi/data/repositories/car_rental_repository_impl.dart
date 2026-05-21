@@ -1,5 +1,6 @@
 import '../../../../../core/network/handelError/errors/failures.dart';
 import '../../../../../core/utils/either.dart';
+import '../../domain/entities/ai_search_params.dart';
 import '../../domain/entities/book_car_rental_params.dart';
 import '../../domain/entities/booking_result_entity.dart';
 import '../../domain/entities/car_rental_search_params.dart';
@@ -25,6 +26,22 @@ class CarRentalRepositoryImpl implements CarRentalRepository {
     } catch (_) {
       return Either.leftOf(
         const ServerFailure('فشل البحث عن العروض. حاول مرة أخرى.'),
+      );
+    }
+  }
+
+  @override
+  Future<Either<Failure, CarRentalSearchResultEntity>> aiSearchOffers(
+    AiSearchParams params,
+  ) async {
+    try {
+      final result = await _remoteDataSource.aiSearchOffers(params);
+      return Either.rightOf(result);
+    } on Failure catch (f) {
+      return Either.leftOf(f);
+    } catch (_) {
+      return Either.leftOf(
+        const ServerFailure('تعذّر تنفيذ البحث الذكي. حاول مرة أخرى.'),
       );
     }
   }

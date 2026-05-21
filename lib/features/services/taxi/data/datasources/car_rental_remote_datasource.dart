@@ -1,6 +1,7 @@
 import '../../../../../core/network/apiRoutes/api_routes.dart';
 import '../../../../../core/network/dioHelper/dio_helper.dart';
 import '../../../../../core/utils/print/custom_print.dart';
+import '../../domain/entities/ai_search_params.dart';
 import '../../domain/entities/book_car_rental_params.dart';
 import '../../domain/entities/car_rental_search_params.dart';
 import '../models/booking/booking_result_model.dart';
@@ -11,6 +12,8 @@ abstract class CarRentalRemoteDataSource {
   Future<CarRentalSearchResultModel> searchOffers(
     CarRentalSearchParams params,
   );
+
+  Future<CarRentalSearchResultModel> aiSearchOffers(AiSearchParams params);
 
   Future<OfferDetailsModel> getOfferDetails(String offerId);
 
@@ -34,6 +37,27 @@ class CarRentalRemoteDataSourceImpl implements CarRentalRemoteDataSource {
       return CarRentalSearchResultModel.fromJson(body);
     } catch (e) {
       customPrint('CarRental search error ===> $e', isError: true);
+      rethrow;
+    }
+  }
+
+  @override
+  Future<CarRentalSearchResultModel> aiSearchOffers(
+    AiSearchParams params,
+  ) async {
+    try {
+      print('Data =======>>>>> ${params.toJson()}');
+      final response = await DioHelper.postData(
+        url: ApiRoutes.carRentalAiSearch,
+        data: params.toJson(),
+      );
+
+      final body = response.data as Map<String, dynamic>;
+      // Response shape (status/count/cheapest/data) is identical to the
+      // standard search endpoint, so the same model parses it cleanly.
+      return CarRentalSearchResultModel.fromJson(body);
+    } catch (e) {
+      customPrint('CarRental AI search error ===> $e', isError: true);
       rethrow;
     }
   }

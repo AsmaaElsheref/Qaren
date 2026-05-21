@@ -56,7 +56,6 @@ class _CategoriesGrid extends ConsumerWidget {
             delegate: SliverChildBuilderDelegate(
               (context, index) {
                 final category = categories[index];
-                print(CacheHelper.getData(key: AppConstants.token));
                 final page     = serviceRoutes[category.type];
                 final enabled  = CategoryAvailabilityResolver.isEnabled(category.type);
                 return CategoryCard(

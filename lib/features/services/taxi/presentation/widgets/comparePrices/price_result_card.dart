@@ -21,6 +21,13 @@ class PriceResultCard extends StatelessWidget {
   final PriceResult result;
   final VoidCallback onBook;
 
+  static String _formatPrice(double price) {
+    final rounded = double.parse(price.toStringAsFixed(2));
+    return rounded == rounded.truncateToDouble()
+        ? rounded.toInt().toString()
+        : rounded.toStringAsFixed(2);
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = context.appColors;
@@ -54,7 +61,7 @@ class PriceResultCard extends StatelessWidget {
                 const SizedBox(width: AppDimensions.paddingM),
                 AppInfo(result: result),
                 const Spacer(),
-                AppText('${result.price} ريال',
+                AppText('${_formatPrice(result.price)} ${result.currency}',
                     style: AppTextStyles.body.copyWith(color: colors.textPrimary)),
               ],
             ),

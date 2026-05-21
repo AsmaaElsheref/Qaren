@@ -5,10 +5,13 @@ import 'package:qaren/core/utils/print/custom_print.dart';
 import '../../../data/datasources/car_rental_remote_datasource.dart';
 import '../../../data/models/comparePrices/compare_prices_model.dart';
 import '../../../data/repositories/car_rental_repository_impl.dart';
+import '../../../domain/entities/ai_search_params.dart';
 import '../../../domain/entities/car_rental_offer_entity.dart';
 import '../../../domain/entities/car_rental_search_params.dart';
 import '../../../domain/repositories/car_rental_repository.dart';
+import '../../../domain/usecases/ai_search_car_rental_usecase.dart';
 import '../../../domain/usecases/search_car_rental_usecase.dart';
+import '../taxi_notifier.dart';
 import 'compare_prices_state.dart';
 
 // ── Data layer providers (private) ──────────────────────────────────────────
@@ -23,6 +26,10 @@ final _repositoryProvider = Provider<CarRentalRepository>(
 
 final _searchUseCaseProvider = Provider<SearchCarRentalUseCase>(
   (ref) => SearchCarRentalUseCase(ref.watch(_repositoryProvider)),
+);
+
+final _aiSearchUseCaseProvider = Provider<AiSearchCarRentalUseCase>(
+  (ref) => AiSearchCarRentalUseCase(ref.watch(_repositoryProvider)),
 );
 
 // ── Notifier ─────────────────────────────────────────────────────────────────
@@ -51,29 +58,64 @@ class ComparePricesNotifier extends Notifier<ComparePricesState> {
         status: ComparePricesStatus.failure,
         errorMessage: failure.message,
       ),
-      (data) {
-        if (data.offers.isEmpty) {
-          state = state.copyWith(
-            status: ComparePricesStatus.empty,
-            results: [],
-          );
-          return;
+      _applyResult,
+    );
+  }
+
+  /// Calls the AI assistant search API. Results are mapped through the same
+  /// pipeline used by [search], so the existing compare-prices UI displays
+  /// them without any extra work.
+  Future<void> aiSearch(AiSearchParams params) async {
+    state = state.copyWith(
+      status: ComparePricesStatus.loading,
+      errorMessage: null,
+    );
+
+    final useCase = ref.read(_aiSearchUseCaseProvider);
+    final result = await useCase(params);
+
+    await result.fold(
+      (failure) async => state = state.copyWith(
+        status: ComparePricesStatus.failure,
+        errorMessage: failure.message,
+      ),
+      (data) async {
+        // Fill pickup/destination from AI parsed_parameters if user did
+        // not select them manually before launching the search.
+        final parsed = data.parsedParameters;
+        if (parsed != null) {
+          await ref.read(taxiProvider.notifier).fillFromParsedParameters(
+                parsed,
+                aiDestinationName: parsed.destinationName,
+              );
         }
-
-        final cheapestId = data.cheapest?.offerId;
-        final mapped = data.offers.map((offer) {
-          return _mapOfferToPriceResult(
-            offer,
-            isBestValue: offer.offerId == cheapestId,
-          );
-        }).toList();
-
-        customPrint('Result Data : ${mapped[0]}');
-        state = state.copyWith(
-          status: ComparePricesStatus.success,
-          results: mapped,
-        );
+        _applyResult(data);
       },
+    );
+  }
+
+  /// Shared success-branch handler for both [search] and [aiSearch].
+  void _applyResult(dynamic data) {
+    if (data.offers.isEmpty) {
+      state = state.copyWith(
+        status: ComparePricesStatus.empty,
+        results: [],
+      );
+      return;
+    }
+
+    final cheapestId = data.cheapest?.offerId;
+    final mapped = (data.offers as List).map((offer) {
+      return _mapOfferToPriceResult(
+        offer as CarRentalOfferEntity,
+        isBestValue: offer.offerId == cheapestId,
+      );
+    }).toList();
+
+    customPrint('Result Data : ${mapped[0]}');
+    state = state.copyWith(
+      status: ComparePricesStatus.success,
+      results: mapped,
     );
   }
 
@@ -86,7 +128,7 @@ class ComparePricesNotifier extends Notifier<ComparePricesState> {
       id: offer.offerId ?? '',
       appName: offer.providerName ?? offer.carName ?? 'غير معروف',
       rideType: offer.carType ?? '',
-      price: offer.price ?? 0.0,
+      price: offer.price ?? offer.totalPrice??0.0,
       currency: offer.currency ?? 'SAR',
       totalPrice: offer.totalPrice,
       rating: offer.providerData.rating ?? 0.0,

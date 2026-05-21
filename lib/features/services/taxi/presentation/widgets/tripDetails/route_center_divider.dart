@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import '../../providers/comparePricesProvider/compare_prices_provider.dart';
 import '../../providers/offerDetailsProvider/offer_details_provider.dart';
 
 class RouteCenterDivider extends StatelessWidget {
   const RouteCenterDivider({super.key});
+
+  /// Same helper as TripContainer — km string → "N دقيقة".
+  static String _distanceToMinutes(String? raw) {
+    if (raw == null || raw.isEmpty) return '—';
+    final cleaned = raw.replaceAll(RegExp(r'[^0-9.]'), '');
+    final km = double.tryParse(cleaned);
+    if (km == null || km <= 0) return '—';
+    final minutes = (km / 30 * 60).round().clamp(1, 9999);
+    return '$minutes دقيقة';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +22,8 @@ class RouteCenterDivider extends StatelessWidget {
       children: [
         Row(
           children: List.generate(
-            8, (index) => Container(
+            8,
+            (index) => Container(
               margin: const EdgeInsets.symmetric(horizontal: 2),
               width: 8,
               height: 2,
@@ -39,17 +50,31 @@ class RouteCenterDivider extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Consumer(
-          builder: (context, ref, child){
-            final status = ref.watch(offerDetailsProvider);
+          builder: (context, ref, _) {
+            final details = ref.watch(
+              offerDetailsProvider.select((s) => s.details),
+            );
+            final distance = ref.watch(
+              comparePricesProvider.select((s) {
+                if (s.results.isEmpty) return null;
+                try {
+                  return s.results
+                      .firstWhere((r) => r.id == details?.offerId)
+                      .distance;
+                } catch (_) {
+                  return s.results.first.distance;
+                }
+              }),
+            );
             return Text(
-              '${status.details!.terms.minimumAge} دقيقة',
-              style: TextStyle(
+              _distanceToMinutes(distance),
+              style: const TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w700,
                 color: Color(0xFF6B7280),
               ),
             );
-          }
+          },
         ),
       ],
     );

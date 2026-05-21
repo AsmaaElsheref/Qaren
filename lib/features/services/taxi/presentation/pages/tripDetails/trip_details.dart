@@ -11,6 +11,7 @@ import '../../providers/bookingProvider/booking_provider.dart';
 import '../../providers/bookingProvider/booking_state.dart';
 import '../../providers/offerDetailsProvider/offer_details_provider.dart';
 import '../../providers/offerDetailsProvider/offer_details_state.dart';
+import '../../providers/taxi_reset_controller.dart';
 import '../../widgets/tripDetails/trip_container.dart';
 import '../bookingSuccess/booking_success_page.dart';
 
@@ -48,6 +49,8 @@ class _TripDetailsState extends ConsumerState<TripDetails> {
           previous?.status != BookingStatus.success) {
         final result = next.result;
         ref.read(bookingProvider.notifier).reset();
+        // Reset all taxi + AI assistant state after a successful booking.
+        ref.read(taxiResetControllerProvider).resetAfterSuccessfulBooking();
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
             builder: (_) => BookingSuccessPage(
@@ -76,7 +79,7 @@ class _TripDetailsState extends ConsumerState<TripDetails> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(70),
-        child: CustomAppBar(title: 'تفاصيل الرحلة', isBack: true, icon: Icons.share),
+        child: CustomAppBar(title: 'تفاصيل الرحلة', isBack: true),
       ),
       body: _buildBody(status),
     );

@@ -4,7 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/ui/widgets/loading.dart';
 import 'package:qaren/features/services/taxi/presentation/providers/currentLocationProvider/current_location_provider.dart';
 import '../../../../../core/theme/app_colors.dart';
+import '../providers/aiAssistant/ai_assistant_providers.dart';
 import '../providers/taxi_providers.dart';
+import '../widgets/ai_assistant_search_overlay.dart';
 import '../widgets/taxi_apps_drawer.dart';
 import '../widgets/taxi_map_view.dart';
 import '../widgets/taxi_top_bar.dart';
@@ -81,6 +83,20 @@ class _TaxiPageState extends ConsumerState<TaxiPage> {
                           left: 0,
                           right: 0,
                           child: TaxiTopBar(onMenuTap: openAppsDrawer),
+                        ),
+                        // ── AI assistant overlay ───────────────────────────
+                        Positioned(
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          child: Consumer(
+                            builder: (_, ref, __) {
+                              final visible = ref
+                                  .watch(aiAssistantVisibilityProvider);
+                              if (!visible) return const SizedBox.shrink();
+                              return const AiAssistantSearchOverlay();
+                            },
+                          ),
                         ),
                       ],
                     ),

@@ -21,6 +21,7 @@ class ApiRoutes {
   static const String carRentalDetails = '/api/compare/car-rental/details'; // /{offer_id}
   static const String carRentalBook      = '/api/compare/car-rental/book';
   static const String carRentalProviders = '/api/compare/car-rental/providers';
+  static const String carRentalAiSearch  = '/api/compare/car-rental/ai-search';
 
   /// Food delivery endpoints
   static const String foodProducts    = '/api/compare/food-delivery/products';

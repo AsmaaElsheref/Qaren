@@ -4,6 +4,7 @@ import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../../../../core/constants/app_dimensions.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/ui/widgets/icon_container.dart';
+import '../providers/aiAssistant/ai_assistant_providers.dart';
 import '../providers/taxi_apps/taxi_apps_notifier.dart';
 
 /// Top bar for [TaxiPage].
@@ -53,7 +54,11 @@ class TaxiTopBar extends ConsumerWidget {
 
             // ── AI / magic button ──────────────────────────────────────────
             IconContainer(
-              onTap: () {},
+              onTap: () {
+                final notifier =
+                    ref.read(aiAssistantVisibilityProvider.notifier);
+                notifier.state = !notifier.state;
+              },
               icon: const Icon(
                 Icons.auto_awesome_outlined,
                 color: AppColors.primary,

@@ -39,11 +39,11 @@ class CustomAppBar extends ConsumerWidget {
                 )
               else
                 const SizedBox(),
-              if (icon != null)
+              (icon != null)?
                 IconContainer(
                   icon: Icon(icon, color: colors.textPrimary),
                   onTap: () {},
-                ),
+                ):SizedBox(width: 40),
             ],
           ),
         ),

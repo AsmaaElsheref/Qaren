@@ -1,14 +1,23 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/utils/extensions/contextSizeX.dart';
+import '../../providers/offerDetailsProvider/offer_details_provider.dart';
 
-class RideServiceIconCard extends StatelessWidget {
+class RideServiceIconCard extends ConsumerWidget {
   const RideServiceIconCard({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final images = ref.watch(
+      offerDetailsProvider.select((s) => s.details?.images ?? []),
+    );
+    final imageUrl = images.isNotEmpty ? images.first : '';
+    final hasImage = imageUrl.startsWith('http');
+
     return Container(
-      width: context.screenWidth*0.22,
-      height: context.screenHeight*0.09,
+      width: context.screenWidth * 0.22,
+      height: context.screenHeight * 0.09,
       decoration: BoxDecoration(
         color: const Color(0xFFF1F1F1),
         borderRadius: BorderRadius.circular(22),
@@ -20,12 +29,28 @@ class RideServiceIconCard extends StatelessWidget {
           ),
         ],
       ),
-      child: const Center(
-        child: Text(
-          '🚗',
-          style: TextStyle(fontSize: 34),
-        ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(22),
+        child: hasImage
+            ? CachedNetworkImage(
+                imageUrl: imageUrl,
+                fit: BoxFit.cover,
+                placeholder: (_, __) => const _CarFallback(),
+                errorWidget: (_, __, ___) => const _CarFallback(),
+              )
+            : const _CarFallback(),
       ),
+    );
+  }
+}
+
+class _CarFallback extends StatelessWidget {
+  const _CarFallback();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text('🚗', style: TextStyle(fontSize: 34)),
     );
   }
 }
