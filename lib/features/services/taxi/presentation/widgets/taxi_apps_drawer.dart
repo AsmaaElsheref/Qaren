@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../core/constants/app_dimensions.dart';
+import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/theme/app_colors_ext.dart';
 import '../../../../../core/ui/widgets/AppButton.dart';
 import '../../../../../core/ui/widgets/AppText.dart';
@@ -73,6 +74,14 @@ class TaxiAppsDrawer extends ConsumerWidget {
                   ],
                 ),
               ),
+
+              // ── Loading indicator ────────────────────────────────────────
+              if (state.isLoading)
+                LinearProgressIndicator(
+                  minHeight: 2,
+                  color: AppColors.primary,
+                  backgroundColor: AppColors.primary.withValues(alpha: 0.15),
+                ),
 
               // ── Counters ────────────────────────────────────────────────────
               Padding(

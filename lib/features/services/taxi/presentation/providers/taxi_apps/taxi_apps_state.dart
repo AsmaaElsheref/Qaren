@@ -8,9 +8,13 @@ class TaxiAppsState {
   /// IDs of the currently selected apps.
   final Set<String> selectedIds;
 
+  /// True while the remote providers list is being fetched.
+  final bool isLoading;
+
   const TaxiAppsState({
     required this.apps,
     required this.selectedIds,
+    this.isLoading = false,
   });
 
   /// All apps are selected.
@@ -27,10 +31,12 @@ class TaxiAppsState {
   TaxiAppsState copyWith({
     List<TaxiApp>? apps,
     Set<String>? selectedIds,
+    bool? isLoading,
   }) =>
       TaxiAppsState(
         apps: apps ?? this.apps,
         selectedIds: selectedIds ?? this.selectedIds,
+        isLoading: isLoading ?? this.isLoading,
       );
 }
 

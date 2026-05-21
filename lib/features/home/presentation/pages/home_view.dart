@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/core/constants/app_constants.dart';
+import 'package:qaren/core/localStorage/cache_helper.dart';
 import 'package:qaren/features/coming_soon/presentation/pages/coming_soon_page.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -10,6 +12,7 @@ import '../../../services/serviceProvider/service_provider.dart';
 import '../providers/categories_providers.dart';
 import '../providers/categories_state.dart';
 import '../providers/home_providers.dart';
+import '../widgets/category_availability_resolver.dart';
 import '../widgets/category_card.dart';
 
 
@@ -53,12 +56,17 @@ class _CategoriesGrid extends ConsumerWidget {
             delegate: SliverChildBuilderDelegate(
               (context, index) {
                 final category = categories[index];
+                print(CacheHelper.getData(key: AppConstants.token));
                 final page     = serviceRoutes[category.type];
+                final enabled  = CategoryAvailabilityResolver.isEnabled(category.type);
                 return CategoryCard(
                   category: category,
-                  onTap: page == null ?
-                    () => Navigator.push(context, MaterialPageRoute(builder: (_) => ComingSoonPage()),) :
-                    () => Navigator.push(context, MaterialPageRoute(builder: (_) => page),),
+                  isEnabled: enabled,
+                  onTap: enabled
+                      ? (page == null
+                          ? () => Navigator.push(context, MaterialPageRoute(builder: (_) => ComingSoonPage()))
+                          : () => Navigator.push(context, MaterialPageRoute(builder: (_) => page)))
+                      : null,
                 );
               },
               childCount: categories.length,
