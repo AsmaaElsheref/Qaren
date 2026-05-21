@@ -52,19 +52,23 @@ class ProfileSettingsNotifier extends Notifier<ProfileSettingsState> {
   ProfileSettingsState build() {
     final cached =
         CacheHelper.getData(key: AppConstants.userName) as String?;
+    final savedDarkMode =
+        CacheHelper.getData(key: AppConstants.isDarkMode) as bool? ?? false;
     return ProfileSettingsState(
       userName: cached ?? 'المستخدم',
       membershipLabel: 'عضو ذهبي',
       avatarUrl: null,
       unreadNotificationsCount: 3,
-      isDarkMode: false,
+      isDarkMode: savedDarkMode,
       isArabic: true,
       appVersion: '2.0',
     );
   }
 
   void toggleDarkMode() {
-    state = state.copyWith(isDarkMode: !state.isDarkMode);
+    final newValue = !state.isDarkMode;
+    state = state.copyWith(isDarkMode: newValue);
+    CacheHelper.saveData(key: AppConstants.isDarkMode, value: newValue);
   }
 
   void toggleLanguage() {

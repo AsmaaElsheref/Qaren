@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../../../core/theme/app_colors.dart';
 
 class ProfileAvatarWithCamera extends StatelessWidget {
@@ -50,8 +51,9 @@ class ProfileAvatarFallbackIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Container(
-      color: AppColors.surfaceVariant,
+      color: colors.disabledBackground,
       child: const Icon(
         Icons.person_rounded,
         size: 44,

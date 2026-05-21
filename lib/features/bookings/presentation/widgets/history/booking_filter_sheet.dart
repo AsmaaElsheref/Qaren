@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
 import 'package:qaren/core/theme/app_colors.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:qaren/core/ui/widgets/AppText.dart';
 import 'package:qaren/core/ui/widgets/AppTextStyles.dart';
 
@@ -43,11 +44,12 @@ class BookingFilterSheetState extends ConsumerState<BookingFilterSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Container(
-        decoration: const BoxDecoration(
-          color: AppColors.surface,
+        decoration: BoxDecoration(
+          color: colors.surface,
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(AppDimensions.radiusXL),
           ),
@@ -192,6 +194,7 @@ class _FilterChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
@@ -201,7 +204,7 @@ class _FilterChip extends StatelessWidget {
           vertical: AppDimensions.paddingS,
         ),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.primary : AppColors.surfaceVariant,
+          color: isSelected ? AppColors.primary : colors.disabledBackground,
           borderRadius: BorderRadius.circular(AppDimensions.radiusFull),
           border: Border.all(
             color: isSelected ? AppColors.primary : AppColors.border,
@@ -210,7 +213,7 @@ class _FilterChip extends StatelessWidget {
         child: AppText(
           label,
           style: TextStyle(
-            color: isSelected ? AppColors.white : AppColors.textPrimary,
+            color: isSelected ? AppColors.white : colors.textPrimary,
             fontSize: 13,
             fontWeight: isSelected ? FontWeight.w700 : FontWeight.w400,
           ),

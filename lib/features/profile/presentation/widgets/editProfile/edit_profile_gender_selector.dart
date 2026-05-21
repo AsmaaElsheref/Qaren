@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 
 import '../../../../auth/domain/entities/user_entity.dart';
 import '../../../../../core/constants/app_dimensions.dart';
@@ -18,6 +19,7 @@ class EditProfileGenderSelector extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.appColors;
     final selectedGender = ref.watch(
       editProfileProvider(providerKey).select((state) => state.gender),
     );
@@ -46,7 +48,7 @@ class EditProfileGenderSelector extends ConsumerWidget {
                   decoration: BoxDecoration(
                     color: selectedGender == 'male'
                         ? AppColors.primary.withValues(alpha: 0.08)
-                        : AppColors.surface,
+                        : colors.surface,
                     border: Border.all(
                       color: selectedGender == 'male'
                           ? AppColors.primary
@@ -88,7 +90,7 @@ class EditProfileGenderSelector extends ConsumerWidget {
                   decoration: BoxDecoration(
                     color: selectedGender == 'female'
                         ? AppColors.primary.withValues(alpha: 0.08)
-                        : AppColors.surface,
+                        : colors.surface,
                     border: Border.all(
                       color: selectedGender == 'female'
                           ? AppColors.primary

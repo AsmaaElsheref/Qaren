@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 
 import '../../../../../core/constants/app_dimensions.dart';
 import '../../../../../core/theme/app_colors.dart';
@@ -26,15 +27,16 @@ class EditProfileInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         AppText(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: AppDimensions.fontS,
             fontWeight: FontWeight.w700,
-            color: AppColors.textPrimary,
+            color: colors.textPrimary,
           ),
         ),
         const SizedBox(height: 8),
@@ -45,15 +47,15 @@ class EditProfileInputField extends StatelessWidget {
           obscureText: obscureText,
           textDirection: TextDirection.rtl,
           textAlign: TextAlign.right,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: AppDimensions.fontM,
-            color: AppColors.textPrimary,
+            color: colors.textPrimary,
           ),
           decoration: InputDecoration(
             hintText: hintText,
             prefixIcon: Icon(
               icon,
-              color: AppColors.textSecondary,
+              color: colors.textSecondary,
               size: AppDimensions.iconS,
             ),
           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qaren/core/theme/app_colors.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:qaren/core/ui/widgets/AppText.dart';
 import 'package:qaren/core/ui/widgets/AppTextStyles.dart';
 import 'package:qaren/core/ui/widgets/icon_container.dart';
@@ -14,6 +15,7 @@ class BookingHistoryHeader extends StatelessWidget implements PreferredSizeWidge
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return AppBar(
       elevation: 0,
       centerTitle: true,
@@ -21,7 +23,7 @@ class BookingHistoryHeader extends StatelessWidget implements PreferredSizeWidge
       title: const AppText('طلباتي', style: AppTextStyles.title),
       actions: [
         IconContainer(
-          icon: const Icon(Icons.tune_rounded, color: AppColors.textPrimary),
+          icon: Icon(Icons.tune_rounded, color: colors.textPrimary),
           onTap: () => showModalBottomSheet<void>(
             context: context,
             isScrollControlled: true,

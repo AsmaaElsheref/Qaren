@@ -135,7 +135,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     final notifier = ref.read(loginNotifierProvider.notifier);
 
     return Scaffold(
-      backgroundColor: AppColors.background,
       body: SafeArea(
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),

@@ -21,7 +21,6 @@ class NotificationsPage extends ConsumerWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        backgroundColor: AppColors.background,
         appBar: const NotificationsAppBar(),
         body: SafeArea(
           child: isInitialLoading

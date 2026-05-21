@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -86,18 +87,16 @@ class VerifyCodePageState extends ConsumerState<VerifyCodePage> {
 
     final isLoading = status == VerifyCodeStatus.loading;
     final isResending = status == VerifyCodeStatus.resending;
-
+    final colors = context.appColors;
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.background,
         elevation: 0,
         scrolledUnderElevation: 0,
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
-          icon: const Icon(
+          icon: Icon(
             Icons.arrow_back_ios_new_rounded,
-            color: AppColors.textPrimary,
+            color: colors.textPrimary,
             size: AppDimensions.iconM,
           ),
         ),

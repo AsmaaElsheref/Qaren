@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:qaren/core/ui/widgets/icon_container.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/ui/widgets/AppText.dart';
@@ -20,8 +21,8 @@ class PersonalProfileAppBar extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return AppBar(
-      backgroundColor: AppColors.background,
       elevation: 0,
       scrolledUnderElevation: 0,
       centerTitle: true,
@@ -34,25 +35,13 @@ class PersonalProfileAppBar extends StatelessWidget
         padding: const EdgeInsets.all(10),
         child: IconContainer(
           onTap: onBack,
-          icon: const Icon(
+          icon: Icon(
             Icons.arrow_back_ios_rounded,
             size: 16,
-            color: AppColors.textPrimary,
+            color: colors.textPrimary,
           ),
         )
       ),
-      // actions: [
-      //   TextButton(
-      //     onPressed: onEdit,
-      //     child: AppText(
-      //       'تعديل',
-      //       style: AppTextStyles.body.copyWith(
-      //         color: AppColors.secondary,
-      //         fontWeight: FontWeight.w600,
-      //       ),
-      //     ),
-      //   ),
-      // ],
     );
   }
 }

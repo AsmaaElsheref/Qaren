@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../../../core/theme/app_colors.dart';
 
 class ProfileAvatar extends StatelessWidget {
@@ -8,6 +9,7 @@ class ProfileAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Stack(
       clipBehavior: Clip.none,
       children: [
@@ -39,10 +41,10 @@ class ProfileAvatar extends StatelessWidget {
               color: const Color(0xFFF4A730),
               border: Border.all(color: AppColors.white, width: 2),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.star_rounded,
               size: 12,
-              color: AppColors.white,
+              color: colors.surface,
             ),
           ),
         ),
@@ -56,8 +58,9 @@ class ProfileAvatarPlaceholder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Container(
-      color: AppColors.surfaceVariant,
+      color: colors.disabledBackground,
       child: const Icon(
         Icons.person_rounded,
         size: 36,

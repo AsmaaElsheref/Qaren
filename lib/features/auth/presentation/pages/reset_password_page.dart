@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../profile/presentation/providers/profileSettings/profile_settings_provider.dart';
 import '../providers/reset_password_provider.dart';
 import '../providers/reset_password_state.dart';
 import '../widgets/auth_submit_button.dart';
@@ -70,20 +72,18 @@ class ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
     final isLoading = ref.watch(
       resetPasswordNotifierProvider.select((s) => s.status == ResetPasswordStatus.loading),
     );
-
+    final colors = context.appColors;
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.background,
         elevation: 0,
         scrolledUnderElevation: 0,
         leading: isSuccess
             ? const SizedBox.shrink()
             : IconButton(
                 onPressed: () => Navigator.of(context).pop(),
-                icon: const Icon(
+                icon: Icon(
                   Icons.arrow_back_ios_new_rounded,
-                  color: AppColors.textPrimary,
+                  color: colors.textPrimary,
                   size: AppDimensions.iconM,
                 ),
               ),

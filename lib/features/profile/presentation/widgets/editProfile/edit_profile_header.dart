@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/ui/widgets/AppText.dart';
@@ -14,6 +15,7 @@ class EditProfileHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Padding(
       padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 8),
       child: Row(
@@ -21,7 +23,7 @@ class EditProfileHeader extends StatelessWidget {
           IconButton(
             onPressed: onBack,
             icon: const Icon(Icons.arrow_back_ios_new_rounded),
-            color: AppColors.textPrimary,
+            color: colors.textPrimary,
           ),
           const Expanded(
             child: AppText(

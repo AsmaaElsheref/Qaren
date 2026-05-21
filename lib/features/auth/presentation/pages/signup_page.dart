@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/constants/gap.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:qaren/core/utils/extensions/contextSizeX.dart';
 
 import '../../../../core/constants/app_dimensions.dart';
@@ -79,9 +80,8 @@ class _SignupPageState extends ConsumerState<SignupPage> {
 
     final signupState = ref.watch(signupNotifierProvider);
     final notifier = ref.read(signupNotifierProvider.notifier);
-
+    final colors = context.appColors;
     return Scaffold(
-      backgroundColor: AppColors.background,
       body: SafeArea(
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
@@ -98,12 +98,12 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                     const SizedBox(height: AppDimensions.paddingXL),
                     const QarenLogo(),
                     const SizedBox(height: AppDimensions.paddingM),
-                    const AppText(
+                    AppText(
                       AppStrings.signUpTitle,
                       style: TextStyle(
                         fontSize: AppDimensions.fontL,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.textPrimary,
+                        color: colors.textPrimary,
                       ),
                     ),
                     SizedBox(height: context.screenHeight * 0.025),
@@ -330,6 +330,7 @@ class GenderOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
@@ -338,7 +339,7 @@ class GenderOption extends StatelessWidget {
         decoration: BoxDecoration(
           color: isSelected
               ? AppColors.primary.withValues(alpha: 0.08)
-              : AppColors.surface,
+              : colors.surface,
           border: Border.all(
             color: isSelected ? AppColors.primary : AppColors.border,
             width: isSelected ? 1.5 : 1.0,
@@ -350,7 +351,7 @@ class GenderOption extends StatelessWidget {
           children: [
             Icon(
               icon,
-              color: isSelected ? AppColors.primary : AppColors.textSecondary,
+              color: isSelected ? AppColors.primary : colors.textSecondary,
               size: AppDimensions.iconM,
             ),
             const SizedBox(width: 6),
@@ -362,7 +363,7 @@ class GenderOption extends StatelessWidget {
                     isSelected ? FontWeight.w600 : FontWeight.w400,
                 color: isSelected
                     ? AppColors.primary
-                    : AppColors.textSecondary,
+                    : colors.textSecondary,
               ),
             ),
           ],

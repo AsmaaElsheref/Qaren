@@ -28,7 +28,6 @@ class ActiveFiltersRow extends ConsumerWidget {
     final hasStatusFilter = status != BookingStatusFilter.all;
 
     if (!hasServiceFilter && !hasStatusFilter) return const SizedBox.shrink();
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingM),
       child: Row(

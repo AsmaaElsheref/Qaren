@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/ui/widgets/AppTextStyles.dart';
@@ -24,15 +25,16 @@ class PasswordTextFieldState extends State<PasswordTextField> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return TextFormField(
       controller: widget.controller,
       obscureText: _obscure,
       textAlign: TextAlign.right,
       textDirection: TextDirection.rtl,
       validator: widget.validator,
-      style: const TextStyle(
+      style: TextStyle(
         fontSize: AppDimensions.fontM,
-        color: AppColors.textPrimary,
+        color: colors.textPrimary,
         fontFamily: 'Cairo',
       ),
       decoration: InputDecoration(
@@ -44,7 +46,7 @@ class PasswordTextFieldState extends State<PasswordTextField> {
           padding: const EdgeInsets.only(right: 16),
           child: Icon(
             Icons.lock_outline_rounded,
-            color: AppColors.textSecondary,
+            color: colors.textSecondary,
             size: AppDimensions.iconS,
           ),
         ),
@@ -55,7 +57,7 @@ class PasswordTextFieldState extends State<PasswordTextField> {
         suffixIcon: IconButton(
           icon: Icon(
             _obscure ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-            color: AppColors.textSecondary,
+            color: colors.textSecondary,
             size: AppDimensions.iconS,
           ),
           onPressed: () => setState(() => _obscure = !_obscure),

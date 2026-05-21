@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 
 import '../../../../auth/domain/entities/user_entity.dart';
 import '../../../../../core/constants/app_dimensions.dart';
@@ -31,13 +32,14 @@ class EditProfileAvatarPicker extends ConsumerWidget {
   }
 
   Future<void> showImageOptions(BuildContext context, WidgetRef ref) async {
+    final colors = context.appColors;
     await showModalBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
       builder: (sheetContext) => Container(
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 32),
-        decoration: const BoxDecoration(
-          color: AppColors.white,
+        decoration: BoxDecoration(
+          color: colors.surface,
           borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
         ),
         child: Column(
@@ -52,19 +54,19 @@ class EditProfileAvatarPicker extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
-            const AppText(
+            AppText(
               'صورة الملف الشخصي',
               style: TextStyle(
                 fontSize: AppDimensions.fontM,
                 fontWeight: FontWeight.w600,
-                color: AppColors.textPrimary,
+                color: colors.textPrimary,
               ),
             ),
             const SizedBox(height: 16),
             ListTile(
-              leading: const Icon(
+              leading: Icon(
                 Icons.photo_library_outlined,
-                color: AppColors.textPrimary,
+                color: colors.textPrimary,
               ),
               title: const AppText('تغيير الصورة'),
               onTap: () async {
@@ -103,7 +105,7 @@ class EditProfileAvatarPicker extends ConsumerWidget {
         ),
       ),
     );
-
+    final colors = context.appColors;
     return Center(
       child: GestureDetector(
         onTap: () {
@@ -121,7 +123,7 @@ class EditProfileAvatarPicker extends ConsumerWidget {
               height: 104,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppColors.surfaceVariant,
+                color: colors.disabledBackground,
                 border: Border.all(color: AppColors.white, width: 4),
                 boxShadow: [
                   BoxShadow(

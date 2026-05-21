@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -54,7 +55,7 @@ class SignupAvatarPicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const double size = 96;
-
+    final colors = context.appColors;
     return GestureDetector(
       onTap: () {
         if (imagePath != null) {
@@ -72,7 +73,7 @@ class SignupAvatarPicker extends StatelessWidget {
             height: size,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: AppColors.surfaceVariant,
+              color: colors.disabledBackground,
               border: Border.all(
                 color: AppColors.primary.withValues(alpha: 0.3),
                 width: 2,
@@ -128,10 +129,11 @@ class AvatarOptionsSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 32),
-      decoration: const BoxDecoration(
-        color: AppColors.white,
+      decoration: BoxDecoration(
+        color: colors.surface,
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       child: Column(
@@ -149,12 +151,12 @@ class AvatarOptionsSheet extends StatelessWidget {
           ),
 
           // Title
-          const Text(
+          Text(
             'صورة الملف الشخصي',
             style: TextStyle(
               fontSize: AppDimensions.fontM,
               fontWeight: FontWeight.w600,
-              color: AppColors.textPrimary,
+              color: colors.textPrimary,
             ),
           ),
           const SizedBox(height: 16),
@@ -199,16 +201,17 @@ class AvatarSheetTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return ListTile(
       leading: Icon(
         icon,
-        color: iconColor ?? AppColors.textPrimary,
+        color: iconColor ?? colors.textPrimary,
       ),
       title: Text(
         label,
         style: TextStyle(
           fontSize: AppDimensions.fontM,
-          color: labelColor ?? AppColors.textPrimary,
+          color: labelColor ?? colors.textPrimary,
         ),
       ),
       onTap: onTap,

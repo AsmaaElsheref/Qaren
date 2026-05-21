@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/constants/app_dimensions.dart';
 
@@ -25,6 +26,7 @@ class LoginInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return TextFormField(
       controller: controller,
       obscureText: obscureText,
@@ -32,9 +34,9 @@ class LoginInputField extends StatelessWidget {
       textAlign: TextAlign.right,
       textDirection: TextDirection.rtl,
       validator: validator,
-      style: const TextStyle(
+      style: TextStyle(
         fontSize: AppDimensions.fontM,
-        color: AppColors.textPrimary,
+        color: colors.textPrimary,
       ),
       decoration: InputDecoration(
         hintText: hint,
@@ -47,7 +49,7 @@ class LoginInputField extends StatelessWidget {
               padding: const EdgeInsets.only(right: 16),
               child: Icon(
                 prefixIcon,
-                color: AppColors.textSecondary,
+                color: colors.textSecondary,
                 size: AppDimensions.iconS,
               ),
             ),
