@@ -61,12 +61,9 @@ class _CategoriesGrid extends ConsumerWidget {
                 return CategoryCard(
                   category: category,
                   isEnabled: enabled,
-                  onTap: enabled
-                      ? (page == null
-                          ? () => Navigator.push(context, MaterialPageRoute(builder: (_) => ComingSoonPage()))
-                          : () => Navigator.push(context, MaterialPageRoute(builder: (_) => page)))
-                      : null,
-                );
+                  onTap: (page == null)
+                      ? () => Navigator.push(context, MaterialPageRoute(builder: (_) => ComingSoonPage()))
+                      : () => Navigator.push(context, MaterialPageRoute(builder: (_) => page)));
               },
               childCount: categories.length,
             ),

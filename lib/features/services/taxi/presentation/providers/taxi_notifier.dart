@@ -74,13 +74,16 @@ class TaxiNotifier extends Notifier<TaxiState> {
   Future<void> fillFromParsedParameters(
     ParsedAiParametersEntity params, {
     String? aiDestinationName,
+    bool overwrite = false,
   }) async {
     final pickupLatLng = params.pickup;
     final dropoffLatLng = params.dropoff;
-    final needsPickup =
-        state.pickup.isEmpty || state.pickupLatLng == null;
-    final needsDestination =
-        state.destination.isEmpty || state.destinationLatLng == null;
+    final needsPickup = overwrite ||
+        state.pickup.isEmpty ||
+        state.pickupLatLng == null;
+    final needsDestination = overwrite ||
+        state.destination.isEmpty ||
+        state.destinationLatLng == null;
 
     if (needsPickup && pickupLatLng != null) {
       final name = await ReverseGeocoder.resolve(pickupLatLng);
