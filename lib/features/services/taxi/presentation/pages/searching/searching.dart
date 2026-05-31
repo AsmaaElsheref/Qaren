@@ -5,10 +5,12 @@ import 'package:qaren/core/ui/widgets/AppButton.dart';
 import 'package:qaren/core/ui/widgets/AppText.dart';
 import 'package:qaren/core/utils/extensions/contextSizeX.dart';
 import '../../../../../../core/constants/app_images.dart';
+import '../../../../../../core/theme/app_colors_ext.dart';
 import '../../../../../../core/ui/widgets/custom_app_bar.dart';
 import '../../../domain/entities/car_rental_search_params.dart';
 import '../../providers/comparePricesProvider/compare_prices_provider.dart';
 import '../../providers/taxi_notifier.dart';
+import '../../../../../profile/presentation/providers/profileSettings/profile_settings_provider.dart';
 import 'search_loading_dialog.dart';
 
 class Searching extends ConsumerWidget {
@@ -16,6 +18,8 @@ class Searching extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(profileIsDarkModeProvider);
+    final colors = context.appColors;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(70),
@@ -28,7 +32,28 @@ class Searching extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 20),
         child: Column(
           children: [
-            Image.asset(AppImages.searching),
+            isDarkMode
+                ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: context.screenHeight*0.1,),
+                    Icon(
+                      Icons.directions_car_rounded,
+                      size: 72,
+                      color: AppColors.primary,
+                    ),
+                    const SizedBox(height: 30),
+                    AppText(
+                      'جاري البحث عن كباتن...',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        color: colors.textPrimary,
+                      ),
+                    ),
+                  ],
+                )
+                : Image.asset(AppImages.searching),
             Spacer(),
             AppButton(label: "عرض النتائج", onTap: () async {
               // Build search params from taxi state

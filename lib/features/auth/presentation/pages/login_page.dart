@@ -217,26 +217,20 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       isLoading: loginState.status == LoginStatus.loading,
                       onPressed: _onLoginPressed,
                     ),
-
                     const SizedBox(height: AppDimensions.paddingXXL),
-
-                    // ── Biometric button ─────────────────────────────────
-                    // Always shown — if biometrics not configured yet,
-                    // tapping it shows a friendly "سجّل أولاً" message.
                     BiometricsButton(onPressed: _onBiometricPressed),
-
                     const SizedBox(height: AppDimensions.paddingL),
-                    TextButton(
-                      onPressed: () {},
-                      child: const AppText(
-                        AppStrings.browseAsGuest,
-                        style: TextStyle(
-                          fontSize: AppDimensions.fontS,
-                          color: AppColors.textSecondary,
-                          decorationColor: AppColors.textSecondary,
-                        ),
-                      ),
-                    ),
+                    // TextButton(
+                    //   onPressed: () {},
+                    //   child: const AppText(
+                    //     AppStrings.browseAsGuest,
+                    //     style: TextStyle(
+                    //       fontSize: AppDimensions.fontS,
+                    //       color: AppColors.textSecondary,
+                    //       decorationColor: AppColors.textSecondary,
+                    //     ),
+                    //   ),
+                    // ),
 
                     const SizedBox(height: AppDimensions.paddingS),
 
@@ -257,8 +251,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                 builder: (_) => const SignupPage()),
                           ),
                           style: TextButton.styleFrom(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 6),
+                            padding: const EdgeInsets.symmetric(horizontal: 6),
                             minimumSize: Size.zero,
                             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           ),
