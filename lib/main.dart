@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/features/services/food/presentation/widgets/comparison/foodLoading/food_loading.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/app_theme_provider.dart';
 import 'core/localStorage/cache_helper.dart';

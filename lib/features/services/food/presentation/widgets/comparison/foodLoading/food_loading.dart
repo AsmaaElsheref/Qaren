@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/theme/app_colors.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:qaren/core/ui/widgets/AppButton.dart';
 import 'package:qaren/core/utils/extensions/contextSizeX.dart';
 
@@ -8,6 +9,7 @@ import '../../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../../core/constants/app_images.dart';
 import '../../../../../../../core/ui/widgets/AppText.dart';
 import '../../../../../../../core/ui/widgets/custom_app_bar.dart';
+import '../../../../../../profile/presentation/providers/profileSettings/profile_settings_provider.dart';
 import '../../../pages/foodResult/food_result.dart';
 import '../../../providers/food_comparison_provider.dart';
 
@@ -20,7 +22,8 @@ class Searching extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isLoading = ref.watch(foodCompareIsLoadingProvider);
     final hasError  = ref.watch(foodCompareErrorProvider) != null;
-
+    final isDarkMode = ref.watch(profileIsDarkModeProvider);
+    final colors = context.appColors;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(70),
@@ -33,7 +36,28 @@ class Searching extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
         child: Column(
           children: [
-            Image.asset(AppImages.foodLoading),
+            isDarkMode
+              ? Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(height: context.screenHeight*0.1,),
+              Icon(
+                Icons.directions_bike,
+                size: 72,
+                color: AppColors.primary,
+              ),
+              const SizedBox(height: 30),
+              AppText(
+                'جاري البحث في التطبيقات...',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  color: colors.textPrimary,
+                ),
+              ),
+            ],
+          )
+              : Image.asset(AppImages.foodLoading),
             const Spacer(),
 
             // Status hint while loading
