@@ -24,6 +24,24 @@ final taxiDestinationLabelProvider = Provider<String>(
   (ref) => ref.watch(taxiProvider.select((s) => s.destination)),
 );
 
+/// `true` when pickup and destination refer to the same place.
+final taxiSameLocationProvider = Provider<bool>(
+  (ref) => ref.watch(
+    taxiProvider.select((s) {
+      if (s.pickup.isEmpty || s.destination.isEmpty) return false;
+
+      final sameText = s.pickup.trim() == s.destination.trim();
+      if (s.pickupLatLng == null || s.destinationLatLng == null) {
+        return sameText;
+      }
+
+      return sameText ||
+          (s.pickupLatLng!.latitude == s.destinationLatLng!.latitude &&
+              s.pickupLatLng!.longitude == s.destinationLatLng!.longitude);
+    }),
+  ),
+);
+
 /// `true` only when pickup, destination, and coordinates are all set.
 final taxiCanCompareProvider = Provider<bool>(
   (ref) => ref.watch(
