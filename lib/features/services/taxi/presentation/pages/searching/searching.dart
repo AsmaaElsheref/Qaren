@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/core/constants/app_images.dart';
 import 'package:qaren/core/theme/app_colors.dart';
+import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:qaren/core/ui/widgets/AppButton.dart';
 import 'package:qaren/core/ui/widgets/AppText.dart';
 import 'package:qaren/core/utils/extensions/contextSizeX.dart';
-import '../../../../../../core/constants/app_images.dart';
-import '../../../../../../core/theme/app_colors_ext.dart';
+import 'package:qaren/features/profile/presentation/providers/profileSettings/profile_settings_provider.dart';
+import 'package:video_player/video_player.dart';
 import '../../../../../../core/ui/widgets/custom_app_bar.dart';
 import '../../../domain/entities/car_rental_search_params.dart';
 import '../../providers/comparePricesProvider/compare_prices_provider.dart';
 import '../../providers/taxi_notifier.dart';
-import '../../../../../profile/presentation/providers/profileSettings/profile_settings_provider.dart';
 import 'search_loading_dialog.dart';
 
 class Searching extends ConsumerWidget {

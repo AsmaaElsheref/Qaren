@@ -113,7 +113,7 @@ class AiAssistantSearchOverlayState
                         isCollapsed: true,
                         contentPadding:
                             const EdgeInsets.symmetric(vertical: 14),
-                        hintText: 'اكتب طلبك (مثال: للمطار)',
+                        hintText: 'من أين تبدأ رحلتك وإلى أين؟',
                         hintStyle: TextStyle(
                           color: colors.textSecondary,
                           fontSize: 14,
