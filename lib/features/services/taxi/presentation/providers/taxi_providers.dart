@@ -9,3 +9,4 @@ export 'taxi_reset_controller.dart' show TaxiResetController, taxiResetControlle
 export 'map_picker_state.dart' show MapPickerState;
 export 'map_picker_notifier.dart' show MapPickerNotifier;
 export 'map_picker_providers.dart' show mapPickerProvider;
+export 'routeProvider/route_notifier.dart';

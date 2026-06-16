@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'aiAssistant/ai_assistant_providers.dart';
 import 'comparePricesProvider/compare_prices_provider.dart';
 import 'offerDetailsProvider/offer_details_provider.dart';
+import 'routeProvider/route_notifier.dart';
 import 'taxi_notifier.dart';
 
 class TaxiResetController {
@@ -22,6 +23,7 @@ class TaxiResetController {
     _ref.read(taxiProvider.notifier).resetTaxiSearchState();
     _ref.read(comparePricesProvider.notifier).reset();
     _ref.read(offerDetailsProvider.notifier).reset();
+    _ref.read(routeProvider.notifier).reset();
     // Clear AI assistant prompt and hide overlay.
     _ref.read(aiAssistantPromptProvider.notifier).state = '';
     _ref.read(aiAssistantVisibilityProvider.notifier).state = false;

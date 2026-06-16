@@ -11,6 +11,8 @@ import '../widgets/taxi_apps_drawer.dart';
 import '../widgets/taxi_map_view.dart';
 import '../widgets/taxi_top_bar.dart';
 import '../widgets/location_sheet.dart';
+import '../widgets/route/route_info_card.dart';
+import '../widgets/route/route_sync_listener.dart';
 
 class TaxiPage extends ConsumerStatefulWidget {
   const TaxiPage({super.key});
@@ -78,6 +80,13 @@ class _TaxiPageState extends ConsumerState<TaxiPage> {
                     child: Stack(
                       children: [
                         const RepaintBoundary(child: TaxiMapView()),
+                        // const RouteSyncListener(),
+                        Positioned(
+                          left: 16,
+                          right: 16,
+                          bottom: 16,
+                          child: const RouteInfoCard(),
+                        ),
                         Positioned(
                           top: 0,
                           left: 0,

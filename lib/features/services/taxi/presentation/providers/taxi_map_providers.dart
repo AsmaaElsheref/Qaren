@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:qaren/features/services/taxi/presentation/providers/routeProvider/route_notifier.dart';
 import '../../../../../core/utils/location_service.dart';
 import 'map_marker_builder.dart';
 import 'map_polyline_builder.dart';
@@ -75,13 +76,25 @@ final taxiMarkersProvider = Provider<Set<Marker>>(
   ),
 );
 
-/// Route polyline provider. Uses straight-line fallback until Directions API is wired.
-final taxiRoutePolylineProvider = Provider<Set<Polyline>>(
-  (ref) => MapPolylineBuilder.buildRoutePolyline(
+/// Route polylines — multiple alternatives when Directions API routes exist.
+final taxiRoutePolylinesProvider = Provider<Set<Polyline>>((ref) {
+  final routes = ref.watch(routeProvider.select((s) => s.routes));
+  final selectedRouteId =
+      ref.watch(routeProvider.select((s) => s.selectedRouteId));
+
+  if (routes.isNotEmpty) {
+    return MapPolylineBuilder.buildRoutePolylines(
+      routes: routes,
+      selectedRouteId: selectedRouteId,
+      onRouteTap: ref.read(routeProvider.notifier).selectRoute,
+    );
+  }
+
+  return MapPolylineBuilder.buildFallbackPolyline(
     pickup: ref.watch(taxiPickupLocationProvider),
     destination: ref.watch(taxiDestinationLocationProvider),
-  ),
-);
+  );
+});
 
 // ── Initial map position ──────────────────────────────────────────────────────
 
