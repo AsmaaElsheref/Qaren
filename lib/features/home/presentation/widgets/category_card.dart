@@ -36,7 +36,7 @@ class CategoryCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
         decoration: BoxDecoration(
-          color: cardColor,
+          color: isEnabled ? CategoryIconResolver.colorFor(category.type).withValues(alpha: 0.05) : colors.disabledBackground,
           borderRadius: BorderRadius.circular(AppDimensions.radiusL),
           border: Border.all(color: borderColor),
           boxShadow: [

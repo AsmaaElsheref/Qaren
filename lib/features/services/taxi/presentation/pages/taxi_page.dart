@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/ui/widgets/loading.dart';
 import 'package:qaren/features/services/taxi/presentation/providers/currentLocationProvider/current_location_provider.dart';
-import '../../../../../core/theme/app_colors.dart';
 import '../providers/aiAssistant/ai_assistant_providers.dart';
 import '../providers/taxi_providers.dart';
 import '../widgets/ai_assistant_search_overlay.dart';
@@ -12,7 +11,6 @@ import '../widgets/taxi_map_view.dart';
 import '../widgets/taxi_top_bar.dart';
 import '../widgets/location_sheet.dart';
 import '../widgets/route/route_info_card.dart';
-import '../widgets/route/route_sync_listener.dart';
 
 class TaxiPage extends ConsumerStatefulWidget {
   const TaxiPage({super.key});
@@ -23,6 +21,7 @@ class TaxiPage extends ConsumerStatefulWidget {
 
 class _TaxiPageState extends ConsumerState<TaxiPage> {
   TaxiResetController? _resetController;
+  int _appsDrawerKey = 0;
 
   @override
   void didChangeDependencies() {
@@ -39,6 +38,7 @@ class _TaxiPageState extends ConsumerState<TaxiPage> {
 
   @override
   Widget build(BuildContext context) {
+    ref.watch(routeSyncProvider);
 
     final curLocationState = ref.watch(currentLocationProvider);
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -47,10 +47,13 @@ class _TaxiPageState extends ConsumerState<TaxiPage> {
       ),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        drawer: const TaxiAppsDrawer(),
+        drawer: TaxiAppsDrawer(key: ValueKey(_appsDrawerKey)),
         body: Builder(
           builder: (innerContext) {
-            void openAppsDrawer() => Scaffold.of(innerContext).openDrawer();
+            void openAppsDrawer() {
+              setState(() => _appsDrawerKey++);
+              Scaffold.of(innerContext).openDrawer();
+            }
             return curLocationState.when(
               loading: () => Stack(
                 children: [
@@ -80,7 +83,6 @@ class _TaxiPageState extends ConsumerState<TaxiPage> {
                     child: Stack(
                       children: [
                         const RepaintBoundary(child: TaxiMapView()),
-                        // const RouteSyncListener(),
                         Positioned(
                           left: 16,
                           right: 16,

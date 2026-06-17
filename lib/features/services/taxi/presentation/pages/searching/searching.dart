@@ -7,8 +7,8 @@ import 'package:qaren/core/ui/widgets/AppButton.dart';
 import 'package:qaren/core/ui/widgets/AppText.dart';
 import 'package:qaren/core/utils/extensions/contextSizeX.dart';
 import 'package:qaren/features/profile/presentation/providers/profileSettings/profile_settings_provider.dart';
-import 'package:video_player/video_player.dart';
 import '../../../../../../core/ui/widgets/custom_app_bar.dart';
+import '../../../../../../core/ui/widgets/logo_loading.dart';
 import '../../../domain/entities/car_rental_search_params.dart';
 import '../../providers/comparePricesProvider/compare_prices_provider.dart';
 import '../../providers/taxi_notifier.dart';
@@ -33,28 +33,38 @@ class Searching extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 20),
         child: Column(
           children: [
-            isDarkMode
-                ? Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(height: context.screenHeight*0.1,),
-                    Icon(
-                      Icons.directions_car_rounded,
-                      size: 72,
-                      color: AppColors.primary,
-                    ),
-                    const SizedBox(height: 30),
-                    AppText(
-                      'جاري البحث عن كباتن...',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                        color: colors.textPrimary,
-                      ),
-                    ),
-                  ],
-                )
-                : Image.asset(AppImages.searching),
+            // isDarkMode
+                // ? Column(
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  // children: [
+                    // SizedBox(height: context.screenHeight*0.1,),
+                    // Icon(
+                      // Icons.directions_car_rounded,
+                      // size: 72,
+                      // color: AppColors.primary,
+                    // ),
+                    // const SizedBox(height: 30),
+                    // AppText(
+                      // 'جاري البحث عن كباتن...',
+                      // style: TextStyle(
+                        // fontSize: 20,
+                        // fontWeight: FontWeight.w600,
+                        // color: colors.textPrimary,
+                      // ),
+                    // ),
+                  // ],
+                // )
+                // : Image.asset(AppImages.searching),
+                LogoLoading(),
+                const SizedBox(height: 30),
+                AppText(
+  'جاري البحث عن كباتن...',
+  style: TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    color: colors.textPrimary,
+  ),
+),
             Spacer(),
             AppButton(label: "عرض النتائج", onTap: () async {
               // Build search params from taxi state

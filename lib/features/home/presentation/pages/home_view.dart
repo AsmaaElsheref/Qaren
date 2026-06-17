@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:qaren/core/constants/app_constants.dart';
-import 'package:qaren/core/localStorage/cache_helper.dart';
 import 'package:qaren/features/coming_soon/presentation/pages/coming_soon_page.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/theme/app_colors.dart';

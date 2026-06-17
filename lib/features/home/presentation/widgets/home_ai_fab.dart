@@ -20,6 +20,7 @@ class HomeAiFab extends ConsumerWidget {
       decoration: BoxDecoration(
         color: colors.surface,
         shape: BoxShape.circle,
+        image: DecorationImage(image: AssetImage(isDarkMode ? AppImages.qarenDarkLogo : AppImages.Logo)),
         boxShadow: [
           BoxShadow(
             color: AppColors.textPrimary.withValues(alpha: 0.3),
@@ -27,9 +28,6 @@ class HomeAiFab extends ConsumerWidget {
             offset: const Offset(0, 4),
           ),
         ],
-      ),
-      child: Image.asset(
-        isDarkMode ? AppImages.qarenDarkLogo : AppImages.Logo,
       ),
     );
   }

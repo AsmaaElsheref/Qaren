@@ -7,19 +7,57 @@ import '../../../../../core/ui/widgets/AppButton.dart';
 import '../../../../../core/ui/widgets/AppText.dart';
 import '../../../../../core/ui/widgets/AppTextStyles.dart';
 import '../providers/taxi_apps/taxi_apps_notifier.dart';
+import '../providers/taxi_apps/taxi_apps_state.dart';
 import 'taxi_action_chip.dart';
 import 'taxi_app_tile.dart';
 import 'taxi_counter_chip.dart';
 
 /// Slide-in end-drawer that shows the taxi apps selection panel.
-/// Pure UI — all logic lives in [TaxiAppsNotifier].
-class TaxiAppsDrawer extends ConsumerWidget {
+/// Selection changes are held locally until the user taps "تم".
+class TaxiAppsDrawer extends ConsumerStatefulWidget {
   const TaxiAppsDrawer({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<TaxiAppsDrawer> createState() => _TaxiAppsDrawerState();
+}
+
+class _TaxiAppsDrawerState extends ConsumerState<TaxiAppsDrawer> {
+  Set<String>? _draftSelectedIds;
+
+  Set<String> _draft(TaxiAppsState state) =>
+      _draftSelectedIds ??= Set.from(state.selectedIds);
+
+  void _toggle(String id) {
+    setState(() {
+      final draft = Set<String>.from(_draft(ref.read(taxiAppsProvider)));
+      if (draft.contains(id)) {
+        draft.remove(id);
+      } else {
+        draft.add(id);
+      }
+      _draftSelectedIds = draft;
+    });
+  }
+
+  void _selectAll(TaxiAppsState state) {
+    setState(() {
+      _draftSelectedIds = state.apps.map((a) => a.id).toSet();
+    });
+  }
+
+  void _clearAll() {
+    setState(() => _draftSelectedIds = {});
+  }
+
+  void _confirm(TaxiAppsState state) {
+    ref.read(taxiAppsProvider.notifier).applySelection(_draft(state));
+    Navigator.of(context).pop();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final state = ref.watch(taxiAppsProvider);
-    final notifier = ref.read(taxiAppsProvider.notifier);
+    final draft = _draft(state);
     final colors = context.appColors;
 
     return Directionality(
@@ -91,12 +129,12 @@ class TaxiAppsDrawer extends ConsumerWidget {
                 child: Row(
                   children: [
                     TaxiCounterChip(
-                      label: 'محدد: ${state.selectedCount}',
+                      label: 'محدد: ${draft.length}',
                       active: true,
                     ),
                     const SizedBox(width: AppDimensions.paddingS),
                     TaxiCounterChip(
-                      label: 'غير محدد: ${state.unselectedCount}',
+                      label: 'غير محدد: ${state.apps.length - draft.length}',
                       active: false,
                     ),
                   ],
@@ -114,13 +152,13 @@ class TaxiAppsDrawer extends ConsumerWidget {
                   children: [
                     TaxiActionChip(
                       label: 'تحديد الكل',
-                      onTap: notifier.selectAll,
+                      onTap: () => _selectAll(state),
                       isPrimary: true,
                     ),
                     const SizedBox(width: AppDimensions.paddingS),
                     TaxiActionChip(
                       label: 'إلغاء',
-                      onTap: notifier.clearAll,
+                      onTap: _clearAll,
                       isPrimary: false,
                     ),
                   ],
@@ -144,8 +182,8 @@ class TaxiAppsDrawer extends ConsumerWidget {
                     final app = state.apps[index];
                     return TaxiAppTile(
                       app: app,
-                      isSelected: state.isSelected(app.id),
-                      onTap: () => notifier.toggle(app.id),
+                      isSelected: draft.contains(app.id),
+                      onTap: () => _toggle(app.id),
                     );
                   },
                 ),
@@ -157,9 +195,7 @@ class TaxiAppsDrawer extends ConsumerWidget {
                 child: AppButton(
                   label: 'تم',
                   icon: Icons.check_rounded,
-                  onTap: state.selectedCount > 0
-                      ? () => Navigator.of(context).pop()
-                      : null,
+                  onTap: draft.isNotEmpty ? () => _confirm(state) : null,
                 ),
               ),
             ],

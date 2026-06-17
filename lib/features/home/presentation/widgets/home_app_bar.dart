@@ -11,6 +11,7 @@ import '../../../../core/ui/widgets/AppTextStyles.dart';
 import '../../../../core/ui/widgets/icon_container.dart';
 import '../../../auth/presentation/providers/user_profile_provider.dart';
 import '../../../notifications/presentation/pages/notifications_page.dart';
+import '../../../profile/presentation/pages/personalProfile/personal_profile_page.dart';
 import 'home_search_bar.dart';
 
 class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
@@ -48,56 +49,59 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
             backgroundColor: colors.surface,
             elevation: 0,
             scrolledUnderElevation: 0,
-            leading: Padding(
-              padding: const EdgeInsets.only(right: 16),
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Container(
-                    width: 45,
-                    height: 45,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: colors.border,
-                        width: 1.5,
-                      ),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: CachedNetworkImage(
-                        imageUrl: user?.image ?? '',
-                        placeholder: (context, url) =>
-                            Icon(Icons.person, color: colors.textSecondary),
-                        errorWidget: (context, url, error) =>
-                            Icon(Icons.person, color: colors.textSecondary),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 2,
-                    right: 2,
-                    child: Container(
+            leading: GestureDetector(
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => PersonalProfilePage())),
+              child: Padding(
+                padding: const EdgeInsets.only(right: 16),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      width: 45,
+                      height: 45,
                       decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: colors.surface, width: 2),
+                        border: Border.all(
+                          color: colors.border,
+                          width: 1.5,
+                        ),
+                        borderRadius: BorderRadius.circular(15),
                       ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(15),
+                        child: CachedNetworkImage(
+                          imageUrl: user?.image ?? '',
+                          placeholder: (context, url) =>
+                              Icon(Icons.person, color: colors.textSecondary),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.person, color: colors.textSecondary),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 2,
+                      right: 2,
                       child: Container(
-                        width: 11,
-                        height: 11,
                         decoration: BoxDecoration(
-                          color: colors.surface,
                           shape: BoxShape.circle,
-                          border: Border.all(
-                            color: AppColors.primary,
-                            width: 2,
+                          border: Border.all(color: colors.surface, width: 2),
+                        ),
+                        child: Container(
+                          width: 11,
+                          height: 11,
+                          decoration: BoxDecoration(
+                            color: colors.surface,
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: AppColors.primary,
+                              width: 2,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             title: Column(

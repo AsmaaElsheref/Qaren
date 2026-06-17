@@ -3,8 +3,8 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:qaren/core/constants/map_styles.dart';
 import 'package:qaren/features/profile/presentation/providers/profileSettings/profile_settings_provider.dart';
+import '../../../../../core/constants/map_stayles.dart';
 import '../providers/taxi_providers.dart';
 
 /// The single GoogleMap instance for the whole taxi flow.

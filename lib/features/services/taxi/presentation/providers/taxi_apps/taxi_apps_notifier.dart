@@ -65,6 +65,16 @@ class TaxiAppsNotifier extends Notifier<TaxiAppsState> {
     _selectedIds = {};
     state = state.copyWith(selectedIds: const {});
   }
+
+  /// Persist a selection after the user confirms (e.g. drawer "تم").
+  void applySelection(Set<String> selectedIds) {
+    final allIds = state.apps.map((a) => a.id).toSet();
+    final valid = selectedIds.intersection(allIds);
+    _selectedIds = valid.isEmpty && allIds.isNotEmpty
+        ? Set.from(allIds)
+        : Set.from(valid);
+    state = state.copyWith(selectedIds: Set.unmodifiable(_selectedIds!));
+  }
 }
 
 final taxiAppsProvider =

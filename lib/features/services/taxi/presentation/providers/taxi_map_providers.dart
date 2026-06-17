@@ -78,9 +78,9 @@ final taxiMarkersProvider = Provider<Set<Marker>>(
 
 /// Route polylines — multiple alternatives when Directions API routes exist.
 final taxiRoutePolylinesProvider = Provider<Set<Polyline>>((ref) {
-  final routes = ref.watch(routeProvider.select((s) => s.routes));
-  final selectedRouteId =
-      ref.watch(routeProvider.select((s) => s.selectedRouteId));
+  final routeState = ref.watch(routeProvider);
+  final routes = routeState.routes;
+  final selectedRouteId = routeState.selectedRouteId;
 
   if (routes.isNotEmpty) {
     return MapPolylineBuilder.buildRoutePolylines(
@@ -118,4 +118,49 @@ final taxiCameraPositionProvider =
 
 /// Toggles on every [onCameraIdle] — listened to by [MapPickerNotifier].
 final taxiCameraIdleProvider = StateProvider<bool>((ref) => false);
+
+// ── Route sync ────────────────────────────────────────────────────────────────
+
+void syncTaxiRoutes(Ref ref) {
+  final pickup = ref.read(taxiPickupLocationProvider);
+  final destination = ref.read(taxiDestinationLocationProvider);
+  final sameLocation = ref.read(taxiSameLocationProvider);
+  final routeState = ref.read(routeProvider);
+  final notifier = ref.read(routeProvider.notifier);
+
+  if (pickup == null || destination == null || sameLocation) {
+    if (routeState.hasRoutes ||
+        routeState.loadingRoutes ||
+        routeState.errorMessage != null) {
+      notifier.clearRoutes();
+    }
+    return;
+  }
+
+  final alreadyLoaded = _sameLatLng(routeState.pickupLocation, pickup) &&
+      _sameLatLng(routeState.destinationLocation, destination) &&
+      (routeState.hasRoutes || routeState.loadingRoutes);
+
+  if (alreadyLoaded) return;
+
+  notifier.loadRoutes(origin: pickup, destination: destination);
+}
+
+bool _sameLatLng(LatLng? a, LatLng b) {
+  if (a == null) return false;
+  return a.latitude == b.latitude && a.longitude == b.longitude;
+}
+
+/// Side-effect provider — watches pickup/destination and loads routes.
+final routeSyncProvider = Provider<void>((ref) {
+  ref.listen<LatLng?>(taxiPickupLocationProvider, (LatLng? previous, LatLng? next) {
+    syncTaxiRoutes(ref);
+  });
+  ref.listen<LatLng?>(
+    taxiDestinationLocationProvider,
+    (LatLng? previous, LatLng? next) {
+      syncTaxiRoutes(ref);
+    },
+  );
+});
 

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/theme/app_colors.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:qaren/core/ui/widgets/AppButton.dart';
+import 'package:qaren/core/ui/widgets/logo_loading.dart';
 import 'package:qaren/core/utils/extensions/contextSizeX.dart';
 
 import '../../../../../../../core/constants/app_dimensions.dart';
@@ -36,28 +37,38 @@ class Searching extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
         child: Column(
           children: [
-            isDarkMode
-              ? Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(height: context.screenHeight*0.1,),
-              Icon(
-                Icons.directions_bike,
-                size: 72,
-                color: AppColors.primary,
-              ),
+            // isDarkMode
+              // ? Column(
+            // mainAxisAlignment: MainAxisAlignment.center,
+            // children: [
+              // SizedBox(height: context.screenHeight*0.1,),
+              // Icon(
+                // Icons.directions_bike,
+                // size: 72,
+                // color: AppColors.primary,
+              // ),
+              // const SizedBox(height: 30),
+              // AppText(
+                // 'جاري البحث في التطبيقات...',
+                // style: TextStyle(
+                  // fontSize: 20,
+                  // fontWeight: FontWeight.w600,
+                  // color: colors.textPrimary,
+                // ),
+              // ),
+            // ],
+          // )
+              // : Image.asset(AppImages.foodLoading),
+              LogoLoading(),
               const SizedBox(height: 30),
-              AppText(
-                'جاري البحث في التطبيقات...',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  color: colors.textPrimary,
-                ),
-              ),
-            ],
-          )
-              : Image.asset(AppImages.foodLoading),
+               AppText(
+   'جاري البحث في التطبيقات...',
+   style: TextStyle(
+     fontSize: 20,
+     fontWeight: FontWeight.w600,
+     color: colors.textPrimary,
+   ),
+ ),
             const Spacer(),
 
             // Status hint while loading

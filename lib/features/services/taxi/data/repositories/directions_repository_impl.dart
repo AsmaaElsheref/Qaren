@@ -2,8 +2,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../../../core/network/handelError/errors/failures.dart';
 import '../../../../../core/utils/either.dart';
 import '../../domain/entities/route_entity.dart';
-import '../../domain/repositories/directions_repository.dart';
-import '../datasources/directions_remote_datasource.dart';
+import '../../domain/repositories/directions_repositoryy.dart';
+import '../datasources/directions_remote_data_source.dart';
 
 class DirectionsRepositoryImpl implements DirectionsRepository {
   const DirectionsRepositoryImpl(this._remoteDataSource);
