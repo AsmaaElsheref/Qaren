@@ -84,12 +84,6 @@ class _TaxiPageState extends ConsumerState<TaxiPage> {
                       children: [
                         const RepaintBoundary(child: TaxiMapView()),
                         Positioned(
-                          left: 16,
-                          right: 16,
-                          bottom: 16,
-                          child: const RouteInfoCard(),
-                        ),
-                        Positioned(
                           top: 0,
                           left: 0,
                           right: 0,
