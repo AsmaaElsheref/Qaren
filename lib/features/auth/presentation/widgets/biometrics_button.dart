@@ -1,8 +1,8 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/constants/app_dimensions.dart';
-import '../../../../core/constants/app_strings.dart';
 import '../../../../core/ui/widgets/AppText.dart';
 
 class BiometricsButton extends StatelessWidget {
@@ -40,9 +40,9 @@ class BiometricsButton extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        const AppText(
-          AppStrings.faceLogin,
-          style: TextStyle(
+        AppText(
+          'auth.login.biometric'.tr(),
+          style: const TextStyle(
             fontSize: AppDimensions.fontXS,
             color: AppColors.textSecondary,
           ),
@@ -51,4 +51,3 @@ class BiometricsButton extends StatelessWidget {
     );
   }
 }
-

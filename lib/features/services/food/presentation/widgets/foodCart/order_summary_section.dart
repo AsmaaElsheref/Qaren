@@ -1,10 +1,10 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
-import '../../food_strings.dart';
 import '../../providers/food_cart_provider.dart';
 import '../summary_row.dart';
 
@@ -41,20 +41,21 @@ class OrderSummarySection extends ConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           SummaryRow(
-            label: FoodStrings.subtotal,
-            value: '${subtotal.toStringAsFixed(2)} ${FoodStrings.currencyShort}',
+            label: 'food.cart.subtotal'.tr(),
+            value:
+                '${subtotal.toStringAsFixed(2)} ${'food.currencyShort'.tr()}',
           ),
           const SizedBox(height: AppDimensions.paddingS),
           SummaryRow(
-            label: FoodStrings.taxAndFees,
-            value: '${tax.toStringAsFixed(2)} ${FoodStrings.currencyShort}',
+            label: 'food.cart.taxAndFees'.tr(),
+            value: '${tax.toStringAsFixed(2)} ${'food.currencyShort'.tr()}',
           ),
           const SizedBox(height: AppDimensions.paddingM),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               AppText(
-                FoodStrings.total,
+                'food.cart.total'.tr(),
                 style: TextStyle(
                   fontSize: AppDimensions.fontL,
                   fontWeight: FontWeight.w700,
@@ -62,7 +63,7 @@ class OrderSummarySection extends ConsumerWidget {
                 ),
               ),
               AppText(
-                '${total.toStringAsFixed(2)} ${FoodStrings.currencyShort}',
+                '${total.toStringAsFixed(2)} ${'food.currencyShort'.tr()}',
                 style: const TextStyle(
                   fontSize: AppDimensions.fontL,
                   fontWeight: FontWeight.w700,
@@ -76,5 +77,3 @@ class OrderSummarySection extends ConsumerWidget {
     );
   }
 }
-
-

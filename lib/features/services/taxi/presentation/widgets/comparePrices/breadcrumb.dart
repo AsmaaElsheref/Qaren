@@ -1,10 +1,15 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
 
 class Breadcrumb extends StatelessWidget {
-  const Breadcrumb({super.key, required this.pickup, required this.destination});
+  const Breadcrumb({
+    super.key,
+    required this.pickup,
+    required this.destination,
+  });
 
   final String pickup;
   final String destination;
@@ -17,7 +22,7 @@ class Breadcrumb extends StatelessWidget {
       children: [
         Flexible(
           child: AppText(
-            _trimmed(pickup, 'الموقع الحالي'),
+            _trimmed(pickup, 'taxi.route.currentLocation'.tr()),
             secondary: true,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -34,7 +39,7 @@ class Breadcrumb extends StatelessWidget {
         ),
         Flexible(
           child: AppText(
-            _trimmed(destination, 'الوجهة'),
+            _trimmed(destination, 'taxi.route.destinationFallback'.tr()),
             secondary: true,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -45,5 +50,6 @@ class Breadcrumb extends StatelessWidget {
     );
   }
 
-  String _trimmed(String value, String fallback) => value.isNotEmpty ? value : fallback;
+  String _trimmed(String value, String fallback) =>
+      value.isNotEmpty ? value : fallback;
 }

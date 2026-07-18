@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/profileSettings/profile_settings_provider.dart';
@@ -15,11 +16,10 @@ class DarkModeToggleItem extends ConsumerWidget {
       icon: Icons.dark_mode_outlined,
       iconColor: const Color(0xFF7C3AED),
       iconBackground: const Color(0xFFF3EEFF),
-      label: 'الوضع الليلي',
+      label: 'profile.menu.darkMode'.tr(),
       value: isDarkMode,
       onChanged: (_) =>
           ref.read(profileSettingsProvider.notifier).toggleDarkMode(),
     );
   }
 }
-

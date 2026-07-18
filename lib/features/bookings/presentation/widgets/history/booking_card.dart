@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
 import 'package:qaren/core/theme/app_colors.dart';
@@ -16,19 +17,16 @@ class BookingCard extends StatelessWidget {
   final BookingEntity booking;
   final VoidCallback onTap;
 
-  const BookingCard({
-    super.key,
-    required this.booking,
-    required this.onTap,
-  });
+  const BookingCard({super.key, required this.booking, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     final colors = context.appColors;
     final icon = switch (booking.serviceType) {
-      BookingServiceType.foodOrder   => Icons.restaurant_rounded,
-      BookingServiceType.carRental   => Icons.directions_car_rounded,
-      BookingServiceType.all || BookingServiceType.unknown => Icons.receipt_long_rounded,
+      BookingServiceType.foodOrder => Icons.restaurant_rounded,
+      BookingServiceType.carRental => Icons.directions_car_rounded,
+      BookingServiceType.all ||
+      BookingServiceType.unknown => Icons.receipt_long_rounded,
     };
 
     return InkWell(
@@ -54,7 +52,8 @@ class BookingCard extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  width: 44, height: 44,
+                  width: 44,
+                  height: 44,
                   decoration: BoxDecoration(
                     color: AppColors.primary.withValues(alpha: 0.10),
                     borderRadius: BorderRadius.circular(AppDimensions.radiusM),
@@ -70,18 +69,25 @@ class BookingCard extends StatelessWidget {
                         booking.bookingReference.isEmpty
                             ? '#${booking.id}'
                             : booking.bookingReference,
-                        style: AppTextStyles.title.copyWith(color: colors.textPrimary),
+                        style: AppTextStyles.title.copyWith(
+                          color: colors.textPrimary,
+                        ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                       AppText(
                         booking.serviceType.cardLabel,
-                        style: AppTextStyles.caption.copyWith(color: colors.textSecondary),
+                        style: AppTextStyles.caption.copyWith(
+                          color: colors.textSecondary,
+                        ),
                       ),
                     ],
                   ),
                 ),
-                BookingStatusBadge(status: booking.status, label: booking.statusLabel),
+                BookingStatusBadge(
+                  status: booking.status,
+                  label: booking.statusLabel,
+                ),
               ],
             ),
             const SizedBox(height: AppDimensions.paddingM),
@@ -89,8 +95,12 @@ class BookingCard extends StatelessWidget {
               children: [
                 Expanded(
                   child: AppText(
-                    booking.providerSlug.isEmpty ? 'مزود الخدمة' : booking.providerSlug,
-                    style: AppTextStyles.bodySecondary.copyWith(color: colors.textSecondary),
+                    booking.providerSlug.isEmpty
+                        ? 'bookings.card.defaultProvider'.tr()
+                        : booking.providerSlug,
+                    style: AppTextStyles.bodySecondary.copyWith(
+                      color: colors.textSecondary,
+                    ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -112,8 +122,10 @@ class BookingCard extends StatelessWidget {
               CarBookingCardContent(carRental: booking.carRental!)
             else
               AppText(
-                'تفاصيل الطلب متاحة داخل صفحة التفاصيل',
-                style: AppTextStyles.caption.copyWith(color: colors.textSecondary),
+                'bookings.card.detailsHint'.tr(),
+                style: AppTextStyles.caption.copyWith(
+                  color: colors.textSecondary,
+                ),
               ),
           ],
         ),

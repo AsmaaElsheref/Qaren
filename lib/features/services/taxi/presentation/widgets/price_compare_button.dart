@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:qaren/core/ui/widgets/toast/toast.dart';
 import '../../../../../core/ui/widgets/AppButton.dart';
 import '../pages/searching/searching.dart';
@@ -15,7 +16,7 @@ class PriceCompareButton extends ConsumerWidget {
     final sameLocation = ref.watch(taxiSameLocationProvider);
 
     return AppButton(
-      label: 'مقارنة الأسعار',
+      label: 'taxi.compare.title'.tr(),
       isLoading: isLoading,
       radius: 15,
       onTap: canCompare && !isLoading
@@ -23,7 +24,7 @@ class PriceCompareButton extends ConsumerWidget {
               if (sameLocation) {
                 toast(
                   context: context,
-                  msg: 'نقطة الانطلاق والوجهة متطابقتان، يرجى اختيار وجهة مختلفة',
+                  msg: 'taxi.errors.samePickupDestination'.tr(),
                   isError: true,
                 );
                 return;

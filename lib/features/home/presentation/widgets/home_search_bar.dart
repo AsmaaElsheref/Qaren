@@ -1,8 +1,8 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_colors_ext.dart';
 import '../../../../core/constants/app_dimensions.dart';
-import '../../../../core/constants/app_strings.dart';
 import '../../../../core/ui/widgets/AppTextField.dart';
 import '../providers/home_providers.dart';
 
@@ -40,7 +40,7 @@ class _HomeSearchBarState extends ConsumerState<HomeSearchBar> {
         borderRadius: BorderRadius.circular(15),
         child: AppTextField(
           controller: _controller,
-          hint: AppStrings.searchHint,
+          hint: 'home.searchHint'.tr(),
           fillColor: colors.inputBackground,
           nonBorder: true,
           prefixIcon: Padding(
@@ -51,11 +51,9 @@ class _HomeSearchBarState extends ConsumerState<HomeSearchBar> {
               size: AppDimensions.iconM,
             ),
           ),
-          onChanged: (v) =>
-              ref.read(searchQueryProvider.notifier).state = v,
+          onChanged: (v) => ref.read(searchQueryProvider.notifier).state = v,
         ),
       ),
     );
   }
 }
-

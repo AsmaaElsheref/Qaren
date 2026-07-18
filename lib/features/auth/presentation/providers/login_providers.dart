@@ -1,7 +1,7 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/constants/app_constants.dart';
-import '../../../../core/constants/app_strings.dart';
 import '../../../../core/localStorage/cache_helper.dart';
 import '../../../../core/providers/service_providers.dart';
 import '../../../../core/services/biometric_service.dart';
@@ -30,12 +30,12 @@ final loginUseCaseProvider = Provider<LoginUseCase>(
 // ── Notifier ───────────────────────────────────────────────────────────────────
 final loginNotifierProvider =
     StateNotifierProvider.autoDispose<LoginNotifier, LoginState>(
-  (ref) => LoginNotifier(
-    loginUseCase: ref.watch(loginUseCaseProvider),
-    biometricService: ref.watch(biometricServiceProvider),
-    secureStorage: ref.watch(secureStorageProvider),
-  ),
-);
+      (ref) => LoginNotifier(
+        loginUseCase: ref.watch(loginUseCaseProvider),
+        biometricService: ref.watch(biometricServiceProvider),
+        secureStorage: ref.watch(secureStorageProvider),
+      ),
+    );
 
 class LoginNotifier extends StateNotifier<LoginState> {
   final LoginUseCase _loginUseCase;
@@ -46,10 +46,10 @@ class LoginNotifier extends StateNotifier<LoginState> {
     required LoginUseCase loginUseCase,
     required BiometricService biometricService,
     required SecureStorageService secureStorage,
-  })  : _loginUseCase = loginUseCase,
-        _biometricService = biometricService,
-        _secureStorage = secureStorage,
-        super(const LoginState()) {
+  }) : _loginUseCase = loginUseCase,
+       _biometricService = biometricService,
+       _secureStorage = secureStorage,
+       super(const LoginState()) {
     _checkBiometricAvailability();
   }
 
@@ -158,7 +158,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
     // 1) Check if biometrics are enabled by user
     final enabled = await _secureStorage.isBiometricsEnabled();
     if (!enabled) {
-      _failMounted(AppStrings.biometricNoCredentials);
+      _failMounted('auth.login.biometricNoCredentials'.tr());
       return;
     }
 
@@ -166,30 +166,30 @@ class LoginNotifier extends StateNotifier<LoginState> {
     final creds = await _secureStorage.getFallbackCredentials();
     if (creds == null) {
       await _secureStorage.clearBiometricData();
-      _failMounted(AppStrings.biometricNoCredentials);
+      _failMounted('auth.login.biometricNoCredentials'.tr());
       return;
     }
 
     // 3) Prompt device biometric (fingerprint / face)
     final result = await _biometricService.authenticate(
-      reason: AppStrings.biometricReason,
+      reason: 'auth.login.biometricReason'.tr(),
     );
 
     switch (result) {
       case BiometricResult.success:
         break; // continue to API call
       case BiometricResult.notAvailable:
-        _failMounted(AppStrings.biometricNotAvailable);
+        _failMounted('auth.login.biometricNotAvailable'.tr());
         return;
       case BiometricResult.notEnrolled:
-        _failMounted('لم يتم تسجيل أي بصمة على الجهاز');
+        _failMounted('auth.errors.noBiometricEnrolled'.tr());
         return;
       case BiometricResult.cancelled:
         if (mounted) state = state.copyWith(status: LoginStatus.initial);
         return;
       case BiometricResult.failed:
       case BiometricResult.error:
-        _failMounted(AppStrings.biometricFailed);
+        _failMounted('auth.login.biometricFailed'.tr());
         return;
     }
 

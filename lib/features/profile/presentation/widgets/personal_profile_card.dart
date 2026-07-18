@@ -1,5 +1,5 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:qaren/core/constants/app_strings.dart';
 import 'package:qaren/core/constants/gap.dart';
 import 'package:qaren/core/theme/app_colors.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
@@ -40,14 +40,14 @@ class PersonalProfileCard extends StatelessWidget {
                 height: 90,
                 decoration: BoxDecoration(
                   color: AppColors.primary.withValues(alpha: 0.10),
-                  borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(20),
+                  ),
                 ),
               ),
               Positioned(
                 bottom: -45,
-                child: ProfileAvatarWithCamera(
-                  avatarUrl: avatarUrl,
-                ),
+                child: ProfileAvatarWithCamera(avatarUrl: avatarUrl),
               ),
               Positioned(
                 top: 8,
@@ -56,13 +56,20 @@ class PersonalProfileCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   onTap: onEdit,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6,
+                      vertical: 4,
+                    ),
                     child: Row(
                       children: [
-                        Icon(Icons.edit, color: AppColors.borderFocused, size: 17),
+                        Icon(
+                          Icons.edit,
+                          color: AppColors.borderFocused,
+                          size: 17,
+                        ),
                         Gap.gapW5,
                         AppText(
-                          AppStrings.edit,
+                          'profile.edit'.tr(),
                           style: const TextStyle(
                             color: AppColors.borderFocused,
                             fontWeight: FontWeight.bold,

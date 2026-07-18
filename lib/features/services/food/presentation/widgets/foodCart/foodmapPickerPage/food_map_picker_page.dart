@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart' as geo;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:qaren/core/config/config.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
+import 'package:qaren/core/ui/widgets/map_unavailable_view.dart';
 
 import '../../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../../core/theme/app_colors.dart';
@@ -10,10 +13,9 @@ import '../../../../../../../core/ui/widgets/AppText.dart';
 import '../../../../../../../core/utils/location_service.dart';
 import '../../../../domain/entities/food_location_result.dart';
 
-
 /// Standalone map picker for the food feature.
 /// Drag the map → centre pin locks onto the chosen spot.
-/// Tap "تأكيد الموقع" → pops with [FoodLocationResult] (LatLng + address name).
+/// Tap confirm → pops with [FoodLocationResult] (LatLng + address name).
 class FoodMapPickerPage extends StatefulWidget {
   const FoodMapPickerPage({super.key, this.initialPosition});
 
@@ -29,7 +31,7 @@ class _FoodMapPickerPageState extends State<FoodMapPickerPage> {
 
   GoogleMapController? _mapController;
   LatLng _pickedLatLng = _cairo;
-  String _addressLabel = 'جارٍ تحديد الموقع...';
+  String _addressLabel = 'food.location.resolving';
   bool _isResolving = false;
 
   @override
@@ -51,16 +53,20 @@ class _FoodMapPickerPageState extends State<FoodMapPickerPage> {
       if (!mounted) return;
       if (marks.isNotEmpty) {
         final p = marks.first;
-        final parts = [p.street, p.subLocality, p.locality]
-            .where((s) => s != null && s.isNotEmpty)
-            .toList();
+        final parts = [
+          p.street,
+          p.subLocality,
+          p.locality,
+        ].where((s) => s != null && s.isNotEmpty).toList();
         setState(() {
-          _addressLabel =
-              parts.isNotEmpty ? parts.join('، ') : 'موقع غير معروف';
+          _addressLabel = parts.isNotEmpty
+              ? parts.join('، ')
+              : 'food.location.unknown';
         });
       }
     } catch (_) {
-      if (mounted) setState(() => _addressLabel = 'تعذّر تحديد الموقع');
+      if (mounted)
+        setState(() => _addressLabel = 'food.location.resolveFailed');
     } finally {
       if (mounted) setState(() => _isResolving = false);
     }
@@ -73,9 +79,7 @@ class _FoodMapPickerPageState extends State<FoodMapPickerPage> {
     if (!mounted) return;
     if (!result.isSuccess) return;
     final pos = result.position!;
-    _mapController?.animateCamera(
-      CameraUpdate.newLatLngZoom(pos, 15),
-    );
+    _mapController?.animateCamera(CameraUpdate.newLatLngZoom(pos, 15));
     setState(() => _pickedLatLng = pos);
     _resolveAddress(pos);
   }
@@ -86,8 +90,38 @@ class _FoodMapPickerPageState extends State<FoodMapPickerPage> {
     super.dispose();
   }
 
+  String _localizedAddressLabel() {
+    if (_addressLabel.startsWith('food.location.')) return _addressLabel.tr();
+    return _addressLabel;
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (!AppConfig.hasGoogleMapsApiKey) {
+      return Directionality(
+        textDirection: TextDirection.rtl,
+        child: Scaffold(
+          body: Stack(
+            children: [
+              const MapUnavailableView(
+                titleKey: 'food.location.mapDisabledTitle',
+                messageKey: 'food.location.mapDisabledMessage',
+              ),
+              Positioned(
+                top:
+                    MediaQuery.of(context).padding.top + AppDimensions.paddingS,
+                right: AppDimensions.paddingM,
+                child: _CircleIconButton(
+                  icon: Icons.arrow_back_ios_rounded,
+                  onTap: () => Navigator.of(context).pop(),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -155,16 +189,16 @@ class _FoodMapPickerPageState extends State<FoodMapPickerPage> {
                       ),
                       const SizedBox(height: AppDimensions.paddingM),
                       AppButton(
-                        label: 'تأكيد الموقع',
+                        label: 'food.location.confirm'.tr(),
                         icon: Icons.check_circle_outline_rounded,
                         onTap: _isResolving
                             ? null
                             : () => Navigator.of(context).pop(
-                                  FoodLocationResult(
-                                    latLng: _pickedLatLng,
-                                    name: _addressLabel,
-                                  ),
+                                FoodLocationResult(
+                                  latLng: _pickedLatLng,
+                                  name: _localizedAddressLabel(),
                                 ),
+                              ),
                       ),
                     ],
                   ),
@@ -189,6 +223,7 @@ class _AddressCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.appColors;
+    final displayedAddress = _localizedAddress(address);
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(
@@ -210,16 +245,16 @@ class _AddressCard extends StatelessWidget {
         children: [
           Expanded(
             child: isResolving
-                ? const Row(
+                ? Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       AppText(
-                        'جارٍ التحديد...',
+                        'food.location.selecting'.tr(),
                         secondary: true,
-                        style: TextStyle(fontSize: AppDimensions.fontS),
+                        style: const TextStyle(fontSize: AppDimensions.fontS),
                       ),
-                      SizedBox(width: 8),
-                      SizedBox(
+                      const SizedBox(width: 8),
+                      const SizedBox(
                         width: 14,
                         height: 14,
                         child: CircularProgressIndicator(
@@ -230,7 +265,7 @@ class _AddressCard extends StatelessWidget {
                     ],
                   )
                 : AppText(
-                    address,
+                    displayedAddress,
                     style: TextStyle(
                       fontSize: AppDimensions.fontS,
                       fontWeight: FontWeight.w600,
@@ -250,6 +285,11 @@ class _AddressCard extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String _localizedAddress(String value) {
+    if (value.startsWith('food.location.')) return value.tr();
+    return value;
   }
 }
 
@@ -339,4 +379,3 @@ class _FoodMapPin extends StatelessWidget {
     );
   }
 }
-

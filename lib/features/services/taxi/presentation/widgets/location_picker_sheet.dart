@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/core/config/config.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:qaren/features/services/taxi/presentation/providers/currentLocationProvider/current_location_provider.dart';
 import '../../../../../core/constants/app_dimensions.dart';
@@ -15,7 +17,9 @@ class LocationPickerSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final title = field == TaxiActiveField.pickup ? 'نقطة الانطلاق' : 'الوجهة المطلوبة';
+    final title = field == TaxiActiveField.pickup
+        ? 'taxi.location.pickup'.tr()
+        : 'taxi.location.destination'.tr();
     final isLocationLoading = ref.watch(taxiIsLocationLoadingProvider);
     final otherLocation = ref.watch(
       taxiProvider.select(
@@ -28,6 +32,7 @@ class LocationPickerSheet extends ConsumerWidget {
     final otherLatLng = otherLocation.latLng;
     final currentLocation = ref.watch(currentLocationProvider).valueOrNull;
     final colors = context.appColors;
+    final canUseMap = AppConfig.hasGoogleMapsApiKey;
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Container(
@@ -79,7 +84,7 @@ class LocationPickerSheet extends ConsumerWidget {
                 icon: Icons.my_location_rounded,
                 iconColor: AppColors.primary,
                 iconBgColor: AppColors.primaryLight,
-                label: 'استخدم موقعي الحالي',
+                label: 'taxi.location.useCurrent'.tr(),
                 labelColor: AppColors.primary,
                 isLoading: isLocationLoading,
                 onTap: isLocationLoading
@@ -112,15 +117,20 @@ class LocationPickerSheet extends ConsumerWidget {
                 icon: Icons.map_outlined,
                 iconColor: AppColors.textSecondary,
                 iconBgColor: AppColors.surfaceVariant,
-                label: 'تحديد على الخريطة',
-                onTap: () {
-                  Navigator.of(context).pop();
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => MapPickerPage(field: field),
-                    ),
-                  );
-                },
+                label: canUseMap
+                    ? 'taxi.location.pickOnMap'.tr()
+                    : 'taxi.location.mapDisabledOption'.tr(),
+                labelColor: canUseMap ? null : AppColors.textSecondary,
+                onTap: canUseMap
+                    ? () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => MapPickerPage(field: field),
+                          ),
+                        );
+                      }
+                    : null,
               ),
 
               // ── Recent / other suggestion ─────────────────────────────────
@@ -134,7 +144,7 @@ class LocationPickerSheet extends ConsumerWidget {
                   child: Row(
                     children: [
                       AppText(
-                        'مواقع سابقة',
+                        'taxi.location.recentPlaces'.tr(),
                         secondary: true,
                         style: const TextStyle(fontSize: AppDimensions.fontXS),
                       ),
@@ -147,7 +157,9 @@ class LocationPickerSheet extends ConsumerWidget {
                   iconBgColor: const Color(0xFFFFF0F0),
                   label: otherLabel,
                   onTap: () {
-                    ref.read(taxiProvider.notifier).confirmLocation(
+                    ref
+                        .read(taxiProvider.notifier)
+                        .confirmLocation(
                           field: field,
                           latLng: otherLatLng,
                           label: otherLabel,

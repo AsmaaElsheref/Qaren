@@ -1,3 +1,5 @@
+import 'package:qaren/core/localization/easy_localization.dart';
+
 enum WalletTransactionStatus {
   completed,
   pending,
@@ -6,10 +8,13 @@ enum WalletTransactionStatus {
 
   String get label {
     return switch (this) {
-      WalletTransactionStatus.completed => 'مكتملة',
-      WalletTransactionStatus.pending => 'قيد الانتظار',
-      WalletTransactionStatus.failed => 'فشلت',
-      WalletTransactionStatus.unknown => 'غير معروفة',
+      WalletTransactionStatus.completed =>
+        'wallet.transactionStatus.completed'.tr(),
+      WalletTransactionStatus.pending =>
+        'wallet.transactionStatus.pending'.tr(),
+      WalletTransactionStatus.failed => 'wallet.transactionStatus.failed'.tr(),
+      WalletTransactionStatus.unknown =>
+        'wallet.transactionStatus.unknown'.tr(),
     };
   }
 
@@ -22,4 +27,3 @@ enum WalletTransactionStatus {
     };
   }
 }
-

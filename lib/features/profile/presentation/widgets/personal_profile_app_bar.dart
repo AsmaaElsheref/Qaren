@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:qaren/core/ui/widgets/icon_container.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -28,7 +29,7 @@ class PersonalProfileAppBar extends StatelessWidget
       centerTitle: true,
       automaticallyImplyLeading: false,
       title: AppText(
-        'ملفي الشخصي',
+        'profile.myProfile'.tr(),
         style: AppTextStyles.title.copyWith(fontWeight: FontWeight.w700),
       ),
       leading: Padding(
@@ -40,9 +41,8 @@ class PersonalProfileAppBar extends StatelessWidget
             size: 16,
             color: colors.textPrimary,
           ),
-        )
+        ),
       ),
     );
   }
 }
-

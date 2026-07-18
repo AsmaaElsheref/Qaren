@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/ui/widgets/AppText.dart';
@@ -14,11 +15,10 @@ class AppVersionText extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Center(
         child: AppText(
-          'الإصدار $version',
+          'common.version'.tr(namedArgs: {'version': version}),
           style: AppTextStyles.caption.copyWith(color: AppColors.textHint),
         ),
       ),
     );
   }
 }
-

@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,8 +27,11 @@ class WalletAmountInput extends ConsumerWidget {
       textDirection: TextDirection.ltr,
       style: AppTextStyles.body.copyWith(color: colors.textPrimary),
       decoration: InputDecoration(
-        label: AppText('المبلغ', style: AppTextStyles.bodySecondary.copyWith(color: colors.textMuted)),
-        hintText: '100',
+        label: AppText(
+          'wallet.deposit.amountLabel'.tr(),
+          style: AppTextStyles.bodySecondary.copyWith(color: colors.textMuted),
+        ),
+        hintText: 'wallet.deposit.amountHint'.tr(),
         filled: true,
         fillColor: colors.inputBackground,
         contentPadding: const EdgeInsets.symmetric(

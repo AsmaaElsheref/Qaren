@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/constants/app_constants.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
 import 'package:qaren/core/localStorage/cache_helper.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:qaren/core/theme/app_colors.dart';
 import 'package:qaren/core/ui/widgets/AppButton.dart';
 import 'package:qaren/core/ui/widgets/custom_app_bar.dart';
@@ -55,7 +56,9 @@ class _TripDetailsState extends ConsumerState<TripDetails> {
           MaterialPageRoute(
             builder: (_) => BookingSuccessPage(
               bookingReference: result?.bookingReference ?? '',
-              message: result?.providerResponse.message ?? 'تم الحجز بنجاح',
+              message:
+                  result?.providerResponse.message ??
+                  'taxi.booking.successMessage'.tr(),
             ),
           ),
           (_) => false,
@@ -65,7 +68,7 @@ class _TripDetailsState extends ConsumerState<TripDetails> {
           previous?.status != BookingStatus.failure) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(next.errorMessage ?? 'فشل الحجز. حاول مرة أخرى.'),
+            content: Text(next.errorMessage ?? 'taxi.booking.failed'.tr()),
             backgroundColor: AppColors.error,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
@@ -79,7 +82,7 @@ class _TripDetailsState extends ConsumerState<TripDetails> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(70),
-        child: CustomAppBar(title: 'تفاصيل الرحلة', isBack: true),
+        child: CustomAppBar(title: 'taxi.tripDetails.title'.tr(), isBack: true),
       ),
       body: _buildBody(status),
     );
@@ -99,15 +102,19 @@ class _TripDetailsState extends ConsumerState<TripDetails> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Icons.error_outline, size: 48, color: AppColors.textHint),
+              const Icon(
+                Icons.error_outline,
+                size: 48,
+                color: AppColors.textHint,
+              ),
               const SizedBox(height: AppDimensions.paddingM),
               Text(
-                errorMessage ?? 'حدث خطأ. حاول مرة أخرى.',
+                errorMessage ?? 'taxi.errors.generic'.tr(),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: AppDimensions.paddingL),
               AppButton(
-                label: 'إعادة المحاولة',
+                label: 'common.retry'.tr(),
                 icon: Icons.refresh,
                 onTap: () => ref
                     .read(offerDetailsProvider.notifier)
@@ -123,8 +130,10 @@ class _TripDetailsState extends ConsumerState<TripDetails> {
         final isBooking = bookingStatus == BookingStatus.loading;
 
         // Read cached user data — set once at login/signup.
-        final cachedName = CacheHelper.getData(key: AppConstants.userName) as String? ?? '';
-        final cachedPhone = CacheHelper.getData(key: AppConstants.userPhone) as String? ?? '';
+        final cachedName =
+            CacheHelper.getData(key: AppConstants.userName) as String? ?? '';
+        final cachedPhone =
+            CacheHelper.getData(key: AppConstants.userPhone) as String? ?? '';
 
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -139,18 +148,19 @@ class _TripDetailsState extends ConsumerState<TripDetails> {
                   radius: 15,
                   removeShadow: true,
                   icon: Icons.file_download_outlined,
-                  label: 'احجز الآن',
+                  label: 'taxi.compare.bookNow'.tr(),
                   isLoading: isBooking,
                   onTap: isBooking
                       ? null
                       : () {
-                          ref.read(bookingProvider.notifier).book(
+                          ref
+                              .read(bookingProvider.notifier)
+                              .book(
                                 BookCarRentalParams(
                                   offerId: widget.offerId,
                                   name: cachedName,
                                   phone: cachedPhone,
-                                  providerSlug:
-                                      details?.provider.slug ?? '',
+                                  providerSlug: details?.provider.slug ?? '',
                                 ),
                               );
                         },

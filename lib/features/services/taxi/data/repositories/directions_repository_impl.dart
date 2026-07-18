@@ -1,4 +1,5 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import '../../../../../core/network/handelError/errors/failures.dart';
 import '../../../../../core/utils/either.dart';
 import '../../domain/entities/route_entity.dart';
@@ -24,9 +25,7 @@ class DirectionsRepositoryImpl implements DirectionsRepository {
     } on Failure catch (failure) {
       return Either.leftOf(failure);
     } catch (_) {
-      return Either.leftOf(
-        const ServerFailure('فشل تحميل المسارات. حاول مرة أخرى.'),
-      );
+      return Either.leftOf(ServerFailure('taxi.route.loadFailed'.tr()));
     }
   }
 }

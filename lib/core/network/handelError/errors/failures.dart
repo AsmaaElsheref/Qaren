@@ -1,17 +1,18 @@
+import 'package:qaren/core/localization/easy_localization.dart';
+
 abstract class Failure {
   final String message;
   const Failure(this.message);
 }
 
 class NetworkFailure extends Failure {
-  const NetworkFailure([super.message = 'تعذر الاتصال. تحقق من الإنترنت.']);
+  NetworkFailure([String? message]) : super(message ?? 'errors.network'.tr());
 }
 
 class AuthFailure extends Failure {
-  const AuthFailure([super.message = 'فشل تسجيل الدخول. تحقق من بياناتك.']);
+  AuthFailure([String? message]) : super(message ?? 'errors.unauthorized'.tr());
 }
 
 class ServerFailure extends Failure {
-  const ServerFailure([super.message = 'حدث خطأ في الخادم. حاول لاحقاً.']);
+  ServerFailure([String? message]) : super(message ?? 'errors.server'.tr());
 }
-

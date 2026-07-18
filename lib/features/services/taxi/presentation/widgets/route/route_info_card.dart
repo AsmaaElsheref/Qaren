@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
@@ -38,7 +39,7 @@ class RouteInfoCard extends ConsumerWidget {
             ),
             const SizedBox(width: AppDimensions.paddingM),
             AppText(
-              'جاري تحميل المسارات...',
+              'taxi.route.loading'.tr(),
               style: TextStyle(color: colors.textSecondary, fontSize: 14),
             ),
           ],
@@ -74,7 +75,7 @@ class RouteInfoCard extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppText(
-            routeName ?? 'المسار المحدد',
+            routeName ?? 'taxi.route.selectedRoute'.tr(),
             style: TextStyle(
               color: colors.textPrimary,
               fontSize: 15,
@@ -83,18 +84,30 @@ class RouteInfoCard extends ConsumerWidget {
           ),
           const SizedBox(height: AppDimensions.paddingM),
           _InfoRow(
-            label: 'المسافة',
-            value: distance == null ? '--' : '${distance.toStringAsFixed(1)} km',
+            label: 'taxi.route.distance'.tr(),
+            value: distance == null
+                ? '--'
+                : 'taxi.route.distanceValue'.tr(
+                    namedArgs: {'distance': distance.toStringAsFixed(1)},
+                  ),
           ),
           const SizedBox(height: AppDimensions.paddingS),
           _InfoRow(
-            label: 'المدة المتوقعة',
-            value: duration == null ? '--' : '$duration min',
+            label: 'taxi.route.estimatedDuration'.tr(),
+            value: duration == null
+                ? '--'
+                : 'taxi.route.durationValue'.tr(
+                    namedArgs: {'duration': '$duration'},
+                  ),
           ),
           const SizedBox(height: AppDimensions.paddingS),
           _InfoRow(
-            label: 'رسوم التوصيل',
-            value: fee == null ? '--' : '${fee.toStringAsFixed(0)} SAR',
+            label: 'taxi.route.deliveryFee'.tr(),
+            value: fee == null
+                ? '--'
+                : 'taxi.route.feeValue'.tr(
+                    namedArgs: {'fee': fee.toStringAsFixed(0)},
+                  ),
             highlight: true,
           ),
         ],

@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -25,19 +26,14 @@ class EditProfileButton extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             AppText(
-              'ملفي الشخصي',
+              'profile.myProfile'.tr(),
               style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600),
             ),
             const SizedBox(width: 8),
-            Icon(
-              Icons.edit_outlined,
-              size: 18,
-              color: colors.textSecondary,
-            ),
+            Icon(Icons.edit_outlined, size: 18, color: colors.textSecondary),
           ],
         ),
       ),
     );
   }
 }
-

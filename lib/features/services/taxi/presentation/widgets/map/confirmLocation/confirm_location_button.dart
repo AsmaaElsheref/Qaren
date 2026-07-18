@@ -1,10 +1,18 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../../core/ui/widgets/AppButton.dart';
 import 'selected_location_address.dart';
 
 class ConfirmLocationButton extends StatelessWidget {
-  const ConfirmLocationButton({super.key, required this.isResolving, required this.isConfirming, required this.title, required this.confirm, required this.addressLabel});
+  const ConfirmLocationButton({
+    super.key,
+    required this.isResolving,
+    required this.isConfirming,
+    required this.title,
+    required this.confirm,
+    required this.addressLabel,
+  });
 
   final bool isResolving;
   final bool isConfirming;
@@ -31,10 +39,14 @@ class ConfirmLocationButton extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               // ── Address label card ────────────────────────────────
-              SelectedLocationAddress(title: title,addressLabel: addressLabel,isResolving: isResolving,),
+              SelectedLocationAddress(
+                title: title,
+                addressLabel: addressLabel,
+                isResolving: isResolving,
+              ),
               const SizedBox(height: AppDimensions.paddingM),
               AppButton(
-                label: 'تأكيد الموقع',
+                label: 'taxi.location.confirm'.tr(),
                 icon: Icons.check_circle_outline_rounded,
                 isLoading: isConfirming,
                 onTap: isResolving ? null : confirm,

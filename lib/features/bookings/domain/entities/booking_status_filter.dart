@@ -1,3 +1,5 @@
+import 'package:qaren/core/localization/easy_localization.dart';
+
 enum BookingStatusFilter {
   all,
   pending,
@@ -15,11 +17,10 @@ enum BookingStatusFilter {
 
   String get label {
     return switch (this) {
-      BookingStatusFilter.all => 'الكل',
-      BookingStatusFilter.pending => 'قيد الانتظار',
-      BookingStatusFilter.confirmed => 'مؤكد',
-      BookingStatusFilter.cancelled => 'ملغي',
+      BookingStatusFilter.all => 'bookings.serviceType.all'.tr(),
+      BookingStatusFilter.pending => 'bookings.status.pending'.tr(),
+      BookingStatusFilter.confirmed => 'bookings.status.confirmed'.tr(),
+      BookingStatusFilter.cancelled => 'bookings.status.cancelled'.tr(),
     };
   }
 }
-

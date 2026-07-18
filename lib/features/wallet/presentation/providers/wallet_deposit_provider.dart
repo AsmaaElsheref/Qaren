@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../domain/entities/wallet_deposit_result_entity.dart';
@@ -5,17 +6,23 @@ import '../../domain/usecases/deposit_wallet_amount_usecase.dart';
 import 'wallet_deposit_state.dart';
 import 'wallet_provider.dart';
 
-final walletDepositProvider = StateNotifierProvider.autoDispose<WalletDepositNotifier, WalletDepositState>(
-  (ref) => WalletDepositNotifier(
-    depositWalletAmountUseCase: ref.watch(depositWalletAmountUseCaseProvider),
-  ),
-);
+final walletDepositProvider =
+    StateNotifierProvider.autoDispose<
+      WalletDepositNotifier,
+      WalletDepositState
+    >(
+      (ref) => WalletDepositNotifier(
+        depositWalletAmountUseCase: ref.watch(
+          depositWalletAmountUseCaseProvider,
+        ),
+      ),
+    );
 
 class WalletDepositNotifier extends StateNotifier<WalletDepositState> {
   final DepositWalletAmountUseCase depositWalletAmountUseCase;
 
   WalletDepositNotifier({required this.depositWalletAmountUseCase})
-      : super(const WalletDepositState());
+    : super(const WalletDepositState());
 
   void updateAmount(String value) {
     state = state.copyWith(amount: value, clearError: true);
@@ -27,7 +34,7 @@ class WalletDepositNotifier extends StateNotifier<WalletDepositState> {
 
   Future<WalletDepositResultEntity?> submit() async {
     if (!state.isValid) {
-      state = state.copyWith(errorMessage: 'برجاء إدخال مبلغ صحيح أكبر من صفر');
+      state = state.copyWith(errorMessage: 'wallet.deposit.invalidAmount'.tr());
       return null;
     }
 
@@ -48,4 +55,3 @@ class WalletDepositNotifier extends StateNotifier<WalletDepositState> {
     );
   }
 }
-

@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/ui/widgets/AppText.dart';
 import 'package:qaren/core/ui/widgets/AppTextStyles.dart';
@@ -7,7 +8,9 @@ class WalletTransactionsSectionTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const AppText('آخر المعاملات', style: AppTextStyles.title);
+    return AppText(
+      'wallet.transactions.title'.tr(),
+      style: AppTextStyles.title,
+    );
   }
 }
-

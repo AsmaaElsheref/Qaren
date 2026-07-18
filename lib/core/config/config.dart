@@ -4,4 +4,6 @@ class AppConfig {
   AppConfig._();
 
   static String get googleMapsApiKey => dotenv.env['GOOGLE_MAPS_API_KEY'] ?? '';
+
+  static bool get hasGoogleMapsApiKey => googleMapsApiKey.trim().isNotEmpty;
 }

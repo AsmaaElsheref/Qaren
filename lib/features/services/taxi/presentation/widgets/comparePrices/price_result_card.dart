@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:qaren/core/utils/extensions/contextSizeX.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
@@ -57,12 +58,17 @@ class PriceResultCard extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _ProviderIcon(imageUrl: result.icon, bgColor: result.iconBgColor),
+                _ProviderIcon(
+                  imageUrl: result.icon,
+                  bgColor: result.iconBgColor,
+                ),
                 const SizedBox(width: AppDimensions.paddingM),
                 AppInfo(result: result),
                 const Spacer(),
-                AppText('${_formatPrice(result.price)} ${result.currency}',
-                    style: AppTextStyles.body.copyWith(color: colors.textPrimary)),
+                AppText(
+                  '${_formatPrice(result.price)} ${result.currency}',
+                  style: AppTextStyles.body.copyWith(color: colors.textPrimary),
+                ),
               ],
             ),
             const SizedBox(height: AppDimensions.paddingM),
@@ -81,7 +87,7 @@ class PriceResultCard extends StatelessWidget {
                   color: AppColors.textPrimary,
                   radius: 10,
                   removeShadow: true,
-                  label: 'احجز الآن',
+                  label: 'taxi.compare.bookNow'.tr(),
                   icon: Icons.arrow_forward_rounded,
                   onTap: onBook,
                 ),
@@ -107,7 +113,8 @@ class _ProviderIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 48, height: 48,
+      width: 48,
+      height: 48,
       decoration: BoxDecoration(
         color: bgColor,
         borderRadius: BorderRadius.circular(AppDimensions.radiusM),
@@ -119,7 +126,10 @@ class _ProviderIcon extends StatelessWidget {
 
   Widget _networkImage() {
     return Image.network(
-      imageUrl, width: 48, height: 48, fit: BoxFit.cover,
+      imageUrl,
+      width: 48,
+      height: 48,
+      fit: BoxFit.cover,
       loadingBuilder: (_, child, progress) {
         if (progress == null) return child;
         return _shimmer();
@@ -133,14 +143,22 @@ class _ProviderIcon extends StatelessWidget {
       color: AppColors.primary.withValues(alpha: 0.08),
       child: const Center(
         child: SizedBox(
-          width: 20, height: 20,
-          child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.primary),
+          width: 20,
+          height: 20,
+          child: CircularProgressIndicator(
+            strokeWidth: 2,
+            color: AppColors.primary,
+          ),
         ),
       ),
     );
   }
 
   Widget _fallbackIcon() {
-    return const Icon(Icons.directions_car_rounded, color: AppColors.white, size: 26);
+    return const Icon(
+      Icons.directions_car_rounded,
+      color: AppColors.white,
+      size: 26,
+    );
   }
 }

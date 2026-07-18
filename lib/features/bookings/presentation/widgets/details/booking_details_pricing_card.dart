@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
 import 'package:qaren/core/theme/app_colors.dart';
@@ -24,7 +25,10 @@ class BookingDetailsPricingCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(AppDimensions.radiusL),
           border: Border.all(color: AppColors.border),
         ),
-        child: const AppText('السعر غير متاح', style: AppTextStyles.title),
+        child: AppText(
+          'bookings.price.unavailable'.tr(),
+          style: AppTextStyles.title,
+        ),
       );
     }
 
@@ -39,14 +43,32 @@ class BookingDetailsPricingCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const AppText('ملخص السعر', style: AppTextStyles.title),
-          const SizedBox(height: AppDimensions.paddingM),
-          AppText('المجموع الفرعي: ${formatPrice(pricing.subtotal)}', textDirection: TextDirection.rtl),
-          const SizedBox(height: AppDimensions.paddingS),
-          AppText('رسوم التوصيل: ${formatPrice(pricing.deliveryFee)}', textDirection: TextDirection.rtl),
-          const Divider(height: AppDimensions.paddingL, color: AppColors.border),
           AppText(
-            'الإجمالي: ${formatPrice(pricing.totalPrice)}',
+            'bookings.details.priceSummary'.tr(),
+            style: AppTextStyles.title,
+          ),
+          const SizedBox(height: AppDimensions.paddingM),
+          AppText(
+            'bookings.details.subtotal'.tr(
+              namedArgs: {'price': formatPrice(pricing.subtotal)},
+            ),
+            textDirection: TextDirection.rtl,
+          ),
+          const SizedBox(height: AppDimensions.paddingS),
+          AppText(
+            'bookings.details.deliveryFee'.tr(
+              namedArgs: {'price': formatPrice(pricing.deliveryFee)},
+            ),
+            textDirection: TextDirection.rtl,
+          ),
+          const Divider(
+            height: AppDimensions.paddingL,
+            color: AppColors.border,
+          ),
+          AppText(
+            'bookings.details.total'.tr(
+              namedArgs: {'price': formatPrice(pricing.totalPrice)},
+            ),
             style: AppTextStyles.title.copyWith(color: AppColors.primary),
             textDirection: TextDirection.rtl,
           ),
@@ -56,8 +78,7 @@ class BookingDetailsPricingCard extends StatelessWidget {
   }
 
   String formatPrice(double? value) {
-    if (value == null) return 'السعر غير متاح';
+    if (value == null) return 'bookings.price.unavailable'.tr();
     return '${value.toStringAsFixed(2)} ${pricing.currency}';
   }
 }
-

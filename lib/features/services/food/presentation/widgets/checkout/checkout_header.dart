@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 
@@ -5,7 +6,6 @@ import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
 import '../../../../../../core/ui/widgets/icon_container.dart';
-import '../../food_strings.dart';
 
 class CheckoutHeader extends StatelessWidget {
   const CheckoutHeader({super.key});
@@ -30,7 +30,7 @@ class CheckoutHeader extends StatelessWidget {
           ),
           const Spacer(),
           AppText(
-            FoodStrings.checkoutTitle,
+            'food.checkout.title'.tr(),
             style: TextStyle(
               fontSize: AppDimensions.fontL,
               fontWeight: FontWeight.w800,
@@ -44,4 +44,3 @@ class CheckoutHeader extends StatelessWidget {
     );
   }
 }
-

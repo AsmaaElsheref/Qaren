@@ -1,10 +1,10 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 
 import '../../../../auth/domain/entities/user_entity.dart';
 import '../../../../../core/constants/app_dimensions.dart';
-import '../../../../../core/constants/app_strings.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/ui/widgets/AppText.dart';
 import '../../providers/editProfile/edit_profile_provider.dart';
@@ -12,10 +12,7 @@ import '../../providers/editProfile/edit_profile_provider.dart';
 class EditProfileGenderSelector extends ConsumerWidget {
   final UserEntity providerKey;
 
-  const EditProfileGenderSelector({
-    super.key,
-    required this.providerKey,
-  });
+  const EditProfileGenderSelector({super.key, required this.providerKey});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -28,9 +25,9 @@ class EditProfileGenderSelector extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const AppText(
-          AppStrings.genderHint,
-          style: TextStyle(
+        AppText(
+          'auth.signup.genderHint'.tr(),
+          style: const TextStyle(
             fontSize: AppDimensions.fontS,
             fontWeight: FontWeight.w700,
             color: AppColors.textPrimary,
@@ -67,7 +64,7 @@ class EditProfileGenderSelector extends ConsumerWidget {
                       ),
                       const SizedBox(width: 6),
                       AppText(
-                        AppStrings.genderMale,
+                        'auth.signup.genderMale'.tr(),
                         style: TextStyle(
                           color: selectedGender == 'male'
                               ? AppColors.primary
@@ -109,7 +106,7 @@ class EditProfileGenderSelector extends ConsumerWidget {
                       ),
                       const SizedBox(width: 6),
                       AppText(
-                        AppStrings.genderFemale,
+                        'auth.signup.genderFemale'.tr(),
                         style: TextStyle(
                           color: selectedGender == 'female'
                               ? AppColors.primary
@@ -128,4 +125,3 @@ class EditProfileGenderSelector extends ConsumerWidget {
     );
   }
 }
-

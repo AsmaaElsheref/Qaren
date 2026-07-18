@@ -1,15 +1,20 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'core/localization/app_locales.dart';
+import 'core/localization/locale_service.dart';
+import 'core/localStorage/cache_helper.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/app_theme_provider.dart';
-import 'core/localStorage/cache_helper.dart';
 import 'features/splash/presentation/pages/splash_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: ".env");
+  await EasyLocalization.ensureInitialized();
+  await dotenv.load(fileName: '.env');
   await CacheHelper.init();
 
   SystemChrome.setSystemUIOverlayStyle(
@@ -19,9 +24,16 @@ Future<void> main() async {
     ),
   );
 
+  final startLocale = LocaleService.readSavedLocale();
+
   runApp(
-    const ProviderScope(
-      child: QarenApp(),
+    EasyLocalization(
+      supportedLocales: AppLocales.supportedLocales,
+      path: AppLocales.translationsPath,
+      fallbackLocale: AppLocales.fallbackLocale,
+      startLocale: startLocale,
+      saveLocale: true,
+      child: const ProviderScope(child: QarenApp()),
     ),
   );
 }
@@ -32,21 +44,17 @@ class QarenApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(appThemeModeProvider);
+
     return MaterialApp(
-      title: 'Qaren',
+      title: 'app.name'.tr(),
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: themeMode,
-      locale: const Locale('ar'),
-      builder: (context, child) {
-        return Directionality(
-          textDirection: TextDirection.rtl,
-          child: child!,
-        );
-      },
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       home: const SplashPage(),
     );
   }
 }
-

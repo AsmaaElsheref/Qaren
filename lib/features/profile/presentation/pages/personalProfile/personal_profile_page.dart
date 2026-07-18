@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/ui/widgets/loading.dart';
@@ -25,9 +26,8 @@ class PersonalProfilePage extends ConsumerWidget {
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      builder: (_) => LogoutConfirmationSheet(
-        onConfirm: () => _performLogout(context),
-      ),
+      builder: (_) =>
+          LogoutConfirmationSheet(onConfirm: () => _performLogout(context)),
     );
   }
 
@@ -47,26 +47,28 @@ class PersonalProfilePage extends ConsumerWidget {
     final userAsync = ref.watch(userProfileProvider);
 
     void openEditProfile(user) {
-      Navigator.of(context).push(
-        MaterialPageRoute(builder: (_) => EditProfilePage(user: user)),
-      );
+      Navigator.of(
+        context,
+      ).push(MaterialPageRoute(builder: (_) => EditProfilePage(user: user)));
     }
 
     return Scaffold(
-      appBar: isHome == true ? null : PersonalProfileAppBar(
-        onBack: () => Navigator.of(context).pop(),
-        onEdit: () {
-          final user = userAsync.valueOrNull;
-          if (user != null) openEditProfile(user);
-        },
-      ),
+      appBar: isHome == true
+          ? null
+          : PersonalProfileAppBar(
+              onBack: () => Navigator.of(context).pop(),
+              onEdit: () {
+                final user = userAsync.valueOrNull;
+                if (user != null) openEditProfile(user);
+              },
+            ),
       body: userAsync.when(
         loading: () => Loading(),
         error: (e, _) => Center(
           child: Padding(
             padding: const EdgeInsets.all(24),
             child: AppText(
-              'تعذّر تحميل البيانات، يرجى المحاولة مرة أخرى.',
+              'profile.loadError'.tr(),
               style: AppTextStyles.bodySecondary,
               textAlign: TextAlign.center,
             ),
@@ -86,14 +88,11 @@ class PersonalProfilePage extends ConsumerWidget {
               ),
 
               // ── الحساب ───────────────────────────────────────────────
-              const ProfileSectionTitle(title: 'الحساب'),
-              ProfileAccountCard(
-                email: user.email,
-                phone: user.phone,
-              ),
+              ProfileSectionTitle(title: 'profile.section.account'.tr()),
+              ProfileAccountCard(email: user.email, phone: user.phone),
 
               // ── عام ──────────────────────────────────────────────────
-              const ProfileSectionTitle(title: 'عام'),
+              ProfileSectionTitle(title: 'profile.section.general'.tr()),
               ProfileGeneralMenuCard(
                 onWallet: () {},
                 onFavorites: () {},

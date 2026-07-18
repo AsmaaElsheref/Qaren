@@ -20,7 +20,7 @@ class AuthRepositoryImpl implements AuthRepository {
     } on Failure catch (f) {
       return Either.leftOf(f);
     } catch (_) {
-      return Either.leftOf(const AuthFailure());
+      return Either.leftOf(AuthFailure());
     }
   }
 
@@ -32,7 +32,7 @@ class AuthRepositoryImpl implements AuthRepository {
     } on Failure catch (f) {
       return Either.leftOf(f);
     } catch (_) {
-      return Either.leftOf(const AuthFailure('فشل إنشاء الحساب. حاول مرة أخرى.'));
+      return Either.leftOf(AuthFailure('فشل إنشاء الحساب. حاول مرة أخرى.'));
     }
   }
 
@@ -44,7 +44,7 @@ class AuthRepositoryImpl implements AuthRepository {
     } on Failure catch (f) {
       return Either.leftOf(f);
     } catch (_) {
-      return Either.leftOf(const AuthFailure('فشل جلب بيانات المستخدم.'));
+      return Either.leftOf(AuthFailure('فشل جلب بيانات المستخدم.'));
     }
   }
 
@@ -58,7 +58,7 @@ class AuthRepositoryImpl implements AuthRepository {
     } on Failure catch (f) {
       return Either.leftOf(f);
     } catch (_) {
-      return Either.leftOf(const AuthFailure('فشل تحديث بيانات الملف الشخصي.'));
+      return Either.leftOf(AuthFailure('فشل تحديث بيانات الملف الشخصي.'));
     }
   }
 
@@ -72,7 +72,7 @@ class AuthRepositoryImpl implements AuthRepository {
     } on Failure catch (f) {
       return Either.leftOf(f);
     } catch (_) {
-      return Either.leftOf(const AuthFailure('فشل التحقق بالبصمة.'));
+      return Either.leftOf(AuthFailure('فشل التحقق بالبصمة.'));
     }
   }
 
@@ -84,7 +84,7 @@ class AuthRepositoryImpl implements AuthRepository {
     } on Failure catch (f) {
       return Either.leftOf(f);
     } catch (_) {
-      return Either.leftOf(const NetworkFailure());
+      return Either.leftOf(NetworkFailure());
     }
   }
 
@@ -96,7 +96,7 @@ class AuthRepositoryImpl implements AuthRepository {
     } on Failure catch (f) {
       return Either.leftOf(f);
     } catch (_) {
-      return Either.leftOf(const ServerFailure('الكود غير صحيح. حاول مجدداً.'));
+      return Either.leftOf(ServerFailure('الكود غير صحيح. حاول مجدداً.'));
     }
   }
 
@@ -113,7 +113,7 @@ class AuthRepositoryImpl implements AuthRepository {
     } on Failure catch (f) {
       return Either.leftOf(f);
     } catch (_) {
-      return Either.leftOf(const ServerFailure('فشل تغيير كلمة المرور. حاول مجدداً.'));
+      return Either.leftOf(ServerFailure('فشل تغيير كلمة المرور. حاول مجدداً.'));
     }
   }
 }

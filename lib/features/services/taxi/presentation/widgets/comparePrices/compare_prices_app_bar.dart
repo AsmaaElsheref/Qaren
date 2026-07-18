@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/ui/widgets/icon_container.dart';
@@ -32,8 +33,8 @@ class ComparePricesAppBar extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const AppText(
-                    'مقارنة الأسعار',
+                  AppText(
+                    'taxi.compare.title'.tr(),
                     style: TextStyle(
                       fontSize: AppDimensions.fontL,
                       fontWeight: FontWeight.w800,

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import '../../utils/print/custom_print.dart';
 import 'errors/failures.dart';
 
@@ -13,10 +14,10 @@ Failure handleDioError(DioException e) {
     case DioExceptionType.connectionTimeout:
     case DioExceptionType.receiveTimeout:
     case DioExceptionType.sendTimeout:
-      return const NetworkFailure('انتهت مهلة الاتصال. تحقق من الإنترنت.');
+      return NetworkFailure('errors.timeout'.tr());
 
     case DioExceptionType.connectionError:
-      return const NetworkFailure('تعذر الاتصال. تحقق من الإنترنت.');
+      return NetworkFailure('errors.network'.tr());
 
     case DioExceptionType.badResponse:
       final statusCode = e.response?.statusCode;
@@ -25,18 +26,26 @@ Failure handleDioError(DioException e) {
 
       final serverMessage = _extractMessage(data);
 
-      if (statusCode == 401) return AuthFailure(serverMessage ?? 'غير مصرح. يرجى تسجيل الدخول.');
-      if (statusCode == 404) return ServerFailure(serverMessage ?? 'العنصر المطلوب غير موجود.');
-      if (statusCode == 422) return ServerFailure(serverMessage ?? 'بيانات غير صحيحة.');
-      if (statusCode != null && statusCode >= 500) return ServerFailure(serverMessage ?? 'حدث خطأ في الخادم. حاول لاحقاً.');
+      if (statusCode == 401) {
+        return AuthFailure(serverMessage ?? 'errors.unauthorized'.tr());
+      }
+      if (statusCode == 404) {
+        return ServerFailure(serverMessage ?? 'errors.notFound'.tr());
+      }
+      if (statusCode == 422) {
+        return ServerFailure(serverMessage ?? 'errors.validation'.tr());
+      }
+      if (statusCode != null && statusCode >= 500) {
+        return ServerFailure(serverMessage ?? 'errors.server'.tr());
+      }
 
-      return ServerFailure(serverMessage ?? 'حدث خطأ غير متوقع.');
+      return ServerFailure(serverMessage ?? 'errors.unexpected'.tr());
 
     case DioExceptionType.cancel:
-      return const NetworkFailure('تم إلغاء الطلب.');
+      return NetworkFailure('errors.cancelled'.tr());
 
     default:
-      return ServerFailure(e.message ?? 'حدث خطأ غير متوقع.');
+      return ServerFailure(e.message ?? 'errors.unexpected'.tr());
   }
 }
 
@@ -49,9 +58,9 @@ String? _extractMessage(dynamic data) {
     final code = errorObj['code'] as String?;
     final msg = errorObj['message'] as String?;
 
-    // Map known error codes to user-friendly Arabic messages
-    final arabicMessage = _mapErrorCode(code);
-    if (arabicMessage != null) return arabicMessage;
+    // Map known error codes to localized messages
+    final localizedMessage = _mapErrorCode(code);
+    if (localizedMessage != null) return localizedMessage;
 
     if (msg != null && msg.isNotEmpty) return msg;
   }
@@ -65,18 +74,17 @@ String? _extractMessage(dynamic data) {
 
 String? _mapErrorCode(String? code) {
   if (code == null) return null;
-  const Map<String, String> _errorCodeMap = {
-    'USER_NOT_FOUND':       'لم يتم العثور على حساب بهذا البريد الإلكتروني.',
-    'INVALID_CREDENTIALS':  'البريد الإلكتروني أو كلمة المرور غير صحيحة.',
-    'INVALID_CODE':         'الكود الذي أدخلته غير صحيح. حاول مرة أخرى.',
-    'EXPIRED_CODE':         'انتهت صلاحية الكود. يرجى طلب كود جديد.',
-    'EMAIL_ALREADY_EXISTS': 'هذا البريد الإلكتروني مسجل مسبقاً.',
-    'PHONE_ALREADY_EXISTS': 'رقم الهاتف مسجل مسبقاً.',
-    'UNAUTHORIZED':         'غير مصرح. يرجى تسجيل الدخول.',
-    'ACCOUNT_DISABLED':     'هذا الحساب موقوف. تواصل مع الدعم.',
-    'TOO_MANY_ATTEMPTS':    'محاولات كثيرة. يرجى الانتظار قبل المحاولة مجدداً.',
+  const errorCodeMap = {
+    'USER_NOT_FOUND': 'errors.userNotFound',
+    'INVALID_CREDENTIALS': 'errors.invalidCredentials',
+    'INVALID_CODE': 'errors.invalidCode',
+    'EXPIRED_CODE': 'errors.expiredCode',
+    'EMAIL_ALREADY_EXISTS': 'errors.emailExists',
+    'PHONE_ALREADY_EXISTS': 'errors.phoneExists',
+    'UNAUTHORIZED': 'errors.unauthorized',
+    'ACCOUNT_DISABLED': 'errors.accountDisabled',
+    'TOO_MANY_ATTEMPTS': 'errors.tooManyAttempts',
   };
-  return _errorCodeMap[code];
+  final key = errorCodeMap[code];
+  return key?.tr();
 }
-
-

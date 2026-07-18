@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
@@ -5,7 +6,6 @@ import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
-import '../../food_strings.dart';
 import '../../providers/food_providers.dart';
 
 class CheckoutPaymentSection extends ConsumerWidget {
@@ -27,7 +27,7 @@ class CheckoutPaymentSection extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppText(
-            FoodStrings.paymentSection,
+            'food.checkout.paymentSection'.tr(),
             style: TextStyle(
               fontSize: AppDimensions.fontM,
               fontWeight: FontWeight.w800,
@@ -37,7 +37,8 @@ class CheckoutPaymentSection extends ConsumerWidget {
           const SizedBox(height: AppDimensions.paddingS),
           InkWell(
             borderRadius: BorderRadius.circular(AppDimensions.radiusM),
-            onTap: () => ref.read(checkoutPaymentMethodProvider.notifier).state = 'cash',
+            onTap: () =>
+                ref.read(checkoutPaymentMethodProvider.notifier).state = 'cash',
             child: Container(
               padding: const EdgeInsets.all(AppDimensions.paddingS),
               decoration: BoxDecoration(
@@ -46,9 +47,7 @@ class CheckoutPaymentSection extends ConsumerWidget {
                     : colors.surface,
                 borderRadius: BorderRadius.circular(AppDimensions.radiusM),
                 border: Border.all(
-                  color: method == 'cash'
-                      ? AppColors.primary
-                      : colors.border,
+                  color: method == 'cash' ? AppColors.primary : colors.border,
                 ),
               ),
               child: Row(
@@ -57,7 +56,7 @@ class CheckoutPaymentSection extends ConsumerWidget {
                   const SizedBox(width: AppDimensions.paddingS),
                   Expanded(
                     child: AppText(
-                      FoodStrings.paymentCash,
+                      'food.checkout.paymentCash'.tr(),
                       style: TextStyle(
                         fontSize: AppDimensions.fontS,
                         fontWeight: FontWeight.w700,
@@ -81,4 +80,3 @@ class CheckoutPaymentSection extends ConsumerWidget {
     );
   }
 }
-

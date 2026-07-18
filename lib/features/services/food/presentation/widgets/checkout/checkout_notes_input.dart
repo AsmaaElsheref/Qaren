@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
@@ -6,15 +7,13 @@ import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
 import '../../../../../../core/ui/widgets/AppTextField.dart';
-import '../../food_strings.dart';
 import '../../providers/food_providers.dart';
 
 class CheckoutNotesInput extends ConsumerStatefulWidget {
   const CheckoutNotesInput({super.key});
 
   @override
-  ConsumerState<CheckoutNotesInput> createState() =>
-      CheckoutNotesInputState();
+  ConsumerState<CheckoutNotesInput> createState() => CheckoutNotesInputState();
 }
 
 class CheckoutNotesInputState extends ConsumerState<CheckoutNotesInput> {
@@ -23,9 +22,7 @@ class CheckoutNotesInputState extends ConsumerState<CheckoutNotesInput> {
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(
-      text: ref.read(checkoutNotesProvider),
-    );
+    _controller = TextEditingController(text: ref.read(checkoutNotesProvider));
   }
 
   @override
@@ -49,7 +46,7 @@ class CheckoutNotesInputState extends ConsumerState<CheckoutNotesInput> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppText(
-            'ملاحظات',
+            'food.checkout.notesLabel'.tr(),
             style: TextStyle(
               fontSize: AppDimensions.fontM,
               fontWeight: FontWeight.w800,
@@ -59,14 +56,14 @@ class CheckoutNotesInputState extends ConsumerState<CheckoutNotesInput> {
           const SizedBox(height: AppDimensions.paddingS),
           AppTextField(
             controller: _controller,
-            hint: FoodStrings.notesHint,
+            hint: 'food.checkout.notesHint'.tr(),
             maxLines: 3,
             minLines: 2,
-            onChanged: (v) => ref.read(checkoutNotesProvider.notifier).state = v,
+            onChanged: (v) =>
+                ref.read(checkoutNotesProvider.notifier).state = v,
           ),
         ],
       ),
     );
   }
 }
-

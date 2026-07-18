@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 
 import '../../../../../../core/constants/app_dimensions.dart';
@@ -54,18 +55,15 @@ class BranchSelectionSheet extends StatelessWidget {
                 ),
               ),
             ),
-            const AppText(
-              'اختر الفرع',
-              style: TextStyle(
+            AppText(
+              'food.branch.title'.tr(),
+              style: const TextStyle(
                 fontWeight: FontWeight.w800,
                 color: AppColors.textPrimary,
               ),
             ),
             const SizedBox(height: 4),
-            const AppText(
-              'اختر الفرع المناسب لهذا المنتج',
-              secondary: true,
-            ),
+            AppText('food.branch.subtitle'.tr(), secondary: true),
             const SizedBox(height: AppDimensions.paddingM),
             Flexible(
               child: ListView.separated(
@@ -85,4 +83,3 @@ class BranchSelectionSheet extends StatelessWidget {
     );
   }
 }
-

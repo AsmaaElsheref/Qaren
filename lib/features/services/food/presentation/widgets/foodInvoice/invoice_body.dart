@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 
 import '../../../../../../core/constants/app_dimensions.dart';
@@ -40,7 +41,9 @@ class InvoiceBody extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(AppDimensions.paddingL),
           child: AppText(
-            'حدث خطأ: ${detailState.error}',
+            'food.errors.generic'.tr(
+              namedArgs: {'error': detailState.error ?? ''},
+            ),
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: AppColors.textSecondary,
@@ -55,24 +58,29 @@ class InvoiceBody extends StatelessWidget {
     final detail = detailState.detail;
     if (detail == null) return const SizedBox.shrink();
 
-    final now     = DateTime.now();
+    final now = DateTime.now();
     final invoice = FoodInvoiceModel(
       fromLocation: detail.partnerName,
-      toLocation:   locationName.isNotEmpty ? locationName : 'موقعك',
+      toLocation: locationName.isNotEmpty
+          ? locationName
+          : 'food.invoice.yourLocation'.tr(),
       distance: detail.distanceKm != null
-          ? '${detail.distanceKm!.toStringAsFixed(1)} كم'
+          ? 'taxi.route.distanceValue'.tr(
+              namedArgs: {'distance': detail.distanceKm!.toStringAsFixed(1)},
+            )
           : '',
       deliveryTimeMinutes: detail.products.isNotEmpty
-          ? detail.products
-              .where((p) => p.prepTimeMin != null)
-              .fold<int>(0, (max, p) {
-                final v = int.tryParse(p.prepTimeMin!) ?? 0;
-                return v > max ? v : max;
-              })
+          ? detail.products.where((p) => p.prepTimeMin != null).fold<int>(0, (
+              max,
+              p,
+            ) {
+              final v = int.tryParse(p.prepTimeMin!) ?? 0;
+              return v > max ? v : max;
+            })
           : 0,
       itemsCount: detail.matchedCount,
-      orderTime:  DateFormat('hh:mm a').format(now),
-      date:       DateFormat('dd/MM/yyyy').format(now),
+      orderTime: DateFormat('hh:mm a').format(now),
+      date: DateFormat('dd/MM/yyyy').format(now),
     );
     final colors = context.appColors;
     return SingleChildScrollView(
@@ -111,4 +119,3 @@ class InvoiceBody extends StatelessWidget {
     );
   }
 }
-

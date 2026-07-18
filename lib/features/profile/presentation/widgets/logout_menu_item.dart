@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/constants/gap.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -34,17 +35,15 @@ class LogoutMenuItem extends StatelessWidget {
             ),
             Gap.gapW10,
             AppText(
-              'تسجيل الخروج',
+              'profile.logout.title'.tr(),
               style: AppTextStyles.body.copyWith(
                 color: AppColors.error,
                 fontWeight: FontWeight.w600,
               ),
             ),
-
           ],
         ),
       ),
     );
   }
 }
-

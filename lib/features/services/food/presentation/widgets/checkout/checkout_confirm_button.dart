@@ -1,10 +1,10 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/ui/widgets/AppButton.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
-import '../../food_strings.dart';
 import '../../pages/successPage/success_page.dart';
 import '../../providers/food_providers.dart';
 
@@ -27,16 +27,16 @@ class CheckoutConfirmButton extends ConsumerWidget {
     if (!ok || !context.mounted) {
       final err = ref.read(foodBookingErrorProvider);
       if (err != null && context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: AppText(err)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: AppText(err)));
       }
       return;
     }
 
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (_) => const SuccessPage()),
-    );
+    Navigator.of(
+      context,
+    ).pushReplacement(MaterialPageRoute(builder: (_) => const SuccessPage()));
   }
 
   @override
@@ -45,7 +45,7 @@ class CheckoutConfirmButton extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.all(AppDimensions.paddingM),
       child: AppButton(
-        label: FoodStrings.confirmOrder,
+        label: 'food.checkout.confirmOrder'.tr(),
         isLoading: isLoading,
         icon: Icons.check_circle_rounded,
         onTap: isLoading ? null : () => _submit(context, ref),
@@ -53,4 +53,3 @@ class CheckoutConfirmButton extends ConsumerWidget {
     );
   }
 }
-

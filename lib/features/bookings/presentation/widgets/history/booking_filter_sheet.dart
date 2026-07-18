@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
@@ -30,7 +31,9 @@ class BookingFilterSheetState extends ConsumerState<BookingFilterSheet> {
   }
 
   void applyFilters() {
-    ref.read(bookingHistoryProvider.notifier).changeServiceType(selectedService);
+    ref
+        .read(bookingHistoryProvider.notifier)
+        .changeServiceType(selectedService);
     ref.read(bookingHistoryProvider.notifier).changeStatus(selectedStatus);
     Navigator.pop(context);
   }
@@ -81,11 +84,14 @@ class BookingFilterSheetState extends ConsumerState<BookingFilterSheet> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const AppText('تصفية الطلبات', style: AppTextStyles.title),
+                  AppText(
+                    'bookings.filter.title'.tr(),
+                    style: AppTextStyles.title,
+                  ),
                   TextButton(
                     onPressed: resetFilters,
-                    child: const AppText(
-                      'إعادة تعيين',
+                    child: AppText(
+                      'bookings.filter.reset'.tr(),
                       style: TextStyle(color: AppColors.error, fontSize: 14),
                     ),
                   ),
@@ -101,20 +107,27 @@ class BookingFilterSheetState extends ConsumerState<BookingFilterSheet> {
                 AppDimensions.paddingM,
                 AppDimensions.paddingS,
               ),
-              child: const AppText('نوع الخدمة', style: AppTextStyles.body),
+              child: AppText(
+                'bookings.filter.serviceType'.tr(),
+                style: AppTextStyles.body,
+              ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingM),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppDimensions.paddingM,
+              ),
               child: Wrap(
                 spacing: AppDimensions.paddingS,
                 runSpacing: AppDimensions.paddingS,
                 children: BookingServiceType.values
                     .where((t) => t != BookingServiceType.unknown)
-                    .map((type) => _FilterChip(
-                          label: type.label,
-                          isSelected: selectedService == type,
-                          onTap: () => setState(() => selectedService = type),
-                        ))
+                    .map(
+                      (type) => _FilterChip(
+                        label: type.label,
+                        isSelected: selectedService == type,
+                        onTap: () => setState(() => selectedService = type),
+                      ),
+                    )
                     .toList(growable: false),
               ),
             ),
@@ -126,19 +139,26 @@ class BookingFilterSheetState extends ConsumerState<BookingFilterSheet> {
                 AppDimensions.paddingM,
                 AppDimensions.paddingS,
               ),
-              child: const AppText('حالة الطلب', style: AppTextStyles.body),
+              child: AppText(
+                'bookings.filter.status'.tr(),
+                style: AppTextStyles.body,
+              ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingM),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppDimensions.paddingM,
+              ),
               child: Wrap(
                 spacing: AppDimensions.paddingS,
                 runSpacing: AppDimensions.paddingS,
                 children: BookingStatusFilter.values
-                    .map((status) => _FilterChip(
-                          label: status.label,
-                          isSelected: selectedStatus == status,
-                          onTap: () => setState(() => selectedStatus = status),
-                        ))
+                    .map(
+                      (status) => _FilterChip(
+                        label: status.label,
+                        isSelected: selectedStatus == status,
+                        onTap: () => setState(() => selectedStatus = status),
+                      ),
+                    )
                     .toList(growable: false),
               ),
             ),
@@ -158,13 +178,15 @@ class BookingFilterSheetState extends ConsumerState<BookingFilterSheet> {
                     backgroundColor: AppColors.primary,
                     foregroundColor: AppColors.white,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(AppDimensions.radiusM),
+                      borderRadius: BorderRadius.circular(
+                        AppDimensions.radiusM,
+                      ),
                     ),
                     elevation: 0,
                   ),
                   onPressed: applyFilters,
-                  child: const AppText(
-                    'تطبيق الفلتر',
+                  child: AppText(
+                    'bookings.filter.apply'.tr(),
                     style: TextStyle(
                       color: AppColors.white,
                       fontWeight: FontWeight.w700,
@@ -222,4 +244,3 @@ class _FilterChip extends StatelessWidget {
     );
   }
 }
-

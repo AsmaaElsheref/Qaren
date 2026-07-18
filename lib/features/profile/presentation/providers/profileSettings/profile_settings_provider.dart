@@ -1,6 +1,10 @@
+import 'package:qaren/core/localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../../core/localStorage/cache_helper.dart';
 import '../../../../../core/constants/app_constants.dart';
+import '../../../../../core/localStorage/cache_helper.dart';
+import '../../../../../core/localization/app_locales.dart';
+import '../../../../../core/localization/locale_service.dart';
 
 // ── Profile view-model ────────────────────────────────────────────────────────
 
@@ -50,17 +54,17 @@ class ProfileSettingsState {
 class ProfileSettingsNotifier extends Notifier<ProfileSettingsState> {
   @override
   ProfileSettingsState build() {
-    final cached =
-        CacheHelper.getData(key: AppConstants.userName) as String?;
+    final cached = CacheHelper.getData(key: AppConstants.userName) as String?;
     final savedDarkMode =
         CacheHelper.getData(key: AppConstants.isDarkMode) as bool? ?? false;
+    final savedLocale = LocaleService.readSavedLocale();
     return ProfileSettingsState(
-      userName: cached ?? 'المستخدم',
-      membershipLabel: 'عضو ذهبي',
+      userName: cached ?? 'profile.defaultUserName'.tr(),
+      membershipLabel: 'profile.membershipLabel'.tr(),
       avatarUrl: null,
       unreadNotificationsCount: 3,
       isDarkMode: savedDarkMode,
-      isArabic: true,
+      isArabic: AppLocales.isArabic(savedLocale),
       appVersion: '2.0',
     );
   }
@@ -75,6 +79,10 @@ class ProfileSettingsNotifier extends Notifier<ProfileSettingsState> {
     state = state.copyWith(isArabic: !state.isArabic);
   }
 
+  void syncLocale(Locale locale) {
+    state = state.copyWith(isArabic: AppLocales.isArabic(locale));
+  }
+
   void clearNotifications() {
     state = state.copyWith(unreadNotificationsCount: 0);
   }
@@ -84,21 +92,17 @@ class ProfileSettingsNotifier extends Notifier<ProfileSettingsState> {
 
 final profileSettingsProvider =
     NotifierProvider<ProfileSettingsNotifier, ProfileSettingsState>(
-  ProfileSettingsNotifier.new,
-);
+      ProfileSettingsNotifier.new,
+    );
 
 // ── Granular selectors (minimize rebuilds) ────────────────────────────────────
 
 final profileIsDarkModeProvider = Provider<bool>(
-  (ref) => ref.watch(
-    profileSettingsProvider.select((s) => s.isDarkMode),
-  ),
+  (ref) => ref.watch(profileSettingsProvider.select((s) => s.isDarkMode)),
 );
 
 final profileIsArabicProvider = Provider<bool>(
-  (ref) => ref.watch(
-    profileSettingsProvider.select((s) => s.isArabic),
-  ),
+  (ref) => ref.watch(profileSettingsProvider.select((s) => s.isArabic)),
 );
 
 final profileUnreadCountProvider = Provider<int>(
@@ -108,8 +112,5 @@ final profileUnreadCountProvider = Provider<int>(
 );
 
 final profileUserNameProvider = Provider<String>(
-  (ref) => ref.watch(
-    profileSettingsProvider.select((s) => s.userName),
-  ),
+  (ref) => ref.watch(profileSettingsProvider.select((s) => s.userName)),
 );
-

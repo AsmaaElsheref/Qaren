@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
@@ -29,14 +30,16 @@ class WalletEmptyState extends StatelessWidget {
           ),
           const SizedBox(height: AppDimensions.paddingM),
           AppText(
-            'لا توجد معاملات حتى الآن',
+            'wallet.transactions.emptyTitle'.tr(),
             style: AppTextStyles.title.copyWith(color: colors.textPrimary),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: AppDimensions.paddingS),
           AppText(
-            'ستظهر معاملات المحفظة هنا بعد أول عملية.',
-            style: AppTextStyles.bodySecondary.copyWith(color: colors.textSecondary),
+            'wallet.transactions.emptySubtitle'.tr(),
+            style: AppTextStyles.bodySecondary.copyWith(
+              color: colors.textSecondary,
+            ),
             textAlign: TextAlign.center,
           ),
         ],

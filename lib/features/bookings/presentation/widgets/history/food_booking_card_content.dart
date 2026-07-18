@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
 import 'package:qaren/core/theme/app_colors.dart';
@@ -18,14 +19,16 @@ class FoodBookingCardContent extends StatelessWidget {
       children: [
         if (foodOrder.itemsCount != null)
           AppText(
-            '${foodOrder.itemsCount} عناصر',
+            '${foodOrder.itemsCount} ${'food.cart.itemsCount'.tr()}',
             style: AppTextStyles.caption,
           ),
         if (foodOrder.deliveryAddress.isNotEmpty) ...[
           const SizedBox(height: AppDimensions.paddingXS),
           AppText(
             foodOrder.deliveryAddress,
-            style: AppTextStyles.caption.copyWith(color: AppColors.textSecondary),
+            style: AppTextStyles.caption.copyWith(
+              color: AppColors.textSecondary,
+            ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
@@ -36,13 +39,22 @@ class FoodBookingCardContent extends StatelessWidget {
           runSpacing: AppDimensions.paddingXS,
           children: [
             if (foodOrder.paymentMethod.isNotEmpty)
-              AppText('الدفع: ${foodOrder.paymentMethod}', style: AppTextStyles.caption),
+              AppText(
+                'bookings.card.foodPayment'.tr(
+                  namedArgs: {'value': foodOrder.paymentMethod},
+                ),
+                style: AppTextStyles.caption,
+              ),
             if (foodOrder.paymentStatus.isNotEmpty)
-              AppText('الحالة: ${foodOrder.paymentStatus}', style: AppTextStyles.caption),
+              AppText(
+                'bookings.card.foodStatus'.tr(
+                  namedArgs: {'value': foodOrder.paymentStatus},
+                ),
+                style: AppTextStyles.caption,
+              ),
           ],
         ),
       ],
     );
   }
 }
-

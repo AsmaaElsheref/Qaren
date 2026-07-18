@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 
@@ -6,7 +7,6 @@ import '../../../../../../../core/theme/app_colors.dart';
 import '../../../../../../../core/ui/widgets/AppButton.dart';
 import '../../../../../../../core/ui/widgets/AppText.dart';
 import '../../../../domain/entities/food_provider_model.dart';
-import '../../../food_strings.dart';
 
 class FoodPartialMatchSheet extends StatelessWidget {
   const FoodPartialMatchSheet({
@@ -53,8 +53,8 @@ class FoodPartialMatchSheet extends StatelessWidget {
           left: AppDimensions.paddingL,
           right: AppDimensions.paddingL,
           top: AppDimensions.paddingL,
-          bottom: AppDimensions.paddingL +
-              MediaQuery.of(context).viewInsets.bottom,
+          bottom:
+              AppDimensions.paddingL + MediaQuery.of(context).viewInsets.bottom,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -88,7 +88,7 @@ class FoodPartialMatchSheet extends StatelessWidget {
                 const SizedBox(width: AppDimensions.paddingM),
                 Expanded(
                   child: AppText(
-                    FoodStrings.partialMatchTitle,
+                    'food.comparison.partialMatchTitle'.tr(),
                     style: TextStyle(
                       fontSize: AppDimensions.fontL,
                       fontWeight: FontWeight.w800,
@@ -99,18 +99,15 @@ class FoodPartialMatchSheet extends StatelessWidget {
               ],
             ),
             const SizedBox(height: AppDimensions.paddingM),
-            const AppText(
-              FoodStrings.partialMatchDescription,
+            AppText(
+              'food.comparison.partialMatchDescription'.tr(),
               secondary: true,
-              style: TextStyle(
-                fontSize: AppDimensions.fontS,
-                height: 1.5,
-              ),
+              style: TextStyle(fontSize: AppDimensions.fontS, height: 1.5),
             ),
             const SizedBox(height: AppDimensions.paddingL),
             if (availableNames.isNotEmpty) ...[
-              const AppText(
-                FoodStrings.availableItems,
+              AppText(
+                'food.comparison.availableItems'.tr(),
                 style: TextStyle(
                   fontSize: AppDimensions.fontS,
                   fontWeight: FontWeight.w700,
@@ -149,8 +146,8 @@ class FoodPartialMatchSheet extends StatelessWidget {
               const SizedBox(height: AppDimensions.paddingM),
             ],
             if (missingNames.isNotEmpty) ...[
-              const AppText(
-                FoodStrings.missingItems,
+              AppText(
+                'food.comparison.missingItems'.tr(),
                 style: TextStyle(
                   fontSize: AppDimensions.fontS,
                   fontWeight: FontWeight.w700,
@@ -190,7 +187,7 @@ class FoodPartialMatchSheet extends StatelessWidget {
             ],
             const SizedBox(height: AppDimensions.paddingL),
             AppButton(
-              label: FoodStrings.continueOrder,
+              label: 'food.comparison.continueOrder'.tr(),
               onTap: () => Navigator.of(context).pop(true),
             ),
             const SizedBox(height: AppDimensions.paddingS),
@@ -199,8 +196,8 @@ class FoodPartialMatchSheet extends StatelessWidget {
               height: AppDimensions.buttonHeight,
               child: TextButton(
                 onPressed: () => Navigator.of(context).pop(false),
-                child: const AppText(
-                  FoodStrings.cancel,
+                child: AppText(
+                  'food.comparison.cancel'.tr(),
                   style: TextStyle(
                     fontSize: AppDimensions.fontM,
                     fontWeight: FontWeight.w700,
@@ -215,5 +212,3 @@ class FoodPartialMatchSheet extends StatelessWidget {
     );
   }
 }
-
-

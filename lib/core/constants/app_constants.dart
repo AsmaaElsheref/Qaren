@@ -8,5 +8,6 @@ class AppConstants {
   static const String userPhone = 'user_phone';
   static const String userEmail = 'user_email';
   static const String isDarkMode = 'is_dark_mode';
+  static const String languageCode = 'language_code';
 }
 

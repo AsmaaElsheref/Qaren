@@ -1,8 +1,8 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../../../core/constants/app_dimensions.dart';
-import '../../../../core/constants/app_strings.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../providers/forgot_password_provider.dart';
 import '../providers/forgot_password_state.dart';
@@ -41,7 +41,9 @@ class ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
       if (next.status == ForgotPasswordStatus.failure) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(next.errorMessage ?? AppStrings.forgotPasswordFailed),
+            content: Text(
+              next.errorMessage ?? 'auth.forgotPassword.failed'.tr(),
+            ),
             backgroundColor: AppColors.error,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
@@ -52,16 +54,15 @@ class ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
       } else if (next.status == ForgotPasswordStatus.success &&
           next.login != null) {
         Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => VerifyCodePage(login: next.login!),
-          ),
+          MaterialPageRoute(builder: (_) => VerifyCodePage(login: next.login!)),
         );
       }
     });
 
     final isLoading = ref.watch(
-      forgotPasswordNotifierProvider
-          .select((s) => s.status == ForgotPasswordStatus.loading),
+      forgotPasswordNotifierProvider.select(
+        (s) => s.status == ForgotPasswordStatus.loading,
+      ),
     );
     final colors = context.appColors;
     return Scaffold(
@@ -82,7 +83,9 @@ class ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
           onTap: () => FocusScope.of(context).unfocus(),
           child: SingleChildScrollView(
             physics: const ClampingScrollPhysics(),
-            padding: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingL,),
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppDimensions.paddingL,
+            ),
             child: Column(
               children: [
                 const SizedBox(height: AppDimensions.paddingXL),
@@ -103,4 +106,3 @@ class ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
     );
   }
 }
-

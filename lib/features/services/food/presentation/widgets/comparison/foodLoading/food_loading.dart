@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:qaren/core/theme/app_colors.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:qaren/core/ui/widgets/AppButton.dart';
@@ -22,63 +23,60 @@ class Searching extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isLoading = ref.watch(foodCompareIsLoadingProvider);
-    final hasError  = ref.watch(foodCompareErrorProvider) != null;
+    final hasError = ref.watch(foodCompareErrorProvider) != null;
     final isDarkMode = ref.watch(profileIsDarkModeProvider);
     final colors = context.appColors;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(70),
-        child: SafeArea(
-          bottom: false,
-          child: CustomAppBar(isBack: true),
-        ),
+        child: SafeArea(bottom: false, child: CustomAppBar(isBack: true)),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
         child: Column(
           children: [
             // isDarkMode
-              // ? Column(
+            // ? Column(
             // mainAxisAlignment: MainAxisAlignment.center,
             // children: [
-              // SizedBox(height: context.screenHeight*0.1,),
-              // Icon(
-                // Icons.directions_bike,
-                // size: 72,
-                // color: AppColors.primary,
-              // ),
-              // const SizedBox(height: 30),
-              // AppText(
-                // 'جاري البحث في التطبيقات...',
-                // style: TextStyle(
-                  // fontSize: 20,
-                  // fontWeight: FontWeight.w600,
-                  // color: colors.textPrimary,
-                // ),
-              // ),
+            // SizedBox(height: context.screenHeight*0.1,),
+            // Icon(
+            // Icons.directions_bike,
+            // size: 72,
+            // color: AppColors.primary,
+            // ),
+            // const SizedBox(height: 30),
+            // AppText(
+            // 'جاري البحث في التطبيقات...',
+            // style: TextStyle(
+            // fontSize: 20,
+            // fontWeight: FontWeight.w600,
+            // color: colors.textPrimary,
+            // ),
+            // ),
             // ],
-          // )
-              // : Image.asset(AppImages.foodLoading),
-              LogoLoading(),
-              const SizedBox(height: 30),
-               AppText(
-   'جاري البحث في التطبيقات...',
-   style: TextStyle(
-     fontSize: 20,
-     fontWeight: FontWeight.w600,
-     color: colors.textPrimary,
-   ),
- ),
+            // )
+            // : Image.asset(AppImages.foodLoading),
+            LogoLoading(),
+            const SizedBox(height: 30),
+            AppText(
+              'food.comparison.searchingApps'.tr(),
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                color: colors.textPrimary,
+              ),
+            ),
             const Spacer(),
 
             // Status hint while loading
             if (isLoading)
-              const Padding(
-                padding: EdgeInsets.only(bottom: AppDimensions.paddingM),
+              Padding(
+                padding: const EdgeInsets.only(bottom: AppDimensions.paddingM),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       width: 16,
                       height: 16,
                       child: CircularProgressIndicator(
@@ -86,23 +84,23 @@ class Searching extends ConsumerWidget {
                         color: AppColors.primary,
                       ),
                     ),
-                    SizedBox(width: 8),
+                    const SizedBox(width: 8),
                     AppText(
-                      'جارٍ البحث عن أفضل العروض...',
+                      'food.comparison.searchingOffers'.tr(),
                       secondary: true,
-                      style: TextStyle(fontSize: AppDimensions.fontS),
+                      style: const TextStyle(fontSize: AppDimensions.fontS),
                     ),
                   ],
                 ),
               ),
 
             if (hasError && !isLoading)
-              const Padding(
-                padding: EdgeInsets.only(bottom: AppDimensions.paddingM),
+              Padding(
+                padding: const EdgeInsets.only(bottom: AppDimensions.paddingM),
                 child: AppText(
-                  'حدث خطأ أثناء جلب النتائج، يمكنك المحاولة مجدداً',
+                  'food.comparison.fetchError'.tr(),
                   secondary: true,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: AppDimensions.fontS,
                     color: Color(0xFFE85D5D),
                   ),
@@ -111,16 +109,14 @@ class Searching extends ConsumerWidget {
               ),
 
             AppButton(
-              label: 'عرض النتائج',
+              label: 'food.comparison.showResults'.tr(),
               isLoading: isLoading,
               onTap: isLoading
                   ? null
                   : () => Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const FoodResult(),
-                        ),
-                      ),
+                      context,
+                      MaterialPageRoute(builder: (_) => const FoodResult()),
+                    ),
             ),
             SizedBox(height: context.screenHeight * 0.1),
           ],

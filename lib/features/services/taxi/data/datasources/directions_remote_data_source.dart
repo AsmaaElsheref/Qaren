@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:qaren/core/config/config.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import '../../../../../core/network/handelError/errors/failures.dart';
 import '../models/route/route_model.dart';
 
@@ -23,7 +24,7 @@ class DirectionsRemoteDataSourceImpl implements DirectionsRemoteDataSource {
   }) async {
     final apiKey = AppConfig.googleMapsApiKey;
     if (apiKey.isEmpty) {
-      throw const ServerFailure('مفتاح خرائط Google غير متوفر');
+      throw ServerFailure('taxi.directions.apiKeyMissing'.tr());
     }
 
     try {
@@ -41,7 +42,7 @@ class DirectionsRemoteDataSourceImpl implements DirectionsRemoteDataSource {
 
       final body = response.data;
       if (body == null) {
-        throw const ServerFailure('استجابة فارغة من خدمة المسارات');
+        throw ServerFailure('taxi.directions.emptyResponse'.tr());
       }
 
       final status = body['status'] as String? ?? 'UNKNOWN_ERROR';
@@ -51,7 +52,7 @@ class DirectionsRemoteDataSourceImpl implements DirectionsRemoteDataSource {
 
       final routesJson = body['routes'] as List<dynamic>? ?? const [];
       if (routesJson.isEmpty) {
-        throw const ServerFailure('لا توجد مسارات متاحة بين هذين الموقعين');
+        throw ServerFailure('taxi.directions.noRoutesAvailable'.tr());
       }
 
       return [
@@ -64,22 +65,22 @@ class DirectionsRemoteDataSourceImpl implements DirectionsRemoteDataSource {
     } on Failure {
       rethrow;
     } on DioException {
-      throw const NetworkFailure();
+      throw NetworkFailure();
     }
   }
 
   static String _messageForStatus(String status) {
     switch (status) {
       case 'ZERO_RESULTS':
-        return 'لا توجد مسارات بين هذين الموقعين';
+        return 'taxi.directions.zeroResults'.tr();
       case 'NOT_FOUND':
-        return 'تعذر العثور على أحد المواقع';
+        return 'taxi.directions.notFound'.tr();
       case 'OVER_QUERY_LIMIT':
-        return 'تم تجاوز حد طلبات المسارات';
+        return 'taxi.directions.overQueryLimit'.tr();
       case 'REQUEST_DENIED':
-        return 'تم رفض طلب المسارات';
+        return 'taxi.directions.requestDenied'.tr();
       default:
-        return 'تعذر تحميل المسارات';
+        return 'taxi.directions.loadFailedGeneric'.tr();
     }
   }
 }

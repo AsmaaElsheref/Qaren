@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:qaren/core/ui/widgets/AppText.dart';
@@ -5,7 +6,8 @@ import 'package:qaren/core/ui/widgets/AppTextStyles.dart';
 
 import 'mark_all_read_button.dart';
 
-class NotificationsAppBar extends StatelessWidget implements PreferredSizeWidget {
+class NotificationsAppBar extends StatelessWidget
+    implements PreferredSizeWidget {
   const NotificationsAppBar({super.key});
 
   @override
@@ -23,7 +25,7 @@ class NotificationsAppBar extends StatelessWidget implements PreferredSizeWidget
         icon: Icon(Icons.arrow_back_ios_new_rounded, color: colors.textPrimary),
       ),
       title: AppText(
-        'الإشعارات',
+        'notifications.title'.tr(),
         style: AppTextStyles.title.copyWith(color: colors.textPrimary),
       ),
       actions: const [MarkAllReadButton()],

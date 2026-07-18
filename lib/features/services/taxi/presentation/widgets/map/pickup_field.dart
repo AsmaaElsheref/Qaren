@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../../core/theme/app_colors.dart';
@@ -12,7 +13,7 @@ class PickupField extends ConsumerWidget {
   Widget build(BuildContext context, dynamic ref) {
     final value = ref.watch(taxiProvider.select((s) => s.pickup));
     return LocationField(
-      hint: 'نقطة الانطلاق',
+      hint: 'taxi.location.pickup'.tr(),
       leadingIcon: Icons.location_on_rounded,
       iconColor: AppColors.primary,
       iconBgColor: AppColors.primaryLight,

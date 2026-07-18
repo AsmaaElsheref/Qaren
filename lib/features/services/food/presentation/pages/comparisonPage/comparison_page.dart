@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:qaren/core/utils/extensions/contextSizeX.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
@@ -18,14 +19,17 @@ class FoodResultItems extends ConsumerWidget {
     WidgetRef ref,
     FoodProviderModel provider,
   ) async {
-    final isFullMatch = provider.totalRequested > 0 &&
+    final isFullMatch =
+        provider.totalRequested > 0 &&
         provider.matchedCount >= provider.totalRequested;
 
     if (!isFullMatch) {
-      final cartMap        = ref.read(cartProductsNameMapProvider);
-      final availableIds   = provider.productsPreview.map((p) => p.id).toSet();
-      final availableNames = provider.productsPreview.map((p) => p.name).toList();
-      final missingNames   = cartMap.entries
+      final cartMap = ref.read(cartProductsNameMapProvider);
+      final availableIds = provider.productsPreview.map((p) => p.id).toSet();
+      final availableNames = provider.productsPreview
+          .map((p) => p.name)
+          .toList();
+      final missingNames = cartMap.entries
           .where((e) => !availableIds.contains(e.key))
           .map((e) => e.value)
           .toList();
@@ -44,10 +48,14 @@ class FoodResultItems extends ConsumerWidget {
 
     // Fetch full invoice detail from API — invoice page shows shimmer meanwhile.
     final cartItems = ref.read(foodCartItemsProvider);
-    final productIds = cartItems.map((item) => int.tryParse(item.id) ?? 0).toList();
+    final productIds = cartItems
+        .map((item) => int.tryParse(item.id) ?? 0)
+        .toList();
     final location = ref.read(foodSelectedLocationProvider);
 
-    ref.read(foodInvoiceDetailProvider.notifier).fetch(
+    ref
+        .read(foodInvoiceDetailProvider.notifier)
+        .fetch(
           partnerId: int.tryParse(provider.id) ?? 0,
           productIds: productIds,
           userLat: location?.latitude ?? 0,
@@ -64,7 +72,7 @@ class FoodResultItems extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isLoading = ref.watch(foodCompareIsLoadingProvider);
-    final error     = ref.watch(foodCompareErrorProvider);
+    final error = ref.watch(foodCompareErrorProvider);
     final providers = ref.watch(sortedFoodProvidersProvider);
 
     if (isLoading) {
@@ -81,7 +89,7 @@ class FoodResultItems extends ConsumerWidget {
         padding: const EdgeInsets.all(AppDimensions.paddingL),
         child: Center(
           child: AppText(
-            'حدث خطأ: $error',
+            'food.errors.generic'.tr(namedArgs: {'error': error}),
             secondary: true,
             style: const TextStyle(fontSize: AppDimensions.fontS),
           ),
@@ -90,13 +98,13 @@ class FoodResultItems extends ConsumerWidget {
     }
 
     if (providers.isEmpty) {
-      return const Padding(
-        padding: EdgeInsets.all(AppDimensions.paddingL),
+      return Padding(
+        padding: const EdgeInsets.all(AppDimensions.paddingL),
         child: Center(
           child: AppText(
-            'لا توجد نتائج',
+            'food.comparison.noResults'.tr(),
             secondary: true,
-            style: TextStyle(fontSize: AppDimensions.fontM),
+            style: const TextStyle(fontSize: AppDimensions.fontM),
           ),
         ),
       );

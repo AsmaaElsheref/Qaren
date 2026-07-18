@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/features/coming_soon/presentation/pages/coming_soon_page.dart';
@@ -13,7 +14,6 @@ import '../providers/home_providers.dart';
 import '../widgets/category_availability_resolver.dart';
 import '../widgets/category_card.dart';
 
-
 class HomeView extends ConsumerWidget {
   const HomeView({super.key});
 
@@ -21,15 +21,15 @@ class HomeView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final categoriesState = ref.watch(categoriesNotifierProvider);
     return switch (categoriesState.status) {
-      CategoriesStatus.loading || CategoriesStatus.initial => const _LoadingGrid(),
-      CategoriesStatus.failure  => _ErrorView(
-          message: categoriesState.errorMessage,
-          onRetry: () => ref
-              .read(categoriesNotifierProvider.notifier)
-              .fetchCategories(),
-        ),
-      CategoriesStatus.empty    => const _EmptyView(),
-      CategoriesStatus.success  => const _CategoriesGrid(),
+      CategoriesStatus.loading ||
+      CategoriesStatus.initial => const _LoadingGrid(),
+      CategoriesStatus.failure => _ErrorView(
+        message: categoriesState.errorMessage,
+        onRetry: () =>
+            ref.read(categoriesNotifierProvider.notifier).fetchCategories(),
+      ),
+      CategoriesStatus.empty => const _EmptyView(),
+      CategoriesStatus.success => const _CategoriesGrid(),
     };
   }
 }
@@ -41,40 +41,52 @@ class _CategoriesGrid extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final categories  = ref.watch(filteredCategoriesProvider);
+    final categories = ref.watch(filteredCategoriesProvider);
     final serviceRoutes = ref.watch(serviceRoutesProvider);
 
     return CustomScrollView(
       slivers: [
-        const SliverToBoxAdapter(child: SizedBox(height: AppDimensions.paddingM)),
+        const SliverToBoxAdapter(
+          child: SizedBox(height: AppDimensions.paddingM),
+        ),
 
         SliverPadding(
-          padding: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingM),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppDimensions.paddingM,
+          ),
           sliver: SliverGrid(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                final category = categories[index];
-                final page     = serviceRoutes[category.type];
-                final enabled  = CategoryAvailabilityResolver.isEnabled(category.type);
-                return CategoryCard(
-                  category: category,
-                  isEnabled: enabled,
-                  onTap: (page == null)
-                      ? () => Navigator.push(context, MaterialPageRoute(builder: (_) => ComingSoonPage()))
-                      : () => Navigator.push(context, MaterialPageRoute(builder: (_) => page)));
-              },
-              childCount: categories.length,
-            ),
+            delegate: SliverChildBuilderDelegate((context, index) {
+              final category = categories[index];
+              final page = serviceRoutes[category.type];
+              final enabled = CategoryAvailabilityResolver.isEnabled(
+                category.type,
+              );
+              return CategoryCard(
+                category: category,
+                isEnabled: enabled,
+                onTap: (page == null)
+                    ? () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => ComingSoonPage()),
+                      )
+                    : () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => page),
+                      ),
+              );
+            }, childCount: categories.length),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount:  2,
+              crossAxisCount: 2,
               crossAxisSpacing: 12,
-              mainAxisSpacing:  12,
+              mainAxisSpacing: 12,
               childAspectRatio: 1.8,
             ),
           ),
         ),
 
-        const SliverToBoxAdapter(child: SizedBox(height: AppDimensions.paddingXL)),
+        const SliverToBoxAdapter(
+          child: SizedBox(height: AppDimensions.paddingXL),
+        ),
       ],
     );
   }
@@ -90,18 +102,22 @@ class _LoadingGrid extends StatelessWidget {
     return CustomScrollView(
       physics: const NeverScrollableScrollPhysics(),
       slivers: [
-        const SliverToBoxAdapter(child: SizedBox(height: AppDimensions.paddingM)),
+        const SliverToBoxAdapter(
+          child: SizedBox(height: AppDimensions.paddingM),
+        ),
         SliverPadding(
-          padding: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingM),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppDimensions.paddingM,
+          ),
           sliver: SliverGrid(
             delegate: SliverChildBuilderDelegate(
               (_, __) => const _SkeletonCard(),
               childCount: 8,
             ),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount:  2,
+              crossAxisCount: 2,
               crossAxisSpacing: 12,
-              mainAxisSpacing:  12,
+              mainAxisSpacing: 12,
               childAspectRatio: 1.8,
             ),
           ),
@@ -140,7 +156,7 @@ class _EmptyView extends StatelessWidget {
           Icon(Icons.grid_off_outlined, size: 48, color: colors.textSecondary),
           const SizedBox(height: 12),
           AppText(
-            'لا توجد تصنيفات متاحة',
+            'home.emptyCategories'.tr(),
             style: AppTextStyles.body.copyWith(color: colors.textSecondary),
           ),
         ],
@@ -166,10 +182,14 @@ class _ErrorView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.wifi_off_rounded, size: 48, color: AppColors.error),
+            const Icon(
+              Icons.wifi_off_rounded,
+              size: 48,
+              color: AppColors.error,
+            ),
             const SizedBox(height: 12),
             AppText(
-              message ?? 'حدث خطأ. يرجى المحاولة مرة أخرى.',
+              message ?? 'common.errorGeneric'.tr(),
               textAlign: TextAlign.center,
               style: AppTextStyles.body.copyWith(
                 fontSize: AppDimensions.fontM,
@@ -180,7 +200,7 @@ class _ErrorView extends StatelessWidget {
             ElevatedButton.icon(
               onPressed: onRetry,
               icon: const Icon(Icons.refresh_rounded),
-              label: const AppText('إعادة المحاولة'),
+              label: AppText('common.retry'.tr()),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
                 foregroundColor: AppColors.white,

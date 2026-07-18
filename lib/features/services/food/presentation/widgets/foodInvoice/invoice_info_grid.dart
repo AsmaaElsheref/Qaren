@@ -1,10 +1,10 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../domain/entities/food_invoice_model.dart';
-import '../../food_strings.dart';
 import 'invoice_info_cell.dart';
 
 /// 2x2 info grid in the invoice: date, order time, delivery duration, items.
@@ -24,13 +24,13 @@ class InvoiceInfoGrid extends StatelessWidget {
             children: [
               Expanded(
                 child: InvoiceInfoCell(
-                  label: FoodStrings.dateLabel,
+                  label: 'food.invoice.date'.tr(),
                   value: invoice.date,
                 ),
               ),
               Expanded(
                 child: InvoiceInfoCell(
-                  label: FoodStrings.orderTimeLabel,
+                  label: 'food.invoice.orderTime'.tr(),
                   value: invoice.orderTime,
                   crossAlign: CrossAxisAlignment.center,
                 ),
@@ -42,14 +42,16 @@ class InvoiceInfoGrid extends StatelessWidget {
             children: [
               Expanded(
                 child: InvoiceInfoCell(
-                  label: FoodStrings.itemsLabel,
-                  value: '${invoice.itemsCount} ${FoodStrings.orderUnit}',
+                  label: 'food.invoice.items'.tr(),
+                  value:
+                      '${invoice.itemsCount} ${'food.invoice.orderUnit'.tr()}',
                 ),
               ),
               Expanded(
                 child: InvoiceInfoCell(
-                  label: FoodStrings.deliveryDuration,
-                  value: '${invoice.deliveryTimeMinutes} ${FoodStrings.minutes}',
+                  label: 'food.invoice.deliveryDuration'.tr(),
+                  value:
+                      '${invoice.deliveryTimeMinutes} ${'food.comparison.minutes'.tr()}',
                   valueColor: AppColors.primary,
                   crossAlign: CrossAxisAlignment.center,
                 ),
@@ -61,4 +63,3 @@ class InvoiceInfoGrid extends StatelessWidget {
     );
   }
 }
-

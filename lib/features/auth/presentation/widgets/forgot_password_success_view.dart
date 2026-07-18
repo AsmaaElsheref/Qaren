@@ -1,6 +1,6 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/constants/app_dimensions.dart';
-import '../../../../core/constants/app_strings.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/ui/widgets/AppText.dart';
 import '../../../../core/ui/widgets/AppTextStyles.dart';
@@ -34,19 +34,16 @@ class ForgotPasswordSuccessView extends StatelessWidget {
         ),
         const SizedBox(height: AppDimensions.paddingL),
         AppText(
-          AppStrings.forgotPasswordSuccessTitle,
+          'auth.forgotPassword.successTitle'.tr(),
           style: AppTextStyles.headline,
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: AppDimensions.paddingS),
         AppText(
-          AppStrings.forgotPasswordSuccessSubtitle,
+          'auth.forgotPassword.successSubtitle'.tr(),
           secondary: true,
           textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontSize: AppDimensions.fontM,
-            height: 1.6,
-          ),
+          style: const TextStyle(fontSize: AppDimensions.fontM, height: 1.6),
         ),
         const SizedBox(height: AppDimensions.paddingS),
         Container(
@@ -81,7 +78,7 @@ class ForgotPasswordSuccessView extends StatelessWidget {
               ),
             ),
             child: AppText(
-              AppStrings.forgotPasswordBackToLogin,
+              'auth.forgotPassword.backToLogin'.tr(),
               style: const TextStyle(
                 fontSize: AppDimensions.fontM,
                 fontWeight: FontWeight.w600,
@@ -94,4 +91,3 @@ class ForgotPasswordSuccessView extends StatelessWidget {
     );
   }
 }
-

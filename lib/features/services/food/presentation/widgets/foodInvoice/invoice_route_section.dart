@@ -1,10 +1,10 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/constants/gap.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
-import '../../food_strings.dart';
 
 /// Route section in the invoice: [from] ---- [time icon] ---- [to]
 class InvoiceRouteSection extends StatelessWidget {
@@ -39,8 +39,8 @@ class InvoiceRouteSection extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const AppText(
-                  FoodStrings.fromLabel,
+                AppText(
+                  'food.comparison.from'.tr(),
                   secondary: true,
                   style: TextStyle(fontSize: AppDimensions.fontXS),
                 ),
@@ -62,12 +62,13 @@ class InvoiceRouteSection extends StatelessWidget {
             children: [
               Row(
                 children: List.generate(
-                  8, (index) => Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 2),
-                  width: 8,
-                  height: 2,
-                  color: const Color(0xFFD1D5DB),
-                ),
+                  8,
+                  (index) => Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 2),
+                    width: 8,
+                    height: 2,
+                    color: const Color(0xFFD1D5DB),
+                  ),
                 ),
               ),
               Gap.gapH5,
@@ -87,7 +88,7 @@ class InvoiceRouteSection extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               AppText(
-                '$deliveryMinutes ${FoodStrings.minutes}',
+                '$deliveryMinutes ${'food.comparison.minutes'.tr()}',
                 secondary: true,
                 style: const TextStyle(
                   fontSize: AppDimensions.fontXS,
@@ -101,8 +102,8 @@ class InvoiceRouteSection extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const AppText(
-                  FoodStrings.toLabel,
+                AppText(
+                  'food.comparison.to'.tr(),
                   secondary: true,
                   style: TextStyle(fontSize: AppDimensions.fontXS),
                 ),
@@ -125,4 +126,3 @@ class InvoiceRouteSection extends StatelessWidget {
     );
   }
 }
-

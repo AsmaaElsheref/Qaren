@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
@@ -32,7 +33,10 @@ class ActiveFiltersRow extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingM),
       child: Row(
         children: [
-          const AppText('الفلاتر:', style: AppTextStyles.caption),
+          AppText(
+            'bookings.filter.activeLabel'.tr(),
+            style: AppTextStyles.caption,
+          ),
           const SizedBox(width: AppDimensions.paddingS),
           Expanded(
             child: Wrap(
@@ -70,9 +74,9 @@ class ActiveFiltersRow extends ConsumerWidget {
               minimumSize: Size.zero,
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
-            child: const AppText(
-              'تعديل',
-              style: TextStyle(color: AppColors.primary, fontSize: 13),
+            child: AppText(
+              'bookings.filter.edit'.tr(),
+              style: const TextStyle(color: AppColors.primary, fontSize: 13),
             ),
           ),
         ],
@@ -130,4 +134,3 @@ class ActiveFilterChip extends StatelessWidget {
     );
   }
 }
-

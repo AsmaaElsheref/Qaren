@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors_ext.dart';
 import 'profile_stat_item.dart';
@@ -18,19 +19,24 @@ class ProfileStatsRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final savingsText =
-        '${savingsAmount.toStringAsFixed(0)} $savingsCurrency';
+    final savingsText = '${savingsAmount.toStringAsFixed(0)} $savingsCurrency';
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        ProfileStatItem(value: '$ordersCount', label: 'طلبات'),
+        ProfileStatItem(
+          value: '$ordersCount',
+          label: 'profile.stats.orders'.tr(),
+        ),
         const ProfileStatsDivider(),
-        ProfileStatItem(value: '$tripsCount', label: 'رحلات'),
+        ProfileStatItem(
+          value: '$tripsCount',
+          label: 'profile.stats.trips'.tr(),
+        ),
         const ProfileStatsDivider(),
         ProfileStatItem(
           value: savingsText,
-          label: 'توفير',
+          label: 'profile.stats.savings'.tr(),
           highlight: true,
         ),
       ],
@@ -43,10 +49,6 @@ class ProfileStatsDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 36,
-      width: 1,
-      color: context.appColors.divider,
-    );
+    return Container(height: 36, width: 1, color: context.appColors.divider);
   }
 }

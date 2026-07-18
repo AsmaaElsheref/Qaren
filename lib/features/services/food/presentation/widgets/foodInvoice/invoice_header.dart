@@ -1,10 +1,10 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
 import '../../../../../../core/ui/widgets/icon_container.dart';
-import '../../food_strings.dart';
 
 class InvoiceHeader extends StatelessWidget {
   const InvoiceHeader({super.key});
@@ -29,7 +29,7 @@ class InvoiceHeader extends StatelessWidget {
           ),
           const Spacer(),
           AppText(
-            FoodStrings.invoiceTitle,
+            'food.invoice.title'.tr(),
             style: TextStyle(
               fontSize: AppDimensions.fontL,
               fontWeight: FontWeight.w800,
@@ -50,4 +50,3 @@ class InvoiceHeader extends StatelessWidget {
     );
   }
 }
-

@@ -1,8 +1,8 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../../../core/constants/app_dimensions.dart';
-import '../../../../core/constants/app_strings.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../providers/verify_code_provider.dart';
 import '../providers/verify_code_state.dart';
@@ -33,10 +33,9 @@ class VerifyCodePageState extends ConsumerState<VerifyCodePage> {
 
   void _onSubmit() {
     if (_formKey.currentState?.validate() ?? false) {
-      ref.read(verifyCodeNotifierProvider.notifier).verify(
-            widget.login,
-            _codeController.text,
-          );
+      ref
+          .read(verifyCodeNotifierProvider.notifier)
+          .verify(widget.login, _codeController.text);
     }
   }
 
@@ -50,7 +49,7 @@ class VerifyCodePageState extends ConsumerState<VerifyCodePage> {
       if (next.status == VerifyCodeStatus.failure) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(next.errorMessage ?? AppStrings.verifyCodeFailed),
+            content: Text(next.errorMessage ?? 'auth.verifyCode.failed'.tr()),
             backgroundColor: AppColors.error,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
@@ -61,7 +60,7 @@ class VerifyCodePageState extends ConsumerState<VerifyCodePage> {
       } else if (next.status == VerifyCodeStatus.resendSuccess) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text(AppStrings.verifyCodeResendSuccess),
+            content: Text('auth.verifyCode.resendSuccess'.tr()),
             backgroundColor: AppColors.success,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
@@ -116,25 +115,26 @@ class VerifyCodePageState extends ConsumerState<VerifyCodePage> {
                   const SizedBox(height: AppDimensions.paddingXL),
                   PasswordResetHeader(
                     icon: Icons.mark_email_read_outlined,
-                    title: AppStrings.verifyCodeTitle,
-                    subtitle: '${AppStrings.verifyCodeSubtitle} ${widget.login}',
+                    title: 'auth.verifyCode.title'.tr(),
+                    subtitle:
+                        '${'auth.verifyCode.subtitle'.tr()} ${widget.login}',
                   ),
                   const SizedBox(height: AppDimensions.paddingXXL),
                   OtpCodeField(
                     controller: _codeController,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
-                        return AppStrings.verifyCodeRequired;
+                        return 'auth.verifyCode.required'.tr();
                       }
                       if (int.tryParse(value.trim()) == null) {
-                        return AppStrings.verifyCodeInvalid;
+                        return 'auth.verifyCode.invalidFormat'.tr();
                       }
                       return null;
                     },
                   ),
                   const SizedBox(height: AppDimensions.paddingXL),
                   AuthSubmitButton(
-                    label: AppStrings.verifyCodeButton,
+                    label: 'auth.verifyCode.button'.tr(),
                     isLoading: isLoading,
                     onPressed: _onSubmit,
                   ),
@@ -153,4 +153,3 @@ class VerifyCodePageState extends ConsumerState<VerifyCodePage> {
     );
   }
 }
-

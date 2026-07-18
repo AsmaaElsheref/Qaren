@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
 import 'package:qaren/core/theme/app_colors.dart';
@@ -15,6 +16,8 @@ class CarBookingDetailsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.appColors;
+    final notAvailable = 'common.notAvailable'.tr();
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(AppDimensions.paddingM),
@@ -26,16 +29,35 @@ class CarBookingDetailsSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const AppText('تفاصيل تأجير السيارة', style: AppTextStyles.title),
+          AppText('bookings.details.carTitle'.tr(), style: AppTextStyles.title),
           const SizedBox(height: AppDimensions.paddingM),
-          AppText('رقم العرض: ${carRental.offerId ?? 'غير متاح'}'),
+          AppText(
+            'bookings.details.carOfferId'.tr(
+              namedArgs: {'id': '${carRental.offerId ?? notAvailable}'},
+            ),
+          ),
           const SizedBox(height: AppDimensions.paddingS),
-          AppText('اسم العميل: ${carRental.customerName.isEmpty ? 'غير متاح' : carRental.customerName}'),
+          AppText(
+            'bookings.details.carCustomerName'.tr(
+              namedArgs: {
+                'name': carRental.customerName.isEmpty
+                    ? notAvailable
+                    : carRental.customerName,
+              },
+            ),
+          ),
           const SizedBox(height: AppDimensions.paddingS),
-          AppText('رقم الهاتف: ${carRental.customerPhone.isEmpty ? 'غير متاح' : carRental.customerPhone}'),
+          AppText(
+            'bookings.details.carCustomerPhone'.tr(
+              namedArgs: {
+                'phone': carRental.customerPhone.isEmpty
+                    ? notAvailable
+                    : carRental.customerPhone,
+              },
+            ),
+          ),
         ],
       ),
     );
   }
 }
-

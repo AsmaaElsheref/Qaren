@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../core/constants/app_dimensions.dart';
@@ -85,7 +86,7 @@ class _TaxiAppsDrawerState extends ConsumerState<TaxiAppsDrawer> {
                   children: [
                     Expanded(
                       child: AppText(
-                        'تطبيقات التوصيل',
+                        'taxi.apps.title'.tr(),
                         style: AppTextStyles.title.copyWith(
                           fontSize: AppDimensions.fontL,
                           fontWeight: FontWeight.w800,
@@ -129,12 +130,18 @@ class _TaxiAppsDrawerState extends ConsumerState<TaxiAppsDrawer> {
                 child: Row(
                   children: [
                     TaxiCounterChip(
-                      label: 'محدد: ${draft.length}',
+                      label: 'taxi.apps.selectedCount'.tr(
+                        namedArgs: {'count': '${draft.length}'},
+                      ),
                       active: true,
                     ),
                     const SizedBox(width: AppDimensions.paddingS),
                     TaxiCounterChip(
-                      label: 'غير محدد: ${state.apps.length - draft.length}',
+                      label: 'taxi.apps.unselectedCount'.tr(
+                        namedArgs: {
+                          'count': '${state.apps.length - draft.length}',
+                        },
+                      ),
                       active: false,
                     ),
                   ],
@@ -151,13 +158,13 @@ class _TaxiAppsDrawerState extends ConsumerState<TaxiAppsDrawer> {
                 child: Row(
                   children: [
                     TaxiActionChip(
-                      label: 'تحديد الكل',
+                      label: 'taxi.apps.selectAll'.tr(),
                       onTap: () => _selectAll(state),
                       isPrimary: true,
                     ),
                     const SizedBox(width: AppDimensions.paddingS),
                     TaxiActionChip(
-                      label: 'إلغاء',
+                      label: 'taxi.apps.clearAll'.tr(),
                       onTap: _clearAll,
                       isPrimary: false,
                     ),
@@ -193,7 +200,7 @@ class _TaxiAppsDrawerState extends ConsumerState<TaxiAppsDrawer> {
               Padding(
                 padding: const EdgeInsets.all(AppDimensions.paddingM),
                 child: AppButton(
-                  label: 'تم',
+                  label: 'taxi.apps.done'.tr(),
                   icon: Icons.check_rounded,
                   onTap: draft.isNotEmpty ? () => _confirm(state) : null,
                 ),
@@ -205,4 +212,3 @@ class _TaxiAppsDrawerState extends ConsumerState<TaxiAppsDrawer> {
     );
   }
 }
-

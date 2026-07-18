@@ -88,7 +88,7 @@ class _TaxiPageState extends ConsumerState<TaxiPage> {
                           left: 0,
                           right: 0,
                           child: TaxiTopBar(onMenuTap: openAppsDrawer),
-                        ),
+                        ),     
                         // ── AI assistant overlay ───────────────────────────
                         Positioned(
                           top: 0,

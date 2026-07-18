@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
@@ -21,11 +22,11 @@ class BestValueBadge extends StatelessWidget {
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
-          children: const [
-            Icon(Icons.star_rounded, size: 13, color: AppColors.white),
-            SizedBox(width: 4),
+          children: [
+            const Icon(Icons.star_rounded, size: 13, color: AppColors.white),
+            const SizedBox(width: 4),
             AppText(
-              'الأفضل قيمة',
+              'taxi.compare.bestValue'.tr(),
               style: TextStyle(
                 fontSize: AppDimensions.fontXS,
                 fontWeight: FontWeight.w700,

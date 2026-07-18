@@ -1,8 +1,8 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
-import '../../food_strings.dart';
 import '../../providers/food_providers.dart';
 import '../../widgets/food/food_app_header.dart';
 import '../../widgets/food/food_category_chips.dart';
@@ -34,7 +34,7 @@ class _FoodPageState extends ConsumerState<FoodPage> {
   void initState() {
     super.initState();
     _categoryNotifier = ref.read(selectedFoodCategoryProvider.notifier);
-    _searchNotifier   = ref.read(foodSearchQueryProvider.notifier);
+    _searchNotifier = ref.read(foodSearchQueryProvider.notifier);
   }
 
   /// Resets filter/search state when the user leaves the screen.
@@ -48,7 +48,7 @@ class _FoodPageState extends ConsumerState<FoodPage> {
   void dispose() {
     Future(() {
       _categoryNotifier.state = 'all';
-      _searchNotifier.state   = '';
+      _searchNotifier.state = '';
     });
     super.dispose();
   }
@@ -62,18 +62,18 @@ class _FoodPageState extends ConsumerState<FoodPage> {
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: const [
-                SizedBox(height: AppDimensions.paddingS),
-                FoodAppHeader(),
-                SizedBox(height: AppDimensions.paddingM),
-                FoodSearchField(),
-                SizedBox(height: AppDimensions.paddingM),
-                FoodCategoryChips(),
-                SizedBox(height: AppDimensions.paddingM),
-                FoodSectionTitle(title: FoodStrings.mostOrdered),
-                SizedBox(height: AppDimensions.paddingS),
-                FoodRestaurantCard(),
-                SizedBox(height: AppDimensions.paddingXL),
+              children: [
+                const SizedBox(height: AppDimensions.paddingS),
+                const FoodAppHeader(),
+                const SizedBox(height: AppDimensions.paddingM),
+                const FoodSearchField(),
+                const SizedBox(height: AppDimensions.paddingM),
+                const FoodCategoryChips(),
+                const SizedBox(height: AppDimensions.paddingM),
+                FoodSectionTitle(title: 'food.mostOrdered'.tr()),
+                const SizedBox(height: AppDimensions.paddingS),
+                const FoodRestaurantCard(),
+                const SizedBox(height: AppDimensions.paddingXL),
               ],
             ),
           ),

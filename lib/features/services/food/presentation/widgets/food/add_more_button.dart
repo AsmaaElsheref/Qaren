@@ -1,8 +1,8 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
-import '../../food_strings.dart';
 
 /// Dashed "إضافة المزيد" button below the cart items list.
 class AddMoreButton extends StatelessWidget {
@@ -15,18 +15,11 @@ class AddMoreButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap ?? () => Navigator.of(context).pop(),
       child: Container(
-        margin: const EdgeInsets.symmetric(
-          horizontal: AppDimensions.paddingM,
-        ),
-        padding: const EdgeInsets.symmetric(
-          vertical: AppDimensions.paddingM,
-        ),
+        margin: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingM),
+        padding: const EdgeInsets.symmetric(vertical: AppDimensions.paddingM),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(AppDimensions.radiusL),
-          border: Border.all(
-            color: AppColors.border,
-            style: BorderStyle.solid,
-          ),
+          border: Border.all(color: AppColors.border, style: BorderStyle.solid),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -38,7 +31,7 @@ class AddMoreButton extends StatelessWidget {
             ),
             const SizedBox(width: AppDimensions.paddingS),
             AppText(
-              FoodStrings.addMore,
+              'food.cart.addMore'.tr(),
               style: const TextStyle(
                 fontSize: AppDimensions.fontM,
                 fontWeight: FontWeight.w600,
@@ -51,4 +44,3 @@ class AddMoreButton extends StatelessWidget {
     );
   }
 }
-

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors_ext.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
@@ -18,7 +19,7 @@ class FoodItemCard extends ConsumerWidget {
 
   Future<void> _onAddTap(BuildContext context, WidgetRef ref) async {
     final cartState = ref.read(foodCartProvider);
-    final existing  = cartState.items[item.id];
+    final existing = cartState.items[item.id];
 
     // Already in cart → just increment, keep selected warehouse.
     if (existing != null) {
@@ -30,9 +31,9 @@ class FoodItemCard extends ConsumerWidget {
 
     // No branches → unavailable.
     if (active.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: AppText('هذا المنتج غير متوفر حالياً')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: AppText('food.itemUnavailable'.tr())));
       return;
     }
 
@@ -43,16 +44,15 @@ class FoodItemCard extends ConsumerWidget {
     }
 
     // Multiple branches → ask the user.
-    final picked = await BranchSelectionSheet.show(
-      context,
-      warehouses: active,
-    );
+    final picked = await BranchSelectionSheet.show(context, warehouses: active);
     if (picked == null) return;
     _commit(ref, picked);
   }
 
   void _commit(WidgetRef ref, FoodWarehouse? warehouse) {
-    ref.read(foodCartProvider.notifier).increment(
+    ref
+        .read(foodCartProvider.notifier)
+        .increment(
           item.id,
           name: item.name,
           imageUrl: item.imageUrl,
@@ -88,7 +88,9 @@ class FoodItemCard extends ConsumerWidget {
                     height: 80,
                     decoration: BoxDecoration(
                       color: colors.disabledBackground,
-                      borderRadius: BorderRadius.circular(AppDimensions.radiusM),
+                      borderRadius: BorderRadius.circular(
+                        AppDimensions.radiusM,
+                      ),
                     ),
                     child: Icon(
                       Icons.restaurant_rounded,
@@ -102,18 +104,14 @@ class FoodItemCard extends ConsumerWidget {
                 bottom: 4,
                 left: 4,
                 child: Container(
-                  padding:
-                  const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 6,
+                    vertical: 2,
+                  ),
                   decoration: BoxDecoration(
                     color: colors.card,
-                    borderRadius:
-                    BorderRadius.circular(AppDimensions.radiusS),
-                    boxShadow: [
-                      BoxShadow(
-                        color: colors.shadow,
-                        blurRadius: 4,
-                      ),
-                    ],
+                    borderRadius: BorderRadius.circular(AppDimensions.radiusS),
+                    boxShadow: [BoxShadow(color: colors.shadow, blurRadius: 4)],
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -166,7 +164,7 @@ class FoodItemCard extends ConsumerWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     AppText(
-                      'ر.س',
+                      'food.currencyShort'.tr(),
                       style: TextStyle(
                         fontSize: AppDimensions.fontXS,
                         color: colors.textSecondary,
@@ -229,4 +227,3 @@ class FoodItemCard extends ConsumerWidget {
     );
   }
 }
-

@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:qaren/core/utils/extensions/contextSizeX.dart';
@@ -6,7 +7,6 @@ import '../../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../../core/theme/app_colors.dart';
 import '../../../../../../../core/ui/widgets/AppText.dart';
 import '../../../../domain/entities/cart_item.dart';
-import '../../../food_strings.dart';
 import 'cart_delete_button.dart';
 import 'cart_quantity_control.dart';
 
@@ -66,7 +66,7 @@ class CartItemCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                width: context.screenWidth*0.28,
+                width: context.screenWidth * 0.28,
                 child: AppText(
                   item.name,
                   style: TextStyle(
@@ -78,7 +78,7 @@ class CartItemCard extends StatelessWidget {
               ),
               const SizedBox(height: 2),
               AppText(
-                '${item.price.toInt()} ${FoodStrings.currencyShort}',
+                '${item.price.toInt()} ${'food.currencyShort'.tr()}',
                 style: const TextStyle(
                   fontSize: AppDimensions.fontS,
                   color: AppColors.primary,
@@ -96,4 +96,3 @@ class CartItemCard extends StatelessWidget {
     );
   }
 }
-

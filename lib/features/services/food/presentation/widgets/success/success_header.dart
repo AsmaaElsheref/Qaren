@@ -1,10 +1,10 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
-import '../../food_strings.dart';
 
 /// Success-screen header — title + animated check icon.
 class SuccessHeader extends StatelessWidget {
@@ -35,7 +35,7 @@ class SuccessHeader extends StatelessWidget {
           ),
           const SizedBox(height: AppDimensions.paddingM),
           AppText(
-            FoodStrings.successTitle,
+            'food.success.title'.tr(),
             style: TextStyle(
               fontSize: AppDimensions.fontXL,
               fontWeight: FontWeight.w800,
@@ -43,8 +43,8 @@ class SuccessHeader extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 4),
-          const AppText(
-            FoodStrings.successSubtitle,
+          AppText(
+            'food.success.subtitle'.tr(),
             secondary: true,
             style: TextStyle(fontSize: AppDimensions.fontS),
           ),
@@ -53,4 +53,3 @@ class SuccessHeader extends StatelessWidget {
     );
   }
 }
-

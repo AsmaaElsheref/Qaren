@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import '../../../../../core/network/handelError/errors/failures.dart';
 import '../../../../../core/utils/either.dart';
 import '../../domain/entities/ai_search_params.dart';
@@ -24,9 +25,7 @@ class CarRentalRepositoryImpl implements CarRentalRepository {
     } on Failure catch (f) {
       return Either.leftOf(f);
     } catch (_) {
-      return Either.leftOf(
-        const ServerFailure('فشل البحث عن العروض. حاول مرة أخرى.'),
-      );
+      return Either.leftOf(ServerFailure('taxi.carRental.searchFailed'.tr()));
     }
   }
 
@@ -40,9 +39,7 @@ class CarRentalRepositoryImpl implements CarRentalRepository {
     } on Failure catch (f) {
       return Either.leftOf(f);
     } catch (_) {
-      return Either.leftOf(
-        const ServerFailure('تعذّر تنفيذ البحث الذكي. حاول مرة أخرى.'),
-      );
+      return Either.leftOf(ServerFailure('taxi.carRental.aiSearchFailed'.tr()));
     }
   }
 
@@ -57,7 +54,7 @@ class CarRentalRepositoryImpl implements CarRentalRepository {
       return Either.leftOf(f);
     } catch (_) {
       return Either.leftOf(
-        const ServerFailure('فشل تحميل تفاصيل العرض. حاول مرة أخرى.'),
+        ServerFailure('taxi.carRental.offerDetailsFailed'.tr()),
       );
     }
   }
@@ -72,10 +69,7 @@ class CarRentalRepositoryImpl implements CarRentalRepository {
     } on Failure catch (f) {
       return Either.leftOf(f);
     } catch (_) {
-      return Either.leftOf(
-        const ServerFailure('فشل الحجز. حاول مرة أخرى.'),
-      );
+      return Either.leftOf(ServerFailure('taxi.carRental.bookFailed'.tr()));
     }
   }
 }
-

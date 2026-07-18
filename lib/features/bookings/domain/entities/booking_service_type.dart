@@ -1,3 +1,6 @@
+import 'package:qaren/core/localization/easy_localization.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
+
 enum BookingServiceType {
   all,
   foodOrder,
@@ -15,18 +18,19 @@ enum BookingServiceType {
 
   String get label {
     return switch (this) {
-      BookingServiceType.all => 'الكل',
-      BookingServiceType.foodOrder => 'طلبات الطعام',
-      BookingServiceType.carRental => 'تأجير السيارات',
-      BookingServiceType.unknown => 'خدمة أخرى',
+      BookingServiceType.all => 'bookings.serviceType.all'.tr(),
+      BookingServiceType.foodOrder => 'bookings.serviceType.food'.tr(),
+      BookingServiceType.carRental => 'bookings.serviceType.carRental'.tr(),
+      BookingServiceType.unknown => 'bookings.serviceType.other'.tr(),
     };
   }
 
   String get cardLabel {
     return switch (this) {
-      BookingServiceType.foodOrder => 'طلب طعام',
-      BookingServiceType.carRental => 'تأجير سيارة',
-      BookingServiceType.all || BookingServiceType.unknown => 'طلب',
+      BookingServiceType.foodOrder => 'bookings.serviceType.foodCard'.tr(),
+      BookingServiceType.carRental => 'bookings.serviceType.carCard'.tr(),
+      BookingServiceType.all ||
+      BookingServiceType.unknown => 'bookings.serviceType.genericCard'.tr(),
     };
   }
 
@@ -39,4 +43,3 @@ enum BookingServiceType {
     };
   }
 }
-

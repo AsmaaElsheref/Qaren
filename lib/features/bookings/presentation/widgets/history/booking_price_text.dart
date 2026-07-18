@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/theme/app_colors.dart';
 import 'package:qaren/core/ui/widgets/AppText.dart';
@@ -14,7 +15,7 @@ class BookingPriceText extends StatelessWidget {
   Widget build(BuildContext context) {
     if (!pricing.canShowTotal) {
       return AppText(
-        'السعر غير متاح',
+        'bookings.price.unavailable'.tr(),
         style: AppTextStyles.caption.copyWith(color: AppColors.textSecondary),
       );
     }
@@ -26,4 +27,3 @@ class BookingPriceText extends StatelessWidget {
     );
   }
 }
-

@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../core/constants/app_dimensions.dart';
@@ -55,11 +56,15 @@ class LocationSheet extends ConsumerWidget {
             const SizedBox(height: AppDimensions.paddingM),
             Row(
               children: [
-                Icon(Icons.warning_amber_rounded, color: AppColors.error, size: 20),
+                Icon(
+                  Icons.warning_amber_rounded,
+                  color: AppColors.error,
+                  size: 20,
+                ),
                 const SizedBox(width: AppDimensions.paddingS),
                 Expanded(
                   child: AppText(
-                    'نقطة الانطلاق والوجهة متطابقتان، يرجى اختيار وجهة مختلفة',
+                    'taxi.errors.samePickupDestination'.tr(),
                     style: TextStyle(
                       color: AppColors.error,
                       fontSize: 13,
@@ -81,5 +86,3 @@ class LocationSheet extends ConsumerWidget {
     );
   }
 }
-
-

@@ -1,10 +1,10 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
 import 'package:qaren/core/theme/app_colors.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:qaren/core/ui/widgets/AppText.dart';
 import 'package:qaren/core/ui/widgets/icon_container.dart';
-import 'package:qaren/features/services/food/presentation/food_strings.dart';
 import 'package:qaren/features/services/food/presentation/widgets/food/food_menu_badge.dart';
 
 import 'food_cart_badge.dart';
@@ -32,7 +32,10 @@ class FoodAppHeader extends StatelessWidget {
             ),
           ),
           const SizedBox(width: AppDimensions.paddingS),
-          AppText(FoodStrings.pageTitle,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15),),
+          AppText(
+            'food.pageTitle'.tr(),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+          ),
           const Spacer(),
           // const FoodMenuBadge(),
           // const SizedBox(width: AppDimensions.paddingM),
@@ -42,4 +45,3 @@ class FoodAppHeader extends StatelessWidget {
     );
   }
 }
-

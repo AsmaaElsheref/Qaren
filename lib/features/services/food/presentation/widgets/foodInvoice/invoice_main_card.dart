@@ -1,20 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
-import '../../food_strings.dart';
 import 'invoice_logo_fallback.dart';
 
 /// Main provider card in the invoice: logo + name + "خدمة توصيل طعام" tag.
 class InvoiceMainCard extends StatelessWidget {
-  const InvoiceMainCard({
-    super.key,
-    required this.providerName,
-    this.logoUrl,
-  });
+  const InvoiceMainCard({super.key, required this.providerName, this.logoUrl});
 
   final String providerName;
   final String? logoUrl;
@@ -60,8 +56,8 @@ class InvoiceMainCard extends StatelessWidget {
             color: AppColors.primaryLight,
             borderRadius: BorderRadius.circular(AppDimensions.radiusFull),
           ),
-          child: const AppText(
-            FoodStrings.foodDeliveryService,
+          child: AppText(
+            'food.invoice.serviceName'.tr(),
             style: TextStyle(
               fontSize: AppDimensions.fontXS,
               fontWeight: FontWeight.w600,
@@ -73,4 +69,3 @@ class InvoiceMainCard extends StatelessWidget {
     );
   }
 }
-

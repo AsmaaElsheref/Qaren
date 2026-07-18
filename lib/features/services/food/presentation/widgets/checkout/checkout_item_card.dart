@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 
@@ -5,7 +6,6 @@ import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
 import '../../../domain/entities/cart_item.dart';
-import '../../food_strings.dart';
 
 class CheckoutItemCard extends StatelessWidget {
   const CheckoutItemCard({super.key, required this.item});
@@ -58,13 +58,15 @@ class CheckoutItemCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 AppText(
-                  '${FoodStrings.quantityShort}: ${item.quantity}',
+                  '${'food.checkout.quantity'.tr()}: ${item.quantity}',
                   secondary: true,
                   style: const TextStyle(fontSize: AppDimensions.fontXS),
                 ),
                 if (item.modifiers.isNotEmpty)
                   AppText(
-                    item.modifiers.map((m) => '${m.name}: ${m.value}').join(' · '),
+                    item.modifiers
+                        .map((m) => '${m.name}: ${m.value}')
+                        .join(' · '),
                     secondary: true,
                     maxLines: 1,
                     style: const TextStyle(
@@ -86,7 +88,7 @@ class CheckoutItemCard extends StatelessWidget {
             ),
           ),
           AppText(
-            '${item.lineTotal.toInt()} ${FoodStrings.currencyShort}',
+            '${item.lineTotal.toInt()} ${'food.currencyShort'.tr()}',
             style: TextStyle(
               fontSize: AppDimensions.fontS,
               fontWeight: FontWeight.w800,
@@ -98,4 +100,3 @@ class CheckoutItemCard extends StatelessWidget {
     );
   }
 }
-

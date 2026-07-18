@@ -1,9 +1,9 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/constants/gap.dart';
 import 'package:qaren/core/utils/extensions/contextSizeX.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../../../core/constants/app_strings.dart';
 import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/ui/widgets/AppText.dart';
 import '../../../../core/utils/validators.dart';
@@ -46,31 +46,30 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppDimensions.radiusL),
         ),
-        title: const AppText(
-          'تفعيل الدخول بالبصمة',
-          style: TextStyle(
+        title: AppText(
+          'auth.biometricDialog.title'.tr(),
+          style: const TextStyle(
             fontWeight: FontWeight.w700,
             color: AppColors.textPrimary,
           ),
         ),
-        content: const AppText(
-          'هل تريد تفعيل الدخول بالبصمة في المرات القادمة؟\n'
-          'بياناتك ستُحفظ بشكل مشفّر وآمن.',
-          style: TextStyle(color: AppColors.textSecondary),
+        content: AppText(
+          'auth.biometricDialog.message'.tr(),
+          style: const TextStyle(color: AppColors.textSecondary),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(false),
-            child: const AppText(
-              'لاحقاً',
-              style: TextStyle(color: AppColors.textSecondary),
+            child: AppText(
+              'auth.biometricDialog.later'.tr(),
+              style: const TextStyle(color: AppColors.textSecondary),
             ),
           ),
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(true),
-            child: const AppText(
-              'تفعيل',
-              style: TextStyle(
+            child: AppText(
+              'auth.biometricDialog.enable'.tr(),
+              style: const TextStyle(
                 color: AppColors.primary,
                 fontWeight: FontWeight.w700,
               ),
@@ -84,7 +83,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   void _onLoginPressed() {
     if (_formKey.currentState?.validate() ?? false) {
-      ref.read(loginNotifierProvider.notifier).login(
+      ref
+          .read(loginNotifierProvider.notifier)
+          .login(
             login: _emailController.text.trim(),
             password: _passwordController.text,
             askEnableBiometrics: _showEnableBiometricDialog,
@@ -102,15 +103,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     ref.listen<LoginState>(loginNotifierProvider, (previous, next) {
       if (next.status == LoginStatus.success &&
           previous?.status != LoginStatus.success) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const HomePage()),
-        );
+        Navigator.of(
+          context,
+        ).pushReplacement(MaterialPageRoute(builder: (_) => const HomePage()));
       }
       if (next.status == LoginStatus.failure &&
           previous?.status != LoginStatus.failure) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: AppText(next.errorMessage ?? AppStrings.loginFailed),
+            content: AppText(next.errorMessage ?? 'auth.login.failed'.tr()),
             backgroundColor: AppColors.error,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
@@ -154,7 +155,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     SizedBox(height: context.screenHeight * 0.05),
                     LoginInputField(
                       controller: _emailController,
-                      hint: AppStrings.emailHint,
+                      hint: 'auth.login.emailHint'.tr(),
                       prefixIcon: Icons.mail_outline,
                       keyboardType: TextInputType.emailAddress,
                       validator: Validators.validateEmail,
@@ -162,7 +163,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     const SizedBox(height: AppDimensions.paddingS),
                     LoginInputField(
                       controller: _passwordController,
-                      hint: AppStrings.passwordHint,
+                      hint: 'auth.login.passwordHint'.tr(),
                       prefixIcon: Icons.lock_outline,
                       obscureText: !loginState.isPasswordVisible,
                       validator: Validators.validatePassword,
@@ -202,9 +203,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           minimumSize: Size.zero,
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
-                        child: const AppText(
-                          AppStrings.forgotPassword,
-                          style: TextStyle(
+                        child: AppText(
+                          'auth.login.forgotPassword'.tr(),
+                          style: const TextStyle(
                             fontSize: AppDimensions.fontS,
                             color: AppColors.textSecondary,
                           ),
@@ -213,17 +214,18 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     ),
                     SizedBox(height: context.screenHeight * 0.06),
                     GradientLoginButton(
-                      label: AppStrings.loginButton,
+                      label: 'auth.login.button'.tr(),
                       isLoading: loginState.status == LoginStatus.loading,
                       onPressed: _onLoginPressed,
                     ),
                     const SizedBox(height: AppDimensions.paddingXXL),
                     BiometricsButton(onPressed: _onBiometricPressed),
                     const SizedBox(height: AppDimensions.paddingL),
+
                     // TextButton(
                     //   onPressed: () {},
                     //   child: const AppText(
-                    //     AppStrings.browseAsGuest,
+                    //     'auth.login.browseAsGuest'.tr(),
                     //     style: TextStyle(
                     //       fontSize: AppDimensions.fontS,
                     //       color: AppColors.textSecondary,
@@ -231,16 +233,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     //     ),
                     //   ),
                     // ),
-
                     const SizedBox(height: AppDimensions.paddingS),
 
                     // ── Sign Up link ──────────────────────────────────────
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const AppText(
-                          AppStrings.dontHaveAccount,
-                          style: TextStyle(
+                        AppText(
+                          'auth.login.noAccount'.tr(),
+                          style: const TextStyle(
                             fontSize: AppDimensions.fontS,
                             color: AppColors.textSecondary,
                           ),
@@ -248,16 +249,17 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         TextButton(
                           onPressed: () => Navigator.of(context).push(
                             MaterialPageRoute(
-                                builder: (_) => const SignupPage()),
+                              builder: (_) => const SignupPage(),
+                            ),
                           ),
                           style: TextButton.styleFrom(
                             padding: const EdgeInsets.symmetric(horizontal: 6),
                             minimumSize: Size.zero,
                             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           ),
-                          child: const AppText(
-                            AppStrings.signUpNow,
-                            style: TextStyle(
+                          child: AppText(
+                            'auth.login.signUpLink'.tr(),
+                            style: const TextStyle(
                               fontSize: AppDimensions.fontS,
                               color: AppColors.primary,
                               fontWeight: FontWeight.w700,
@@ -278,4 +280,3 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     );
   }
 }
-

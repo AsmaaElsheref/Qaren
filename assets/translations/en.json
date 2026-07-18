@@ -1,0 +1,526 @@
+{
+  "app": {
+    "name": "Qaren",
+    "tagline": "Your smart gateway to compare services",
+    "subtitle": "Compare providers and choose the best"
+  },
+  "common": {
+    "retry": "Retry",
+    "cancel": "Cancel",
+    "done": "Done",
+    "edit": "Edit",
+    "version": "Version {version}",
+    "currencyShort": "SAR",
+    "currencyFull": "Saudi Riyal",
+    "notAvailable": "Not available",
+    "errorGeneric": "An error occurred. Please try again.",
+    "mapUnavailable": {
+      "title": "Map is unavailable",
+      "message": "Google Maps is disabled because no API key is configured. You can still use your current location."
+    }
+  },
+  "validation": {
+    "emailRequired": "Email is required",
+    "emailInvalid": "Invalid email address",
+    "passwordRequired": "Password is required",
+    "passwordTooShort": "Password is too short",
+    "confirmPasswordRequired": "Password confirmation is required",
+    "passwordMismatch": "Passwords do not match",
+    "nameRequired": "Name is required",
+    "phoneRequired": "Phone number is required",
+    "phoneInvalid": "Invalid phone number",
+    "genderRequired": "Please select a gender",
+    "passwordMinLength": "Password must be at least 8 characters"
+  },
+  "errors": {
+    "network": "Unable to connect. Check your internet connection.",
+    "timeout": "Connection timed out. Check your internet connection.",
+    "unauthorized": "Unauthorized. Please sign in.",
+    "notFound": "The requested item was not found.",
+    "validation": "Invalid data.",
+    "server": "A server error occurred. Please try again later.",
+    "unexpected": "An unexpected error occurred.",
+    "cancelled": "Request was cancelled.",
+    "userNotFound": "No account found with this email address.",
+    "invalidCredentials": "Incorrect email or password.",
+    "invalidCode": "The code you entered is incorrect. Try again.",
+    "expiredCode": "The code has expired. Please request a new one.",
+    "emailExists": "This email is already registered.",
+    "phoneExists": "This phone number is already registered.",
+    "accountDisabled": "This account is disabled. Contact support.",
+    "tooManyAttempts": "Too many attempts. Please wait before trying again.",
+    "locationDisabled": "Location services are disabled. Enable them in settings.",
+    "locationDenied": "Location permission was denied",
+    "locationPermanentlyDenied": "Location permission is permanently denied. Enable it in app settings.",
+    "locationFailed": "Unable to determine your current location"
+  },
+  "auth": {
+    "userType": {
+      "user": "User",
+      "partner": "Partner",
+      "admin": "Admin"
+    },
+    "login": {
+      "emailHint": "user@qaren.com",
+      "passwordHint": "••••••",
+      "forgotPassword": "Forgot password?",
+      "button": "Sign in",
+      "biometric": "Sign in with biometrics",
+      "biometricReason": "Please verify your identity to sign in",
+      "biometricNotAvailable": "Biometrics are not available on this device",
+      "biometricNoCredentials": "Sign in first to enable biometrics",
+      "biometricFailed": "Biometric verification failed",
+      "browseAsGuest": "Browse as guest",
+      "noAccount": "Don't have an account?",
+      "signUpLink": "Create account",
+      "failed": "Sign in failed. Check your credentials."
+    },
+    "signup": {
+      "title": "Create a new account",
+      "nameHint": "Full name",
+      "phoneHint": "Phone number",
+      "confirmPasswordHint": "Confirm password",
+      "genderHint": "Gender",
+      "genderMale": "Male",
+      "genderFemale": "Female",
+      "button": "Create account",
+      "hasAccount": "Already have an account?",
+      "loginLink": "Sign in",
+      "avatarTitle": "Profile photo",
+      "changePhoto": "Change photo",
+      "removePhoto": "Remove photo",
+      "failed": "Account creation failed. Please try again."
+    },
+    "biometricDialog": {
+      "title": "Enable biometric sign-in",
+      "message": "Would you like to enable biometric sign-in next time?\nYour data will be stored encrypted and securely.",
+      "later": "Later",
+      "enable": "Enable"
+    },
+    "forgotPassword": {
+      "title": "Forgot password?",
+      "subtitle": "Enter your email and we'll send you a link to reset your password",
+      "button": "Send code",
+      "successTitle": "Sent!",
+      "successSubtitle": "Check your email and follow the instructions to reset your password",
+      "backToLogin": "Back to sign in",
+      "failed": "Failed to send email. Check the address and try again."
+    },
+    "verifyCode": {
+      "title": "Verify code",
+      "subtitle": "Enter the code sent to",
+      "hint": "• • • • • •",
+      "button": "Confirm code",
+      "resend": "Resend code",
+      "required": "Code is required",
+      "invalidFormat": "Code must contain numbers only",
+      "failed": "Invalid code. Try again.",
+      "resendSuccess": "Code resent successfully"
+    },
+    "resetPassword": {
+      "title": "Create a new password",
+      "subtitle": "Enter a new strong password",
+      "hint": "New password",
+      "confirmHint": "Confirm password",
+      "button": "Change password",
+      "success": "Password changed successfully",
+      "failed": "Failed to change password. Try again."
+    },
+    "profilePhoto": {
+      "removeSelected": "Remove selected photo"
+    },
+    "errors": {
+      "noBiometricEnrolled": "No biometrics enrolled on this device",
+      "fetchUserFailed": "Failed to fetch user data.",
+      "updateProfileFailed": "Failed to update profile.",
+      "biometricAuthFailed": "Biometric verification failed."
+    }
+  },
+  "home": {
+    "searchHint": "Search categories...",
+    "categoriesTitle": "Categories",
+    "emptyCategories": "No categories available",
+    "comingSoonBadge": "Coming soon"
+  },
+  "profile": {
+    "edit": "Edit",
+    "editSuccess": "Profile updated successfully",
+    "myProfile": "My profile",
+    "editProfileTitle": "Edit profile",
+    "loadError": "Unable to load data. Please try again.",
+    "saveChanges": "Save changes",
+    "defaultUserName": "User",
+    "membershipLabel": "Gold member",
+    "section": {
+      "account": "Account",
+      "general": "General"
+    },
+    "field": {
+      "fullName": "Full name",
+      "email": "Email",
+      "phone": "Phone number",
+      "newPassword": "New password",
+      "confirmPassword": "Confirm password",
+      "passwordOptionalHint": "Leave blank if you don't want to change it"
+    },
+    "stats": {
+      "orders": "Orders",
+      "trips": "Trips",
+      "savings": "Savings"
+    },
+    "menu": {
+      "notifications": "Notifications",
+      "darkMode": "Dark mode",
+      "language": "App language"
+    },
+    "logout": {
+      "title": "Sign out",
+      "confirmMessage": "Are you sure you want to sign out?"
+    },
+    "settings": {
+      "generalSection": "General settings"
+    }
+  },
+  "food": {
+    "pageTitle": "Food delivery",
+    "searchHint": "Search for food or restaurants...",
+    "mostOrdered": "Most ordered",
+    "currency": "SAR",
+    "currencyShort": "SAR",
+    "currencyFull": "Saudi Riyal",
+    "caloriesUnit": "cal",
+    "categoryBurger": "Burger",
+    "deliveryTimeShort": "m",
+    "itemUnavailable": "This item is currently unavailable",
+    "cart": {
+      "orderSummary": "Order summary",
+      "itemsCount": "items",
+      "empty": "Your cart is empty",
+      "addMore": "Add more",
+      "subtotal": "Subtotal",
+      "taxAndFees": "Tax & fees (15%)",
+      "total": "Total",
+      "comparePrices": "Compare prices"
+    },
+    "comparison": {
+      "title": "Price comparison",
+      "aiOpinionTitle": "Qaren AI opinion",
+      "aiOpinionBody": "I'm Qaren. For delivering your order from restaurant to home, delivery apps are the fastest and most convenient option, while picking up yourself saves delivery costs.",
+      "estimatedPrice": "Estimated price",
+      "minutes": "min",
+      "bookNow": "Book now",
+      "bestValue": "Best value",
+      "from": "From",
+      "to": "To",
+      "orderNow": "Order now",
+      "orderAvailable": "Order available items",
+      "fullMatch": "Full order available",
+      "partialMatchTitle": "Some items are unavailable",
+      "partialMatchDescription": "This restaurant can only fulfill part of your order. Only available items will be ordered; unavailable items will not be included.",
+      "partialCoverage": "Covers {matched} of {total} items",
+      "availableItems": "Available items",
+      "missingItems": "Unavailable items",
+      "continueOrder": "Continue order",
+      "cancel": "Cancel",
+      "freeDelivery": "Free delivery",
+      "deliveryFee": "Delivery {fee} {currency}",
+      "searchingApps": "Searching apps...",
+      "searchingOffers": "Searching for the best offers...",
+      "fetchError": "An error occurred while fetching results. You can try again.",
+      "showResults": "Show results",
+      "noResults": "No results"
+    },
+    "invoice": {
+      "title": "Order invoice",
+      "yourLocation": "Your location",
+      "serviceName": "Food delivery service",
+      "date": "Date",
+      "orderTime": "Order time",
+      "deliveryDuration": "Delivery duration",
+      "items": "Items",
+      "orderUnit": "order",
+      "save": "Save invoice"
+    },
+    "checkout": {
+      "title": "Checkout",
+      "restaurantSection": "Restaurant",
+      "deliverySection": "Delivery details",
+      "orderItemsSection": "Order items",
+      "summarySection": "Order summary",
+      "paymentSection": "Payment method",
+      "notesHint": "Any notes for the restaurant? (optional)",
+      "notesLabel": "Notes",
+      "paymentCash": "Cash on delivery",
+      "confirmOrder": "Confirm order",
+      "deliveryFee": "Delivery fee",
+      "discount": "Discount",
+      "total": "Total",
+      "estimatedDelivery": "Estimated delivery time",
+      "quantity": "Quantity",
+      "addressNotSet": "Address not set"
+    },
+    "success": {
+      "title": "Order placed successfully",
+      "subtitle": "Your order has been received and is being prepared",
+      "bookingNumber": "Order number",
+      "paymentMethod": "Payment method",
+      "viewInvoice": "View invoice",
+      "backToHome": "Back to home"
+    },
+    "branch": {
+      "title": "Choose branch",
+      "subtitle": "Select the branch for this product"
+    },
+    "location": {
+      "yourLocation": "Your location",
+      "chooseLocation": "Choose your location",
+      "useCurrent": "Use my current location",
+      "pickOnMap": "Pick on map",
+      "confirm": "Confirm location",
+      "resolving": "Resolving location...",
+      "selecting": "Selecting...",
+      "unknown": "Unknown location",
+      "resolveFailed": "Unable to resolve location",
+      "myCurrentLocation": "My current location",
+      "mapDisabledOption": "Map unavailable - use current location",
+      "mapDisabledTitle": "Food map is disabled",
+      "mapDisabledMessage": "Google Maps needs an API key. Please use current location instead."
+    },
+    "errors": {
+      "loadProducts": "Failed to load products",
+      "noResults": "No results",
+      "generic": "An error occurred: {error}",
+      "noBranchSelected": "Cannot create order: no branch selected",
+      "missingRestaurantOrAddress": "Please select a restaurant and delivery address"
+    }
+  },
+  "taxi": {
+    "location": {
+      "pickup": "Pickup point",
+      "destination": "Destination",
+      "useCurrent": "Use my current location",
+      "pickOnMap": "Pick on map",
+      "confirm": "Confirm location",
+      "recentPlaces": "Recent places",
+      "selecting": "Selecting...",
+      "mapDisabledOption": "Map unavailable - use current location"
+    },
+    "route": {
+      "from": "From",
+      "to": "To",
+      "currentLocation": "Current location",
+      "destinationFallback": "Destination",
+      "loading": "Loading routes...",
+      "selectedRoute": "Selected route",
+      "estimatedDuration": "Estimated duration",
+      "deliveryFee": "Delivery fee",
+      "distance": "Distance",
+      "distanceValue": "{distance} km",
+      "durationValue": "{duration} min",
+      "feeValue": "{fee} SAR",
+      "fallbackName": "Route {n}",
+      "noRoutes": "No routes available",
+      "loadFailed": "Failed to load routes. Try again."
+    },
+    "map": {
+      "searchHint": "Search for a location on the map...",
+      "disabledTitle": "Taxi map is disabled",
+      "disabledMessage": "Google Maps needs an API key. Use current location or saved locations without opening the map.",
+      "pickerDisabledTitle": "Map picker is disabled",
+      "pickerDisabledMessage": "Google Maps needs an API key. Please use current location instead."
+    },
+    "ai": {
+      "searchHint": "Where does your trip start and end?",
+      "enterPromptFirst": "Enter your request first",
+      "locationFailed": "Unable to determine your current location",
+      "parseFailed": "Unable to understand the request. Try again."
+    },
+    "compare": {
+      "title": "Price comparison",
+      "aiOpinionTitle": "Qaren AI opinion",
+      "bestValue": "Best value",
+      "distance": "Distance",
+      "kilometer": " km",
+      "bookNow": "Book now",
+      "noResults": "No results. Try changing your search criteria.",
+      "unknownProvider": "Unknown"
+    },
+    "apps": {
+      "title": "Delivery apps",
+      "selectedCount": "Selected: {count}",
+      "unselectedCount": "Unselected: {count}",
+      "selectAll": "Select all",
+      "clearAll": "Clear",
+      "done": "Done"
+    },
+    "search": {
+      "searchingDrivers": "Searching for drivers...",
+      "showResults": "Show results"
+    },
+    "errors": {
+      "samePickupDestination": "Pickup and destination are the same. Please choose a different destination.",
+      "currentLocationFailed": "Unable to determine current location",
+      "generic": "An error occurred. Try again."
+    },
+    "tripDetails": {
+      "title": "Trip details",
+      "date": "Date",
+      "arrival": "Arrival"
+    },
+    "rideType": {
+      "default": "Ride service",
+      "economy": "Economy",
+      "compact": "Compact",
+      "standard": "Standard",
+      "fullSize": "Full size",
+      "suv": "SUV",
+      "luxury": "Luxury",
+      "van": "Van",
+      "minivan": "Minivan"
+    },
+    "booking": {
+      "successMessage": "Booking successful",
+      "failed": "Booking failed. Try again.",
+      "successTitle": "Booking successful!",
+      "referenceLabel": "Booking reference",
+      "backToHome": "Back to home"
+    },
+    "directions": {
+      "apiKeyMissing": "Google Maps API key is not available",
+      "emptyResponse": "Empty response from directions service",
+      "noRoutesAvailable": "No routes available between these locations",
+      "zeroResults": "No routes between these locations",
+      "notFound": "Could not find one of the locations",
+      "overQueryLimit": "Directions request limit exceeded",
+      "requestDenied": "Directions request was denied",
+      "loadFailedGeneric": "Unable to load routes"
+    },
+    "carRental": {
+      "searchFailed": "Failed to search offers. Try again.",
+      "aiSearchFailed": "Smart search failed. Try again.",
+      "offerDetailsFailed": "Failed to load offer details. Try again.",
+      "bookFailed": "Booking failed. Try again."
+    }
+  },
+  "bookings": {
+    "history": {
+      "title": "My orders",
+      "emptyTitle": "No orders yet",
+      "emptySubtitle": "Your orders will appear here after your first order.",
+      "loadError": "An error occurred while loading orders"
+    },
+    "filter": {
+      "title": "Filter orders",
+      "reset": "Reset",
+      "serviceType": "Service type",
+      "status": "Order status",
+      "apply": "Apply filter",
+      "activeLabel": "Filters:",
+      "edit": "Edit"
+    },
+    "serviceType": {
+      "all": "All",
+      "food": "Food orders",
+      "carRental": "Car rental",
+      "other": "Other service",
+      "foodCard": "Food order",
+      "carCard": "Car rental",
+      "genericCard": "Order"
+    },
+    "status": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "cancelled": "Cancelled"
+    },
+    "card": {
+      "defaultProvider": "Service provider",
+      "detailsHint": "Order details are available on the details page",
+      "carOfferId": "Offer ID: {id}",
+      "carCustomer": "Customer: {name}",
+      "carPhone": "Phone: {phone}",
+      "foodPayment": "Payment: {value}",
+      "foodStatus": "Status: {value}"
+    },
+    "price": {
+      "unavailable": "Price unavailable"
+    },
+    "details": {
+      "title": "Order details",
+      "priceSummary": "Price summary",
+      "subtotal": "Subtotal: {price}",
+      "deliveryFee": "Delivery fee: {price}",
+      "total": "Total: {price}",
+      "reorder": "Reorder",
+      "share": "Share details",
+      "back": "Back",
+      "foodTitle": "Food order details",
+      "foodAddress": "Address: {value}",
+      "foodItemsCount": "Items count: {value}",
+      "foodPaymentMethod": "Payment method: {value}",
+      "foodPaymentStatus": "Payment status: {value}",
+      "foodNotes": "Notes: {value}",
+      "carTitle": "Car rental details",
+      "carOfferId": "Offer ID: {id}",
+      "carCustomerName": "Customer name: {name}",
+      "carCustomerPhone": "Phone: {phone}"
+    }
+  },
+  "wallet": {
+    "title": "Wallet",
+    "balance": {
+      "title": "Wallet balance",
+      "lastUpdated": "Last updated: {date}"
+    },
+    "deposit": {
+      "title": "Add balance",
+      "amountLabel": "Amount",
+      "amountHint": "100",
+      "confirm": "Confirm deposit",
+      "success": "Balance added successfully",
+      "invalidAmount": "Please enter a valid amount greater than zero"
+    },
+    "transactions": {
+      "title": "Recent transactions",
+      "reference": "Reference: {id}",
+      "emptyTitle": "No transactions yet",
+      "emptySubtitle": "Wallet transactions will appear here after your first transaction."
+    },
+    "errors": {
+      "loadFailed": "An error occurred while loading the wallet"
+    },
+    "transactionType": {
+      "deposit": "Deposit",
+      "payment": "Payment",
+      "transaction": "Transaction"
+    },
+    "transactionStatus": {
+      "completed": "Completed",
+      "pending": "Pending",
+      "failed": "Failed",
+      "unknown": "Unknown"
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "unreadCount": "{count} unread notifications",
+    "markAllRead": "Mark all as read",
+    "markAllReadSuccess": "All notifications marked as read",
+    "emptyTitle": "No notifications",
+    "emptySubtitle": "Your notifications will appear here when there are new updates.",
+    "loadFailed": "An error occurred while loading notifications",
+    "defaultTitle": "New notification",
+    "status": {
+      "confirmed": "Confirmed",
+      "info": "Info",
+      "pending": "Pending",
+      "cancelled": "Cancelled",
+      "failed": "Failed",
+      "notification": "Notification"
+    }
+  },
+  "comingSoon": {
+    "title": "This service will be available soon",
+    "description": "We are currently preparing this page and it will be available to you soon.",
+    "backToHome": "Back to home"
+  }
+}

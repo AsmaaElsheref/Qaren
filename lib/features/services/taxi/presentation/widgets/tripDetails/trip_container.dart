@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
@@ -23,7 +24,7 @@ class TripContainer extends ConsumerWidget {
     final km = double.tryParse(cleaned);
     if (km == null || km <= 0) return '—';
     final minutes = (km / 30 * 60).round().clamp(1, 9999);
-    return '$minutes دقيقة';
+    return 'taxi.route.durationValue'.tr(namedArgs: {'duration': '$minutes'});
   }
 
   static String _formatPrice(double? price, String currency) {
@@ -34,6 +35,7 @@ class TripContainer extends ConsumerWidget {
         : rounded.toStringAsFixed(2);
     return '$formatted $currency';
   }
+
   static String _todayLabel() {
     final now = DateTime.now();
     final d = now.day.toString().padLeft(2, '0');
@@ -45,9 +47,7 @@ class TripContainer extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.appColors;
-    final details = ref.watch(
-      offerDetailsProvider.select((s) => s.details),
-    );
+    final details = ref.watch(offerDetailsProvider.select((s) => s.details));
 
     // Distance comes from the compare-prices result (PriceResult.distance).
     final distance = ref.watch(
@@ -55,9 +55,7 @@ class TripContainer extends ConsumerWidget {
         // Find the selected offer by offerId matching details.
         if (s.results.isEmpty) return null;
         try {
-          return s.results
-              .firstWhere((r) => r.id == details?.offerId)
-              .distance;
+          return s.results.firstWhere((r) => r.id == details?.offerId).distance;
         } catch (_) {
           return s.results.first.distance;
         }
@@ -94,11 +92,11 @@ class TripContainer extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               RideInfoItem(
-                title: 'التاريخ',
+                title: 'taxi.tripDetails.date'.tr(),
                 value: _todayLabel(),
               ),
               RideInfoItem(
-                title: 'الوصول',
+                title: 'taxi.tripDetails.arrival'.tr(),
                 value: _distanceToMinutes(distance),
               ),
             ],
@@ -108,5 +106,3 @@ class TripContainer extends ConsumerWidget {
     );
   }
 }
-
-

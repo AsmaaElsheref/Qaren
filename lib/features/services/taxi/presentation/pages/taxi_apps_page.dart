@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -40,7 +41,7 @@ class TaxiAppsPage extends ConsumerWidget {
                     AppDimensions.paddingM,
                   ),
                   child: AppText(
-                    'تطبيقات التوصيل',
+                    'taxi.apps.title'.tr(),
                     style: const TextStyle(
                       fontSize: AppDimensions.fontXL,
                       fontWeight: FontWeight.w800,
@@ -58,12 +59,16 @@ class TaxiAppsPage extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       _CounterChip(
-                        label: 'محدد: ${state.selectedCount}',
+                        label: 'taxi.apps.selectedCount'.tr(
+                          namedArgs: {'count': '${state.selectedCount}'},
+                        ),
                         active: true,
                       ),
                       const SizedBox(width: AppDimensions.paddingS),
                       _CounterChip(
-                        label: 'غير محدد: ${state.unselectedCount}',
+                        label: 'taxi.apps.unselectedCount'.tr(
+                          namedArgs: {'count': '${state.unselectedCount}'},
+                        ),
                         active: false,
                       ),
                     ],
@@ -80,13 +85,13 @@ class TaxiAppsPage extends ConsumerWidget {
                   child: Row(
                     children: [
                       _ActionChip(
-                        label: 'تحديد الكل',
+                        label: 'taxi.apps.selectAll'.tr(),
                         onTap: notifier.selectAll,
                         isPrimary: true,
                       ),
                       const SizedBox(width: AppDimensions.paddingS),
                       _ActionChip(
-                        label: 'إلغاء',
+                        label: 'taxi.apps.clearAll'.tr(),
                         onTap: notifier.clearAll,
                         isPrimary: false,
                       ),
@@ -120,7 +125,7 @@ class TaxiAppsPage extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.all(AppDimensions.paddingM),
                   child: AppButton(
-                    label: 'تم',
+                    label: 'taxi.apps.done'.tr(),
                     icon: Icons.check_rounded,
                     onTap: state.selectedCount > 0
                         ? () => Navigator.of(context).pop(state.selectedIds)
@@ -203,4 +208,3 @@ class _ActionChip extends StatelessWidget {
     );
   }
 }
-

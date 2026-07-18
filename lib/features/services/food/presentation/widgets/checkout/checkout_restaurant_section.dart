@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
@@ -6,7 +7,6 @@ import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
 import '../../../domain/entities/food_provider_model.dart';
-import '../../food_strings.dart';
 import '../../providers/food_providers.dart';
 
 class CheckoutRestaurantSection extends ConsumerWidget {
@@ -14,8 +14,9 @@ class CheckoutRestaurantSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final FoodProviderModel? partner =
-        ref.watch(selectedProviderForBookingProvider);
+    final FoodProviderModel? partner = ref.watch(
+      selectedProviderForBookingProvider,
+    );
     if (partner == null) return const SizedBox.shrink();
     final colors = context.appColors;
     return Container(
@@ -54,8 +55,8 @@ class CheckoutRestaurantSection extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 2),
-                const AppText(
-                  FoodStrings.foodDeliveryService,
+                AppText(
+                  'food.invoice.serviceName'.tr(),
                   secondary: true,
                   style: TextStyle(fontSize: AppDimensions.fontXS),
                 ),
@@ -67,4 +68,3 @@ class CheckoutRestaurantSection extends ConsumerWidget {
     );
   }
 }
-

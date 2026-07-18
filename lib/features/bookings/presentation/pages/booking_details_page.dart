@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
@@ -28,17 +29,23 @@ class BookingDetailsPage extends ConsumerWidget {
         appBar: AppBar(
           elevation: 0,
           centerTitle: true,
-          title: const AppText('تفاصيل الطلب', style: AppTextStyles.title),
+          title: AppText(
+            'bookings.details.title'.tr(),
+            style: AppTextStyles.title,
+          ),
         ),
         body: SafeArea(
           child: Builder(
             builder: (context) {
-              if (state.isLoading) return const BookingLoadingSkeleton(itemCount: 4);
+              if (state.isLoading)
+                return const BookingLoadingSkeleton(itemCount: 4);
 
               if (state.errorMessage != null || state.details == null) {
                 return BookingErrorState(
                   message: state.errorMessage,
-                  onRetry: () => ref.read(bookingDetailsProvider(bookingId).notifier).load(),
+                  onRetry: () => ref
+                      .read(bookingDetailsProvider(bookingId).notifier)
+                      .load(),
                 );
               }
 
@@ -64,4 +71,3 @@ class BookingDetailsPage extends ConsumerWidget {
     );
   }
 }
-

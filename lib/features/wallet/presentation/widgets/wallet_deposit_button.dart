@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
@@ -13,8 +14,12 @@ class WalletDepositButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isLoading = ref.watch(walletDepositProvider.select((state) => state.isLoading));
-    final isValid = ref.watch(walletDepositProvider.select((state) => state.isValid));
+    final isLoading = ref.watch(
+      walletDepositProvider.select((state) => state.isLoading),
+    );
+    final isValid = ref.watch(
+      walletDepositProvider.select((state) => state.isValid),
+    );
 
     return SizedBox(
       width: double.infinity,
@@ -24,10 +29,16 @@ class WalletDepositButton extends ConsumerWidget {
             ? null
             : () async {
                 final navigator = Navigator.of(context);
-                final result = await ref.read(walletDepositProvider.notifier).submit();
+                final result = await ref
+                    .read(walletDepositProvider.notifier)
+                    .submit();
                 if (result == null) return;
                 ref.read(walletProvider.notifier).applyDepositResult(result);
-                toast(context: context, msg: 'تم إضافة الرصيد بنجاح',isSuccess: true);
+                toast(
+                  context: context,
+                  msg: 'wallet.deposit.success'.tr(),
+                  isSuccess: true,
+                );
                 navigator.pop();
               },
         style: ElevatedButton.styleFrom(
@@ -43,14 +54,19 @@ class WalletDepositButton extends ConsumerWidget {
             ? const SizedBox(
                 width: 22,
                 height: 22,
-                child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.white),
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: AppColors.white,
+                ),
               )
-            : const AppText(
-                'تأكيد الإيداع',
-                style: TextStyle(color: AppColors.white, fontWeight: FontWeight.w700),
+            : AppText(
+                'wallet.deposit.confirm'.tr(),
+                style: const TextStyle(
+                  color: AppColors.white,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
       ),
     );
   }
 }
-

@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/constants/app_images.dart';
@@ -24,66 +25,65 @@ class Searching extends ConsumerWidget {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(70),
-        child: SafeArea(
-          bottom: false,
-          child: CustomAppBar(isBack: true,),
-        ),
+        child: SafeArea(bottom: false, child: CustomAppBar(isBack: true)),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
         child: Column(
           children: [
             // isDarkMode
-                // ? Column(
-                  // mainAxisAlignment: MainAxisAlignment.center,
-                  // children: [
-                    // SizedBox(height: context.screenHeight*0.1,),
-                    // Icon(
-                      // Icons.directions_car_rounded,
-                      // size: 72,
-                      // color: AppColors.primary,
-                    // ),
-                    // const SizedBox(height: 30),
-                    // AppText(
-                      // 'جاري البحث عن كباتن...',
-                      // style: TextStyle(
-                        // fontSize: 20,
-                        // fontWeight: FontWeight.w600,
-                        // color: colors.textPrimary,
-                      // ),
-                    // ),
-                  // ],
-                // )
-                // : Image.asset(AppImages.searching),
-                LogoLoading(),
-                const SizedBox(height: 30),
-                AppText(
-  'جاري البحث عن كباتن...',
-  style: TextStyle(
-    fontSize: 20,
-    fontWeight: FontWeight.w600,
-    color: colors.textPrimary,
-  ),
-),
+            // ? Column(
+            // mainAxisAlignment: MainAxisAlignment.center,
+            // children: [
+            // SizedBox(height: context.screenHeight*0.1,),
+            // Icon(
+            // Icons.directions_car_rounded,
+            // size: 72,
+            // color: AppColors.primary,
+            // ),
+            // const SizedBox(height: 30),
+            // AppText(
+            // 'جاري البحث عن كباتن...',
+            // style: TextStyle(
+            // fontSize: 20,
+            // fontWeight: FontWeight.w600,
+            // color: colors.textPrimary,
+            // ),
+            // ),
+            // ],
+            // )
+            // : Image.asset(AppImages.searching),
+            LogoLoading(),
+            const SizedBox(height: 30),
+            AppText(
+              'taxi.search.searchingDrivers'.tr(),
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                color: colors.textPrimary,
+              ),
+            ),
             Spacer(),
-            AppButton(label: "عرض النتائج", onTap: () async {
-              // Build search params from taxi state
-              final taxiState = ref.read(taxiProvider);
-              final params = CarRentalSearchParams(
-                pickupLat: taxiState.pickupLatLng!.latitude,
-                pickupLng: taxiState.pickupLatLng!.longitude,
-                dropoffLat: taxiState.destinationLatLng!.latitude,
-                dropoffLng: taxiState.destinationLatLng!.longitude,
-              );
+            AppButton(
+              label: 'taxi.search.showResults'.tr(),
+              onTap: () async {
+                // Build search params from taxi state
+                final taxiState = ref.read(taxiProvider);
+                final params = CarRentalSearchParams(
+                  pickupLat: taxiState.pickupLatLng!.latitude,
+                  pickupLng: taxiState.pickupLatLng!.longitude,
+                  dropoffLat: taxiState.destinationLatLng!.latitude,
+                  dropoffLng: taxiState.destinationLatLng!.longitude,
+                );
 
-              // Trigger search API call
-              ref.read(comparePricesProvider.notifier).search(params);
+                // Trigger search API call
+                ref.read(comparePricesProvider.notifier).search(params);
 
-              // Show loading dialog (waits for API completion)
-              await SearchLoadingDialog.show(context);
-
-            }),
-            SizedBox(height: context.screenHeight*0.1,)
+                // Show loading dialog (waits for API completion)
+                await SearchLoadingDialog.show(context);
+              },
+            ),
+            SizedBox(height: context.screenHeight * 0.1),
           ],
         ),
       ),

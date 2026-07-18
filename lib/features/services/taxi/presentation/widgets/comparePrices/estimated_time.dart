@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qaren/core/constants/gap.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
@@ -16,10 +17,10 @@ class EstimatedTime extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const AppText(
-          'المسافة',
+        AppText(
+          'taxi.compare.distance'.tr(),
           secondary: true,
-          style: TextStyle(fontSize: AppDimensions.fontXS),
+          style: const TextStyle(fontSize: AppDimensions.fontXS),
         ),
         Directionality(
           textDirection: TextDirection.ltr,
@@ -27,22 +28,24 @@ class EstimatedTime extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               AppText(
-                ' كيلومتر',
+                'taxi.compare.kilometer'.tr(),
                 secondary: true,
-                style: TextStyle(fontSize: AppDimensions.fontXS,color: colors.textPrimary),
+                style: TextStyle(
+                  fontSize: AppDimensions.fontXS,
+                  color: colors.textPrimary,
+                ),
               ),
               Gap.gapW5,
               AppText(
                 '$distance',
                 secondary: true,
-                style: TextStyle(fontSize: AppDimensions.fontXS,color: colors.textPrimary),
+                style: TextStyle(
+                  fontSize: AppDimensions.fontXS,
+                  color: colors.textPrimary,
+                ),
               ),
               Gap.gapW5,
-              const Icon(
-                Icons.local_taxi,
-                size: 13,
-                color: AppColors.primary,
-              ),
+              const Icon(Icons.local_taxi, size: 13, color: AppColors.primary),
             ],
           ),
         ),

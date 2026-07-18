@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/constants/gap.dart';
@@ -5,7 +6,6 @@ import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:qaren/core/utils/extensions/contextSizeX.dart';
 
 import '../../../../core/constants/app_dimensions.dart';
-import '../../../../core/constants/app_strings.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/ui/widgets/AppText.dart';
 import '../../../../core/utils/validators.dart';
@@ -44,7 +44,9 @@ class _SignupPageState extends ConsumerState<SignupPage> {
 
   void _onSignupPressed() {
     if (_formKey.currentState?.validate() ?? false) {
-      ref.read(signupNotifierProvider.notifier).register(
+      ref
+          .read(signupNotifierProvider.notifier)
+          .register(
             name: _nameController.text.trim(),
             email: _emailController.text.trim(),
             password: _passwordController.text,
@@ -59,15 +61,15 @@ class _SignupPageState extends ConsumerState<SignupPage> {
     ref.listen<SignupState>(signupNotifierProvider, (previous, next) {
       if (next.status == SignupStatus.success &&
           previous?.status != SignupStatus.success) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const HomePage()),
-        );
+        Navigator.of(
+          context,
+        ).pushReplacement(MaterialPageRoute(builder: (_) => const HomePage()));
       }
       if (next.status == SignupStatus.failure &&
           previous?.status != SignupStatus.failure) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: AppText(next.errorMessage ?? AppStrings.signUpFailed),
+            content: AppText(next.errorMessage ?? 'auth.signup.failed'.tr()),
             backgroundColor: AppColors.error,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
@@ -99,7 +101,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                     const QarenLogo(),
                     const SizedBox(height: AppDimensions.paddingM),
                     AppText(
-                      AppStrings.signUpTitle,
+                      'auth.signup.title'.tr(),
                       style: TextStyle(
                         fontSize: AppDimensions.fontL,
                         fontWeight: FontWeight.w700,
@@ -119,7 +121,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                     // ── Name ──────────────────────────────────────────────────
                     LoginInputField(
                       controller: _nameController,
-                      hint: AppStrings.nameHint,
+                      hint: 'auth.signup.nameHint'.tr(),
                       prefixIcon: Icons.person_outline,
                       keyboardType: TextInputType.name,
                       validator: Validators.validateName,
@@ -129,7 +131,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                     // ── Email ─────────────────────────────────────────────────
                     LoginInputField(
                       controller: _emailController,
-                      hint: AppStrings.emailHint,
+                      hint: 'auth.login.emailHint'.tr(),
                       prefixIcon: Icons.mail_outline,
                       keyboardType: TextInputType.emailAddress,
                       validator: Validators.validateEmail,
@@ -139,7 +141,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                     // ── Phone ─────────────────────────────────────────────────
                     LoginInputField(
                       controller: _phoneController,
-                      hint: AppStrings.phoneHint,
+                      hint: 'auth.signup.phoneHint'.tr(),
                       prefixIcon: Icons.phone_outlined,
                       keyboardType: TextInputType.phone,
                       validator: Validators.validatePhone,
@@ -156,7 +158,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                     // ── Password ──────────────────────────────────────────────
                     LoginInputField(
                       controller: _passwordController,
-                      hint: AppStrings.passwordHint,
+                      hint: 'auth.login.passwordHint'.tr(),
                       prefixIcon: Icons.lock_outline,
                       obscureText: !signupState.isPasswordVisible,
                       validator: Validators.validatePassword,
@@ -187,11 +189,10 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                     // ── Confirm Password ──────────────────────────────────────
                     LoginInputField(
                       controller: _confirmPasswordController,
-                      hint: AppStrings.confirmPasswordHint,
+                      hint: 'auth.signup.confirmPasswordHint'.tr(),
                       prefixIcon: Icons.lock_outline,
                       obscureText: !signupState.isConfirmPasswordVisible,
-                      validator: (value) =>
-                          Validators.confirmPasswordValidator(
+                      validator: (value) => Validators.confirmPasswordValidator(
                         _passwordController.text,
                         value,
                       ),
@@ -222,7 +223,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
 
                     // ── Submit ────────────────────────────────────────────────
                     GradientLoginButton(
-                      label: AppStrings.signUpButton,
+                      label: 'auth.signup.button'.tr(),
                       isLoading: signupState.status == SignupStatus.loading,
                       onPressed: _onSignupPressed,
                     ),
@@ -233,9 +234,9 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const AppText(
-                          AppStrings.alreadyHaveAccount,
-                          style: TextStyle(
+                        AppText(
+                          'auth.signup.hasAccount'.tr(),
+                          style: const TextStyle(
                             fontSize: AppDimensions.fontS,
                             color: AppColors.textSecondary,
                           ),
@@ -243,14 +244,13 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                         TextButton(
                           onPressed: () => Navigator.of(context).pop(),
                           style: TextButton.styleFrom(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 6),
+                            padding: const EdgeInsets.symmetric(horizontal: 6),
                             minimumSize: Size.zero,
                             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           ),
-                          child: const AppText(
-                            AppStrings.loginNow,
-                            style: TextStyle(
+                          child: AppText(
+                            'auth.signup.loginLink'.tr(),
+                            style: const TextStyle(
                               fontSize: AppDimensions.fontS,
                               color: AppColors.primary,
                               fontWeight: FontWeight.w700,
@@ -290,7 +290,7 @@ class GenderSelector extends StatelessWidget {
       children: [
         Expanded(
           child: GenderOption(
-            label: AppStrings.genderMale,
+            label: 'auth.signup.genderMale'.tr(),
             value: 'male',
             icon: Icons.male_rounded,
             isSelected: selected == 'male',
@@ -300,7 +300,7 @@ class GenderSelector extends StatelessWidget {
         const SizedBox(width: AppDimensions.paddingS),
         Expanded(
           child: GenderOption(
-            label: AppStrings.genderFemale,
+            label: 'auth.signup.genderFemale'.tr(),
             value: 'female',
             icon: Icons.female_rounded,
             isSelected: selected == 'female',
@@ -359,11 +359,8 @@ class GenderOption extends StatelessWidget {
               label,
               style: TextStyle(
                 fontSize: AppDimensions.fontM,
-                fontWeight:
-                    isSelected ? FontWeight.w600 : FontWeight.w400,
-                color: isSelected
-                    ? AppColors.primary
-                    : colors.textSecondary,
+                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                color: isSelected ? AppColors.primary : colors.textSecondary,
               ),
             ),
           ],

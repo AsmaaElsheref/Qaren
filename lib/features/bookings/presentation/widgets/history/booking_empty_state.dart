@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
 import 'package:qaren/core/theme/app_colors.dart';
@@ -29,10 +30,13 @@ class BookingEmptyState extends StatelessWidget {
               ),
             ),
             const SizedBox(height: AppDimensions.paddingM),
-            const AppText('لا توجد طلبات حتى الآن', style: AppTextStyles.title),
+            AppText(
+              'bookings.history.emptyTitle'.tr(),
+              style: AppTextStyles.title,
+            ),
             const SizedBox(height: AppDimensions.paddingS),
             AppText(
-              'ستظهر طلباتك هنا بعد إتمام أول طلب.',
+              'bookings.history.emptySubtitle'.tr(),
               style: AppTextStyles.bodySecondary,
               textAlign: TextAlign.center,
             ),
@@ -42,4 +46,3 @@ class BookingEmptyState extends StatelessWidget {
     );
   }
 }
-

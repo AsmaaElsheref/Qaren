@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 
@@ -5,16 +6,11 @@ import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
 import '../../../../../../core/ui/widgets/icon_container.dart';
-import '../../food_strings.dart';
 
 /// Top header for the price comparison screen.
 /// Contains: [filter icon] ... [title + breadcrumb] ... [back arrow]
 class ComparisonHeader extends StatelessWidget {
-  const ComparisonHeader({
-    super.key,
-    required this.from,
-    required this.to,
-  });
+  const ComparisonHeader({super.key, required this.from, required this.to});
 
   final String from;
   final String to;
@@ -42,7 +38,7 @@ class ComparisonHeader extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               AppText(
-                FoodStrings.comparisonTitle,
+                'food.comparison.title'.tr(),
                 style: TextStyle(
                   fontSize: AppDimensions.fontL,
                   fontWeight: FontWeight.w800,
@@ -92,4 +88,3 @@ class ComparisonHeader extends StatelessWidget {
     );
   }
 }
-

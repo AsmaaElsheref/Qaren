@@ -1,9 +1,9 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
-import '../../food_strings.dart';
 
 /// AI suggestion card: "رأي قارن الذكي" with description text.
 class ComparisonInfoCard extends StatelessWidget {
@@ -41,8 +41,8 @@ class ComparisonInfoCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const AppText(
-                  FoodStrings.aiOpinionTitle,
+                AppText(
+                  'food.comparison.aiOpinionTitle'.tr(),
                   style: TextStyle(
                     fontSize: AppDimensions.fontS,
                     fontWeight: FontWeight.w700,
@@ -51,7 +51,7 @@ class ComparisonInfoCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 AppText(
-                  FoodStrings.aiOpinionBody,
+                  'food.comparison.aiOpinionBody'.tr(),
                   secondary: true,
                   style: const TextStyle(
                     fontSize: AppDimensions.fontXS,
@@ -68,4 +68,3 @@ class ComparisonInfoCard extends StatelessWidget {
     );
   }
 }
-

@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
@@ -49,7 +50,9 @@ class WalletDepositSheet extends ConsumerWidget {
                   height: 4,
                   decoration: BoxDecoration(
                     color: colors.border,
-                    borderRadius: BorderRadius.circular(AppDimensions.radiusFull),
+                    borderRadius: BorderRadius.circular(
+                      AppDimensions.radiusFull,
+                    ),
                   ),
                 ),
               ),
@@ -58,13 +61,18 @@ class WalletDepositSheet extends ConsumerWidget {
                 children: [
                   Expanded(
                     child: AppText(
-                      'إضافة رصيد',
-                      style: AppTextStyles.title.copyWith(color: colors.textPrimary),
+                      'wallet.deposit.title'.tr(),
+                      style: AppTextStyles.title.copyWith(
+                        color: colors.textPrimary,
+                      ),
                     ),
                   ),
                   IconButton(
                     onPressed: () => Navigator.pop(context),
-                    icon: Icon(Icons.close_rounded, color: colors.textSecondary),
+                    icon: Icon(
+                      Icons.close_rounded,
+                      color: colors.textSecondary,
+                    ),
                   ),
                 ],
               ),
@@ -90,4 +98,3 @@ class WalletDepositSheet extends ConsumerWidget {
     );
   }
 }
-

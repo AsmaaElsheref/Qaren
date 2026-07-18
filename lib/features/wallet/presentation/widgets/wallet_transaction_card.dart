@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
 import 'package:qaren/core/theme/app_colors.dart';
@@ -23,7 +24,9 @@ class WalletTransactionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.appColors;
     final sign = transaction.type.isPositive ? '+' : '-';
-    final amountColor = transaction.type.isPositive ? AppColors.success : AppColors.error;
+    final amountColor = transaction.type.isPositive
+        ? AppColors.success
+        : AppColors.error;
 
     return Container(
       padding: const EdgeInsets.all(AppDimensions.paddingM),
@@ -73,13 +76,22 @@ class WalletTransactionCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ],
-                if (transaction.referenceId != null && transaction.referenceId!.isNotEmpty) ...[
+                if (transaction.referenceId != null &&
+                    transaction.referenceId!.isNotEmpty) ...[
                   const SizedBox(height: AppDimensions.paddingXS),
-                  AppText('المرجع: ${transaction.referenceId}', style: AppTextStyles.caption),
+                  AppText(
+                    'wallet.transactions.reference'.tr(
+                      namedArgs: {'id': transaction.referenceId!},
+                    ),
+                    style: AppTextStyles.caption,
+                  ),
                 ],
                 if (transaction.createdAtLabel.isNotEmpty) ...[
                   const SizedBox(height: AppDimensions.paddingXS),
-                  AppText(transaction.createdAtLabel, style: AppTextStyles.caption),
+                  AppText(
+                    transaction.createdAtLabel,
+                    style: AppTextStyles.caption,
+                  ),
                 ],
               ],
             ),
@@ -89,4 +101,3 @@ class WalletTransactionCard extends StatelessWidget {
     );
   }
 }
-

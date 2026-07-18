@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:google_places_flutter/model/place_type.dart';
@@ -28,25 +29,28 @@ class SearchMapBar extends StatelessWidget {
         child: GooglePlaceAutoCompleteTextField(
           textEditingController: searchController,
           googleAPIKey: googleApiKey,
-          inputDecoration: const InputDecoration(
-            hintText: 'ابحث عن موقع على الخريطة...',
+          inputDecoration: InputDecoration(
+            hintText: 'taxi.map.searchHint'.tr(),
             disabledBorder: InputBorder.none,
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(AppDimensions.radiusL)),
+              borderRadius: BorderRadius.all(
+                Radius.circular(AppDimensions.radiusL),
+              ),
               borderSide: BorderSide.none,
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(AppDimensions.radiusL)),
+              borderRadius: BorderRadius.all(
+                Radius.circular(AppDimensions.radiusL),
+              ),
               borderSide: BorderSide.none,
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(AppDimensions.radiusL)),
+              borderRadius: BorderRadius.all(
+                Radius.circular(AppDimensions.radiusL),
+              ),
               borderSide: BorderSide.none,
             ),
-            contentPadding: EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: 12,
-            ),
+            contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
           ),
           boxDecoration: BoxDecoration(
             border: Border.all(color: AppColors.surface),

@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
 import 'package:qaren/core/theme/app_colors.dart';
@@ -22,10 +23,14 @@ class BookingErrorState extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.wifi_off_rounded, color: AppColors.error, size: 48),
+            const Icon(
+              Icons.wifi_off_rounded,
+              color: AppColors.error,
+              size: 48,
+            ),
             const SizedBox(height: AppDimensions.paddingM),
-            const AppText(
-              'حدث خطأ أثناء تحميل الطلبات',
+            AppText(
+              'bookings.history.loadError'.tr(),
               style: AppTextStyles.title,
               textAlign: TextAlign.center,
             ),
@@ -45,9 +50,9 @@ class BookingErrorState extends StatelessWidget {
                 foregroundColor: AppColors.white,
               ),
               icon: const Icon(Icons.refresh_rounded),
-              label: const AppText(
-                'إعادة المحاولة',
-                style: TextStyle(color: AppColors.white),
+              label: AppText(
+                'common.retry'.tr(),
+                style: const TextStyle(color: AppColors.white),
               ),
             ),
           ],
@@ -56,4 +61,3 @@ class BookingErrorState extends StatelessWidget {
     );
   }
 }
-

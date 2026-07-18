@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
 import 'package:qaren/core/ui/widgets/AppText.dart';
@@ -16,17 +17,31 @@ class CarBookingCardContent extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (carRental.offerId != null)
-          AppText('رقم العرض: ${carRental.offerId}', style: AppTextStyles.caption),
+          AppText(
+            'bookings.card.carOfferId'.tr(
+              namedArgs: {'id': '${carRental.offerId}'},
+            ),
+            style: AppTextStyles.caption,
+          ),
         if (carRental.customerName.isNotEmpty) ...[
           const SizedBox(height: AppDimensions.paddingXS),
-          AppText('العميل: ${carRental.customerName}', style: AppTextStyles.caption),
+          AppText(
+            'bookings.card.carCustomer'.tr(
+              namedArgs: {'name': carRental.customerName},
+            ),
+            style: AppTextStyles.caption,
+          ),
         ],
         if (carRental.customerPhone.isNotEmpty) ...[
           const SizedBox(height: AppDimensions.paddingXS),
-          AppText('الهاتف: ${carRental.customerPhone}', style: AppTextStyles.caption),
+          AppText(
+            'bookings.card.carPhone'.tr(
+              namedArgs: {'phone': carRental.customerPhone},
+            ),
+            style: AppTextStyles.caption,
+          ),
         ],
       ],
     );
   }
 }
-

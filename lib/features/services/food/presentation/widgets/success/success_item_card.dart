@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 
@@ -7,7 +8,6 @@ import '../../../../../../core/network/apiRoutes/api_routes.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
 import '../../../data/models/food_booking_item_response.dart';
-import '../../food_strings.dart';
 
 class SuccessItemCard extends StatelessWidget {
   const SuccessItemCard({super.key, required this.item});
@@ -50,7 +50,7 @@ class SuccessItemCard extends StatelessWidget {
                   ),
                 ),
                 AppText(
-                  '${FoodStrings.quantityShort}: ${item.quantity}',
+                  '${'food.checkout.quantity'.tr()}: ${item.quantity}',
                   secondary: true,
                   style: const TextStyle(fontSize: AppDimensions.fontXS),
                 ),
@@ -58,7 +58,7 @@ class SuccessItemCard extends StatelessWidget {
             ),
           ),
           AppText(
-            '${item.subtotal.toInt()} ${FoodStrings.currencyShort}',
+            '${item.subtotal.toInt()} ${'food.currencyShort'.tr()}',
             style: TextStyle(
               fontSize: AppDimensions.fontS,
               fontWeight: FontWeight.w800,
@@ -71,16 +71,12 @@ class SuccessItemCard extends StatelessWidget {
   }
 
   Widget _placeholder(colors) => Container(
-        width: 48,
-        height: 48,
-        decoration: BoxDecoration(
-          color: colors.disabledBackground,
-          borderRadius: BorderRadius.circular(AppDimensions.radiusM),
-        ),
-        child: const Icon(
-          Icons.restaurant_rounded,
-          color: AppColors.textHint,
-        ),
-      );
+    width: 48,
+    height: 48,
+    decoration: BoxDecoration(
+      color: colors.disabledBackground,
+      borderRadius: BorderRadius.circular(AppDimensions.radiusM),
+    ),
+    child: const Icon(Icons.restaurant_rounded, color: AppColors.textHint),
+  );
 }
-

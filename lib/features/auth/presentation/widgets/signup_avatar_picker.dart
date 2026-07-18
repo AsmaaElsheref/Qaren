@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
@@ -152,7 +153,7 @@ class AvatarOptionsSheet extends StatelessWidget {
 
           // Title
           Text(
-            'صورة الملف الشخصي',
+            'auth.signup.avatarTitle'.tr(),
             style: TextStyle(
               fontSize: AppDimensions.fontM,
               fontWeight: FontWeight.w600,
@@ -164,7 +165,7 @@ class AvatarOptionsSheet extends StatelessWidget {
           // Replace
           AvatarSheetTile(
             icon: Icons.photo_library_outlined,
-            label: 'تغيير الصورة',
+            label: 'auth.signup.changePhoto'.tr(),
             onTap: onReplace,
           ),
           const Divider(height: 1, color: AppColors.border),
@@ -172,7 +173,7 @@ class AvatarOptionsSheet extends StatelessWidget {
           // Remove
           AvatarSheetTile(
             icon: Icons.delete_outline_rounded,
-            label: 'إزالة الصورة',
+            label: 'auth.signup.removePhoto'.tr(),
             iconColor: AppColors.error,
             labelColor: AppColors.error,
             onTap: onRemove,
@@ -203,10 +204,7 @@ class AvatarSheetTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.appColors;
     return ListTile(
-      leading: Icon(
-        icon,
-        color: iconColor ?? colors.textPrimary,
-      ),
+      leading: Icon(icon, color: iconColor ?? colors.textPrimary),
       title: Text(
         label,
         style: TextStyle(
@@ -219,6 +217,3 @@ class AvatarSheetTile extends StatelessWidget {
     );
   }
 }
-
-
-

@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
 import 'package:qaren/core/theme/app_colors.dart';
@@ -34,10 +35,12 @@ class BookingStatusBadge extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppDimensions.radiusFull),
       ),
       child: AppText(
-        label.isEmpty ? 'قيد الانتظار' : label,
-        style: AppTextStyles.caption.copyWith(color: color, fontWeight: FontWeight.w700),
+        label.isEmpty ? 'bookings.status.pending'.tr() : label,
+        style: AppTextStyles.caption.copyWith(
+          color: color,
+          fontWeight: FontWeight.w700,
+        ),
       ),
     );
   }
 }
-

@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:qaren/core/config/config.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../../core/theme/app_colors.dart';
 import '../../../../../../../core/ui/widgets/AppText.dart';
 import '../../../../../../../core/utils/location_service.dart';
 import '../../../providers/food_providers.dart';
+
+enum FoodLocationPickerAction { pickOnMap }
 
 /// Bottom sheet shown before comparing prices.
 /// Two options:
@@ -54,13 +58,14 @@ class _FoodLocationPickerSheetState
   // ── Map picker ────────────────────────────────────────────────────────────
 
   void _openMapPicker() {
-    // Close the sheet with null — ComparePricesButton will push FoodMapPickerPage.
-    Navigator.of(context).pop();
+    // Close the sheet with an explicit action so dismissing it does nothing.
+    Navigator.of(context).pop(FoodLocationPickerAction.pickOnMap);
   }
 
   @override
   Widget build(BuildContext context) {
     final colors = context.appColors;
+    final canUseMap = AppConfig.hasGoogleMapsApiKey;
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Container(
@@ -85,8 +90,7 @@ class _FoodLocationPickerSheetState
                 ),
                 decoration: BoxDecoration(
                   color: AppColors.border,
-                  borderRadius:
-                      BorderRadius.circular(AppDimensions.radiusFull),
+                  borderRadius: BorderRadius.circular(AppDimensions.radiusFull),
                 ),
               ),
 
@@ -97,10 +101,10 @@ class _FoodLocationPickerSheetState
                   vertical: AppDimensions.paddingS,
                 ),
                 child: Row(
-                  children: const [
+                  children: [
                     AppText(
-                      'اختر موقعك',
-                      style: TextStyle(
+                      'food.location.chooseLocation'.tr(),
+                      style: const TextStyle(
                         fontSize: AppDimensions.fontL,
                         fontWeight: FontWeight.w700,
                       ),
@@ -116,7 +120,7 @@ class _FoodLocationPickerSheetState
                 icon: Icons.my_location_rounded,
                 iconColor: AppColors.primary,
                 iconBgColor: AppColors.primaryLight,
-                label: 'استخدم موقعي الحالي',
+                label: 'food.location.useCurrent'.tr(),
                 labelColor: AppColors.primary,
                 isLoading: _isGpsLoading,
                 onTap: _isGpsLoading ? null : _useCurrentLocation,
@@ -147,8 +151,11 @@ class _FoodLocationPickerSheetState
                 icon: Icons.map_outlined,
                 iconColor: AppColors.textSecondary,
                 iconBgColor: AppColors.surfaceVariant,
-                label: 'تحديد على الخريطة',
-                onTap: _isGpsLoading ? null : _openMapPicker,
+                label: canUseMap
+                    ? 'food.location.pickOnMap'.tr()
+                    : 'food.location.mapDisabledOption'.tr(),
+                labelColor: canUseMap ? null : AppColors.textSecondary,
+                onTap: _isGpsLoading || !canUseMap ? null : _openMapPicker,
               ),
 
               const SizedBox(height: AppDimensions.paddingL),
@@ -228,4 +235,3 @@ class _LocationOption extends StatelessWidget {
     );
   }
 }
-

@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
 import 'package:qaren/core/theme/app_colors.dart';
@@ -15,6 +16,7 @@ class FoodBookingDetailsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.appColors;
+    final notAvailable = 'common.notAvailable'.tr();
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(AppDimensions.paddingM),
@@ -26,22 +28,56 @@ class FoodBookingDetailsSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const AppText('تفاصيل طلب الطعام', style: AppTextStyles.title),
+          AppText(
+            'bookings.details.foodTitle'.tr(),
+            style: AppTextStyles.title,
+          ),
           const SizedBox(height: AppDimensions.paddingM),
-          AppText('العنوان: ${foodOrder.deliveryAddress.isEmpty ? 'غير متاح' : foodOrder.deliveryAddress}'),
+          AppText(
+            'bookings.details.foodAddress'.tr(
+              namedArgs: {
+                'value': foodOrder.deliveryAddress.isEmpty
+                    ? notAvailable
+                    : foodOrder.deliveryAddress,
+              },
+            ),
+          ),
           const SizedBox(height: AppDimensions.paddingS),
-          AppText('عدد العناصر: ${foodOrder.itemsCount ?? 0}'),
+          AppText(
+            'bookings.details.foodItemsCount'.tr(
+              namedArgs: {'value': '${foodOrder.itemsCount ?? 0}'},
+            ),
+          ),
           const SizedBox(height: AppDimensions.paddingS),
-          AppText('طريقة الدفع: ${foodOrder.paymentMethod.isEmpty ? 'غير متاح' : foodOrder.paymentMethod}'),
+          AppText(
+            'bookings.details.foodPaymentMethod'.tr(
+              namedArgs: {
+                'value': foodOrder.paymentMethod.isEmpty
+                    ? notAvailable
+                    : foodOrder.paymentMethod,
+              },
+            ),
+          ),
           const SizedBox(height: AppDimensions.paddingS),
-          AppText('حالة الدفع: ${foodOrder.paymentStatus.isEmpty ? 'غير متاح' : foodOrder.paymentStatus}'),
+          AppText(
+            'bookings.details.foodPaymentStatus'.tr(
+              namedArgs: {
+                'value': foodOrder.paymentStatus.isEmpty
+                    ? notAvailable
+                    : foodOrder.paymentStatus,
+              },
+            ),
+          ),
           if (foodOrder.customerNotes.isNotEmpty) ...[
             const SizedBox(height: AppDimensions.paddingS),
-            AppText('ملاحظات: ${foodOrder.customerNotes}'),
+            AppText(
+              'bookings.details.foodNotes'.tr(
+                namedArgs: {'value': foodOrder.customerNotes},
+              ),
+            ),
           ],
         ],
       ),
     );
   }
 }
-

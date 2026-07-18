@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 
 import '../../../../../core/constants/app_dimensions.dart';
 import '../../../../../core/theme/app_colors.dart';
@@ -85,8 +86,9 @@ class AiAssistantSearchOverlayState
                     height: 48,
                     decoration: BoxDecoration(
                       color: colors.card,
-                      borderRadius:
-                          BorderRadius.circular(AppDimensions.radiusL),
+                      borderRadius: BorderRadius.circular(
+                        AppDimensions.radiusL,
+                      ),
                       boxShadow: [
                         BoxShadow(
                           color: colors.shadow,
@@ -106,14 +108,14 @@ class AiAssistantSearchOverlayState
                             .read(aiAssistantNotifierProvider.notifier)
                             .clearError();
                       },
-                      style:
-                          TextStyle(color: colors.textPrimary, fontSize: 14),
+                      style: TextStyle(color: colors.textPrimary, fontSize: 14),
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         isCollapsed: true,
-                        contentPadding:
-                            const EdgeInsets.symmetric(vertical: 14),
-                        hintText: 'من أين تبدأ رحلتك وإلى أين؟',
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 14,
+                        ),
+                        hintText: 'taxi.ai.searchHint'.tr(),
                         hintStyle: TextStyle(
                           color: colors.textSecondary,
                           fontSize: 14,
@@ -161,10 +163,7 @@ class AiAssistantSendButton extends ConsumerWidget {
                   valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                 ),
               )
-            : const Icon(
-                Icons.arrow_back_rounded,
-                color: Colors.white,
-              ),
+            : const Icon(Icons.arrow_back_rounded, color: Colors.white),
       ),
     );
   }
@@ -194,10 +193,7 @@ class AiAssistantErrorMessage extends ConsumerWidget {
         ),
         child: AppText(
           error,
-          style: const TextStyle(
-            color: AppColors.error,
-            fontSize: 13,
-          ),
+          style: const TextStyle(color: AppColors.error, fontSize: 13),
         ),
       ),
     );

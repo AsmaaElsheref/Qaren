@@ -1,0 +1,526 @@
+{
+  "app": {
+    "name": "Qaren",
+    "tagline": "بوابتك الذكية لمقارنة الخدمات",
+    "subtitle": "قارن بين مقدمي الخدمة، وفاضل بينها"
+  },
+  "common": {
+    "retry": "إعادة المحاولة",
+    "cancel": "إلغاء",
+    "done": "تم",
+    "edit": "تعديل",
+    "version": "الإصدار {version}",
+    "currencyShort": "ر.س",
+    "currencyFull": "ريال سعودي",
+    "notAvailable": "غير متاح",
+    "errorGeneric": "حدث خطأ. يرجى المحاولة مرة أخرى.",
+    "mapUnavailable": {
+      "title": "الخريطة غير متاحة",
+      "message": "تم تعطيل خرائط Google لأن مفتاح API غير مضاف. يمكنك استخدام موقعك الحالي."
+    }
+  },
+  "validation": {
+    "emailRequired": "البريد الإلكتروني مطلوب",
+    "emailInvalid": "البريد الإلكتروني غير صحيح",
+    "passwordRequired": "كلمة المرور مطلوبة",
+    "passwordTooShort": "كلمة المرور قصيرة جداً",
+    "confirmPasswordRequired": "تأكيد كلمة المرور مطلوب",
+    "passwordMismatch": "كلمتا المرور غير متطابقتين",
+    "nameRequired": "الاسم مطلوب",
+    "phoneRequired": "رقم الهاتف مطلوب",
+    "phoneInvalid": "رقم الهاتف غير صحيح",
+    "genderRequired": "يرجى اختيار الجنس",
+    "passwordMinLength": "كلمة المرور يجب ألا تقل عن 8 أحرف"
+  },
+  "errors": {
+    "network": "تعذر الاتصال. تحقق من الإنترنت.",
+    "timeout": "انتهت مهلة الاتصال. تحقق من الإنترنت.",
+    "unauthorized": "غير مصرح. يرجى تسجيل الدخول.",
+    "notFound": "العنصر المطلوب غير موجود.",
+    "validation": "بيانات غير صحيحة.",
+    "server": "حدث خطأ في الخادم. حاول لاحقاً.",
+    "unexpected": "حدث خطأ غير متوقع.",
+    "cancelled": "تم إلغاء الطلب.",
+    "userNotFound": "لم يتم العثور على حساب بهذا البريد الإلكتروني.",
+    "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
+    "invalidCode": "الكود الذي أدخلته غير صحيح. حاول مرة أخرى.",
+    "expiredCode": "انتهت صلاحية الكود. يرجى طلب كود جديد.",
+    "emailExists": "هذا البريد الإلكتروني مسجل مسبقاً.",
+    "phoneExists": "رقم الهاتف مسجل مسبقاً.",
+    "accountDisabled": "هذا الحساب موقوف. تواصل مع الدعم.",
+    "tooManyAttempts": "محاولات كثيرة. يرجى الانتظار قبل المحاولة مجدداً.",
+    "locationDisabled": "خدمة الموقع معطّلة، يرجى تفعيلها من الإعدادات",
+    "locationDenied": "تم رفض إذن الموقع",
+    "locationPermanentlyDenied": "إذن الموقع محظور دائمًا، يرجى تفعيله من إعدادات التطبيق",
+    "locationFailed": "تعذّر تحديد موقعك الحالي"
+  },
+  "auth": {
+    "userType": {
+      "user": "مستخدم",
+      "partner": "شريك",
+      "admin": "إدارة"
+    },
+    "login": {
+      "emailHint": "user@qaren.com",
+      "passwordHint": "••••••",
+      "forgotPassword": "نسيت كلمة المرور؟",
+      "button": "تسجيل الدخول",
+      "biometric": "الدخول بالبصمة",
+      "biometricReason": "يرجى التحقق من هويتك للدخول",
+      "biometricNotAvailable": "البصمة غير متاحة على هذا الجهاز",
+      "biometricNoCredentials": "سجّل الدخول أولاً لتفعيل البصمة",
+      "biometricFailed": "فشل التحقق بالبصمة",
+      "browseAsGuest": "تصفح كزائر",
+      "noAccount": "ليس لديك حساب؟",
+      "signUpLink": "إنشاء حساب",
+      "failed": "فشل تسجيل الدخول. تحقق من بياناتك."
+    },
+    "signup": {
+      "title": "إنشاء حساب جديد",
+      "nameHint": "الاسم الكامل",
+      "phoneHint": "رقم الهاتف",
+      "confirmPasswordHint": "تأكيد كلمة المرور",
+      "genderHint": "الجنس",
+      "genderMale": "ذكر",
+      "genderFemale": "أنثى",
+      "button": "إنشاء الحساب",
+      "hasAccount": "لديك حساب بالفعل؟",
+      "loginLink": "تسجيل الدخول",
+      "avatarTitle": "صورة الملف الشخصي",
+      "changePhoto": "تغيير الصورة",
+      "removePhoto": "إزالة الصورة",
+      "failed": "فشل إنشاء الحساب. حاول مرة أخرى."
+    },
+    "biometricDialog": {
+      "title": "تفعيل الدخول بالبصمة",
+      "message": "هل تريد تفعيل الدخول بالبصمة في المرات القادمة؟\nبياناتك ستُحفظ بشكل مشفّر وآمن.",
+      "later": "لاحقاً",
+      "enable": "تفعيل"
+    },
+    "forgotPassword": {
+      "title": "نسيت كلمة المرور؟",
+      "subtitle": "أدخل بريدك الإلكتروني وسنرسل لك رابط إعادة تعيين كلمة المرور",
+      "button": "إرسال الكود",
+      "successTitle": "تم الإرسال!",
+      "successSubtitle": "تحقق من بريدك الإلكتروني واتبع التعليمات لإعادة تعيين كلمة المرور",
+      "backToLogin": "العودة لتسجيل الدخول",
+      "failed": "فشل إرسال البريد. تحقق من العنوان وحاول مجدداً."
+    },
+    "verifyCode": {
+      "title": "التحقق من الكود",
+      "subtitle": "أدخل الكود المرسل إلى",
+      "hint": "• • • • • •",
+      "button": "تأكيد الكود",
+      "resend": "إعادة إرسال الكود",
+      "required": "الكود مطلوب",
+      "invalidFormat": "الكود يجب أن يكون أرقاماً فقط",
+      "failed": "الكود غير صحيح. حاول مجدداً.",
+      "resendSuccess": "تم إعادة إرسال الكود"
+    },
+    "resetPassword": {
+      "title": "إنشاء كلمة مرور جديدة",
+      "subtitle": "أدخل كلمة مرور جديدة وقوية",
+      "hint": "كلمة المرور الجديدة",
+      "confirmHint": "تأكيد كلمة المرور",
+      "button": "تغيير كلمة المرور",
+      "success": "تم تغيير كلمة المرور بنجاح",
+      "failed": "فشل تغيير كلمة المرور. حاول مجدداً."
+    },
+    "profilePhoto": {
+      "removeSelected": "إزالة الصورة المختارة"
+    },
+    "errors": {
+      "noBiometricEnrolled": "لم يتم تسجيل أي بصمة على الجهاز",
+      "fetchUserFailed": "فشل جلب بيانات المستخدم.",
+      "updateProfileFailed": "فشل تحديث بيانات الملف الشخصي.",
+      "biometricAuthFailed": "فشل التحقق بالبصمة."
+    }
+  },
+  "home": {
+    "searchHint": "ابحث في التصنيفات...",
+    "categoriesTitle": "التصنيفات",
+    "emptyCategories": "لا توجد تصنيفات متاحة",
+    "comingSoonBadge": "قريبًا"
+  },
+  "profile": {
+    "edit": "تعديل",
+    "editSuccess": "تم تحديث الملف الشخصي بنجاح",
+    "myProfile": "ملفي الشخصي",
+    "editProfileTitle": "تعديل الملف الشخصي",
+    "loadError": "تعذّر تحميل البيانات، يرجى المحاولة مرة أخرى.",
+    "saveChanges": "حفظ التغييرات",
+    "defaultUserName": "المستخدم",
+    "membershipLabel": "عضو ذهبي",
+    "section": {
+      "account": "الحساب",
+      "general": "عام"
+    },
+    "field": {
+      "fullName": "الاسم الكامل",
+      "email": "البريد الإلكتروني",
+      "phone": "رقم الهاتف",
+      "newPassword": "كلمة المرور الجديدة",
+      "confirmPassword": "تأكيد كلمة المرور",
+      "passwordOptionalHint": "اتركها فارغة إذا لم ترغب بالتغيير"
+    },
+    "stats": {
+      "orders": "طلبات",
+      "trips": "رحلات",
+      "savings": "توفير"
+    },
+    "menu": {
+      "notifications": "الإشعارات",
+      "darkMode": "الوضع الليلي",
+      "language": "لغة التطبيق"
+    },
+    "logout": {
+      "title": "تسجيل الخروج",
+      "confirmMessage": "هل أنت متأكد أنك تريد تسجيل الخروج؟"
+    },
+    "settings": {
+      "generalSection": "الإعدادات العامة"
+    }
+  },
+  "food": {
+    "pageTitle": "توصيل الطعام",
+    "searchHint": "ابحث عن طعام أو مطعم...",
+    "mostOrdered": "الأكثر طلباً",
+    "currency": "ريال",
+    "currencyShort": "ر.س",
+    "currencyFull": "ريال سعودي",
+    "caloriesUnit": "حر",
+    "categoryBurger": "برجر",
+    "deliveryTimeShort": "د",
+    "itemUnavailable": "هذا المنتج غير متوفر حالياً",
+    "cart": {
+      "orderSummary": "ملخص الطلب",
+      "itemsCount": "عناصر",
+      "empty": "السلة فارغة",
+      "addMore": "إضافة المزيد",
+      "subtotal": "المجموع",
+      "taxAndFees": "الضريبة والرسوم (15%)",
+      "total": "الإجمالي",
+      "comparePrices": "مقارنة الأسعار"
+    },
+    "comparison": {
+      "title": "مقارنة الأسعار",
+      "aiOpinionTitle": "رأي قارن الذكي",
+      "aiOpinionBody": "أنا قارن، لتوصيل الطلب من المطعم للمنزل، تطبيقات التوصيل هي الخيار الأسرع والأكثر راحة، بينما الذهاب بنفسك يوفر تكاليف التوصيل.",
+      "estimatedPrice": "السعر التقديري",
+      "minutes": "دقيقة",
+      "bookNow": "احجز الآن",
+      "bestValue": "الأفضل قيمة",
+      "from": "من",
+      "to": "إلى",
+      "orderNow": "اطلب الآن",
+      "orderAvailable": "اطلب المتوفر",
+      "fullMatch": "يوفر الطلب كاملًا",
+      "partialMatchTitle": "بعض العناصر غير متوفرة",
+      "partialMatchDescription": "هذا المطعم يوفر جزءًا من طلبك فقط. سيتم طلب العناصر المتوفرة فقط، ولن يتم تضمين العناصر غير المتوفرة.",
+      "partialCoverage": "يوفر {matched} من {total} عناصر",
+      "availableItems": "العناصر المتوفرة",
+      "missingItems": "العناصر غير المتوفرة",
+      "continueOrder": "متابعة الطلب",
+      "cancel": "إلغاء",
+      "freeDelivery": "توصيل مجاني",
+      "deliveryFee": "توصيل {fee} {currency}",
+      "searchingApps": "جاري البحث في التطبيقات...",
+      "searchingOffers": "جارٍ البحث عن أفضل العروض...",
+      "fetchError": "حدث خطأ أثناء جلب النتائج، يمكنك المحاولة مجدداً",
+      "showResults": "عرض النتائج",
+      "noResults": "لا توجد نتائج"
+    },
+    "invoice": {
+      "title": "فاتورة الطلب",
+      "yourLocation": "موقعك",
+      "serviceName": "خدمة توصيل طعام",
+      "date": "التاريخ",
+      "orderTime": "وقت الطلب",
+      "deliveryDuration": "مدة التوصيل",
+      "items": "العناصر",
+      "orderUnit": "طلب",
+      "save": "حفظ الفاتورة"
+    },
+    "checkout": {
+      "title": "إتمام الطلب",
+      "restaurantSection": "المطعم",
+      "deliverySection": "تفاصيل التوصيل",
+      "orderItemsSection": "الطلبات",
+      "summarySection": "ملخص الطلب",
+      "paymentSection": "طريقة الدفع",
+      "notesHint": "أي ملاحظات للمطعم؟ (اختياري)",
+      "notesLabel": "ملاحظات",
+      "paymentCash": "الدفع عند الاستلام",
+      "confirmOrder": "تأكيد الطلب",
+      "deliveryFee": "رسوم التوصيل",
+      "discount": "الخصم",
+      "total": "الإجمالي",
+      "estimatedDelivery": "وقت التوصيل المتوقع",
+      "quantity": "الكمية",
+      "addressNotSet": "لم يتم تحديد العنوان"
+    },
+    "success": {
+      "title": "تم الطلب بنجاح",
+      "subtitle": "تم استلام طلبك وجاري تجهيزه",
+      "bookingNumber": "رقم الطلب",
+      "paymentMethod": "طريقة الدفع",
+      "viewInvoice": "عرض الفاتورة",
+      "backToHome": "العودة للرئيسية"
+    },
+    "branch": {
+      "title": "اختر الفرع",
+      "subtitle": "اختر الفرع المناسب لهذا المنتج"
+    },
+    "location": {
+      "yourLocation": "موقعك",
+      "chooseLocation": "اختر موقعك",
+      "useCurrent": "استخدم موقعي الحالي",
+      "pickOnMap": "تحديد على الخريطة",
+      "confirm": "تأكيد الموقع",
+      "resolving": "جارٍ تحديد الموقع...",
+      "selecting": "جارٍ التحديد...",
+      "unknown": "موقع غير معروف",
+      "resolveFailed": "تعذّر تحديد الموقع",
+      "myCurrentLocation": "موقعي الحالي",
+      "mapDisabledOption": "الخريطة غير متاحة - استخدم موقعي الحالي",
+      "mapDisabledTitle": "خريطة الطعام معطلة",
+      "mapDisabledMessage": "تحتاج خرائط Google إلى مفتاح API. يرجى استخدام موقعك الحالي بدلًا من ذلك."
+    },
+    "errors": {
+      "loadProducts": "حدث خطأ في تحميل المنتجات",
+      "noResults": "لا توجد نتائج",
+      "generic": "حدث خطأ: {error}",
+      "noBranchSelected": "لا يمكن إنشاء الطلب: لم يتم تحديد فرع",
+      "missingRestaurantOrAddress": "الرجاء اختيار المطعم وعنوان التوصيل"
+    }
+  },
+  "taxi": {
+    "location": {
+      "pickup": "نقطة الانطلاق",
+      "destination": "الوجهة المطلوبة",
+      "useCurrent": "استخدم موقعي الحالي",
+      "pickOnMap": "تحديد على الخريطة",
+      "confirm": "تأكيد الموقع",
+      "recentPlaces": "مواقع سابقة",
+      "selecting": "جاري التحديد...",
+      "mapDisabledOption": "الخريطة غير متاحة - استخدم موقعي الحالي"
+    },
+    "route": {
+      "from": "من",
+      "to": "إلى",
+      "currentLocation": "الموقع الحالي",
+      "destinationFallback": "الوجهة",
+      "loading": "جاري تحميل المسارات...",
+      "selectedRoute": "المسار المحدد",
+      "estimatedDuration": "المدة المتوقعة",
+      "deliveryFee": "رسوم التوصيل",
+      "distance": "المسافة",
+      "distanceValue": "{distance} كم",
+      "durationValue": "{duration} د",
+      "feeValue": "{fee} ر.س",
+      "fallbackName": "مسار {n}",
+      "noRoutes": "لا توجد مسارات متاحة",
+      "loadFailed": "فشل تحميل المسارات. حاول مرة أخرى."
+    },
+    "map": {
+      "searchHint": "ابحث عن موقع على الخريطة...",
+      "disabledTitle": "خريطة التاكسي معطلة",
+      "disabledMessage": "تحتاج خرائط Google إلى مفتاح API. استخدم موقعك الحالي أو المواقع المحفوظة بدون فتح الخريطة.",
+      "pickerDisabledTitle": "اختيار الموقع من الخريطة معطل",
+      "pickerDisabledMessage": "تحتاج خرائط Google إلى مفتاح API. يرجى استخدام موقعك الحالي بدلًا من ذلك."
+    },
+    "ai": {
+      "searchHint": "من أين تبدأ رحلتك وإلى أين؟",
+      "enterPromptFirst": "اكتب طلبك أولًا",
+      "locationFailed": "لم نتمكن من تحديد موقعك الحالي",
+      "parseFailed": "لم نتمكن من فهم الطلب، حاول مرة أخرى"
+    },
+    "compare": {
+      "title": "مقارنة الأسعار",
+      "aiOpinionTitle": "رأي قارن الذكي",
+      "bestValue": "الأفضل قيمة",
+      "distance": "المسافة",
+      "kilometer": " كيلومتر",
+      "bookNow": "احجز الآن",
+      "noResults": "لا توجد نتائج. جرب تغيير معايير البحث.",
+      "unknownProvider": "غير معروف"
+    },
+    "apps": {
+      "title": "تطبيقات التوصيل",
+      "selectedCount": "محدد: {count}",
+      "unselectedCount": "غير محدد: {count}",
+      "selectAll": "تحديد الكل",
+      "clearAll": "إلغاء",
+      "done": "تم"
+    },
+    "search": {
+      "searchingDrivers": "جاري البحث عن كباتن...",
+      "showResults": "عرض النتائج"
+    },
+    "errors": {
+      "samePickupDestination": "نقطة الانطلاق والوجهة متطابقتان، يرجى اختيار وجهة مختلفة",
+      "currentLocationFailed": "تعذّر تحديد الموقع الحالي",
+      "generic": "حدث خطأ. حاول مرة أخرى."
+    },
+    "tripDetails": {
+      "title": "تفاصيل الرحلة",
+      "date": "التاريخ",
+      "arrival": "الوصول"
+    },
+    "rideType": {
+      "default": "خدمة توصيل",
+      "economy": "اقتصادي",
+      "compact": "مدمج",
+      "standard": "قياسي",
+      "fullSize": "كامل الحجم",
+      "suv": "SUV",
+      "luxury": "فاخر",
+      "van": "فان",
+      "minivan": "ميني فان"
+    },
+    "booking": {
+      "successMessage": "تم الحجز بنجاح",
+      "failed": "فشل الحجز. حاول مرة أخرى.",
+      "successTitle": "تم الحجز بنجاح!",
+      "referenceLabel": "رقم الحجز",
+      "backToHome": "العودة للرئيسية"
+    },
+    "directions": {
+      "apiKeyMissing": "مفتاح خرائط Google غير متوفر",
+      "emptyResponse": "استجابة فارغة من خدمة المسارات",
+      "noRoutesAvailable": "لا توجد مسارات متاحة بين هذين الموقعين",
+      "zeroResults": "لا توجد مسارات بين هذين الموقعين",
+      "notFound": "تعذر العثور على أحد المواقع",
+      "overQueryLimit": "تم تجاوز حد طلبات المسارات",
+      "requestDenied": "تم رفض طلب المسارات",
+      "loadFailedGeneric": "تعذر تحميل المسارات"
+    },
+    "carRental": {
+      "searchFailed": "فشل البحث عن العروض. حاول مرة أخرى.",
+      "aiSearchFailed": "تعذّر تنفيذ البحث الذكي. حاول مرة أخرى.",
+      "offerDetailsFailed": "فشل تحميل تفاصيل العرض. حاول مرة أخرى.",
+      "bookFailed": "فشل الحجز. حاول مرة أخرى."
+    }
+  },
+  "bookings": {
+    "history": {
+      "title": "طلباتي",
+      "emptyTitle": "لا توجد طلبات حتى الآن",
+      "emptySubtitle": "ستظهر طلباتك هنا بعد إتمام أول طلب.",
+      "loadError": "حدث خطأ أثناء تحميل الطلبات"
+    },
+    "filter": {
+      "title": "تصفية الطلبات",
+      "reset": "إعادة تعيين",
+      "serviceType": "نوع الخدمة",
+      "status": "حالة الطلب",
+      "apply": "تطبيق الفلتر",
+      "activeLabel": "الفلاتر:",
+      "edit": "تعديل"
+    },
+    "serviceType": {
+      "all": "الكل",
+      "food": "طلبات الطعام",
+      "carRental": "تأجير السيارات",
+      "other": "خدمة أخرى",
+      "foodCard": "طلب طعام",
+      "carCard": "تأجير سيارة",
+      "genericCard": "طلب"
+    },
+    "status": {
+      "pending": "قيد الانتظار",
+      "confirmed": "مؤكد",
+      "cancelled": "ملغي"
+    },
+    "card": {
+      "defaultProvider": "مزود الخدمة",
+      "detailsHint": "تفاصيل الطلب متاحة داخل صفحة التفاصيل",
+      "carOfferId": "رقم العرض: {id}",
+      "carCustomer": "العميل: {name}",
+      "carPhone": "الهاتف: {phone}",
+      "foodPayment": "الدفع: {value}",
+      "foodStatus": "الحالة: {value}"
+    },
+    "price": {
+      "unavailable": "السعر غير متاح"
+    },
+    "details": {
+      "title": "تفاصيل الطلب",
+      "priceSummary": "ملخص السعر",
+      "subtotal": "المجموع الفرعي: {price}",
+      "deliveryFee": "رسوم التوصيل: {price}",
+      "total": "الإجمالي: {price}",
+      "reorder": "إعادة الطلب",
+      "share": "مشاركة التفاصيل",
+      "back": "العودة",
+      "foodTitle": "تفاصيل طلب الطعام",
+      "foodAddress": "العنوان: {value}",
+      "foodItemsCount": "عدد العناصر: {value}",
+      "foodPaymentMethod": "طريقة الدفع: {value}",
+      "foodPaymentStatus": "حالة الدفع: {value}",
+      "foodNotes": "ملاحظات: {value}",
+      "carTitle": "تفاصيل تأجير السيارة",
+      "carOfferId": "رقم العرض: {id}",
+      "carCustomerName": "اسم العميل: {name}",
+      "carCustomerPhone": "رقم الهاتف: {phone}"
+    }
+  },
+  "wallet": {
+    "title": "المحفظة",
+    "balance": {
+      "title": "رصيد المحفظة",
+      "lastUpdated": "آخر تحديث: {date}"
+    },
+    "deposit": {
+      "title": "إضافة رصيد",
+      "amountLabel": "المبلغ",
+      "amountHint": "100",
+      "confirm": "تأكيد الإيداع",
+      "success": "تم إضافة الرصيد بنجاح",
+      "invalidAmount": "برجاء إدخال مبلغ صحيح أكبر من صفر"
+    },
+    "transactions": {
+      "title": "آخر المعاملات",
+      "reference": "المرجع: {id}",
+      "emptyTitle": "لا توجد معاملات حتى الآن",
+      "emptySubtitle": "ستظهر معاملات المحفظة هنا بعد أول عملية."
+    },
+    "errors": {
+      "loadFailed": "حدث خطأ أثناء تحميل المحفظة"
+    },
+    "transactionType": {
+      "deposit": "إيداع",
+      "payment": "دفع",
+      "transaction": "معاملة"
+    },
+    "transactionStatus": {
+      "completed": "مكتملة",
+      "pending": "قيد الانتظار",
+      "failed": "فشلت",
+      "unknown": "غير معروفة"
+    }
+  },
+  "notifications": {
+    "title": "الإشعارات",
+    "unreadCount": "{count} إشعارات غير مقروءة",
+    "markAllRead": "تحديد الكل كمقروء",
+    "markAllReadSuccess": "تم تحديد كل الإشعارات كمقروءة",
+    "emptyTitle": "لا توجد إشعارات",
+    "emptySubtitle": "ستظهر إشعاراتك هنا عند توفر تحديثات جديدة.",
+    "loadFailed": "حدث خطأ أثناء تحميل الإشعارات",
+    "defaultTitle": "إشعار جديد",
+    "status": {
+      "confirmed": "مؤكد",
+      "info": "معلومة",
+      "pending": "قيد الانتظار",
+      "cancelled": "ملغي",
+      "failed": "فشل",
+      "notification": "إشعار"
+    }
+  },
+  "comingSoon": {
+    "title": "هذه الخدمة ستصبح متاحة قريبا",
+    "description": "نعمل حاليًا على تجهيز هذه الصفحة وستكون متاحة لك قريبًا.",
+    "backToHome": "العودة للرئيسية"
+  }
+}

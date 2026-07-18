@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 
 import '../../../../auth/domain/entities/user_entity.dart';
@@ -15,10 +16,7 @@ import '../../providers/editProfile/edit_profile_provider.dart';
 class EditProfileAvatarPicker extends ConsumerWidget {
   final UserEntity providerKey;
 
-  const EditProfileAvatarPicker({
-    super.key,
-    required this.providerKey,
-  });
+  const EditProfileAvatarPicker({super.key, required this.providerKey});
 
   Future<void> pickFromGallery(WidgetRef ref) async {
     final file = await ImagePicker().pickImage(
@@ -27,7 +25,9 @@ class EditProfileAvatarPicker extends ConsumerWidget {
       maxWidth: 900,
     );
     if (file != null) {
-      ref.read(editProfileProvider(providerKey).notifier).updateImage(file.path);
+      ref
+          .read(editProfileProvider(providerKey).notifier)
+          .updateImage(file.path);
     }
   }
 
@@ -55,7 +55,7 @@ class EditProfileAvatarPicker extends ConsumerWidget {
               ),
             ),
             AppText(
-              'صورة الملف الشخصي',
+              'auth.signup.avatarTitle'.tr(),
               style: TextStyle(
                 fontSize: AppDimensions.fontM,
                 fontWeight: FontWeight.w600,
@@ -68,7 +68,7 @@ class EditProfileAvatarPicker extends ConsumerWidget {
                 Icons.photo_library_outlined,
                 color: colors.textPrimary,
               ),
-              title: const AppText('تغيير الصورة'),
+              title: AppText('auth.signup.changePhoto'.tr()),
               onTap: () async {
                 Navigator.of(sheetContext).pop();
                 await pickFromGallery(ref);
@@ -80,13 +80,15 @@ class EditProfileAvatarPicker extends ConsumerWidget {
                 Icons.delete_outline_rounded,
                 color: AppColors.error,
               ),
-              title: const AppText(
-                'إزالة الصورة المختارة',
-                style: TextStyle(color: AppColors.error),
+              title: AppText(
+                'auth.profilePhoto.removeSelected'.tr(),
+                style: const TextStyle(color: AppColors.error),
               ),
               onTap: () {
                 Navigator.of(sheetContext).pop();
-                ref.read(editProfileProvider(providerKey).notifier).updateImage(null);
+                ref
+                    .read(editProfileProvider(providerKey).notifier)
+                    .updateImage(null);
               },
             ),
           ],

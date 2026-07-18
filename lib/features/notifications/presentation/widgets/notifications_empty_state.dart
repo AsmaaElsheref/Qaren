@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
 import 'package:qaren/core/theme/app_colors.dart';
@@ -17,14 +18,25 @@ class NotificationsEmptyState extends StatelessWidget {
             Container(
               width: 76,
               height: 76,
-              decoration: const BoxDecoration(color: AppColors.surfaceVariant, shape: BoxShape.circle),
-              child: const Icon(Icons.notifications_off_outlined, color: AppColors.textSecondary, size: 38),
+              decoration: const BoxDecoration(
+                color: AppColors.surfaceVariant,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.notifications_off_outlined,
+                color: AppColors.textSecondary,
+                size: 38,
+              ),
             ),
             const SizedBox(height: AppDimensions.paddingM),
-            const AppText('لا توجد إشعارات', style: AppTextStyles.title, textAlign: TextAlign.center),
+            AppText(
+              'notifications.emptyTitle'.tr(),
+              style: AppTextStyles.title,
+              textAlign: TextAlign.center,
+            ),
             const SizedBox(height: AppDimensions.paddingS),
-            const AppText(
-              'ستظهر إشعاراتك هنا عند توفر تحديثات جديدة.',
+            AppText(
+              'notifications.emptySubtitle'.tr(),
               style: AppTextStyles.bodySecondary,
               textAlign: TextAlign.center,
             ),
@@ -34,4 +46,3 @@ class NotificationsEmptyState extends StatelessWidget {
     );
   }
 }
-

@@ -1,8 +1,8 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../../../core/constants/app_dimensions.dart';
-import '../../../../core/constants/app_strings.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../profile/presentation/providers/profileSettings/profile_settings_provider.dart';
 import '../providers/reset_password_provider.dart';
@@ -16,11 +16,7 @@ class ResetPasswordPage extends ConsumerStatefulWidget {
   final String login;
   final String code;
 
-  const ResetPasswordPage({
-    super.key,
-    required this.login,
-    required this.code,
-  });
+  const ResetPasswordPage({super.key, required this.login, required this.code});
 
   @override
   ConsumerState<ResetPasswordPage> createState() => ResetPasswordPageState();
@@ -40,7 +36,9 @@ class ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
 
   void _onSubmit() {
     if (_formKey.currentState?.validate() ?? false) {
-      ref.read(resetPasswordNotifierProvider.notifier).resetPassword(
+      ref
+          .read(resetPasswordNotifierProvider.notifier)
+          .resetPassword(
             login: widget.login,
             code: widget.code,
             password: _passwordController.text,
@@ -55,7 +53,9 @@ class ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
       if (next.status == ResetPasswordStatus.failure) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(next.errorMessage ?? AppStrings.resetPasswordFailed),
+            content: Text(
+              next.errorMessage ?? 'auth.resetPassword.failed'.tr(),
+            ),
             backgroundColor: AppColors.error,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
@@ -67,10 +67,14 @@ class ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
     });
 
     final isSuccess = ref.watch(
-      resetPasswordNotifierProvider.select((s) => s.status == ResetPasswordStatus.success),
+      resetPasswordNotifierProvider.select(
+        (s) => s.status == ResetPasswordStatus.success,
+      ),
     );
     final isLoading = ref.watch(
-      resetPasswordNotifierProvider.select((s) => s.status == ResetPasswordStatus.loading),
+      resetPasswordNotifierProvider.select(
+        (s) => s.status == ResetPasswordStatus.loading,
+      ),
     );
     final colors = context.appColors;
     return Scaffold(
@@ -112,7 +116,9 @@ class ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
                   ? ResetPasswordSuccessView(
                       key: const ValueKey('success'),
                       onBackToLogin: () {
-                        Navigator.of(context).popUntil((route) => route.isFirst);
+                        Navigator.of(
+                          context,
+                        ).popUntil((route) => route.isFirst);
                       },
                     )
                   : _ResetPasswordForm(
@@ -154,34 +160,37 @@ class _ResetPasswordForm extends StatelessWidget {
       child: Column(
         children: [
           const SizedBox(height: AppDimensions.paddingXL),
-          const PasswordResetHeader(
+          PasswordResetHeader(
             icon: Icons.lock_reset_rounded,
-            title: AppStrings.resetPasswordTitle,
-            subtitle: AppStrings.resetPasswordSubtitle,
+            title: 'auth.resetPassword.title'.tr(),
+            subtitle: 'auth.resetPassword.subtitle'.tr(),
           ),
           const SizedBox(height: AppDimensions.paddingXXL),
           PasswordTextField(
             controller: passwordController,
-            hint: AppStrings.resetPasswordHint,
+            hint: 'auth.resetPassword.hint'.tr(),
             validator: (value) {
-              if (value == null || value.isEmpty) return AppStrings.passwordRequired;
-              if (value.length < 6) return AppStrings.passwordTooShort;
+              if (value == null || value.isEmpty)
+                return 'validation.passwordRequired'.tr();
+              if (value.length < 6) return 'validation.passwordTooShort'.tr();
               return null;
             },
           ),
           const SizedBox(height: AppDimensions.paddingM),
           PasswordTextField(
             controller: confirmController,
-            hint: AppStrings.resetPasswordConfirmHint,
+            hint: 'auth.resetPassword.confirmHint'.tr(),
             validator: (value) {
-              if (value == null || value.isEmpty) return AppStrings.passwordRequired;
-              if (value != passwordController.text) return AppStrings.passwordMismatch;
+              if (value == null || value.isEmpty)
+                return 'validation.passwordRequired'.tr();
+              if (value != passwordController.text)
+                return 'validation.passwordMismatch'.tr();
               return null;
             },
           ),
           const SizedBox(height: AppDimensions.paddingXL),
           AuthSubmitButton(
-            label: AppStrings.resetPasswordButton,
+            label: 'auth.resetPassword.button'.tr(),
             isLoading: isLoading,
             onPressed: onSubmit,
           ),
@@ -191,4 +200,3 @@ class _ResetPasswordForm extends StatelessWidget {
     );
   }
 }
-

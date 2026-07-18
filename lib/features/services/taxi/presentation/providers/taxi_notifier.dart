@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import '../../../../../core/utils/reverse_geocoder.dart';
 import '../../domain/entities/parsed_ai_parameters_entity.dart';
 import 'taxi_state.dart';
@@ -24,8 +25,7 @@ class TaxiNotifier extends Notifier<TaxiState> {
     }
   }
 
-  void setReturnDate(DateTime date) =>
-      state = state.copyWith(returnDate: date);
+  void setReturnDate(DateTime date) => state = state.copyWith(returnDate: date);
 
   void confirmLocation({
     required TaxiActiveField field,
@@ -51,7 +51,7 @@ class TaxiNotifier extends Notifier<TaxiState> {
     String? label,
   ) async {
     try {
-      if (latLng == null) return 'تعذّر تحديد الموقع الحالي';
+      if (latLng == null) return 'taxi.errors.currentLocationFailed'.tr();
       confirmLocation(field: field, latLng: latLng, label: label ?? '');
       return null;
     } finally {
@@ -61,7 +61,8 @@ class TaxiNotifier extends Notifier<TaxiState> {
 
   String _labelOrFallback(String label, LatLng latLng) {
     final trimmed = label.trim();
-    if (trimmed.isNotEmpty && trimmed != 'تعذّر تحديد الموقع') return trimmed;
+    if (trimmed.isNotEmpty && trimmed != 'food.location.resolveFailed'.tr())
+      return trimmed;
     return '${latLng.latitude.toStringAsFixed(6)}, ${latLng.longitude.toStringAsFixed(6)}';
   }
 
@@ -78,10 +79,10 @@ class TaxiNotifier extends Notifier<TaxiState> {
   }) async {
     final pickupLatLng = params.pickup;
     final dropoffLatLng = params.dropoff;
-    final needsPickup = overwrite ||
-        state.pickup.isEmpty ||
-        state.pickupLatLng == null;
-    final needsDestination = overwrite ||
+    final needsPickup =
+        overwrite || state.pickup.isEmpty || state.pickupLatLng == null;
+    final needsDestination =
+        overwrite ||
         state.destination.isEmpty ||
         state.destinationLatLng == null;
 
@@ -95,8 +96,9 @@ class TaxiNotifier extends Notifier<TaxiState> {
 
     if (needsDestination && dropoffLatLng != null) {
       final resolved = await ReverseGeocoder.resolve(dropoffLatLng);
-      final preferred =
-          (resolved?.trim().isNotEmpty ?? false) ? resolved! : (aiDestinationName ?? '');
+      final preferred = (resolved?.trim().isNotEmpty ?? false)
+          ? resolved!
+          : (aiDestinationName ?? '');
       state = state.copyWith(
         destination: _labelOrFallback(preferred, dropoffLatLng),
         destinationLatLng: dropoffLatLng,
@@ -114,4 +116,6 @@ class TaxiNotifier extends Notifier<TaxiState> {
 }
 
 /// Global provider for the taxi notifier.
-final taxiProvider = NotifierProvider<TaxiNotifier, TaxiState>(TaxiNotifier.new);
+final taxiProvider = NotifierProvider<TaxiNotifier, TaxiState>(
+  TaxiNotifier.new,
+);

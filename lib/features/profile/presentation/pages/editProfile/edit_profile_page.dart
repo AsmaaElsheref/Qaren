@@ -1,6 +1,6 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:qaren/core/constants/app_strings.dart';
 import 'package:qaren/core/ui/widgets/toast/toast.dart';
 
 import '../../../../auth/domain/entities/user_entity.dart';
@@ -18,10 +18,7 @@ import '../../widgets/editProfile/edit_profile_save_button.dart';
 class EditProfilePage extends ConsumerWidget {
   final UserEntity user;
 
-  const EditProfilePage({
-    super.key,
-    required this.user,
-  });
+  const EditProfilePage({super.key, required this.user});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -30,11 +27,15 @@ class EditProfilePage extends ConsumerWidget {
 
       if (next.status == EditProfileStatus.failure &&
           next.errorMessage != null) {
-        toast(context: context, msg: next.errorMessage!,isError: true);
+        toast(context: context, msg: next.errorMessage!, isError: true);
       }
 
       if (next.status == EditProfileStatus.success) {
-        toast(context: context, msg: AppStrings.editSuccess,isSuccess: true);
+        toast(
+          context: context,
+          msg: 'profile.editSuccess'.tr(),
+          isSuccess: true,
+        );
         Navigator.of(context).pop(next.updatedUser);
       }
     });
@@ -58,7 +59,7 @@ class EditProfilePage extends ConsumerWidget {
                       EditProfileAvatarPicker(providerKey: user),
                       const SizedBox(height: 28),
                       EditProfileInputField(
-                        label: 'الاسم الكامل',
+                        label: 'profile.field.fullName'.tr(),
                         initialValue: user.name,
                         icon: Icons.person_outline_rounded,
                         onChanged: notifier.updateName,
@@ -66,7 +67,7 @@ class EditProfilePage extends ConsumerWidget {
                       ),
                       const SizedBox(height: 16),
                       EditProfileInputField(
-                        label: 'البريد الإلكتروني',
+                        label: 'profile.field.email'.tr(),
                         initialValue: user.email,
                         icon: Icons.mail_outline_rounded,
                         onChanged: notifier.updateEmail,
@@ -74,7 +75,7 @@ class EditProfilePage extends ConsumerWidget {
                       ),
                       const SizedBox(height: 16),
                       EditProfileInputField(
-                        label: 'رقم الهاتف',
+                        label: 'profile.field.phone'.tr(),
                         initialValue: user.phone,
                         icon: Icons.phone_outlined,
                         onChanged: notifier.updatePhone,
@@ -84,16 +85,16 @@ class EditProfilePage extends ConsumerWidget {
                       EditProfileGenderSelector(providerKey: user),
                       const SizedBox(height: 16),
                       EditProfileInputField(
-                        label: 'كلمة المرور الجديدة',
+                        label: 'profile.field.newPassword'.tr(),
                         initialValue: '',
                         icon: Icons.lock_outline_rounded,
                         onChanged: notifier.updatePassword,
                         obscureText: true,
-                        hintText: 'اتركها فارغة إذا لم ترغب بالتغيير',
+                        hintText: 'profile.field.passwordOptionalHint'.tr(),
                       ),
                       const SizedBox(height: 16),
                       EditProfileInputField(
-                        label: 'تأكيد كلمة المرور',
+                        label: 'profile.field.confirmPassword'.tr(),
                         initialValue: '',
                         icon: Icons.lock_reset_rounded,
                         onChanged: notifier.updatePasswordConfirmation,
@@ -112,4 +113,3 @@ class EditProfilePage extends ConsumerWidget {
     );
   }
 }
-

@@ -1,10 +1,12 @@
-﻿import 'package:flutter/material.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/theme/app_colors.dart';
 import 'package:qaren/core/ui/widgets/AppText.dart';
 import 'package:qaren/core/ui/widgets/AppTextStyles.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
 import 'package:qaren/features/home/presentation/providers/home_providers.dart';
+
 class ComingSoonActionButton extends ConsumerWidget {
   const ComingSoonActionButton({super.key});
   @override
@@ -22,8 +24,8 @@ class ComingSoonActionButton extends ConsumerWidget {
           ),
           elevation: 0,
         ),
-        child: const AppText(
-          'العودة للرئيسية',
+        child: AppText(
+          'comingSoon.backToHome'.tr(),
           style: AppTextStyles.body,
           textAlign: TextAlign.center,
         ),

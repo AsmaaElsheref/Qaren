@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/utils/extensions/contextSizeX.dart';
@@ -21,9 +22,8 @@ class ProfileSettingsPage extends ConsumerWidget {
     await showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (_) => LogoutConfirmationSheet(
-        onConfirm: () => _performLogout(context),
-      ),
+      builder: (_) =>
+          LogoutConfirmationSheet(onConfirm: () => _performLogout(context)),
     );
   }
 
@@ -49,7 +49,9 @@ class ProfileSettingsPage extends ConsumerWidget {
       profileSettingsProvider.select((s) => s.appVersion),
     );
     return Drawer(
-      backgroundColor: Theme.of(context).extension<AppColorTokens>()?.surface ?? Colors.white,
+      backgroundColor:
+          Theme.of(context).extension<AppColorTokens>()?.surface ??
+          Colors.white,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(24),
@@ -68,7 +70,12 @@ class ProfileSettingsPage extends ConsumerWidget {
                     // ── Profile header ────────────────────────────────────
                     ProfileHeader(
                       onEditProfile: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => PersonalProfilePage(),));
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PersonalProfilePage(),
+                          ),
+                        );
                       },
                     ),
 
@@ -111,7 +118,9 @@ class ProfileSettingsPage extends ConsumerWidget {
                     // ),
                     //
                     // // ── الإعدادات العامة ─────────────────────────────────
-                    const SettingsSectionTitle(title: 'الإعدادات العامة'),
+                    SettingsSectionTitle(
+                      title: 'profile.settings.generalSection'.tr(),
+                    ),
 
                     // const LanguageToggleItem(),
                     const DarkModeToggleItem(),
@@ -132,11 +141,9 @@ class ProfileSettingsPage extends ConsumerWidget {
                     //   padding: EdgeInsets.symmetric(horizontal: 20),
                     //   child: Divider(height: 1, color: AppColors.border),
                     // ),
-                    SizedBox(height: context.screenHeight*0.4,),
+                    SizedBox(height: context.screenHeight * 0.4),
                     // ── Logout ────────────────────────────────────────────
-                    LogoutMenuItem(
-                      onTap: () => _showLogoutSheet(context, ref),
-                    ),
+                    LogoutMenuItem(onTap: () => _showLogoutSheet(context, ref)),
                   ],
                 ),
               ),
@@ -150,4 +157,3 @@ class ProfileSettingsPage extends ConsumerWidget {
     );
   }
 }
-

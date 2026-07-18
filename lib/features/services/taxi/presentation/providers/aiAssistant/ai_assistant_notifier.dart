@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 
 import '../../../data/datasources/car_rental_remote_datasource.dart';
 import '../../../data/repositories/car_rental_repository_impl.dart';
@@ -38,25 +39,24 @@ class AiAssistantNotifier extends Notifier<AiAssistantState> {
     final prompt = rawPrompt.trim();
 
     if (prompt.isEmpty) {
-      state = state.copyWith(errorMessage: 'اكتب طلبك أولًا');
+      state = state.copyWith(errorMessage: 'taxi.ai.enterPromptFirst'.tr());
       return;
     }
 
-    final current = ref.read(currentLocationProvider).maybeWhen(
-          data: (d) => d.currentLocation,
-          orElse: () => null,
-        );
+    final current = ref
+        .read(currentLocationProvider)
+        .maybeWhen(data: (d) => d.currentLocation, orElse: () => null);
 
     if (current == null) {
-      state = state.copyWith(
-        errorMessage: 'لم نتمكن من تحديد موقعك الحالي',
-      );
+      state = state.copyWith(errorMessage: 'taxi.ai.locationFailed'.tr());
       return;
     }
 
     state = const AiAssistantState(isLoading: true);
 
-    final result = await ref.read(_aiSearchUseCaseProvider).call(
+    final result = await ref
+        .read(_aiSearchUseCaseProvider)
+        .call(
           AiSearchParams(
             prompt: prompt,
             currentLat: current.latitude,
@@ -68,7 +68,7 @@ class AiAssistantNotifier extends Notifier<AiAssistantState> {
       (failure) async {
         state = state.copyWith(
           isLoading: false,
-          errorMessage: 'لم نتمكن من فهم الطلب، حاول مرة أخرى',
+          errorMessage: 'taxi.ai.parseFailed'.tr(),
         );
       },
       (data) async {
@@ -76,7 +76,7 @@ class AiAssistantNotifier extends Notifier<AiAssistantState> {
         if (parsed == null || parsed.pickup == null || parsed.dropoff == null) {
           state = state.copyWith(
             isLoading: false,
-            errorMessage: 'لم نتمكن من فهم الطلب، حاول مرة أخرى',
+            errorMessage: 'taxi.ai.parseFailed'.tr(),
           );
           return;
         }
@@ -85,7 +85,9 @@ class AiAssistantNotifier extends Notifier<AiAssistantState> {
         // TaxiMapView listens to taxiPickupLocationProvider /
         // taxiDestinationLocationProvider (both derived from taxiProvider)
         // and animates / fits the camera automatically.
-        await ref.read(taxiProvider.notifier).fillFromParsedParameters(
+        await ref
+            .read(taxiProvider.notifier)
+            .fillFromParsedParameters(
               parsed,
               aiDestinationName: parsed.destinationName,
               overwrite: true,
@@ -108,18 +110,15 @@ class AiAssistantNotifier extends Notifier<AiAssistantState> {
 
 final aiAssistantNotifierProvider =
     NotifierProvider<AiAssistantNotifier, AiAssistantState>(
-  AiAssistantNotifier.new,
-);
+      AiAssistantNotifier.new,
+    );
 
 /// Granular — only the loading flag (rebuilds send button only).
 final aiAssistantLoadingProvider = Provider<bool>(
-  (ref) =>
-      ref.watch(aiAssistantNotifierProvider.select((s) => s.isLoading)),
+  (ref) => ref.watch(aiAssistantNotifierProvider.select((s) => s.isLoading)),
 );
 
 /// Granular — only the error message (rebuilds error row only).
 final aiAssistantErrorProvider = Provider<String?>(
-  (ref) =>
-      ref.watch(aiAssistantNotifierProvider.select((s) => s.errorMessage)),
+  (ref) => ref.watch(aiAssistantNotifierProvider.select((s) => s.errorMessage)),
 );
-

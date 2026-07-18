@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:qaren/core/utils/polyline_decoder.dart';
 import '../../../domain/entities/route_entity.dart';
@@ -18,11 +19,14 @@ class RouteModel extends RouteEntity {
     int index,
   ) {
     final legs = routeJson['legs'] as List<dynamic>? ?? const [];
-    final firstLeg = legs.isNotEmpty ? legs.first as Map<String, dynamic> : null;
+    final firstLeg = legs.isNotEmpty
+        ? legs.first as Map<String, dynamic>
+        : null;
 
     final distanceMeters =
         (firstLeg?['distance']?['value'] as num?)?.toDouble() ?? 0;
-    final durationSeconds = (firstLeg?['duration']?['value'] as num?)?.toInt() ?? 0;
+    final durationSeconds =
+        (firstLeg?['duration']?['value'] as num?)?.toInt() ?? 0;
     final encodedPolyline =
         routeJson['overview_polyline']?['points'] as String? ?? '';
     final summary = routeJson['summary'] as String? ?? '';
@@ -35,7 +39,9 @@ class RouteModel extends RouteEntity {
       points: encodedPolyline.isEmpty
           ? const <LatLng>[]
           : PolylineDecoder.decode(encodedPolyline),
-      name: summary.isEmpty ? 'مسار ${index + 1}' : summary,
+      name: summary.isEmpty
+          ? 'taxi.route.fallbackName'.tr(namedArgs: {'n': '${index + 1}'})
+          : summary,
     );
   }
 

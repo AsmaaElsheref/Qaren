@@ -1,9 +1,9 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../../../../../core/ui/widgets/AppButton.dart';
 import '../../../../domain/entities/food_location_result.dart';
-import '../../../food_strings.dart';
 import '../../../providers/food_comparison_provider.dart';
 import '../../../providers/food_providers.dart';
 import '../../comparison/foodLoading/food_loading.dart';
@@ -28,7 +28,7 @@ class ComparePricesButton extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: AppButton(
-        label: FoodStrings.comparePrices,
+        label: 'food.cart.comparePrices'.tr(),
         icon: Icons.directions_bike,
         onTap: isEmpty ? null : () => _onTap(context, ref),
       ),
@@ -41,8 +41,8 @@ class ComparePricesButton extends ConsumerWidget {
 
     // 1. Show location picker sheet.
     //    GPS path → pops with LatLng.
-    //    Map path → pops with null (sheet dismisses itself first).
-    final gpsResult = await showModalBottomSheet<LatLng>(
+    //    Map path → pops with FoodLocationPickerAction.pickOnMap.
+    final pickerResult = await showModalBottomSheet<Object>(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
@@ -51,11 +51,11 @@ class ComparePricesButton extends ConsumerWidget {
 
     if (!context.mounted) return;
 
-    if (gpsResult != null) {
+    if (pickerResult is LatLng) {
       // GPS path — use a friendly label instead of coordinates.
-      location = gpsResult;
-      locationName = 'موقعي الحالي';
-    } else {
+      location = pickerResult;
+      locationName = 'food.location.myCurrentLocation'.tr();
+    } else if (pickerResult == FoodLocationPickerAction.pickOnMap) {
       // Map path — FoodMapPickerPage pops with FoodLocationResult.
       final mapResult = await Navigator.of(context).push<FoodLocationResult>(
         MaterialPageRoute(
@@ -84,10 +84,13 @@ class ComparePricesButton extends ConsumerWidget {
 
     // 4. Fire compare API — Searching screen watches loading state.
     final cartItems = ref.read(foodCartItemsProvider);
-    final productIds =
-        cartItems.map((item) => int.tryParse(item.id) ?? 0).toList();
+    final productIds = cartItems
+        .map((item) => int.tryParse(item.id) ?? 0)
+        .toList();
 
-    ref.read(foodCompareNotifierProvider.notifier).compare(
+    ref
+        .read(foodCompareNotifierProvider.notifier)
+        .compare(
           productIds: productIds,
           userLat: location.latitude,
           userLng: location.longitude,

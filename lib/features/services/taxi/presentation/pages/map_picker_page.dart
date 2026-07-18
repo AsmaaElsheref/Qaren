@@ -1,6 +1,9 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:qaren/core/config/config.dart';
+import 'package:qaren/core/ui/widgets/map_unavailable_view.dart';
 import '../providers/map_controller_notifier.dart';
 import '../providers/taxi_providers.dart';
 import '../widgets/map/confirmLocation/confirm_location_button.dart';
@@ -16,33 +19,52 @@ class MapPickerPage extends ConsumerStatefulWidget {
   final TaxiActiveField field;
   final LatLng? initialPosition;
 
-  const MapPickerPage({
-    super.key,
-    required this.field,
-    this.initialPosition,
-  });
+  const MapPickerPage({super.key, required this.field, this.initialPosition});
 
   @override
   ConsumerState<MapPickerPage> createState() => _MapPickerPageState();
 }
 
 class _MapPickerPageState extends ConsumerState<MapPickerPage> {
-
   @override
   Widget build(BuildContext context) {
+    if (!AppConfig.hasGoogleMapsApiKey) {
+      return Directionality(
+        textDirection: TextDirection.rtl,
+        child: Scaffold(
+          body: Stack(
+            children: [
+              const MapUnavailableView(
+                titleKey: 'taxi.map.pickerDisabledTitle',
+                messageKey: 'taxi.map.pickerDisabledMessage',
+              ),
+              Positioned(
+                top: MediaQuery.of(context).padding.top + 12,
+                right: 16,
+                child: IconButton.filled(
+                  onPressed: () => Navigator.of(context).pop(),
+                  icon: const Icon(Icons.arrow_back_ios_rounded),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
     final notifier = ref.read(mapPickerProvider(widget.field).notifier);
     final state = ref.watch(mapPickerProvider(widget.field));
     final mapController = ref.watch(taxiMapControllerProvider);
-    final title = widget.field == TaxiActiveField.pickup ? 'تحديد نقطة الانطلاق' : 'تحديد الوجهة';
+    final title = widget.field == TaxiActiveField.pickup
+        ? 'taxi.location.pickup'.tr()
+        : 'taxi.location.destination'.tr();
 
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-          body: Stack(
+        body: Stack(
           children: [
-            const RepaintBoundary(
-              child: TaxiMapView(isPicker: true,),
-            ),
+            const RepaintBoundary(child: TaxiMapView(isPicker: true)),
             const PinMap(),
             SearchMap(
               searchController: notifier.searchController,

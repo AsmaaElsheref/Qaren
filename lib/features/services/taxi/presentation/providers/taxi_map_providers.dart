@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:qaren/core/config/config.dart';
 import 'package:qaren/features/services/taxi/presentation/providers/routeProvider/route_notifier.dart';
 import '../../../../../core/utils/location_service.dart';
 import 'map_marker_builder.dart';
@@ -113,8 +114,9 @@ final taxiInitialPositionProvider = FutureProvider<CameraPosition>((ref) async {
 
 /// Current map camera centre — updated on every [onCameraMove].
 /// Seeded from [taxiInitialPositionProvider] once it resolves.
-final taxiCameraPositionProvider =
-    StateProvider<LatLng>((ref) => kInitialPosition);
+final taxiCameraPositionProvider = StateProvider<LatLng>(
+  (ref) => kInitialPosition,
+);
 
 /// Toggles on every [onCameraIdle] — listened to by [MapPickerNotifier].
 final taxiCameraIdleProvider = StateProvider<bool>((ref) => false);
@@ -128,6 +130,15 @@ void syncTaxiRoutes(Ref ref) {
   final routeState = ref.read(routeProvider);
   final notifier = ref.read(routeProvider.notifier);
 
+  if (!AppConfig.hasGoogleMapsApiKey) {
+    if (routeState.hasRoutes ||
+        routeState.loadingRoutes ||
+        routeState.errorMessage != null) {
+      notifier.clearRoutes();
+    }
+    return;
+  }
+
   if (pickup == null || destination == null || sameLocation) {
     if (routeState.hasRoutes ||
         routeState.loadingRoutes ||
@@ -137,7 +148,8 @@ void syncTaxiRoutes(Ref ref) {
     return;
   }
 
-  final alreadyLoaded = _sameLatLng(routeState.pickupLocation, pickup) &&
+  final alreadyLoaded =
+      _sameLatLng(routeState.pickupLocation, pickup) &&
       _sameLatLng(routeState.destinationLocation, destination) &&
       (routeState.hasRoutes || routeState.loadingRoutes);
 
@@ -153,14 +165,16 @@ bool _sameLatLng(LatLng? a, LatLng b) {
 
 /// Side-effect provider — watches pickup/destination and loads routes.
 final routeSyncProvider = Provider<void>((ref) {
-  ref.listen<LatLng?>(taxiPickupLocationProvider, (LatLng? previous, LatLng? next) {
+  ref.listen<LatLng?>(taxiPickupLocationProvider, (
+    LatLng? previous,
+    LatLng? next,
+  ) {
     syncTaxiRoutes(ref);
   });
-  ref.listen<LatLng?>(
-    taxiDestinationLocationProvider,
-    (LatLng? previous, LatLng? next) {
-      syncTaxiRoutes(ref);
-    },
-  );
+  ref.listen<LatLng?>(taxiDestinationLocationProvider, (
+    LatLng? previous,
+    LatLng? next,
+  ) {
+    syncTaxiRoutes(ref);
+  });
 });
-

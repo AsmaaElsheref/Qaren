@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5,7 +6,6 @@ import 'package:qaren/core/constants/gap.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_colors_ext.dart';
 import '../../../../core/constants/app_dimensions.dart';
-import '../../../../core/constants/app_strings.dart';
 import '../../../../core/ui/widgets/AppText.dart';
 import '../../../../core/ui/widgets/AppTextStyles.dart';
 import '../../../../core/ui/widgets/icon_container.dart';
@@ -50,7 +50,10 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
             elevation: 0,
             scrolledUnderElevation: 0,
             leading: GestureDetector(
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => PersonalProfilePage())),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => PersonalProfilePage()),
+              ),
               child: Padding(
                 padding: const EdgeInsets.only(right: 16),
                 child: Stack(
@@ -60,10 +63,7 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
                       width: 45,
                       height: 45,
                       decoration: BoxDecoration(
-                        border: Border.all(
-                          color: colors.border,
-                          width: 1.5,
-                        ),
+                        border: Border.all(color: colors.border, width: 1.5),
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: ClipRRect(
@@ -128,7 +128,7 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
                   ],
                 ),
                 AppText(
-                  AppStrings.appSubtitle,
+                  'app.subtitle'.tr(),
                   style: AppTextStyles.caption.copyWith(
                     color: colors.textSecondary,
                     fontWeight: FontWeight.w400,
@@ -177,6 +177,3 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
     );
   }
 }
-
-
-

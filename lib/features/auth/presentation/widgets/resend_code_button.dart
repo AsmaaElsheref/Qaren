@@ -1,5 +1,5 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/constants/app_strings.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/ui/widgets/AppText.dart';
 import '../../../../core/ui/widgets/AppTextStyles.dart';
@@ -28,7 +28,7 @@ class ResendCodeButton extends StatelessWidget {
               ),
             )
           : AppText(
-              AppStrings.verifyCodeResend,
+              'auth.verifyCode.resend'.tr(),
               style: AppTextStyles.body.copyWith(
                 color: AppColors.primary,
                 fontWeight: FontWeight.w600,
@@ -39,4 +39,3 @@ class ResendCodeButton extends StatelessWidget {
     );
   }
 }
-

@@ -1,6 +1,6 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/constants/app_dimensions.dart';
-import '../../../../core/constants/app_strings.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/ui/widgets/AppText.dart';
 import '../../../../core/ui/widgets/AppTextStyles.dart';
@@ -30,13 +30,13 @@ class ResetPasswordSuccessView extends StatelessWidget {
         ),
         const SizedBox(height: AppDimensions.paddingL),
         AppText(
-          AppStrings.resetPasswordSuccess,
+          'auth.resetPassword.success'.tr(),
           style: AppTextStyles.headline,
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: AppDimensions.paddingXXL),
         AuthSubmitButton(
-          label: AppStrings.forgotPasswordBackToLogin,
+          label: 'auth.forgotPassword.backToLogin'.tr(),
           isLoading: false,
           onPressed: onBackToLogin,
         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 
 import '../../../../../core/theme/app_colors.dart';
@@ -8,10 +9,7 @@ import '../../../../../core/ui/widgets/AppTextStyles.dart';
 class EditProfileHeader extends StatelessWidget {
   final VoidCallback onBack;
 
-  const EditProfileHeader({
-    super.key,
-    required this.onBack,
-  });
+  const EditProfileHeader({super.key, required this.onBack});
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +23,9 @@ class EditProfileHeader extends StatelessWidget {
             icon: const Icon(Icons.arrow_back_ios_new_rounded),
             color: colors.textPrimary,
           ),
-          const Expanded(
+          Expanded(
             child: AppText(
-              'تعديل الملف الشخصي',
+              'profile.editProfileTitle'.tr(),
               textAlign: TextAlign.center,
               style: AppTextStyles.title,
             ),
@@ -38,4 +36,3 @@ class EditProfileHeader extends StatelessWidget {
     );
   }
 }
-

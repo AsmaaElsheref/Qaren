@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
 import 'package:qaren/core/theme/app_colors.dart';
@@ -20,7 +21,7 @@ class BookingDetailsActions extends StatelessWidget {
             height: AppDimensions.buttonHeight,
             child: ElevatedButton(
               onPressed: null,
-              child: const AppText('إعادة الطلب'),
+              child: AppText('bookings.details.reorder'.tr()),
             ),
           ),
           const SizedBox(height: AppDimensions.paddingS),
@@ -31,7 +32,7 @@ class BookingDetailsActions extends StatelessWidget {
           child: OutlinedButton.icon(
             onPressed: () {},
             icon: const Icon(Icons.share_outlined, color: AppColors.primary),
-            label: const AppText('مشاركة التفاصيل'),
+            label: AppText('bookings.details.share'.tr()),
           ),
         ),
         const SizedBox(height: AppDimensions.paddingS),
@@ -40,11 +41,10 @@ class BookingDetailsActions extends StatelessWidget {
           height: AppDimensions.buttonHeight,
           child: TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const AppText('العودة'),
+            child: AppText('bookings.details.back'.tr()),
           ),
         ),
       ],
     );
   }
 }
-

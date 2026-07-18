@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
@@ -5,7 +6,6 @@ import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
-import '../../food_strings.dart';
 import '../../providers/food_providers.dart';
 
 /// Delivery address + estimated time section. Watches only the address /
@@ -30,7 +30,7 @@ class CheckoutDeliverySection extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppText(
-            FoodStrings.deliverySection,
+            'food.checkout.deliverySection'.tr(),
             style: TextStyle(
               fontSize: AppDimensions.fontM,
               fontWeight: FontWeight.w800,
@@ -40,11 +40,17 @@ class CheckoutDeliverySection extends ConsumerWidget {
           const SizedBox(height: AppDimensions.paddingS),
           Row(
             children: [
-              const Icon(Icons.location_on_outlined, color: AppColors.primary, size: 18),
+              const Icon(
+                Icons.location_on_outlined,
+                color: AppColors.primary,
+                size: 18,
+              ),
               const SizedBox(width: 6),
               Expanded(
                 child: AppText(
-                  address.isNotEmpty ? address : 'لم يتم تحديد العنوان',
+                  address.isNotEmpty
+                      ? address
+                      : 'food.checkout.addressNotSet'.tr(),
                   style: TextStyle(
                     fontSize: AppDimensions.fontS,
                     color: colors.textPrimary,
@@ -57,11 +63,15 @@ class CheckoutDeliverySection extends ConsumerWidget {
             const SizedBox(height: 6),
             Row(
               children: [
-                const Icon(Icons.access_time_rounded, color: AppColors.primary, size: 18),
+                const Icon(
+                  Icons.access_time_rounded,
+                  color: AppColors.primary,
+                  size: 18,
+                ),
                 const SizedBox(width: 6),
                 AppText(
-                  '${FoodStrings.estimatedDelivery}: '
-                  '${partner.deliveryTimeMinutes} ${FoodStrings.minutes}',
+                  '${'food.checkout.estimatedDelivery'.tr()}: '
+                  '${partner.deliveryTimeMinutes} ${'food.comparison.minutes'.tr()}',
                   secondary: true,
                   style: const TextStyle(fontSize: AppDimensions.fontXS),
                 ),
@@ -73,4 +83,3 @@ class CheckoutDeliverySection extends ConsumerWidget {
     );
   }
 }
-

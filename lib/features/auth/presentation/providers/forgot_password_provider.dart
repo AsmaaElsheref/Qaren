@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/utils/print/custom_print.dart';
-import '../../../../core/constants/app_strings.dart';
 import '../../domain/repositories/auth_repository.dart';
 import 'forgot_password_state.dart';
 import 'login_providers.dart';

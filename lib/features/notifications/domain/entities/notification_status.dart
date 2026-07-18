@@ -1,3 +1,5 @@
+import 'package:qaren/core/localization/easy_localization.dart';
+
 enum NotificationStatus {
   confirmed,
   info,
@@ -8,12 +10,12 @@ enum NotificationStatus {
 
   String get label {
     return switch (this) {
-      NotificationStatus.confirmed => 'مؤكد',
-      NotificationStatus.info => 'معلومة',
-      NotificationStatus.pending => 'قيد الانتظار',
-      NotificationStatus.cancelled => 'ملغي',
-      NotificationStatus.failed => 'فشل',
-      NotificationStatus.unknown => 'إشعار',
+      NotificationStatus.confirmed => 'notifications.status.confirmed'.tr(),
+      NotificationStatus.info => 'notifications.status.info'.tr(),
+      NotificationStatus.pending => 'notifications.status.pending'.tr(),
+      NotificationStatus.cancelled => 'notifications.status.cancelled'.tr(),
+      NotificationStatus.failed => 'notifications.status.failed'.tr(),
+      NotificationStatus.unknown => 'notifications.status.notification'.tr(),
     };
   }
 
@@ -29,4 +31,3 @@ enum NotificationStatus {
     };
   }
 }
-

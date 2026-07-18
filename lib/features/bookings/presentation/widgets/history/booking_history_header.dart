@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/theme/app_colors.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
@@ -7,7 +8,8 @@ import 'package:qaren/core/ui/widgets/icon_container.dart';
 
 import 'booking_filter_sheet.dart';
 
-class BookingHistoryHeader extends StatelessWidget implements PreferredSizeWidget {
+class BookingHistoryHeader extends StatelessWidget
+    implements PreferredSizeWidget {
   const BookingHistoryHeader({super.key});
 
   @override
@@ -20,7 +22,7 @@ class BookingHistoryHeader extends StatelessWidget implements PreferredSizeWidge
       elevation: 0,
       centerTitle: true,
       actionsPadding: EdgeInsets.only(left: 20),
-      title: const AppText('طلباتي', style: AppTextStyles.title),
+      title: AppText('bookings.history.title'.tr(), style: AppTextStyles.title),
       actions: [
         IconContainer(
           icon: Icon(Icons.tune_rounded, color: colors.textPrimary),

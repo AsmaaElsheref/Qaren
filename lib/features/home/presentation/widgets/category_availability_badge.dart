@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/ui/widgets/AppText.dart';
@@ -15,7 +16,7 @@ class CategoryAvailabilityBadge extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
       ),
       child: AppText(
-        'قريبًا',
+        'home.comingSoonBadge'.tr(),
         style: TextStyle(
           fontSize: 9,
           fontWeight: FontWeight.w600,
@@ -26,4 +27,3 @@ class CategoryAvailabilityBadge extends StatelessWidget {
     );
   }
 }
-

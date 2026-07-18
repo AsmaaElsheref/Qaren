@@ -3,6 +3,8 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:qaren/core/config/config.dart';
+import 'package:qaren/core/ui/widgets/map_unavailable_view.dart';
 import 'package:qaren/features/profile/presentation/providers/profileSettings/profile_settings_provider.dart';
 import '../../../../../core/constants/map_stayles.dart';
 import '../providers/taxi_providers.dart';
@@ -56,9 +58,7 @@ class _TaxiMapViewState extends ConsumerState<TaxiMapView> {
   Future<void> _animateToSingleLocation(LatLng target, double zoom) async {
     final controller = _controller;
     if (controller == null || !mounted) return;
-    await controller.animateCamera(
-      CameraUpdate.newLatLngZoom(target, zoom),
-    );
+    await controller.animateCamera(CameraUpdate.newLatLngZoom(target, zoom));
   }
 
   /// Fit both pickup and destination inside the viewport with proper padding.
@@ -120,6 +120,13 @@ class _TaxiMapViewState extends ConsumerState<TaxiMapView> {
 
   @override
   Widget build(BuildContext context) {
+    if (!AppConfig.hasGoogleMapsApiKey) {
+      return const MapUnavailableView(
+        titleKey: 'taxi.map.disabledTitle',
+        messageKey: 'taxi.map.disabledMessage',
+      );
+    }
+
     final isDarkMode = ref.watch(profileIsDarkModeProvider);
 
     ref.listen<bool>(profileIsDarkModeProvider, (prev, next) {
@@ -130,8 +137,8 @@ class _TaxiMapViewState extends ConsumerState<TaxiMapView> {
     // ── Pickup listener – camera side effect only, no rebuild ─────────────
     ref.listen<LatLng?>(taxiPickupLocationProvider, (prev, next) {
       if (next == null) return;
-      if (prev?.latitude == next.latitude &&
-          prev?.longitude == next.longitude) return;
+      if (prev?.latitude == next.latitude && prev?.longitude == next.longitude)
+        return;
       _handleLocationChange(
         pickup: next,
         destination: ref.read(taxiDestinationLocationProvider),
@@ -141,8 +148,8 @@ class _TaxiMapViewState extends ConsumerState<TaxiMapView> {
     // ── Destination listener – camera side effect only, no rebuild ─────────
     ref.listen<LatLng?>(taxiDestinationLocationProvider, (prev, next) {
       if (next == null) return;
-      if (prev?.latitude == next.latitude &&
-          prev?.longitude == next.longitude) return;
+      if (prev?.latitude == next.latitude && prev?.longitude == next.longitude)
+        return;
       _handleLocationChange(
         pickup: ref.read(taxiPickupLocationProvider),
         destination: next,
@@ -157,18 +164,10 @@ class _TaxiMapViewState extends ConsumerState<TaxiMapView> {
     final initialAsync = ref.watch(taxiInitialPositionProvider);
 
     return initialAsync.when(
-      loading: () => _buildMap(
-        kTaxiInitialCameraPosition,
-        markers,
-        polylines,
-        isDarkMode,
-      ),
-      error: (_, __) => _buildMap(
-        kTaxiInitialCameraPosition,
-        markers,
-        polylines,
-        isDarkMode,
-      ),
+      loading: () =>
+          _buildMap(kTaxiInitialCameraPosition, markers, polylines, isDarkMode),
+      error: (_, __) =>
+          _buildMap(kTaxiInitialCameraPosition, markers, polylines, isDarkMode),
       data: (realPos) {
         // Animate once only; marker/polyline rebuilds must not reset camera.
         WidgetsBinding.instance.addPostFrameCallback((_) {

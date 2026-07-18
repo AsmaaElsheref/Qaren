@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
@@ -20,7 +21,7 @@ class WalletAppBar extends ConsumerWidget implements PreferredSizeWidget {
       elevation: 0,
       centerTitle: true,
       title: AppText(
-        'المحفظة',
+        'wallet.title'.tr(),
         style: AppTextStyles.title.copyWith(color: colors.textPrimary),
       ),
     );

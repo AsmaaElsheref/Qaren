@@ -1,3 +1,5 @@
+import 'package:qaren/core/localization/easy_localization.dart';
+
 enum WalletTransactionType {
   deposit,
   payment,
@@ -5,9 +7,10 @@ enum WalletTransactionType {
 
   String get label {
     return switch (this) {
-      WalletTransactionType.deposit => 'إيداع',
-      WalletTransactionType.payment => 'دفع',
-      WalletTransactionType.unknown => 'معاملة',
+      WalletTransactionType.deposit => 'wallet.transactionType.deposit'.tr(),
+      WalletTransactionType.payment => 'wallet.transactionType.payment'.tr(),
+      WalletTransactionType.unknown =>
+        'wallet.transactionType.transaction'.tr(),
     };
   }
 
@@ -21,4 +24,3 @@ enum WalletTransactionType {
     };
   }
 }
-

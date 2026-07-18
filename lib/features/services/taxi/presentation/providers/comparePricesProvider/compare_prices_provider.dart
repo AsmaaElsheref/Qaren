@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:qaren/core/utils/print/custom_print.dart';
 
 import '../../../data/datasources/car_rental_remote_datasource.dart';
@@ -40,8 +41,7 @@ class ComparePricesNotifier extends Notifier<ComparePricesState> {
 
   void reset() => state = const ComparePricesState();
 
-  void setSort(CompareSortType sort) =>
-      state = state.copyWith(sortType: sort);
+  void setSort(CompareSortType sort) => state = state.copyWith(sortType: sort);
 
   /// Calls the search API and maps results into [PriceResult].
   Future<void> search(CarRentalSearchParams params) async {
@@ -84,7 +84,9 @@ class ComparePricesNotifier extends Notifier<ComparePricesState> {
         // not select them manually before launching the search.
         final parsed = data.parsedParameters;
         if (parsed != null) {
-          await ref.read(taxiProvider.notifier).fillFromParsedParameters(
+          await ref
+              .read(taxiProvider.notifier)
+              .fillFromParsedParameters(
                 parsed,
                 aiDestinationName: parsed.destinationName,
               );
@@ -97,10 +99,7 @@ class ComparePricesNotifier extends Notifier<ComparePricesState> {
   /// Shared success-branch handler for both [search] and [aiSearch].
   void _applyResult(dynamic data) {
     if (data.offers.isEmpty) {
-      state = state.copyWith(
-        status: ComparePricesStatus.empty,
-        results: [],
-      );
+      state = state.copyWith(status: ComparePricesStatus.empty, results: []);
       return;
     }
 
@@ -126,16 +125,19 @@ class ComparePricesNotifier extends Notifier<ComparePricesState> {
   }) {
     return PriceResult(
       id: offer.offerId ?? '',
-      appName: offer.providerName ?? offer.carName ?? 'غير معروف',
+      appName:
+          offer.providerName ??
+          offer.carName ??
+          'taxi.compare.unknownProvider'.tr(),
       rideType: offer.carType ?? '',
-      price: offer.price ?? offer.totalPrice??0.0,
+      price: offer.price ?? offer.totalPrice ?? 0.0,
       currency: offer.currency ?? 'SAR',
       totalPrice: offer.totalPrice,
       rating: offer.providerData.rating ?? 0.0,
       distance: offer.distance,
       iconBgColor: _providerColor(offer.providerSlug),
       iconColor: const Color(0xFFFFFFFF),
-      icon: offer.carImage??'',
+      icon: offer.carImage ?? '',
       isBestValue: isBestValue,
     );
   }
@@ -155,27 +157,20 @@ class ComparePricesNotifier extends Notifier<ComparePricesState> {
 
 final comparePricesProvider =
     NotifierProvider<ComparePricesNotifier, ComparePricesState>(
-  ComparePricesNotifier.new,
-);
+      ComparePricesNotifier.new,
+    );
 
 /// Granular — only the active sort type; avoids full list rebuilds.
 final compareSortTypeProvider = Provider<CompareSortType>(
-  (ref) => ref.watch(
-    comparePricesProvider.select((s) => s.sortType),
-  ),
+  (ref) => ref.watch(comparePricesProvider.select((s) => s.sortType)),
 );
 
 /// Granular — the sorted result list.
 final compareSortedResultsProvider = Provider<List<PriceResult>>(
-  (ref) => ref.watch(
-    comparePricesProvider.select((s) => s.sorted),
-  ),
+  (ref) => ref.watch(comparePricesProvider.select((s) => s.sorted)),
 );
 
 /// Granular — the status for loading/error/empty/success checks.
 final comparePricesStatusProvider = Provider<ComparePricesStatus>(
-  (ref) => ref.watch(
-    comparePricesProvider.select((s) => s.status),
-  ),
+  (ref) => ref.watch(comparePricesProvider.select((s) => s.status)),
 );
-

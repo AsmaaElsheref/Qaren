@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../providers/offerDetailsProvider/offer_details_provider.dart';
 
@@ -11,9 +12,7 @@ class RideServiceTitleSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final details = ref.watch(
-      offerDetailsProvider.select((s) => s.details),
-    );
+    final details = ref.watch(offerDetailsProvider.select((s) => s.details));
 
     // Prefer the real car name from the API; fall back to the passed serviceName.
     final displayName = (details?.name?.isNotEmpty ?? false)
@@ -56,26 +55,26 @@ class RideServiceTitleSection extends ConsumerWidget {
 
   static String _resolveCategory(String? type, String? category) {
     final raw = category ?? type ?? '';
-    if (raw.isEmpty) return 'خدمة توصيل';
-    // Map common English API values to Arabic labels.
+    if (raw.isEmpty) return 'taxi.rideType.default'.tr();
+    // Map common English API values to localized labels.
     switch (raw.toLowerCase()) {
       case 'economy':
-        return 'اقتصادي';
+        return 'taxi.rideType.economy'.tr();
       case 'compact':
-        return 'مدمج';
+        return 'taxi.rideType.compact'.tr();
       case 'standard':
-        return 'قياسي';
+        return 'taxi.rideType.standard'.tr();
       case 'fullsize':
       case 'full_size':
-        return 'كامل الحجم';
+        return 'taxi.rideType.fullSize'.tr();
       case 'suv':
-        return 'SUV';
+        return 'taxi.rideType.suv'.tr();
       case 'luxury':
-        return 'فاخر';
+        return 'taxi.rideType.luxury'.tr();
       case 'van':
-        return 'فان';
+        return 'taxi.rideType.van'.tr();
       case 'minivan':
-        return 'ميني فان';
+        return 'taxi.rideType.minivan'.tr();
       default:
         return raw;
     }

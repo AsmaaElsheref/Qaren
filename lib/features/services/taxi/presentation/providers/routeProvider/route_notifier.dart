@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:qaren/features/services/taxi/presentation/providers/routeProvider/route_statee.dart';
@@ -12,13 +13,13 @@ import '../../../domain/usecases/get_routes_usecase.dart';
 // Dependencies
 // ─────────────────────────────────────────────────────────────────────────────
 
-final _directionsDataSourceProvider =
-    Provider<DirectionsRemoteDataSource>((ref) {
+final _directionsDataSourceProvider = Provider<DirectionsRemoteDataSource>((
+  ref,
+) {
   return const DirectionsRemoteDataSourceImpl();
 });
 
-final _directionsRepositoryProvider =
-    Provider<DirectionsRepository>((ref) {
+final _directionsRepositoryProvider = Provider<DirectionsRepository>((ref) {
   final DirectionsRemoteDataSource dataSource = ref.watch(
     _directionsDataSourceProvider,
   );
@@ -58,17 +59,11 @@ class RouteNotifier extends Notifier<RouteState> {
   }
 
   void setPickupLocation(LatLng location) {
-    state = state.copyWith(
-      pickupLocation: location,
-      clearError: true,
-    );
+    state = state.copyWith(pickupLocation: location, clearError: true);
   }
 
   void setDestinationLocation(LatLng location) {
-    state = state.copyWith(
-      destinationLocation: location,
-      clearError: true,
-    );
+    state = state.copyWith(destinationLocation: location, clearError: true);
   }
 
   Future<void> loadRoutes({
@@ -107,7 +102,7 @@ class RouteNotifier extends Notifier<RouteState> {
               loadingRoutes: false,
               routes: const <RouteEntity>[],
               clearSelectedRoute: true,
-              errorMessage: 'لا توجد مسارات متاحة',
+              errorMessage: 'taxi.route.noRoutes'.tr(),
             );
             return;
           }
@@ -143,10 +138,7 @@ class RouteNotifier extends Notifier<RouteState> {
       return;
     }
 
-    state = state.copyWith(
-      selectedRouteId: routeId,
-      clearError: true,
-    );
+    state = state.copyWith(selectedRouteId: routeId, clearError: true);
   }
 
   String _pickDefaultRouteId(List<RouteEntity> routes) {
@@ -176,48 +168,34 @@ final routeProvider = NotifierProvider<RouteNotifier, RouteState>(
 
 final routeSelectedDistanceProvider = Provider<double?>((ref) {
   return ref.watch(
-    routeProvider.select(
-      (RouteState state) => state.distanceKm,
-    ),
+    routeProvider.select((RouteState state) => state.distanceKm),
   );
 });
 
 final routeSelectedDurationProvider = Provider<int?>((ref) {
   return ref.watch(
-    routeProvider.select(
-      (RouteState state) => state.durationMinutes,
-    ),
+    routeProvider.select((RouteState state) => state.durationMinutes),
   );
 });
 
 final routeDeliveryFeeProvider = Provider<double?>((ref) {
   return ref.watch(
-    routeProvider.select(
-      (RouteState state) => state.deliveryFeeSar,
-    ),
+    routeProvider.select((RouteState state) => state.deliveryFeeSar),
   );
 });
 
 final routeSelectedNameProvider = Provider<String?>((ref) {
   return ref.watch(
-    routeProvider.select(
-      (RouteState state) => state.selectedRoute?.name,
-    ),
+    routeProvider.select((RouteState state) => state.selectedRoute?.name),
   );
 });
 
 final routeLoadingProvider = Provider<bool>((ref) {
   return ref.watch(
-    routeProvider.select(
-      (RouteState state) => state.loadingRoutes,
-    ),
+    routeProvider.select((RouteState state) => state.loadingRoutes),
   );
 });
 
 final routeHasRoutesProvider = Provider<bool>((ref) {
-  return ref.watch(
-    routeProvider.select(
-      (RouteState state) => state.hasRoutes,
-    ),
-  );
+  return ref.watch(routeProvider.select((RouteState state) => state.hasRoutes));
 });

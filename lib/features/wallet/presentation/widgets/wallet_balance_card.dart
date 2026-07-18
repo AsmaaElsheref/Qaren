@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
@@ -11,10 +12,7 @@ import 'wallet_balance_amount.dart';
 class WalletBalanceCard extends ConsumerWidget {
   final VoidCallback onAddBalance;
 
-  const WalletBalanceCard({
-    super.key,
-    required this.onAddBalance,
-  });
+  const WalletBalanceCard({super.key, required this.onAddBalance});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -41,7 +39,7 @@ class WalletBalanceCard extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppText(
-            'رصيد المحفظة',
+            'wallet.balance.title'.tr(),
             style: AppTextStyles.bodySecondary.copyWith(color: AppColors.white),
           ),
           const SizedBox(height: AppDimensions.paddingS),
@@ -49,7 +47,9 @@ class WalletBalanceCard extends ConsumerWidget {
           if (updatedAtLabel.isNotEmpty) ...[
             const SizedBox(height: AppDimensions.paddingS),
             AppText(
-              'آخر تحديث: $updatedAtLabel',
+              'wallet.balance.lastUpdated'.tr(
+                namedArgs: {'date': updatedAtLabel},
+              ),
               style: AppTextStyles.caption.copyWith(color: AppColors.white),
             ),
           ],

@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -5,7 +6,6 @@ import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/ui/widgets/AppButton.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
-import '../../food_strings.dart';
 import '../../pages/foodInvoicePage/food_invoice_page.dart';
 import '../../providers/food_providers.dart';
 
@@ -32,14 +32,13 @@ class SuccessActions extends ConsumerWidget {
       child: Column(
         children: [
           AppButton(
-            label: FoodStrings.backToHome,
+            label: 'food.success.backToHome'.tr(),
             icon: Icons.home,
             onTap: () => _onBackHome(context, ref),
           ),
-          SizedBox(height: AppDimensions.paddingXL,)
+          SizedBox(height: AppDimensions.paddingXL),
         ],
       ),
     );
   }
 }
-

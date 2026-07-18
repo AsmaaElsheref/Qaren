@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_colors_ext.dart';
@@ -48,7 +49,7 @@ class LogoutConfirmationSheet extends StatelessWidget {
           const SizedBox(height: 16),
           // Title
           AppText(
-            'تسجيل الخروج',
+            'profile.logout.title'.tr(),
             style: AppTextStyles.title.copyWith(
               fontWeight: FontWeight.w700,
               color: colors.textPrimary,
@@ -57,7 +58,7 @@ class LogoutConfirmationSheet extends StatelessWidget {
           const SizedBox(height: 8),
           // Message
           AppText(
-            'هل أنت متأكد أنك تريد تسجيل الخروج؟',
+            'profile.logout.confirmMessage'.tr(),
             secondary: true,
             textAlign: TextAlign.center,
           ),
@@ -77,7 +78,7 @@ class LogoutConfirmationSheet extends StatelessWidget {
                 ),
               ),
               child: AppText(
-                'تسجيل الخروج',
+                'profile.logout.title'.tr(),
                 style: AppTextStyles.body.copyWith(
                   color: AppColors.white,
                   fontWeight: FontWeight.w700,
@@ -100,7 +101,7 @@ class LogoutConfirmationSheet extends StatelessWidget {
                 ),
               ),
               child: AppText(
-                'إلغاء',
+                'common.cancel'.tr(),
                 style: AppTextStyles.body.copyWith(
                   fontWeight: FontWeight.w600,
                   color: colors.textPrimary,
