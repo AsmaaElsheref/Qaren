@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:qaren/core/localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:qaren/core/ui/widgets/toast/toast.dart';
 import '../../../../../core/ui/widgets/AppButton.dart';
 import '../pages/searching/searching.dart';

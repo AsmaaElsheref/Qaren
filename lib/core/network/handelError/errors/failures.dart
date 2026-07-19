@@ -1,4 +1,4 @@
-import 'package:qaren/core/localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 abstract class Failure {
   final String message;

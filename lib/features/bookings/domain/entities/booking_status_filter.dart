@@ -1,4 +1,4 @@
-import 'package:qaren/core/localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 enum BookingStatusFilter {
   all,

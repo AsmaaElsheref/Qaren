@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:qaren/core/config/config.dart';
-import 'package:qaren/core/localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../../../../../core/network/handelError/errors/failures.dart';
 import '../models/route/route_model.dart';
 

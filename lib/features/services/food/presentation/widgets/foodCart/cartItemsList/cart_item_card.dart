@@ -1,4 +1,4 @@
-import 'package:qaren/core/localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:qaren/core/utils/extensions/contextSizeX.dart';

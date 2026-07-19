@@ -1,4 +1,4 @@
-import 'package:qaren/core/localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:qaren/core/utils/print/custom_print.dart';
 
 class Validators {
