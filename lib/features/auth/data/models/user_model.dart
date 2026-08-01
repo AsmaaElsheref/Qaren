@@ -27,7 +27,7 @@ class UserModel extends UserEntity {
         orElse: () => UserRole.user,
       ),
       gender: json['gender'] as String? ?? '',
-      image: json['image'] as String?,
+      image: (json['image'] ?? json['avatar']) as String?,
       locale: json['locale'] as String?,
       createdAt: DateTime.parse(
         json['created_at'] as String? ?? DateTime.now().toIso8601String(),
@@ -52,5 +52,3 @@ class UserModel extends UserEntity {
     };
   }
 }
-
-

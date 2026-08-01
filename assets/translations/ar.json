@@ -73,7 +73,14 @@
       "browseAsGuest": "تصفح كزائر",
       "noAccount": "ليس لديك حساب؟",
       "signUpLink": "إنشاء حساب",
-      "failed": "فشل تسجيل الدخول. تحقق من بياناتك."
+      "failed": "فشل تسجيل الدخول. تحقق من بياناتك.",
+      "continueWithGoogle": "المتابعة باستخدام Google",
+      "googleLoginCancelled": "تم إلغاء تسجيل الدخول باستخدام Google.",
+      "googleAccessTokenMissing": "تعذر إكمال المصادقة باستخدام Google.",
+      "googleInvalidToken": "جلسة Google غير صالحة. يرجى المحاولة مرة أخرى.",
+      "googleLoginFailed": "تعذر تسجيل الدخول باستخدام Google. يرجى المحاولة مرة أخرى.",
+      "googleAccountNotAvailable": "لا يتوفر حساب Google على هذا الجهاز.",
+      "sessionSaveFailed": "تعذر حفظ جلسة تسجيل الدخول بأمان. يرجى المحاولة مرة أخرى."
     },
     "signup": {
       "title": "إنشاء حساب جديد",
@@ -150,7 +157,7 @@
     "loadError": "تعذّر تحميل البيانات، يرجى المحاولة مرة أخرى.",
     "saveChanges": "حفظ التغييرات",
     "defaultUserName": "المستخدم",
-    "membershipLabel": "عضو ذهبي",
+    "accountLabel": "حساب مستخدم",
     "section": {
       "account": "الحساب",
       "general": "عام"

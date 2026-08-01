@@ -73,7 +73,14 @@
       "browseAsGuest": "Browse as guest",
       "noAccount": "Don't have an account?",
       "signUpLink": "Create account",
-      "failed": "Sign in failed. Check your credentials."
+      "failed": "Sign in failed. Check your credentials.",
+      "continueWithGoogle": "Continue with Google",
+      "googleLoginCancelled": "Google sign-in was cancelled.",
+      "googleAccessTokenMissing": "Google authentication could not be completed.",
+      "googleInvalidToken": "The Google session is invalid. Please try again.",
+      "googleLoginFailed": "Unable to sign in with Google. Please try again.",
+      "googleAccountNotAvailable": "No Google account is available on this device.",
+      "sessionSaveFailed": "Unable to save your sign-in session securely. Please try again."
     },
     "signup": {
       "title": "Create a new account",
@@ -150,7 +157,7 @@
     "loadError": "Unable to load data. Please try again.",
     "saveChanges": "Save changes",
     "defaultUserName": "User",
-    "membershipLabel": "Gold member",
+    "accountLabel": "User account",
     "section": {
       "account": "Account",
       "general": "General"

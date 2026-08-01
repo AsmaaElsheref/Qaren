@@ -2,12 +2,12 @@ import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/ui/widgets/loading.dart';
-import '../../../../../core/localStorage/cache_helper.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/ui/widgets/AppText.dart';
 import '../../../../../core/ui/widgets/AppTextStyles.dart';
 import '../../../../auth/presentation/pages/login_page.dart';
 import '../../../../auth/presentation/providers/user_profile_provider.dart';
+import '../../../../auth/presentation/providers/login_providers.dart';
 import '../editProfile/edit_profile_page.dart';
 import '../../widgets/logout_confirmation_sheet.dart';
 import '../../widgets/personal_profile_app_bar.dart';
@@ -21,19 +21,20 @@ class PersonalProfilePage extends ConsumerWidget {
 
   final bool? isHome;
 
-  Future<void> _showLogoutSheet(BuildContext context) async {
+  Future<void> _showLogoutSheet(BuildContext context, WidgetRef ref) async {
     await showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      builder: (_) =>
-          LogoutConfirmationSheet(onConfirm: () => _performLogout(context)),
+      builder: (_) => LogoutConfirmationSheet(
+        onConfirm: () => _performLogout(context, ref),
+      ),
     );
   }
 
-  Future<void> _performLogout(BuildContext context) async {
+  Future<void> _performLogout(BuildContext context, WidgetRef ref) async {
     Navigator.of(context).pop();
-    await CacheHelper.clearAll();
+    await ref.read(loginNotifierProvider.notifier).logout();
     if (context.mounted) {
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (_) => const LoginPage()),
@@ -98,7 +99,7 @@ class PersonalProfilePage extends ConsumerWidget {
                 onFavorites: () {},
                 onNotifications: () {},
                 onPrivacy: () {},
-                onLogout: () => _showLogoutSheet(context),
+                onLogout: () => _showLogoutSheet(context, ref),
               ),
 
               const SizedBox(height: 24),

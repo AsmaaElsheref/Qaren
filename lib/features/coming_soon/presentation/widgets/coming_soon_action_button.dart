@@ -9,13 +9,19 @@ import 'package:qaren/features/home/presentation/providers/home_providers.dart';
 
 class ComingSoonActionButton extends ConsumerWidget {
   const ComingSoonActionButton({super.key});
+
+  void _backToHome(BuildContext context, WidgetRef ref) {
+    ref.read(bottomNavIndexProvider.notifier).state = 0;
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SizedBox(
       width: double.infinity,
       height: 52,
       child: ElevatedButton(
-        onPressed: () => ref.read(bottomNavIndexProvider.notifier).state = 0,
+        onPressed: () => _backToHome(context, ref),
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primary,
           foregroundColor: AppColors.white,

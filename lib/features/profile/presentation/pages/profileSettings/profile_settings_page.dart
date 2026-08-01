@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/utils/extensions/contextSizeX.dart';
 import 'package:qaren/features/profile/presentation/pages/personalProfile/personal_profile_page.dart';
 import '../../../../auth/presentation/pages/login_page.dart';
-import '../../../../../core/localStorage/cache_helper.dart';
+import '../../../../auth/presentation/providers/login_providers.dart';
 import '../../widgets/dark_mode_toggle_item.dart';
 import '../../widgets/logout_confirmation_sheet.dart';
 import '../../providers/profileSettings/profile_settings_provider.dart';
@@ -22,16 +22,19 @@ class ProfileSettingsPage extends ConsumerWidget {
     await showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (_) =>
-          LogoutConfirmationSheet(onConfirm: () => _performLogout(context)),
+      builder: (_) => LogoutConfirmationSheet(
+        onConfirm: () => _performLogout(context, ref),
+      ),
     );
   }
 
-  Future<void> _performLogout(BuildContext context) async {
+  Future<void> _performLogout(BuildContext context, WidgetRef ref) async {
     // Close sheet first
     Navigator.of(context).pop();
     // Close drawer
     if (context.mounted) Navigator.of(context).pop();
+
+    await ref.read(loginNotifierProvider.notifier).logout();
 
     if (context.mounted) {
       Navigator.of(context).pushAndRemoveUntil(
@@ -39,8 +42,6 @@ class ProfileSettingsPage extends ConsumerWidget {
         (_) => false,
       );
     }
-
-    await CacheHelper.clearAll();
   }
 
   @override

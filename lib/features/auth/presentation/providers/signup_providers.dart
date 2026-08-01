@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/constants/app_constants.dart';
-import '../../../../core/localStorage/cache_helper.dart';
+import '../../../../core/localization/easy_localization.dart';
+import '../../data/services/auth_session_service.dart';
 import '../../domain/entities/register_params.dart';
 import '../../domain/usecases/register_usecase.dart';
 import 'login_providers.dart';
@@ -14,15 +14,22 @@ final registerUseCaseProvider = Provider<RegisterUseCase>(
 // ── Notifier ───────────────────────────────────────────────────────────────────
 final signupNotifierProvider =
     StateNotifierProvider.autoDispose<SignupNotifier, SignupState>(
-  (ref) => SignupNotifier(registerUseCase: ref.watch(registerUseCaseProvider)),
-);
+      (ref) => SignupNotifier(
+        registerUseCase: ref.watch(registerUseCaseProvider),
+        sessionService: ref.watch(authSessionServiceProvider),
+      ),
+    );
 
 class SignupNotifier extends StateNotifier<SignupState> {
   final RegisterUseCase _registerUseCase;
+  final AuthSessionService _sessionService;
 
-  SignupNotifier({required RegisterUseCase registerUseCase})
-      : _registerUseCase = registerUseCase,
-        super(const SignupState());
+  SignupNotifier({
+    required RegisterUseCase registerUseCase,
+    required AuthSessionService sessionService,
+  }) : _registerUseCase = registerUseCase,
+       _sessionService = sessionService,
+       super(const SignupState());
 
   Future<void> register({
     required String name,
@@ -45,23 +52,28 @@ class SignupNotifier extends StateNotifier<SignupState> {
       ),
     );
 
-    result.fold(
-      (failure) => state = state.copyWith(
+    if (result.isLeft) {
+      state = state.copyWith(
         status: SignupStatus.failure,
-        errorMessage: failure.message,
-      ),
-      (user) async {
-        if (user.token != null) {
-          await CacheHelper.saveData(
-            key: AppConstants.token,
-            value: user.token!,
-          );
-        }
-        await CacheHelper.saveData(key: AppConstants.userName, value: user.name);
-        await CacheHelper.saveData(key: AppConstants.userPhone, value: user.phone);
+        errorMessage: result.leftValue.message,
+      );
+      return;
+    }
+
+    try {
+      final user = result.rightValue;
+      await _sessionService.persist(user);
+      if (mounted) {
         state = state.copyWith(status: SignupStatus.success, user: user);
-      },
-    );
+      }
+    } catch (_) {
+      if (mounted) {
+        state = state.copyWith(
+          status: SignupStatus.failure,
+          errorMessage: 'auth.login.sessionSaveFailed'.tr(),
+        );
+      }
+    }
   }
 
   void setImage(String? path) {
@@ -90,4 +102,3 @@ class SignupNotifier extends StateNotifier<SignupState> {
     state = state.copyWith(status: SignupStatus.initial, errorMessage: null);
   }
 }
-

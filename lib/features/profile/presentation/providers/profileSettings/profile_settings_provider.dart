@@ -10,7 +10,7 @@ import '../../../../../core/localization/locale_service.dart';
 
 class ProfileSettingsState {
   final String userName;
-  final String membershipLabel;
+  final String accountSubtitle;
   final String? avatarUrl;
   final int unreadNotificationsCount;
   final bool isDarkMode;
@@ -19,7 +19,7 @@ class ProfileSettingsState {
 
   const ProfileSettingsState({
     required this.userName,
-    required this.membershipLabel,
+    required this.accountSubtitle,
     this.avatarUrl,
     required this.unreadNotificationsCount,
     required this.isDarkMode,
@@ -29,7 +29,7 @@ class ProfileSettingsState {
 
   ProfileSettingsState copyWith({
     String? userName,
-    String? membershipLabel,
+    String? accountSubtitle,
     String? avatarUrl,
     int? unreadNotificationsCount,
     bool? isDarkMode,
@@ -38,7 +38,7 @@ class ProfileSettingsState {
   }) {
     return ProfileSettingsState(
       userName: userName ?? this.userName,
-      membershipLabel: membershipLabel ?? this.membershipLabel,
+      accountSubtitle: accountSubtitle ?? this.accountSubtitle,
       avatarUrl: avatarUrl ?? this.avatarUrl,
       unreadNotificationsCount:
           unreadNotificationsCount ?? this.unreadNotificationsCount,
@@ -54,13 +54,21 @@ class ProfileSettingsState {
 class ProfileSettingsNotifier extends Notifier<ProfileSettingsState> {
   @override
   ProfileSettingsState build() {
-    final cached = CacheHelper.getData(key: AppConstants.userName) as String?;
+    final cachedUserName =
+        (CacheHelper.getData(key: AppConstants.userName) as String?)?.trim();
+    final cachedEmail =
+        (CacheHelper.getData(key: AppConstants.userEmail) as String?)?.trim();
     final savedDarkMode =
         CacheHelper.getData(key: AppConstants.isDarkMode) as bool? ?? false;
+
     final savedLocale = LocaleService.readSavedLocale();
     return ProfileSettingsState(
-      userName: cached ?? 'profile.defaultUserName'.tr(),
-      membershipLabel: 'profile.membershipLabel'.tr(),
+      userName: cachedUserName?.isNotEmpty == true
+          ? cachedUserName!
+          : 'profile.defaultUserName'.tr(),
+      accountSubtitle: cachedEmail?.isNotEmpty == true
+          ? cachedEmail!
+          : 'profile.accountLabel'.tr(),
       avatarUrl: null,
       unreadNotificationsCount: 3,
       isDarkMode: savedDarkMode,

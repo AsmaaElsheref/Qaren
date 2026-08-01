@@ -22,6 +22,8 @@ class DioHelper {
         connectTimeout: const Duration(seconds: 15),
         receiveTimeout: const Duration(seconds: 15),
         receiveDataWhenStatusError: true,
+        followRedirects: false,
+        maxRedirects: 0,
       ),
     );
     return _dio!;
@@ -43,10 +45,7 @@ class DioHelper {
         url,
         queryParameters: query,
         data: data,
-        options: Options(
-          headers: networkHeaders(),
-          responseType: responseType,
-        ),
+        options: Options(headers: networkHeaders(), responseType: responseType),
       ),
       url: url,
       method: 'GET',
@@ -58,6 +57,7 @@ class DioHelper {
     Map<String, dynamic>? query,
     dynamic data,
     bool? removeHeader,
+    bool authenticated = true,
     ResponseType? responseType,
   }) async {
     return _request(
@@ -66,7 +66,9 @@ class DioHelper {
         queryParameters: query,
         data: data,
         options: Options(
-          headers: removeHeader==true?null:networkHeaders(),
+          headers: removeHeader == true
+              ? null
+              : networkHeaders(includeAuthorization: authenticated),
           responseType: responseType,
         ),
       ),
@@ -122,4 +124,3 @@ class DioHelper {
     }
   }
 }
-

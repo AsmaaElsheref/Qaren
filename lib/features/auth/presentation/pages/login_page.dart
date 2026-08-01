@@ -13,6 +13,7 @@ import '../widgets/qaren_logo.dart';
 import '../widgets/login_input_field.dart';
 import '../widgets/gradient_login_button.dart';
 import '../widgets/biometrics_button.dart';
+import '../widgets/google_sign_in_button.dart';
 import '../../../home/presentation/pages/home_page.dart';
 import 'forgot_password_page.dart';
 import 'signup_page.dart';
@@ -39,6 +40,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   /// Ask user if they want to enable biometric login after first success.
   Future<bool> _showEnableBiometricDialog() async {
+    if (!mounted) return false;
     final result = await showDialog<bool>(
       context: context,
       barrierDismissible: false,
@@ -97,10 +99,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     ref.read(loginNotifierProvider.notifier).loginWithBiometrics();
   }
 
+  void _onGooglePressed() {
+    ref.read(loginNotifierProvider.notifier).loginWithGoogle();
+  }
+
   @override
   Widget build(BuildContext context) {
     // ── Listen for login success / failure ──────────────────────
     ref.listen<LoginState>(loginNotifierProvider, (previous, next) {
+      if (!mounted) return;
       if (next.status == LoginStatus.success &&
           previous?.status != LoginStatus.success) {
         Navigator.of(
@@ -134,6 +141,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
     final loginState = ref.watch(loginNotifierProvider);
     final notifier = ref.read(loginNotifierProvider.notifier);
+    final isBusy = loginState.status == LoginStatus.loading;
 
     return Scaffold(
       body: SafeArea(
@@ -215,11 +223,20 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     SizedBox(height: context.screenHeight * 0.06),
                     GradientLoginButton(
                       label: 'auth.login.button'.tr(),
-                      isLoading: loginState.status == LoginStatus.loading,
-                      onPressed: _onLoginPressed,
+                      isLoading:
+                          loginState.activeMethod == LoginMethod.password,
+                      onPressed: isBusy ? null : _onLoginPressed,
                     ),
-                    const SizedBox(height: AppDimensions.paddingXXL),
-                    BiometricsButton(onPressed: _onBiometricPressed),
+                    const SizedBox(height: AppDimensions.paddingM),
+                    GoogleSignInButton(
+                      label: 'auth.login.continueWithGoogle'.tr(),
+                      isLoading: loginState.activeMethod == LoginMethod.google,
+                      onPressed: isBusy ? null : _onGooglePressed,
+                    ),
+                    const SizedBox(height: AppDimensions.paddingXL),
+                    BiometricsButton(
+                      onPressed: isBusy ? null : _onBiometricPressed,
+                    ),
                     const SizedBox(height: AppDimensions.paddingL),
 
                     // TextButton(

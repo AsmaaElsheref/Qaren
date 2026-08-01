@@ -6,7 +6,7 @@ import '../../../../core/constants/app_dimensions.dart';
 import '../../../../core/ui/widgets/AppText.dart';
 
 class BiometricsButton extends StatelessWidget {
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   const BiometricsButton({super.key, required this.onPressed});
 

@@ -1,4 +1,4 @@
-package com.example.qaren
+package com.zynqor.qaren
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 

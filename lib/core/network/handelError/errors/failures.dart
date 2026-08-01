@@ -13,6 +13,11 @@ class AuthFailure extends Failure {
   AuthFailure([String? message]) : super(message ?? 'errors.unauthorized'.tr());
 }
 
+class AuthCancelledFailure extends Failure {
+  AuthCancelledFailure([String? message])
+      : super(message ?? 'errors.cancelled'.tr());
+}
+
 class ServerFailure extends Failure {
   ServerFailure([String? message]) : super(message ?? 'errors.server'.tr());
 }

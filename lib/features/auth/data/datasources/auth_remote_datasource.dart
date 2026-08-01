@@ -6,16 +6,23 @@ import 'package:qaren/features/auth/domain/entities/login_params.dart';
 import 'package:qaren/features/auth/domain/entities/register_params.dart';
 import 'package:qaren/features/auth/domain/entities/update_profile_params.dart';
 import 'package:qaren/features/auth/data/models/user_model.dart';
+import 'package:qaren/features/auth/data/models/google_login_response_model.dart';
 
 abstract class AuthRemoteDataSource {
   Future<UserModel> login(LoginParams params);
+  Future<UserModel> loginWithGoogleAccessToken(String accessToken);
   Future<UserModel> register(RegisterParams params);
   Future<UserModel> getMe();
   Future<UserModel> updateProfile(UpdateProfileParams params);
   Future<void> loginWithBiometrics(UserTypeTab userType);
   Future<void> forgotPassword(String login);
   Future<void> verifyCode(String login, String code);
-  Future<void> resetPassword(String login, String code, String password, String passwordConfirmation);
+  Future<void> resetPassword(
+    String login,
+    String code,
+    String password,
+    String passwordConfirmation,
+  );
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -28,17 +35,26 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         url: ApiRoutes.login,
         data: params.toJson(),
       );
-      final body  = response.data as Map<String, dynamic>;
-      final data  = body['data']  as Map<String, dynamic>;
+      final body = response.data as Map<String, dynamic>;
+      final data = body['data'] as Map<String, dynamic>;
       final token = data['token'] as String?;
-      final user  = data['user']  as Map<String, dynamic>;
+      final user = data['user'] as Map<String, dynamic>;
 
       return UserModel.fromJson(user, token: token);
-    }catch (e){
-      customPrint('Login Error ===> ${e}');
-      throw e;
+    } catch (e) {
+      customPrint('Login Error ===> $e');
+      rethrow;
     }
-   
+  }
+
+  @override
+  Future<UserModel> loginWithGoogleAccessToken(String accessToken) async {
+    final response = await DioHelper.postData(
+      url: ApiRoutes.googleLogin,
+      data: {'access_token': accessToken},
+      authenticated: false,
+    );
+    return GoogleLoginResponseModel.fromJson(response.data).data.user;
   }
 
   @override
@@ -62,10 +78,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       removeHeader: true,
     );
 
-    final body  = response.data as Map<String, dynamic>;
-    final data  = body['data']  as Map<String, dynamic>;
+    final body = response.data as Map<String, dynamic>;
+    final data = body['data'] as Map<String, dynamic>;
     final token = data['token'] as String?;
-    final user  = data['user']  as Map<String, dynamic>;
+    final user = data['user'] as Map<String, dynamic>;
 
     return UserModel.fromJson(user, token: token);
   }

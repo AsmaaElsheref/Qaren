@@ -2,6 +2,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 /// Keys for secure storage entries.
 abstract class _Keys {
+  static const sessionToken = 'session_access_token';
   static const refreshToken = 'bio_refresh_token';
   static const accessToken = 'bio_access_token';
   static const biometricsEnabled = 'biometrics_enabled';
@@ -11,15 +12,20 @@ abstract class _Keys {
 }
 
 class SecureStorageService {
+  static String? _cachedSessionToken;
+
+  static String? get cachedSessionToken => _cachedSessionToken;
+
   final FlutterSecureStorage _storage;
 
   SecureStorageService({FlutterSecureStorage? storage})
-      : _storage = storage ??
-            const FlutterSecureStorage(
-              iOptions: IOSOptions(
-                accessibility: KeychainAccessibility.first_unlock_this_device,
-              ),
-            );
+    : _storage =
+          storage ??
+          const FlutterSecureStorage(
+            iOptions: IOSOptions(
+              accessibility: KeychainAccessibility.first_unlock_this_device,
+            ),
+          );
 
   // ── Biometrics enabled flag ──────────────────────────────────
   Future<bool> isBiometricsEnabled() async {
@@ -35,6 +41,23 @@ class SecureStorageService {
     }
   }
 
+  /// Sanctum token for the active application session.
+  Future<void> saveSessionToken(String token) async {
+    await _storage.write(key: _Keys.sessionToken, value: token);
+    _cachedSessionToken = token;
+  }
+
+  Future<String?> getSessionToken() async {
+    final token = await _storage.read(key: _Keys.sessionToken);
+    _cachedSessionToken = token;
+    return token;
+  }
+
+  Future<void> clearSessionToken() async {
+    _cachedSessionToken = null;
+    await _storage.delete(key: _Keys.sessionToken);
+  }
+
   // ── Token storage ────────────────────────────────────────────
   Future<void> saveTokens({
     required String accessToken,
@@ -46,11 +69,9 @@ class SecureStorageService {
     }
   }
 
-  Future<String?> getAccessToken() =>
-      _storage.read(key: _Keys.accessToken);
+  Future<String?> getAccessToken() => _storage.read(key: _Keys.accessToken);
 
-  Future<String?> getRefreshToken() =>
-      _storage.read(key: _Keys.refreshToken);
+  Future<String?> getRefreshToken() => _storage.read(key: _Keys.refreshToken);
 
   Future<bool> hasStoredTokens() async {
     final token = await _storage.read(key: _Keys.accessToken);
@@ -77,6 +98,7 @@ class SecureStorageService {
 
   // ── Clear everything ─────────────────────────────────────────
   Future<void> clearAll() async {
+    _cachedSessionToken = null;
     await _storage.deleteAll();
   }
 

@@ -1,16 +1,20 @@
 import 'package:qaren/core/localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/constants/app_constants.dart';
-import '../../../../core/localStorage/cache_helper.dart';
+import '../../../../core/network/handelError/errors/failures.dart';
 import '../../../../core/providers/service_providers.dart';
 import '../../../../core/services/biometric_service.dart';
 import '../../../../core/services/secure_storage_service.dart';
 import '../../data/datasources/auth_remote_datasource.dart';
 import '../../data/repositories/auth_repository_impl.dart';
+import '../../data/services/auth_session_service.dart';
+import '../../data/services/google_sign_in_service.dart';
 import '../../domain/entities/login_params.dart';
+import '../../domain/entities/user_entity.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../../domain/usecases/login_usecase.dart';
+import '../../domain/usecases/google_login_usecase.dart';
 import 'login_state.dart';
 
 // ── Data layer ─────────────────────────────────────────────────────────────────
@@ -18,8 +22,19 @@ final authRemoteDataSourceProvider = Provider<AuthRemoteDataSource>(
   (ref) => const AuthRemoteDataSourceImpl(),
 );
 
+final googleSignInServiceProvider = Provider<GoogleSignInService>(
+  (ref) => GoogleSignInService(),
+);
+
+final authSessionServiceProvider = Provider<AuthSessionService>(
+  (ref) => AuthSessionService(ref.watch(secureStorageProvider)),
+);
+
 final authRepositoryProvider = Provider<AuthRepository>(
-  (ref) => AuthRepositoryImpl(ref.watch(authRemoteDataSourceProvider)),
+  (ref) => AuthRepositoryImpl(
+    ref.watch(authRemoteDataSourceProvider),
+    ref.watch(googleSignInServiceProvider),
+  ),
 );
 
 // ── Use cases ──────────────────────────────────────────────────────────────────
@@ -27,28 +42,44 @@ final loginUseCaseProvider = Provider<LoginUseCase>(
   (ref) => LoginUseCase(ref.watch(authRepositoryProvider)),
 );
 
+final googleLoginUseCaseProvider = Provider<GoogleLoginUseCase>(
+  (ref) => GoogleLoginUseCase(ref.watch(authRepositoryProvider)),
+);
+
 // ── Notifier ───────────────────────────────────────────────────────────────────
 final loginNotifierProvider =
     StateNotifierProvider.autoDispose<LoginNotifier, LoginState>(
       (ref) => LoginNotifier(
         loginUseCase: ref.watch(loginUseCaseProvider),
+        googleLoginUseCase: ref.watch(googleLoginUseCaseProvider),
         biometricService: ref.watch(biometricServiceProvider),
         secureStorage: ref.watch(secureStorageProvider),
+        sessionService: ref.watch(authSessionServiceProvider),
+        googleSignInService: ref.watch(googleSignInServiceProvider),
       ),
     );
 
 class LoginNotifier extends StateNotifier<LoginState> {
   final LoginUseCase _loginUseCase;
+  final GoogleLoginUseCase _googleLoginUseCase;
   final BiometricService _biometricService;
   final SecureStorageService _secureStorage;
+  final AuthSessionService _sessionService;
+  final GoogleSignInService _googleSignInService;
 
   LoginNotifier({
     required LoginUseCase loginUseCase,
+    required GoogleLoginUseCase googleLoginUseCase,
     required BiometricService biometricService,
     required SecureStorageService secureStorage,
+    required AuthSessionService sessionService,
+    required GoogleSignInService googleSignInService,
   }) : _loginUseCase = loginUseCase,
+       _googleLoginUseCase = googleLoginUseCase,
        _biometricService = biometricService,
        _secureStorage = secureStorage,
+       _sessionService = sessionService,
+       _googleSignInService = googleSignInService,
        super(const LoginState()) {
     _checkBiometricAvailability();
   }
@@ -79,7 +110,12 @@ class LoginNotifier extends StateNotifier<LoginState> {
     required String password,
     Future<bool> Function()? askEnableBiometrics,
   }) async {
-    state = state.copyWith(status: LoginStatus.loading, errorMessage: null);
+    if (state.status == LoginStatus.loading) return;
+    state = state.copyWith(
+      status: LoginStatus.loading,
+      errorMessage: null,
+      activeMethod: LoginMethod.password,
+    );
 
     final result = await _loginUseCase(
       LoginParams(
@@ -89,71 +125,94 @@ class LoginNotifier extends StateNotifier<LoginState> {
       ),
     );
 
-    result.fold(
-      (failure) {
+    if (result.isLeft) {
+      _failMounted(result.leftValue.message);
+      return;
+    }
+
+    await _completeLogin(
+      result.rightValue,
+      login: login,
+      password: password,
+      askEnableBiometrics: askEnableBiometrics,
+    );
+  }
+
+  Future<void> loginWithGoogle() async {
+    if (state.status == LoginStatus.loading) return;
+    state = state.copyWith(
+      status: LoginStatus.loading,
+      errorMessage: null,
+      activeMethod: LoginMethod.google,
+    );
+
+    final result = await _googleLoginUseCase();
+    if (result.isLeft) {
+      final failure = result.leftValue;
+      if (failure is AuthCancelledFailure) {
         if (mounted) {
           state = state.copyWith(
-            status: LoginStatus.failure,
-            errorMessage: failure.message,
+            status: LoginStatus.initial,
+            errorMessage: null,
+            activeMethod: null,
           );
         }
-      },
-      (user) async {
-        // Persist session (non-sensitive) via CacheHelper
-        if (user.token != null) {
-          await CacheHelper.saveData(
-            key: AppConstants.token,
-            value: user.token!,
-          );
-        }
-        await CacheHelper.saveData(
-          key: AppConstants.userName,
-          value: user.name,
-        );
-        await CacheHelper.saveData(
-          key: AppConstants.userPhone,
-          value: user.phone,
-        );
-        await CacheHelper.saveData(
-          key: AppConstants.userEmail,
-          value: user.email,
-        );
+        return;
+      }
+      _failMounted(failure.message);
+      return;
+    }
 
-        // Ask user to enable biometric login (only on manual login)
-        if (askEnableBiometrics != null) {
-          final bioAvailable = await _biometricService.isAvailable();
-          final alreadyEnabled = await _secureStorage.isBiometricsEnabled();
+    await _completeLogin(result.rightValue);
+  }
 
-          if (bioAvailable && !alreadyEnabled) {
-            final userAgreed = await askEnableBiometrics();
-            if (userAgreed) {
-              // Store credentials securely for biometric quick-login.
-              // The backend does NOT support refresh tokens, so we store
-              // encrypted email/password via flutter_secure_storage as the
-              // safest possible fallback. These are AES-encrypted behind
-              // Android Keystore / iOS Keychain — NOT plaintext.
-              await _secureStorage.saveFallbackCredentials(
-                email: login,
-                password: password,
-              );
-              if (user.token != null) {
-                await _secureStorage.saveTokens(accessToken: user.token!);
-              }
-              await _secureStorage.setBiometricsEnabled(true);
-            }
+  Future<void> _completeLogin(
+    UserEntity user, {
+    String? login,
+    String? password,
+    Future<bool> Function()? askEnableBiometrics,
+  }) async {
+    try {
+      await _sessionService.persist(user);
+
+      if (askEnableBiometrics != null && login != null && password != null) {
+        final bioAvailable = await _biometricService.isAvailable();
+        final alreadyEnabled = await _secureStorage.isBiometricsEnabled();
+
+        if (bioAvailable && !alreadyEnabled) {
+          final userAgreed = await askEnableBiometrics();
+          if (userAgreed) {
+            await _secureStorage.saveFallbackCredentials(
+              email: login,
+              password: password,
+            );
+            await _secureStorage.saveTokens(accessToken: user.token!);
+            await _secureStorage.setBiometricsEnabled(true);
           }
         }
+      }
 
-        if (mounted) {
-          state = state.copyWith(status: LoginStatus.success, user: user);
-        }
-      },
-    );
+      if (mounted) {
+        state = state.copyWith(
+          status: LoginStatus.success,
+          user: user,
+          activeMethod: null,
+        );
+      }
+    } catch (_) {
+      await _sessionService.clear();
+      _failMounted('auth.login.sessionSaveFailed'.tr());
+    }
   }
 
   // ── Biometric login ──────────────────────────────────────────
   Future<void> loginWithBiometrics() async {
-    state = state.copyWith(status: LoginStatus.loading, errorMessage: null);
+    if (state.status == LoginStatus.loading) return;
+    state = state.copyWith(
+      status: LoginStatus.loading,
+      errorMessage: null,
+      activeMethod: LoginMethod.biometric,
+    );
 
     // 1) Check if biometrics are enabled by user
     final enabled = await _secureStorage.isBiometricsEnabled();
@@ -185,7 +244,12 @@ class LoginNotifier extends StateNotifier<LoginState> {
         _failMounted('auth.errors.noBiometricEnrolled'.tr());
         return;
       case BiometricResult.cancelled:
-        if (mounted) state = state.copyWith(status: LoginStatus.initial);
+        if (mounted) {
+          state = state.copyWith(
+            status: LoginStatus.initial,
+            activeMethod: null,
+          );
+        }
         return;
       case BiometricResult.failed:
       case BiometricResult.error:
@@ -195,6 +259,9 @@ class LoginNotifier extends StateNotifier<LoginState> {
 
     // 4) Biometric passed → call real login API with secure credentials.
     //    Pass `null` for askEnableBiometrics so we don't re-prompt.
+    if (mounted) {
+      state = state.copyWith(status: LoginStatus.initial, activeMethod: null);
+    }
     await login(
       login: creds.email,
       password: creds.password,
@@ -220,14 +287,23 @@ class LoginNotifier extends StateNotifier<LoginState> {
   }
 
   void resetStatus() {
-    state = state.copyWith(status: LoginStatus.initial, errorMessage: null);
+    state = state.copyWith(
+      status: LoginStatus.initial,
+      errorMessage: null,
+      activeMethod: null,
+    );
   }
 
   // ── Logout ───────────────────────────────────────────────────
   /// [keepBiometricData] = true → user can still quick-login with biometrics
   /// after logout. Set to false to fully wipe everything.
   Future<void> logout({bool keepBiometricData = true}) async {
-    await CacheHelper.clearAll();
+    await _sessionService.clear();
+    try {
+      await _googleSignInService.signOut();
+    } catch (_) {
+      debugPrint('Google sign-out could not clear the SDK session.');
+    }
     if (!keepBiometricData) {
       await _secureStorage.clearBiometricData();
     }
@@ -241,6 +317,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
       state = state.copyWith(
         status: LoginStatus.failure,
         errorMessage: message,
+        activeMethod: null,
       );
     }
   }

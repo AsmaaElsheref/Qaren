@@ -1,13 +1,12 @@
-import '../../constants/app_constants.dart';
-import '../../localStorage/cache_helper.dart';
+import '../../services/secure_storage_service.dart';
 
-Map<String, String> networkHeaders() {
-  final token = CacheHelper.getData(key: AppConstants.token) as String?;
+Map<String, String> networkHeaders({bool includeAuthorization = true}) {
+  final token = SecureStorageService.cachedSessionToken;
   return {
-    if (token != null && token.isNotEmpty) 'Authorization': 'Bearer $token',
+    if (includeAuthorization && token != null && token.isNotEmpty)
+      'Authorization': 'Bearer $token',
     'Accept': 'application/json',
     'Content-Type': 'application/json',
-    'Accept-Language': 'ar'
+    'Accept-Language': 'ar',
   };
 }
-
