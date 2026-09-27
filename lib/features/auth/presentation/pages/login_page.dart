@@ -176,7 +176,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       obscureText: !loginState.isPasswordVisible,
                       validator: Validators.validatePassword,
                       customSuffix: const Padding(
-                        padding: EdgeInsets.only(right: 16),
+                        padding: EdgeInsetsDirectional.only(start: 16),
                         child: Icon(
                           Icons.lock_outline,
                           color: AppColors.textSecondary,
@@ -186,7 +186,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       suffixIcon: GestureDetector(
                         onTap: notifier.togglePasswordVisibility,
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 4),
+                          padding: const EdgeInsetsDirectional.only(end: 4),
                           child: Icon(
                             loginState.isPasswordVisible
                                 ? Icons.visibility_off_outlined
@@ -199,7 +199,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     ),
                     Gap.gapH10,
                     Align(
-                      alignment: Alignment.centerLeft,
+                      alignment: AlignmentDirectional.centerStart,
                       child: TextButton(
                         onPressed: () => Navigator.of(context).push(
                           MaterialPageRoute(

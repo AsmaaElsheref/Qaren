@@ -28,4 +28,3 @@ class WalletBalanceEntity extends Equatable {
   @override
   List<Object?> get props => [id, balance, currency, updatedAt, updatedAtLabel];
 }
-

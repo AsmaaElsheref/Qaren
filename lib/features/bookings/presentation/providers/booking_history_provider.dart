@@ -9,9 +9,10 @@ import '../../domain/repositories/booking_history_repository.dart';
 import '../../domain/usecases/get_booking_history_usecase.dart';
 import 'booking_history_state.dart';
 
-final bookingHistoryRemoteDataSourceProvider = Provider<BookingHistoryRemoteDataSource>(
-  (ref) => const BookingHistoryRemoteDataSourceImpl(),
-);
+final bookingHistoryRemoteDataSourceProvider =
+    Provider<BookingHistoryRemoteDataSource>(
+      (ref) => const BookingHistoryRemoteDataSourceImpl(),
+    );
 
 final bookingHistoryRepositoryProvider = Provider<BookingHistoryRepository>(
   (ref) => BookingHistoryRepositoryImpl(
@@ -20,20 +21,22 @@ final bookingHistoryRepositoryProvider = Provider<BookingHistoryRepository>(
 );
 
 final getBookingHistoryUseCaseProvider = Provider<GetBookingHistoryUseCase>(
-  (ref) => GetBookingHistoryUseCase(ref.watch(bookingHistoryRepositoryProvider)),
+  (ref) =>
+      GetBookingHistoryUseCase(ref.watch(bookingHistoryRepositoryProvider)),
 );
 
-final bookingHistoryProvider = StateNotifierProvider<BookingHistoryNotifier, BookingHistoryState>(
-  (ref) => BookingHistoryNotifier(
-    getBookingHistoryUseCase: ref.watch(getBookingHistoryUseCaseProvider),
-  )..loadInitial(),
-);
+final bookingHistoryProvider =
+    StateNotifierProvider<BookingHistoryNotifier, BookingHistoryState>(
+      (ref) => BookingHistoryNotifier(
+        getBookingHistoryUseCase: ref.watch(getBookingHistoryUseCaseProvider),
+      )..loadInitial(),
+    );
 
 class BookingHistoryNotifier extends StateNotifier<BookingHistoryState> {
   final GetBookingHistoryUseCase getBookingHistoryUseCase;
 
   BookingHistoryNotifier({required this.getBookingHistoryUseCase})
-      : super(const BookingHistoryState());
+    : super(const BookingHistoryState());
 
   Future<void> loadInitial() async {
     state = state.copyWith(

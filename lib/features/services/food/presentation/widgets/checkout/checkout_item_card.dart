@@ -5,6 +5,7 @@ import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
+import '../../../../../../core/ui/widgets/saudi_riyal_amount.dart';
 import '../../../domain/entities/cart_item.dart';
 
 class CheckoutItemCard extends StatelessWidget {
@@ -87,8 +88,8 @@ class CheckoutItemCard extends StatelessWidget {
               ],
             ),
           ),
-          AppText(
-            '${item.lineTotal.toInt()} ${'food.currencyShort'.tr()}',
+          SaudiRiyalAmount(
+            amount: item.lineTotal.toInt().toString(),
             style: TextStyle(
               fontSize: AppDimensions.fontS,
               fontWeight: FontWeight.w800,

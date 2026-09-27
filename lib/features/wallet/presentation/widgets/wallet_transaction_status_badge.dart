@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
 import 'package:qaren/core/theme/app_colors.dart';
 import 'package:qaren/core/ui/widgets/AppText.dart';
@@ -30,10 +31,12 @@ class WalletTransactionStatusBadge extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppDimensions.radiusFull),
       ),
       child: AppText(
-        status.label,
-        style: AppTextStyles.caption.copyWith(color: color, fontWeight: FontWeight.w700),
+        status.localizationKey.tr(),
+        style: AppTextStyles.caption.copyWith(
+          color: color,
+          fontWeight: FontWeight.w700,
+        ),
       ),
     );
   }
 }
-

@@ -25,4 +25,3 @@ class BookingPricingModel extends BookingPricingEntity {
     return double.tryParse(value.toString());
   }
 }
-

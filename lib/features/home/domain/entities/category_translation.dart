@@ -16,4 +16,3 @@ class CategoryTranslation extends Equatable {
   @override
   List<Object> get props => [locale, name, slug, description];
 }
-

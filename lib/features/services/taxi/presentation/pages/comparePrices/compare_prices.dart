@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../../../core/theme/app_colors.dart';
 import '../../widgets/comparePrices/compare_prices_app_bar.dart';
 import '../../widgets/comparePrices/content_list.dart';
 
@@ -14,12 +13,12 @@ class ComparePricesPage extends ConsumerWidget {
       value: SystemUiOverlayStyle.dark.copyWith(
         statusBarColor: Colors.transparent,
       ),
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Scaffold(
-          appBar: PreferredSize(preferredSize: Size.fromHeight(70), child: const ComparePricesAppBar()),
-          body: ContentList(),
+      child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(70),
+          child: const ComparePricesAppBar(),
         ),
+        body: ContentList(),
       ),
     );
   }

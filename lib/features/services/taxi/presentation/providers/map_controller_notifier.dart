@@ -24,10 +24,12 @@ class TaxiMapControllerNotifier extends Notifier<GoogleMapController?> {
     _pendingPickup = null;
     _pendingDestination = null;
     if (pickup != null || destination != null) {
-      Future<void>(() => focusOnSelectedTaxiLocations(
-            pickup: pickup,
-            destination: destination,
-          ));
+      Future<void>(
+        () => focusOnSelectedTaxiLocations(
+          pickup: pickup,
+          destination: destination,
+        ),
+      );
     }
   }
 
@@ -103,11 +105,7 @@ class TaxiMapControllerNotifier extends Notifier<GoogleMapController?> {
   Future<void> animateForLocations({
     required LatLng? pickup,
     required LatLng? destination,
-  }) =>
-      focusOnSelectedTaxiLocations(
-        pickup: pickup,
-        destination: destination,
-      );
+  }) => focusOnSelectedTaxiLocations(pickup: pickup, destination: destination);
 
   Future<void> animateToInitial(CameraPosition position) async {
     final controller = state;
@@ -155,11 +153,12 @@ class TaxiMapControllerNotifier extends Notifier<GoogleMapController?> {
   }
 
   bool _isSamePoint(LatLng first, LatLng second) {
-    return first.latitude == second.latitude && first.longitude == second.longitude;
+    return first.latitude == second.latitude &&
+        first.longitude == second.longitude;
   }
 }
 
 final taxiMapControllerProvider =
     NotifierProvider<TaxiMapControllerNotifier, GoogleMapController?>(
-  TaxiMapControllerNotifier.new,
-);
+      TaxiMapControllerNotifier.new,
+    );

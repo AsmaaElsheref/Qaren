@@ -7,10 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 /// Used as the return value of [FoodMapPickerPage] so that callers never
 /// have to reverse-geocode again.
 class FoodLocationResult extends Equatable {
-  const FoodLocationResult({
-    required this.latLng,
-    required this.name,
-  });
+  const FoodLocationResult({required this.latLng, required this.name});
 
   final LatLng latLng;
 
@@ -21,4 +18,3 @@ class FoodLocationResult extends Equatable {
   @override
   List<Object?> get props => [latLng, name];
 }
-

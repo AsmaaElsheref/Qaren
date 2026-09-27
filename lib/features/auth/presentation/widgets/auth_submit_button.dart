@@ -67,4 +67,3 @@ class AuthSubmitButton extends StatelessWidget {
     );
   }
 }
-

@@ -26,9 +26,10 @@ class WalletState extends Equatable {
     this.errorMessage,
   });
 
-  String get currency => balance?.currency ?? 'EGP';
+  String get currency => balance?.currency ?? 'SAR';
 
-  bool get isEmpty => !isInitialLoading && transactions.isEmpty && errorMessage == null;
+  bool get isEmpty =>
+      !isInitialLoading && transactions.isEmpty && errorMessage == null;
 
   WalletState copyWith({
     WalletBalanceEntity? balance,
@@ -57,15 +58,14 @@ class WalletState extends Equatable {
 
   @override
   List<Object?> get props => [
-        balance,
-        transactions,
-        currentPage,
-        lastPage,
-        hasMore,
-        isInitialLoading,
-        isRefreshing,
-        isLoadingMore,
-        errorMessage,
-      ];
+    balance,
+    transactions,
+    currentPage,
+    lastPage,
+    hasMore,
+    isInitialLoading,
+    isRefreshing,
+    isLoadingMore,
+    errorMessage,
+  ];
 }
-

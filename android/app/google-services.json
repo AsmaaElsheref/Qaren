@@ -36,6 +36,59 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:383728129687:android:71834348fc9993ee11bbd2",
+        "android_client_info": {
+          "package_name": "com.zynqoor.qaren"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "383728129687-i09ed5bj43jm03mj3lakcebhemqrav1f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zynqoor.qaren",
+            "certificate_hash": "cecc1b26e2c1d0a626d0aca97e31c12bafb52ee5"
+          }
+        },
+        {
+          "client_id": "383728129687-ifqe381mp3gl76am6rr0lf0s65lskgbu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zynqoor.qaren",
+            "certificate_hash": "6d01ea8f520ddb526a76967a0e964e963bb2a17a"
+          }
+        },
+        {
+          "client_id": "383728129687-jq1t304rrbodueq36l5f4hplpdpu1n0r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zynqoor.qaren",
+            "certificate_hash": "827be6d24da47ac7b18569b358119d255a0394ce"
+          }
+        },
+        {
+          "client_id": "383728129687-mh1kkm0sjc1u4ek29l9n69jdmhtf4vls.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHdhin1K47eyRRD1-Wm54qwosiYQv58RY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "383728129687-mh1kkm0sjc1u4ek29l9n69jdmhtf4vls.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:383728129687:android:3343f99a0a3a02eb11bbd2",
         "android_client_info": {
           "package_name": "com.zynqor.qaren"
@@ -55,6 +108,68 @@
           "client_type": 1,
           "android_info": {
             "package_name": "com.zynqor.qaren",
+            "certificate_hash": "6d01ea8f520ddb526a76967a0e964e963bb2a17a"
+          }
+        },
+        {
+          "client_id": "383728129687-tjseu7o2663nhgad0beq1hnv7uid19c7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zynqor.qaren",
+            "certificate_hash": "cecc1b26e2c1d0a626d0aca97e31c12bafb52ee5"
+          }
+        },
+        {
+          "client_id": "383728129687-mh1kkm0sjc1u4ek29l9n69jdmhtf4vls.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHdhin1K47eyRRD1-Wm54qwosiYQv58RY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "383728129687-mh1kkm0sjc1u4ek29l9n69jdmhtf4vls.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:383728129687:android:cb39118e8c4f01a011bbd2",
+        "android_client_info": {
+          "package_name": "com.zynqor.qarenapp"
+        }
+
+      },
+      "oauth_client": [
+        {
+          "client_id": "383728129687-eo3b4ctip77dghvja0b8hct826jrdtc5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zynqor.qarenapp",
+            "certificate_hash": "827be6d24da47ac7b18569b358119d255a0394ce"
+          }
+        },
+        {
+          "client_id": "383728129687-o0p3qa3ntldtk0cug1048mpph0324b6t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zynqor.qarenapp",
+            "certificate_hash": "cecc1b26e2c1d0a626d0aca97e31c12bafb52ee5"
+          }
+        },
+        {
+          "client_id": "383728129687-qmp7g8s91g361iac3j81ena302al5l4c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zynqor.qarenapp",
             "certificate_hash": "6d01ea8f520ddb526a76967a0e964e963bb2a17a"
           }
         },

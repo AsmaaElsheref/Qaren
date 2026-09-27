@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
@@ -69,16 +70,15 @@ class _SortTab extends StatelessWidget {
             Icon(
               type.icon,
               size: 14,
-              color: isActive ? AppColors.white : colors.textSecondary,
+              color: isActive ? AppColors.white : colors.textPrimary,
             ),
             const SizedBox(width: 4),
             AppText(
-              type.label,
+              type.translationKey.tr(),
               style: TextStyle(
                 fontSize: AppDimensions.fontS,
-                fontWeight:
-                    isActive ? FontWeight.w700 : FontWeight.w500,
-                color: isActive ? AppColors.white : colors.textSecondary,
+                fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
+                color: isActive ? AppColors.white : colors.textPrimary,
               ),
             ),
           ],
@@ -87,4 +87,3 @@ class _SortTab extends StatelessWidget {
     );
   }
 }
-

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_colors_ext.dart';
 import '../providers/home_providers.dart';
+import '../providers/navigation_data_refresher.dart';
 import 'home_nav_item.dart';
 
 class HomeBottomNav extends ConsumerWidget {
@@ -11,6 +12,12 @@ class HomeBottomNav extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentIndex = ref.watch(bottomNavIndexProvider);
     final colors = context.appColors;
+
+    void onItemTapped(int index) {
+      ref.read(bottomNavIndexProvider.notifier).state = index;
+      ref.read(navigationDataRefresherProvider).refresh(index);
+    }
+
     return Container(
       decoration: BoxDecoration(
         color: colors.bottomNavBackground,
@@ -27,26 +34,26 @@ class HomeBottomNav extends ConsumerWidget {
                 icon: Icons.home_rounded,
                 index: 0,
                 currentIndex: currentIndex,
-                onTap: (i) => ref.read(bottomNavIndexProvider.notifier).state = i,
+                onTap: onItemTapped,
               ),
               HomeNavItem(
                 icon: Icons.description_outlined,
                 index: 1,
                 currentIndex: currentIndex,
-                onTap: (i) => ref.read(bottomNavIndexProvider.notifier).state = i,
+                onTap: onItemTapped,
               ),
               const SizedBox(width: 64),
               HomeNavItem(
                 icon: Icons.account_balance_wallet_outlined,
                 index: 2,
                 currentIndex: currentIndex,
-                onTap: (i) => ref.read(bottomNavIndexProvider.notifier).state = i,
+                onTap: onItemTapped,
               ),
               HomeNavItem(
                 icon: Icons.person_outline_rounded,
                 index: 3,
                 currentIndex: currentIndex,
-                onTap: (i) => ref.read(bottomNavIndexProvider.notifier).state = i,
+                onTap: onItemTapped,
               ),
             ],
           ),
@@ -55,5 +62,3 @@ class HomeBottomNav extends ConsumerWidget {
     );
   }
 }
-
-

@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/constants/app_dimensions.dart';
@@ -37,14 +38,14 @@ class UserTypeSelector extends StatelessWidget {
                   color: isSelected ? AppColors.white : Colors.transparent,
                   borderRadius: BorderRadius.circular(AppDimensions.radiusM),
                   boxShadow: isSelected
-                    ? [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.06),
-                          blurRadius: 6,
-                          offset: const Offset(0, 2),
-                        )
-                      ]
-                    : null,
+                      ? [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.06),
+                            blurRadius: 6,
+                            offset: const Offset(0, 2),
+                          ),
+                        ]
+                      : null,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -53,12 +54,12 @@ class UserTypeSelector extends StatelessWidget {
                       _iconFor(tab),
                       size: 16,
                       color: isSelected
-                        ? AppColors.textPrimary
-                        : AppColors.textSecondary,
+                          ? AppColors.textPrimary
+                          : AppColors.textSecondary,
                     ),
                     const SizedBox(width: 4),
                     AppText(
-                      tab.label,
+                      tab.translationKey.tr(),
                       style: TextStyle(
                         fontSize: AppDimensions.fontS,
                         fontWeight: isSelected
@@ -90,4 +91,3 @@ class UserTypeSelector extends StatelessWidget {
     }
   }
 }
-

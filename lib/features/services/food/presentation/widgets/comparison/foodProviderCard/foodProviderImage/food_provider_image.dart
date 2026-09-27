@@ -32,25 +32,26 @@ class FoodProviderImage extends StatelessWidget {
         color: colors.disabledBackground,
         child: _hasValidNetworkImage
             ? CachedNetworkImage(
-          imageUrl: provider.logoUrl!.trim(),
-          fit: BoxFit.cover,
-          errorWidget: (_, __, ___) => const Icon(
-            Icons.restaurant_rounded,
-            color: AppColors.textHint,
-            size: 24,
-          ),
-          placeholder: (_, __) => const Center(
-            child: SizedBox(
-              width: 18,
-              height: 18,
-              child: CircularProgressIndicator(strokeWidth: 2),
-            ),
-          ),
-        ) : const Icon(
-          Icons.restaurant_rounded,
-          color: AppColors.textHint,
-          size: 24,
-        ),
+                imageUrl: provider.logoUrl!.trim(),
+                fit: BoxFit.cover,
+                errorWidget: (_, __, ___) => const Icon(
+                  Icons.restaurant_rounded,
+                  color: AppColors.textHint,
+                  size: 24,
+                ),
+                placeholder: (_, __) => const Center(
+                  child: SizedBox(
+                    width: 18,
+                    height: 18,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  ),
+                ),
+              )
+            : const Icon(
+                Icons.restaurant_rounded,
+                color: AppColors.textHint,
+                size: 24,
+              ),
       ),
     );
   }

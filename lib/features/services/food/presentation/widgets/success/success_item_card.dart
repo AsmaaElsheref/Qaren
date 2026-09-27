@@ -7,6 +7,7 @@ import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/network/apiRoutes/api_routes.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
+import '../../../../../../core/ui/widgets/saudi_riyal_amount.dart';
 import '../../../data/models/food_booking_item_response.dart';
 
 class SuccessItemCard extends StatelessWidget {
@@ -57,8 +58,8 @@ class SuccessItemCard extends StatelessWidget {
               ],
             ),
           ),
-          AppText(
-            '${item.subtotal.toInt()} ${'food.currencyShort'.tr()}',
+          SaudiRiyalAmount(
+            amount: item.subtotal.toInt().toString(),
             style: TextStyle(
               fontSize: AppDimensions.fontS,
               fontWeight: FontWeight.w800,

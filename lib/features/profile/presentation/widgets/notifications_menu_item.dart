@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import '../providers/profileSettings/profile_settings_provider.dart';
 import 'notification_badge.dart';
 import 'settings_menu_item.dart';
@@ -18,10 +19,9 @@ class NotificationsMenuItem extends ConsumerWidget {
       icon: Icons.notifications_outlined,
       iconColor: const Color(0xFFF4A730),
       iconBackground: const Color(0xFFFFF3E0),
-      label: 'الإشعارات',
+      label: 'profile.menu.notifications'.tr(),
       onTap: onTap,
       trailing: unreadCount > 0 ? NotificationBadge(count: unreadCount) : null,
     );
   }
 }
-

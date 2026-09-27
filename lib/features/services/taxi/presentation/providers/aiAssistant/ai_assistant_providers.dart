@@ -7,4 +7,3 @@ final aiAssistantVisibilityProvider = StateProvider<bool>((ref) => false);
 /// Last prompt entered by the user. Kept separate so typing only rebuilds the
 /// overlay's send-button enable state, not the whole map.
 final aiAssistantPromptProvider = StateProvider<String>((ref) => '');
-

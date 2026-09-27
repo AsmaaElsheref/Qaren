@@ -23,4 +23,3 @@ class Restaurant extends Equatable {
   @override
   List<Object?> get props => [id];
 }
-

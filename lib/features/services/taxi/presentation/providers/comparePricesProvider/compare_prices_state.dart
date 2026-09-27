@@ -40,15 +40,13 @@ class ComparePricesState extends Equatable {
     List<PriceResult>? results,
     CompareSortType? sortType,
     String? errorMessage,
-  }) =>
-      ComparePricesState(
-        status: status ?? this.status,
-        results: results ?? this.results,
-        sortType: sortType ?? this.sortType,
-        errorMessage: errorMessage,
-      );
+  }) => ComparePricesState(
+    status: status ?? this.status,
+    results: results ?? this.results,
+    sortType: sortType ?? this.sortType,
+    errorMessage: errorMessage,
+  );
 
   @override
   List<Object?> get props => [status, results, sortType, errorMessage];
 }
-

@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
@@ -15,26 +16,28 @@ class FoodResult extends StatelessWidget {
       value: SystemUiOverlayStyle.dark.copyWith(
         statusBarColor: Colors.transparent,
       ),
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Scaffold(
-          body: SafeArea(
-            child: Column(
-              children: [
-                const SizedBox(height: AppDimensions.paddingS),
-                const ComparisonHeader(from: 'مطعم وجبة', to: 'المنزل'),
-                Column(
+      child: Scaffold(
+        body: SafeArea(
+          child: Column(
+            children: [
+              const SizedBox(height: AppDimensions.paddingS),
+              ComparisonHeader(
+                from: 'food.checkout.restaurantSection'.tr(),
+                to: 'food.invoice.yourLocation'.tr(),
+              ),
+              Expanded(
+                child: Column(
                   children: [
                     const SizedBox(height: AppDimensions.paddingM),
                     const ComparisonInfoCard(),
                     const SizedBox(height: AppDimensions.paddingM),
                     const ComparisonFilterChips(),
                     const SizedBox(height: AppDimensions.paddingM),
-                    const FoodResultItems()
+                    const Expanded(child: FoodResultItems()),
                   ],
-                )
-              ],
-            ),
+                ),
+              ),
+            ],
           ),
         ),
       ),

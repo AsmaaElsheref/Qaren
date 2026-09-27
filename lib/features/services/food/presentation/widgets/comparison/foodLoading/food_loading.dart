@@ -8,10 +8,8 @@ import 'package:qaren/core/ui/widgets/logo_loading.dart';
 import 'package:qaren/core/utils/extensions/contextSizeX.dart';
 
 import '../../../../../../../core/constants/app_dimensions.dart';
-import '../../../../../../../core/constants/app_images.dart';
 import '../../../../../../../core/ui/widgets/AppText.dart';
 import '../../../../../../../core/ui/widgets/custom_app_bar.dart';
-import '../../../../../../profile/presentation/providers/profileSettings/profile_settings_provider.dart';
 import '../../../pages/foodResult/food_result.dart';
 import '../../../providers/food_comparison_provider.dart';
 
@@ -22,9 +20,10 @@ class Searching extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isLoading = ref.watch(foodCompareIsLoadingProvider);
-    final hasError = ref.watch(foodCompareErrorProvider) != null;
-    final isDarkMode = ref.watch(profileIsDarkModeProvider);
+    final compareState = ref.watch(foodCompareNotifierProvider);
+    final isLoading = compareState.isLoading;
+    final hasError = compareState.error != null;
+    final canShowResults = compareState.hasCompleted && !hasError;
     final colors = context.appColors;
     return Scaffold(
       appBar: PreferredSize(
@@ -110,13 +109,12 @@ class Searching extends ConsumerWidget {
 
             AppButton(
               label: 'food.comparison.showResults'.tr(),
-              isLoading: isLoading,
-              onTap: isLoading
-                  ? null
-                  : () => Navigator.pushReplacement(
+              onTap: canShowResults
+                  ? () => Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (_) => const FoodResult()),
-                    ),
+                    )
+                  : null,
             ),
             SizedBox(height: context.screenHeight * 0.1),
           ],

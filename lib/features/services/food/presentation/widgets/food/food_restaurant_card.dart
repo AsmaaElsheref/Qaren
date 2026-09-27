@@ -16,10 +16,8 @@ class FoodRestaurantCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.appColors;
     return Container(
-      height: context.screenHeight*0.63,
-      margin: const EdgeInsets.symmetric(
-        horizontal: AppDimensions.paddingM,
-      ),
+      height: context.screenHeight * 0.63,
+      margin: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingM),
       decoration: BoxDecoration(
         color: colors.surface,
         borderRadius: BorderRadius.circular(AppDimensions.radiusL),

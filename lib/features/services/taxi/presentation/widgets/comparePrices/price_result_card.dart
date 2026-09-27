@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:qaren/core/localization/easy_localization.dart';
+import 'package:qaren/core/localization/localized_formatters.dart';
 import 'package:qaren/core/utils/extensions/contextSizeX.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/theme/app_colors_ext.dart';
 import '../../../../../../core/ui/widgets/AppButton.dart';
-import '../../../../../../core/ui/widgets/AppText.dart';
 import '../../../../../../core/ui/widgets/AppTextStyles.dart';
+import '../../../../../../core/ui/widgets/saudi_riyal_amount.dart';
 import '../../../data/models/comparePrices/compare_prices_model.dart';
 import 'app_info.dart';
 import 'best_value_badge.dart';
@@ -21,13 +22,6 @@ class PriceResultCard extends StatelessWidget {
 
   final PriceResult result;
   final VoidCallback onBook;
-
-  static String _formatPrice(double price) {
-    final rounded = double.parse(price.toStringAsFixed(2));
-    return rounded == rounded.truncateToDouble()
-        ? rounded.toInt().toString()
-        : rounded.toStringAsFixed(2);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,8 +59,14 @@ class PriceResultCard extends StatelessWidget {
                 const SizedBox(width: AppDimensions.paddingM),
                 AppInfo(result: result),
                 const Spacer(),
-                AppText(
-                  '${_formatPrice(result.price)} ${result.currency}',
+                SaudiRiyalAmount(
+                  amount: LocalizedFormatters.number(
+                    context,
+                    result.price,
+                    decimals: result.price == result.price.truncateToDouble()
+                        ? 0
+                        : 2,
+                  ),
                   style: AppTextStyles.body.copyWith(color: colors.textPrimary),
                 ),
               ],

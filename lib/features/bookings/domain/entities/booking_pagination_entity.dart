@@ -20,6 +20,11 @@ class BookingPaginationEntity extends Equatable {
   bool get hasMore => nextPageUrl != null && nextPageUrl!.isNotEmpty;
 
   @override
-  List<Object?> get props => [currentPage, bookings, nextPageUrl, perPage, total];
+  List<Object?> get props => [
+    currentPage,
+    bookings,
+    nextPageUrl,
+    perPage,
+    total,
+  ];
 }
-

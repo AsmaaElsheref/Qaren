@@ -6,21 +6,30 @@ import 'AppText.dart';
 
 class AppButton extends StatelessWidget {
   final String label;
+  final Widget? labelWidget;
   final VoidCallback? onTap;
   final bool isLoading;
   final IconData icon;
   final double? width;
   final double? height;
   final Color? color;
+  final Color? foregroundColor;
   final double? radius;
   final bool? removeShadow;
 
   const AppButton({
     super.key,
     required this.label,
+    this.labelWidget,
     required this.onTap,
     this.isLoading = false,
-    this.icon = Icons.arrow_forward_rounded, this.width, this.height, this.color, this.radius, this.removeShadow,
+    this.icon = Icons.arrow_forward_rounded,
+    this.width,
+    this.height,
+    this.color,
+    this.foregroundColor,
+    this.radius,
+    this.removeShadow,
   });
 
   bool get _enabled => onTap != null && !isLoading;
@@ -28,16 +37,21 @@ class AppButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.appColors;
+    final useActiveStyle = onTap != null || isLoading;
+    final effectiveForegroundColor = !_enabled && !isLoading
+        ? colors.textSecondary
+        : foregroundColor ??
+              (color == null ? AppColors.onPrimary : AppColors.white);
     return SizedBox(
       width: width ?? double.infinity,
       height: height ?? AppDimensions.buttonHeight,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         decoration: BoxDecoration(
-          color: _enabled ? null : colors.disabledBackground,
-          gradient: _enabled ? AppColors.primaryGradient : null,
+          color: useActiveStyle ? null : colors.disabledBackground,
+          gradient: useActiveStyle ? AppColors.primaryGradient : null,
           borderRadius: BorderRadius.circular(radius ?? AppDimensions.radiusL),
-          boxShadow: _enabled && removeShadow != true
+          boxShadow: useActiveStyle && removeShadow != true
               ? [
                   BoxShadow(
                     color: AppColors.primary.withValues(alpha: 0.35),
@@ -51,37 +65,46 @@ class AppButton extends StatelessWidget {
           color: color ?? Colors.transparent,
           borderRadius: BorderRadius.circular(radius ?? 0),
           child: InkWell(
-            borderRadius:
-                BorderRadius.circular(radius ?? AppDimensions.radiusL),
+            borderRadius: BorderRadius.circular(
+              radius ?? AppDimensions.radiusL,
+            ),
             onTap: _enabled ? onTap : null,
             child: Center(
               child: isLoading
-                  ? const SizedBox(
+                  ? SizedBox(
                       width: 22,
                       height: 22,
                       child: CircularProgressIndicator(
                         strokeWidth: 2.5,
-                        color: AppColors.white,
+                        color: effectiveForegroundColor,
                       ),
                     )
-                  : Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        AppText(
-                          label,
-                          style: const TextStyle(
-                            fontSize: AppDimensions.fontM,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.white,
-                          ),
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            labelWidget ??
+                                AppText(
+                                  label,
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                    fontSize: AppDimensions.fontM,
+                                    fontWeight: FontWeight.w700,
+                                    color: effectiveForegroundColor,
+                                  ),
+                                ),
+                            const SizedBox(width: AppDimensions.paddingS),
+                            Icon(
+                              icon,
+                              size: AppDimensions.iconS,
+                              color: effectiveForegroundColor,
+                            ),
+                          ],
                         ),
-                        const SizedBox(width: AppDimensions.paddingS),
-                        Icon(
-                          icon,
-                          size: AppDimensions.iconS,
-                          color: AppColors.white,
-                        ),
-                      ],
+                      ),
                     ),
             ),
           ),

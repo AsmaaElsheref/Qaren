@@ -1,4 +1,5 @@
 import 'package:qaren/core/network/handelError/errors/failures.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:qaren/core/utils/either.dart';
 
 import '../../domain/entities/wallet_balance_entity.dart';
@@ -20,8 +21,8 @@ class WalletRepositoryImpl implements WalletRepository {
       return Either.rightOf(balance);
     } on Failure catch (failure) {
       return Either.leftOf(failure);
-    } catch (error) {
-      return Either.leftOf(ServerFailure(error.toString()));
+    } catch (_) {
+      return Either.leftOf(ServerFailure('wallet.errors.loadFailed'.tr()));
     }
   }
 
@@ -34,8 +35,8 @@ class WalletRepositoryImpl implements WalletRepository {
       return Either.rightOf(transactions);
     } on Failure catch (failure) {
       return Either.leftOf(failure);
-    } catch (error) {
-      return Either.leftOf(ServerFailure(error.toString()));
+    } catch (_) {
+      return Either.leftOf(ServerFailure('wallet.errors.loadFailed'.tr()));
     }
   }
 
@@ -50,9 +51,8 @@ class WalletRepositoryImpl implements WalletRepository {
       return Either.rightOf(result);
     } on Failure catch (failure) {
       return Either.leftOf(failure);
-    } catch (error) {
-      return Either.leftOf(ServerFailure(error.toString()));
+    } catch (_) {
+      return Either.leftOf(ServerFailure('errors.server'.tr()));
     }
   }
 }
-

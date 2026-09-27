@@ -23,14 +23,13 @@ class FoodOrderBookingEntity extends Equatable {
 
   @override
   List<Object?> get props => [
-        bookingId,
-        partnerId,
-        deliveryType,
-        deliveryAddress,
-        itemsCount,
-        customerNotes,
-        paymentMethod,
-        paymentStatus,
-      ];
+    bookingId,
+    partnerId,
+    deliveryType,
+    deliveryAddress,
+    itemsCount,
+    customerNotes,
+    paymentMethod,
+    paymentStatus,
+  ];
 }
-

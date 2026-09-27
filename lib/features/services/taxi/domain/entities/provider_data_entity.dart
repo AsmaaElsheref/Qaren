@@ -15,4 +15,3 @@ class ProviderDataEntity extends Equatable {
   @override
   List<Object?> get props => [rating, isInstantBook, freeCancellation];
 }
-

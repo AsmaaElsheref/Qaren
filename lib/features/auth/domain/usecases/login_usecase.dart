@@ -13,4 +13,3 @@ class LoginUseCase {
     return _repository.login(params);
   }
 }
-

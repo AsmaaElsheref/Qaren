@@ -12,7 +12,10 @@ class CarRentalSearchResultModel extends CarRentalSearchResultEntity {
   });
 
   factory CarRentalSearchResultModel.fromJson(Map<String, dynamic> json) {
-    final dataList = json['data'] as List<dynamic>? ?? [];
+    final rawData = json['data'];
+    final dataList = rawData is Map<String, dynamic>
+        ? rawData['cars'] as List<dynamic>? ?? const []
+        : rawData as List<dynamic>? ?? const [];
 
     final offers = dataList
         .whereType<Map<String, dynamic>>()
@@ -20,27 +23,37 @@ class CarRentalSearchResultModel extends CarRentalSearchResultEntity {
         .toList();
 
     final cheapestJson = json['cheapest'] as Map<String, dynamic>?;
+    final cheapest = cheapestJson != null
+        ? CarRentalOfferModel.fromJson(cheapestJson)
+        : _findCheapest(offers);
+    final meta = rawData is Map<String, dynamic>
+        ? rawData['meta'] as Map<String, dynamic>?
+        : null;
+    final total = (meta?['total'] as num?)?.toInt();
 
     // ── AI assistant block (optional — only present in ai-search response) ──
-    final aiAssistant = json['ai_assistant'] as Map<String, dynamic>?;
-    final parsed =
-        aiAssistant?['parsed_parameters'] as Map<String, dynamic>?;
+    final aiAssistant =
+        (rawData is Map<String, dynamic>
+            ? rawData['ai_assistant'] as Map<String, dynamic>?
+            : null) ??
+        json['ai_assistant'] as Map<String, dynamic>?;
+    final parsed = aiAssistant?['parsed_parameters'] as Map<String, dynamic>?;
+    final pickup = parsed?['pickup'] as Map<String, dynamic>?;
+    final destination = parsed?['destination'] as Map<String, dynamic>?;
     final parsedParameters = parsed == null
         ? null
         : ParsedAiParametersEntity(
-            pickupLat: _asDouble(parsed['pickup_lat']),
-            pickupLng: _asDouble(parsed['pickup_lng']),
-            dropoffLat: _asDouble(parsed['dropoff_lat']),
-            dropoffLng: _asDouble(parsed['dropoff_lng']),
+            pickupLat: _asDouble(pickup?['lat'] ?? parsed['pickup_lat']),
+            pickupLng: _asDouble(pickup?['lng'] ?? parsed['pickup_lng']),
+            dropoffLat: _asDouble(destination?['lat'] ?? parsed['dropoff_lat']),
+            dropoffLng: _asDouble(destination?['lng'] ?? parsed['dropoff_lng']),
             destinationName: aiAssistant?['destination_name'] as String?,
           );
 
     return CarRentalSearchResultModel(
-      status: json['status'] == true,
-      count: (json['count'] as num?)?.toInt() ?? offers.length,
-      cheapest: cheapestJson != null
-          ? CarRentalOfferModel.fromJson(cheapestJson)
-          : null,
+      status: json['status'] == true || json['status'] == 'success',
+      count: (json['count'] as num?)?.toInt() ?? total ?? offers.length,
+      cheapest: cheapest,
       offers: offers,
       parsedParameters: parsedParameters,
     );
@@ -51,5 +64,14 @@ class CarRentalSearchResultModel extends CarRentalSearchResultEntity {
     if (v is num) return v.toDouble();
     if (v is String) return double.tryParse(v);
     return null;
+  }
+
+  static CarRentalOfferModel? _findCheapest(List<CarRentalOfferModel> offers) {
+    if (offers.isEmpty) return null;
+    return offers.reduce((current, next) {
+      final currentPrice = current.price ?? double.infinity;
+      final nextPrice = next.price ?? double.infinity;
+      return nextPrice < currentPrice ? next : current;
+    });
   }
 }

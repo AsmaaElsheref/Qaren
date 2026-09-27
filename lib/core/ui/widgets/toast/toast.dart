@@ -15,17 +15,14 @@ void toast({
   final backgroundColor = isError
       ? AppColors.error
       : isSuccess
-          ? AppColors.primary
-          : AppColors.textPrimary;
+      ? AppColors.primary
+      : AppColors.textPrimary;
 
   ScaffoldMessenger.of(context)
     ..hideCurrentSnackBar()
     ..showSnackBar(
       SnackBar(
-        content: AppText(
-          msg,
-          style: const TextStyle(color: AppColors.white),
-        ),
+        content: AppText(msg, style: const TextStyle(color: AppColors.white)),
         backgroundColor: backgroundColor,
         behavior: SnackBarBehavior.floating,
         duration: const Duration(seconds: 3),

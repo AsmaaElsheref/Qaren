@@ -20,9 +20,7 @@ class RouteEntity extends Equatable {
     this.isSelected = false,
   });
 
-  RouteEntity copyWith({
-    bool? isSelected,
-  }) {
+  RouteEntity copyWith({bool? isSelected}) {
     return RouteEntity(
       routeId: routeId,
       encodedPolyline: encodedPolyline,

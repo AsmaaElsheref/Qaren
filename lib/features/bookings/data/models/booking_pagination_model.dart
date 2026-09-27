@@ -25,4 +25,3 @@ class BookingPaginationModel extends BookingPaginationEntity {
     );
   }
 }
-

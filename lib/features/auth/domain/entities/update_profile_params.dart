@@ -37,13 +37,12 @@ class UpdateProfileParams extends Equatable {
 
   @override
   List<Object?> get props => [
-        name,
-        email,
-        phone,
-        gender,
-        password,
-        passwordConfirmation,
-        imagePath,
-      ];
+    name,
+    email,
+    phone,
+    gender,
+    password,
+    passwordConfirmation,
+    imagePath,
+  ];
 }
-

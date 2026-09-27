@@ -2,7 +2,8 @@ import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../core/localization/locale_service.dart';
-import '../providers/profileSettings/profile_settings_provider.dart';
+import '../../../home/presentation/providers/home_providers.dart';
+import '../../../home/presentation/providers/navigation_data_refresher.dart';
 import 'settings_toggle_item.dart';
 
 class LanguageToggleItem extends ConsumerWidget {
@@ -16,13 +17,20 @@ class LanguageToggleItem extends ConsumerWidget {
       icon: Icons.language_rounded,
       iconColor: const Color(0xFF27AAE1),
       iconBackground: const Color(0xFFE8F4FD),
-      label: 'profile.menu.language'.tr(),
+      label: 'profile.menu.languageWithValue'.tr(
+        namedArgs: {
+          'language': isArabic
+              ? 'profile.language.arabic'.tr()
+              : 'profile.language.english'.tr(),
+        },
+      ),
       value: isArabic,
       onChanged: (_) async {
-        final nextLocale = isArabic ? const Locale('en') : const Locale('ar');
-        await context.setLocale(nextLocale);
-        await LocaleService.saveLocale(nextLocale);
-        ref.read(profileSettingsProvider.notifier).syncLocale(nextLocale);
+        final currentIndex = ref.read(bottomNavIndexProvider);
+        final dataRefresher = ref.read(navigationDataRefresherProvider);
+
+        await LocaleService.toggleLocale(context);
+        dataRefresher.refreshAfterLocaleChange(currentIndex);
       },
     );
   }

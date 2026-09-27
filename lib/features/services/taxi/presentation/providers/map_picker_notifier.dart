@@ -4,6 +4,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geocoding/geocoding.dart' as geo;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import '../../data/models/carRental/map_place_suggestion.dart';
 import 'map_controller_notifier.dart';
 import 'map_picker_state.dart';
@@ -11,8 +12,8 @@ import 'taxi_map_providers.dart';
 import 'taxi_notifier.dart';
 import 'taxi_state.dart';
 
-
-class MapPickerNotifier extends AutoDisposeFamilyNotifier<MapPickerState, TaxiActiveField> {
+class MapPickerNotifier
+    extends AutoDisposeFamilyNotifier<MapPickerState, TaxiActiveField> {
   Timer? _debounce;
   bool _disposed = false;
 
@@ -22,7 +23,8 @@ class MapPickerNotifier extends AutoDisposeFamilyNotifier<MapPickerState, TaxiAc
   MapPickerState build(TaxiActiveField arg) {
     // Start at the already-confirmed position for this field, or map centre.
     final taxiState = ref.read(taxiProvider);
-    final LatLng initial = (arg == TaxiActiveField.pickup
+    final LatLng initial =
+        (arg == TaxiActiveField.pickup
             ? taxiState.pickupLatLng
             : taxiState.destinationLatLng) ??
         ref.read(taxiCameraPositionProvider);
@@ -50,8 +52,10 @@ class MapPickerNotifier extends AutoDisposeFamilyNotifier<MapPickerState, TaxiAc
       searchController.dispose();
     });
 
-    return MapPickerState(center: initial);
-
+    return MapPickerState(
+      center: initial,
+      addressLabel: 'taxi.location.selecting'.tr(),
+    );
   }
 
   // Timer? _searchDebounce;
@@ -127,24 +131,29 @@ class MapPickerNotifier extends AutoDisposeFamilyNotifier<MapPickerState, TaxiAc
     if (_disposed) return;
     state = state.copyWith(center: pos, isResolving: true);
     try {
-      final placemarks =
-          await geo.placemarkFromCoordinates(pos.latitude, pos.longitude);
+      final placemarks = await geo.placemarkFromCoordinates(
+        pos.latitude,
+        pos.longitude,
+      );
       if (_disposed) return;
       if (placemarks.isNotEmpty) {
         final p = placemarks.first;
-        final parts = [p.street, p.subLocality, p.locality]
-            .where((s) => s != null && s.isNotEmpty)
-            .toList();
+        final parts = [
+          p.street,
+          p.subLocality,
+          p.locality,
+        ].where((s) => s != null && s.isNotEmpty).toList();
         state = state.copyWith(
-          addressLabel:
-              parts.isNotEmpty ? parts.join('، ') : 'موقع غير معروف',
+          addressLabel: parts.isNotEmpty
+              ? parts.join(', ')
+              : 'food.location.unknown'.tr(),
           isResolving: false,
         );
       }
     } catch (_) {
       if (!_disposed) {
         state = state.copyWith(
-          addressLabel: 'تعذّر تحديد الموقع',
+          addressLabel: 'food.location.resolveFailed'.tr(),
           isResolving: false,
         );
       }
@@ -159,8 +168,10 @@ class MapPickerNotifier extends AutoDisposeFamilyNotifier<MapPickerState, TaxiAc
     try {
       final locations = await geo.locationFromAddress(query);
       if (_disposed || locations.isEmpty) return;
-      final target =
-          LatLng(locations.first.latitude, locations.first.longitude);
+      final target = LatLng(
+        locations.first.latitude,
+        locations.first.longitude,
+      );
       ref
           .read(taxiMapControllerProvider)
           ?.animateCamera(CameraUpdate.newLatLngZoom(target, 16));
@@ -172,7 +183,9 @@ class MapPickerNotifier extends AutoDisposeFamilyNotifier<MapPickerState, TaxiAc
 
   Future<void> confirm() async {
     state = state.copyWith(isConfirming: true);
-    ref.read(taxiProvider.notifier).confirmLocation(
+    ref
+        .read(taxiProvider.notifier)
+        .confirmLocation(
           field: arg,
           latLng: state.center,
           label: state.addressLabel,
@@ -180,4 +193,3 @@ class MapPickerNotifier extends AutoDisposeFamilyNotifier<MapPickerState, TaxiAc
     state = state.copyWith(isConfirming: false);
   }
 }
-

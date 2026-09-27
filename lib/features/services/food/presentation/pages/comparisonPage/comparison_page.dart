@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/localization/easy_localization.dart';
-import 'package:qaren/core/utils/extensions/contextSizeX.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
@@ -110,24 +109,21 @@ class FoodResultItems extends ConsumerWidget {
       );
     }
 
-    return SizedBox(
-      height: context.screenHeight * 0.59,
-      child: ListView.builder(
-        itemCount: providers.length,
-        itemBuilder: (context, index) {
-          final provider = providers[index];
-          return Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppDimensions.paddingM,
-              vertical: AppDimensions.paddingS,
-            ),
-            child: FoodProviderCard(
-              provider: provider,
-              onBook: () => _handleBook(context, ref, provider),
-            ),
-          );
-        },
-      ),
+    return ListView.builder(
+      itemCount: providers.length,
+      itemBuilder: (context, index) {
+        final provider = providers[index];
+        return Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppDimensions.paddingM,
+            vertical: AppDimensions.paddingS,
+          ),
+          child: FoodProviderCard(
+            provider: provider,
+            onBook: () => _handleBook(context, ref, provider),
+          ),
+        );
+      },
     );
   }
 }

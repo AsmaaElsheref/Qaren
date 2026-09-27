@@ -20,18 +20,19 @@ class CategoryIconWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.appColors;
-    final bgColor =
-        isEnabled ? color.withValues(alpha: 0.14) : colors.disabledBackground;
+    final bgColor = isEnabled
+        ? color.withValues(alpha: 0.14)
+        : colors.disabledBackground;
     final iconColor = isEnabled ? color : colors.disabledText;
 
     return Container(
-      width: 44,
-      height: 44,
+      width: 40,
+      height: 40,
       decoration: BoxDecoration(
         color: bgColor,
         borderRadius: BorderRadius.circular(AppDimensions.radiusM),
       ),
-      child: Icon(icon, color: iconColor, size: 22),
+      child: Icon(icon, color: iconColor, size: 20),
     );
   }
 }

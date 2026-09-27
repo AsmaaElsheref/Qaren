@@ -51,8 +51,9 @@ class RouteState {
     bool clearError = false,
   }) {
     return RouteState(
-      pickupLocation:
-      clearPickup ? null : (pickupLocation ?? this.pickupLocation),
+      pickupLocation: clearPickup
+          ? null
+          : (pickupLocation ?? this.pickupLocation),
       destinationLocation: clearDestination
           ? null
           : (destinationLocation ?? this.destinationLocation),

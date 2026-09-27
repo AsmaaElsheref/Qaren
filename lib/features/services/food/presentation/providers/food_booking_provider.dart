@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import '../../data/models/food_booking_request_model.dart';
 import '../../data/models/food_booking_response.dart'; // FoodBookingResponse
 import '../../domain/entities/food_provider_model.dart';
@@ -8,11 +9,7 @@ import 'food_data_providers.dart';
 
 /// State of the booking submit call.
 class FoodBookingState {
-  const FoodBookingState({
-    this.isLoading = false,
-    this.error,
-    this.result,
-  });
+  const FoodBookingState({this.isLoading = false, this.error, this.result});
 
   final bool isLoading;
   final String? error;
@@ -22,12 +19,11 @@ class FoodBookingState {
     bool? isLoading,
     String? error,
     FoodBookingResponse? result,
-  }) =>
-      FoodBookingState(
-        isLoading: isLoading ?? this.isLoading,
-        error: error,
-        result: result ?? this.result,
-      );
+  }) => FoodBookingState(
+    isLoading: isLoading ?? this.isLoading,
+    error: error,
+    result: result ?? this.result,
+  );
 }
 
 /// Submits POST /api/compare/booking using:
@@ -61,7 +57,8 @@ class FoodBookingNotifier extends Notifier<FoodBookingState> {
     final cart = ref.read(foodCartProvider).items.values;
     final partnerId = int.tryParse(partner.id) ?? 0;
 
-    final isPartial = partner.totalRequested > 0 &&
+    final isPartial =
+        partner.totalRequested > 0 &&
         partner.matchedCount < partner.totalRequested;
 
     final allowedIds = isPartial
@@ -83,14 +80,15 @@ class FoodBookingNotifier extends Notifier<FoodBookingState> {
     if (body.items.isEmpty) {
       state = state.copyWith(
         isLoading: false,
-        error: 'لا يمكن إنشاء الطلب: لم يتم تحديد فرع لأي عنصر في السلة.',
+        error: 'food.errors.noBranchSelected'.tr(),
       );
       return false;
     }
 
     try {
-      final result =
-          await ref.read(foodRemoteDataSourceProvider).createBooking(body);
+      final result = await ref
+          .read(foodRemoteDataSourceProvider)
+          .createBooking(body);
       state = state.copyWith(isLoading: false, result: result);
       return true;
     } catch (e) {
@@ -113,7 +111,7 @@ class FoodBookingNotifier extends Notifier<FoodBookingState> {
     if (partner == null || location == null) {
       state = state.copyWith(
         isLoading: false,
-        error: 'الرجاء اختيار المطعم وعنوان التوصيل قبل إنشاء الطلب.',
+        error: 'food.errors.missingRestaurantOrAddress'.tr(),
       );
       return false;
     }
@@ -134,8 +132,8 @@ class FoodBookingNotifier extends Notifier<FoodBookingState> {
 
 final foodBookingProvider =
     NotifierProvider<FoodBookingNotifier, FoodBookingState>(
-  FoodBookingNotifier.new,
-);
+      FoodBookingNotifier.new,
+    );
 
 // ── Granular selectors ───────────────────────────────────────────────────────
 
@@ -151,4 +149,3 @@ final foodBookingErrorProvider = Provider<String?>(
 final foodBookingResultProvider = Provider<FoodBookingResponse?>(
   (ref) => ref.watch(foodBookingProvider.select((s) => s.result)),
 );
-

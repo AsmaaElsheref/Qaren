@@ -12,10 +12,15 @@ class WalletTransactionsList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final transactions = ref.watch(walletProvider.select((state) => state.transactions));
-    final currency = ref.watch(walletProvider.select((state) => state.currency));
-    final errorMessage = ref.watch(walletProvider.select((state) => state.errorMessage));
-    final isLoadingMore = ref.watch(walletProvider.select((state) => state.isLoadingMore));
+    final transactions = ref.watch(
+      walletProvider.select((state) => state.transactions),
+    );
+    final errorMessage = ref.watch(
+      walletProvider.select((state) => state.errorMessage),
+    );
+    final isLoadingMore = ref.watch(
+      walletProvider.select((state) => state.isLoadingMore),
+    );
 
     if (transactions.isEmpty && errorMessage != null) {
       return WalletErrorState(
@@ -37,14 +42,11 @@ class WalletTransactionsList extends ConsumerWidget {
           );
         }
 
-        return WalletTransactionCard(
-          transaction: transactions[index],
-          currency: currency,
-        );
+        return WalletTransactionCard(transaction: transactions[index]);
       },
-      separatorBuilder: (context, index) => const SizedBox(height: AppDimensions.paddingM),
+      separatorBuilder: (context, index) =>
+          const SizedBox(height: AppDimensions.paddingM),
       itemCount: transactions.length + (isLoadingMore ? 1 : 0),
     );
   }
 }
-

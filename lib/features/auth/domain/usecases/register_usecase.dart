@@ -1,4 +1,4 @@
-  import '../../../../core/network/handelError/errors/failures.dart';
+import '../../../../core/network/handelError/errors/failures.dart';
 import '../../../../core/utils/either.dart';
 import 'package:qaren/features/auth/domain/entities/register_params.dart';
 import 'package:qaren/features/auth/domain/entities/user_entity.dart';
@@ -13,4 +13,3 @@ class RegisterUseCase {
     return _repository.register(params);
   }
 }
-

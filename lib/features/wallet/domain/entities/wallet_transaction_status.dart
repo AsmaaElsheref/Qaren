@@ -1,20 +1,15 @@
-import 'package:qaren/core/localization/easy_localization.dart';
-
 enum WalletTransactionStatus {
   completed,
   pending,
   failed,
   unknown;
 
-  String get label {
+  String get localizationKey {
     return switch (this) {
-      WalletTransactionStatus.completed =>
-        'wallet.transactionStatus.completed'.tr(),
-      WalletTransactionStatus.pending =>
-        'wallet.transactionStatus.pending'.tr(),
-      WalletTransactionStatus.failed => 'wallet.transactionStatus.failed'.tr(),
-      WalletTransactionStatus.unknown =>
-        'wallet.transactionStatus.unknown'.tr(),
+      WalletTransactionStatus.completed => 'wallet.transactionStatus.completed',
+      WalletTransactionStatus.pending => 'wallet.transactionStatus.pending',
+      WalletTransactionStatus.failed => 'wallet.transactionStatus.failed',
+      WalletTransactionStatus.unknown => 'wallet.transactionStatus.unknown',
     };
   }
 

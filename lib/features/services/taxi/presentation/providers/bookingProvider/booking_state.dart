@@ -18,12 +18,11 @@ class BookingState extends Equatable {
     BookingStatus? status,
     BookingResultEntity? result,
     String? errorMessage,
-  }) =>
-      BookingState(
-        status: status ?? this.status,
-        result: result ?? this.result,
-        errorMessage: errorMessage,
-      );
+  }) => BookingState(
+    status: status ?? this.status,
+    result: result ?? this.result,
+    errorMessage: errorMessage,
+  );
 
   @override
   List<Object?> get props => [status, result, errorMessage];

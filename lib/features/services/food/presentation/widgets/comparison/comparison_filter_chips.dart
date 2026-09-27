@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
@@ -35,9 +36,10 @@ class ComparisonFilterChips extends ConsumerWidget {
                   duration: const Duration(milliseconds: 200),
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   decoration: BoxDecoration(
-                    color: isActive ? AppColors.textPrimary : colors.disabledBackground,
-                    borderRadius:
-                        BorderRadius.circular(AppDimensions.radiusM),
+                    color: isActive
+                        ? AppColors.textPrimary
+                        : colors.disabledBackground,
+                    borderRadius: BorderRadius.circular(AppDimensions.radiusM),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -45,15 +47,19 @@ class ComparisonFilterChips extends ConsumerWidget {
                       Icon(
                         type.icon,
                         size: 14,
-                        color: isActive ? AppColors.white : AppColors.textSecondary,
+                        color: isActive
+                            ? AppColors.white
+                            : AppColors.textSecondary,
                       ),
                       const SizedBox(width: 4),
                       AppText(
-                        type.label,
+                        type.translationKey.tr(),
                         style: TextStyle(
                           fontSize: AppDimensions.fontS,
                           fontWeight: FontWeight.w600,
-                          color: isActive ? AppColors.white : AppColors.textSecondary,
+                          color: isActive
+                              ? AppColors.white
+                              : AppColors.textSecondary,
                         ),
                       ),
                     ],
@@ -67,4 +73,3 @@ class ComparisonFilterChips extends ConsumerWidget {
     );
   }
 }
-

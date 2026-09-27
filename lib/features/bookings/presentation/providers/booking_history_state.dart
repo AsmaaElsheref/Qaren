@@ -27,7 +27,8 @@ class BookingHistoryState extends Equatable {
     this.errorMessage,
   });
 
-  bool get isEmpty => !isInitialLoading && bookings.isEmpty && errorMessage == null;
+  bool get isEmpty =>
+      !isInitialLoading && bookings.isEmpty && errorMessage == null;
 
   BookingHistoryState copyWith({
     BookingServiceType? selectedServiceType,
@@ -56,15 +57,14 @@ class BookingHistoryState extends Equatable {
 
   @override
   List<Object?> get props => [
-        selectedServiceType,
-        selectedStatus,
-        bookings,
-        currentPage,
-        hasMore,
-        isInitialLoading,
-        isLoadingMore,
-        isRefreshing,
-        errorMessage,
-      ];
+    selectedServiceType,
+    selectedStatus,
+    bookings,
+    currentPage,
+    hasMore,
+    isInitialLoading,
+    isLoadingMore,
+    isRefreshing,
+    errorMessage,
+  ];
 }
-

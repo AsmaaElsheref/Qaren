@@ -13,7 +13,7 @@ class BiometricService {
   final LocalAuthentication _auth;
 
   BiometricService({LocalAuthentication? auth})
-      : _auth = auth ?? LocalAuthentication();
+    : _auth = auth ?? LocalAuthentication();
 
   /// Check if device has biometric hardware.
   Future<bool> isDeviceSupported() => _auth.isDeviceSupported();
@@ -35,9 +35,7 @@ class BiometricService {
   }
 
   /// Prompt biometric authentication. Returns a typed result.
-  Future<BiometricResult> authenticate({
-    String reason = 'قم بالتحقق من هويتك للدخول',
-  }) async {
+  Future<BiometricResult> authenticate({required String reason}) async {
     try {
       final supported = await isDeviceSupported();
       if (!supported) return BiometricResult.notAvailable;

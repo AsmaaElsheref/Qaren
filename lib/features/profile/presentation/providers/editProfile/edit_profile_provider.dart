@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 
 import '../../../../../core/constants/app_constants.dart';
 import '../../../../../core/localStorage/cache_helper.dart';
@@ -16,12 +17,12 @@ final updateProfileUseCaseProvider = Provider<UpdateProfileUseCase>(
 
 final editProfileProvider = StateNotifierProvider.autoDispose
     .family<EditProfileNotifier, EditProfileState, UserEntity>(
-  (ref, user) => EditProfileNotifier(
-    ref: ref,
-    initialUser: user,
-    updateProfileUseCase: ref.watch(updateProfileUseCaseProvider),
-  ),
-);
+      (ref, user) => EditProfileNotifier(
+        ref: ref,
+        initialUser: user,
+        updateProfileUseCase: ref.watch(updateProfileUseCaseProvider),
+      ),
+    );
 
 class EditProfileNotifier extends StateNotifier<EditProfileState> {
   final Ref _ref;
@@ -31,9 +32,9 @@ class EditProfileNotifier extends StateNotifier<EditProfileState> {
     required Ref ref,
     required UserEntity initialUser,
     required UpdateProfileUseCase updateProfileUseCase,
-  })  : _ref = ref,
-        _updateProfileUseCase = updateProfileUseCase,
-        super(EditProfileState.fromUser(initialUser));
+  }) : _ref = ref,
+       _updateProfileUseCase = updateProfileUseCase,
+       super(EditProfileState.fromUser(initialUser));
 
   void updateName(String value) {
     state = state.copyWith(name: value, status: EditProfileStatus.initial);
@@ -78,7 +79,10 @@ class EditProfileNotifier extends StateNotifier<EditProfileState> {
       return;
     }
 
-    state = state.copyWith(status: EditProfileStatus.loading, errorMessage: null);
+    state = state.copyWith(
+      status: EditProfileStatus.loading,
+      errorMessage: null,
+    );
 
     final result = await _updateProfileUseCase(
       UpdateProfileParams(
@@ -102,9 +106,18 @@ class EditProfileNotifier extends StateNotifier<EditProfileState> {
         );
       },
       (user) async {
-        await CacheHelper.saveData(key: AppConstants.userName, value: user.name);
-        await CacheHelper.saveData(key: AppConstants.userEmail, value: user.email);
-        await CacheHelper.saveData(key: AppConstants.userPhone, value: user.phone);
+        await CacheHelper.saveData(
+          key: AppConstants.userName,
+          value: user.name,
+        );
+        await CacheHelper.saveData(
+          key: AppConstants.userEmail,
+          value: user.email,
+        );
+        await CacheHelper.saveData(
+          key: AppConstants.userPhone,
+          value: user.phone,
+        );
         _ref.invalidate(userProfileProvider);
         state = state.copyWith(
           status: EditProfileStatus.success,
@@ -130,14 +143,13 @@ class EditProfileNotifier extends StateNotifier<EditProfileState> {
     }
 
     if (state.password.length < 8) {
-      return 'كلمة المرور يجب ألا تقل عن 8 أحرف';
+      return 'validation.passwordMinLength'.tr();
     }
 
     if (state.password != state.passwordConfirmation) {
-      return 'كلمتا المرور غير متطابقتين';
+      return 'validation.passwordMismatch'.tr();
     }
 
     return null;
   }
 }
-

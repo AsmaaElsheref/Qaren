@@ -14,7 +14,6 @@ class FoodInvoiceModel extends Equatable {
   final String orderTime;
   final String date;
 
-
   const FoodInvoiceModel({
     FoodProviderModel? provider,
     this.fromLocation = '',
@@ -24,9 +23,9 @@ class FoodInvoiceModel extends Equatable {
     this.itemsCount = 0,
     this.orderTime = '',
     this.date = '',
-  }) : provider = provider ?? const FoodProviderModel(id: '', name: '', price: 0);
+  }) : provider =
+           provider ?? const FoodProviderModel(id: '', name: '', price: 0);
 
   @override
   List<Object?> get props => [provider, fromLocation, toLocation];
 }
-

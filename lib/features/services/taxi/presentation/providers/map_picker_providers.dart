@@ -7,6 +7,5 @@ import 'taxi_state.dart' show TaxiActiveField;
 /// Auto-disposed when the map-picker page is popped.
 final mapPickerProvider = NotifierProvider.autoDispose
     .family<MapPickerNotifier, MapPickerState, TaxiActiveField>(
-  MapPickerNotifier.new,
-);
-
+      MapPickerNotifier.new,
+    );

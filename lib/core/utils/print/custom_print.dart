@@ -1,7 +1,11 @@
 import 'package:flutter/foundation.dart';
 import '../colorConsol/color_consol.dart';
 
-void customPrint(dynamic text, {bool isError = false, bool isException = false}) {
+void customPrint(
+  dynamic text, {
+  bool isError = false,
+  bool isException = false,
+}) {
   if (kDebugMode) {
     if (isError) {
       // ignore: avoid_print
@@ -15,5 +19,3 @@ void customPrint(dynamic text, {bool isError = false, bool isException = false})
     }
   }
 }
-
-

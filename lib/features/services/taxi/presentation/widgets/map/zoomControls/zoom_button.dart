@@ -26,7 +26,11 @@ class ZoomButton extends StatelessWidget {
             ),
           ],
         ),
-        child: Icon(icon, color: AppColors.textPrimary, size: AppDimensions.iconS),
+        child: Icon(
+          icon,
+          color: AppColors.textPrimary,
+          size: AppDimensions.iconS,
+        ),
       ),
     );
   }

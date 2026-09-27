@@ -9,8 +9,9 @@ class GetWalletTransactionsUseCase {
 
   const GetWalletTransactionsUseCase(this.repository);
 
-  Future<Either<Failure, WalletTransactionsPageEntity>> call({required int page}) {
+  Future<Either<Failure, WalletTransactionsPageEntity>> call({
+    required int page,
+  }) {
     return repository.getTransactions(page: page);
   }
 }
-

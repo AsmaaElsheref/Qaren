@@ -19,11 +19,10 @@ class FoodCategoryChipsShimmer extends StatelessWidget {
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         physics: const NeverScrollableScrollPhysics(),
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppDimensions.paddingM,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingM),
         itemCount: _chipCount,
-        separatorBuilder: (_, __) => const SizedBox(width: AppDimensions.paddingS),
+        separatorBuilder: (_, __) =>
+            const SizedBox(width: AppDimensions.paddingS),
         itemBuilder: (_, index) => FoodCategoryChipShimmer(
           width: index == 0 ? 52 : 72.0 + (index % 2) * 16,
         ),
@@ -50,4 +49,3 @@ class FoodCategoryChipShimmer extends StatelessWidget {
     );
   }
 }
-

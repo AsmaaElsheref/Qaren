@@ -9,7 +9,7 @@ class MapPickerState {
 
   const MapPickerState({
     required this.center,
-    this.addressLabel = 'جاري تحديد الموقع...',
+    this.addressLabel = '',
     this.isResolving = true,
     this.isConfirming = false,
   });
@@ -19,12 +19,10 @@ class MapPickerState {
     String? addressLabel,
     bool? isResolving,
     bool? isConfirming,
-  }) =>
-      MapPickerState(
-        center: center ?? this.center,
-        addressLabel: addressLabel ?? this.addressLabel,
-        isResolving: isResolving ?? this.isResolving,
-        isConfirming: isConfirming ?? this.isConfirming
-      );
+  }) => MapPickerState(
+    center: center ?? this.center,
+    addressLabel: addressLabel ?? this.addressLabel,
+    isResolving: isResolving ?? this.isResolving,
+    isConfirming: isConfirming ?? this.isConfirming,
+  );
 }
-

@@ -25,8 +25,9 @@ class WalletTransactionModel extends WalletTransactionEntity {
       description: json['description'] as String? ?? '',
       referenceId: reference == null ? null : reference.toString(),
       createdAt: json['created_at'] as String? ?? '',
-      createdAtLabel: WalletBalanceModel.formatDate(json['created_at'] as String?),
+      createdAtLabel: WalletBalanceModel.formatDate(
+        json['created_at'] as String?,
+      ),
     );
   }
 }
-

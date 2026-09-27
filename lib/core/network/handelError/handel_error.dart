@@ -22,9 +22,8 @@ Failure handleDioError(DioException e) {
     case DioExceptionType.badResponse:
       final statusCode = e.response?.statusCode;
       final data = e.response?.data;
-      customPrint('HTTP $statusCode — $data', isError: true);
 
-      final serverMessage = _extractMessage(data);
+      final serverMessage = _extractLocalizedMessage(data);
 
       if (statusCode == 401) {
         return AuthFailure(serverMessage ?? 'errors.unauthorized'.tr());
@@ -45,11 +44,11 @@ Failure handleDioError(DioException e) {
       return NetworkFailure('errors.cancelled'.tr());
 
     default:
-      return ServerFailure(e.message ?? 'errors.unexpected'.tr());
+      return ServerFailure('errors.unexpected'.tr());
   }
 }
 
-String? _extractMessage(dynamic data) {
+String? _extractLocalizedMessage(dynamic data) {
   if (data is! Map<String, dynamic>) return null;
 
   // Try nested error object first: { "error": { "message": "...", "code": "..." } }
@@ -62,13 +61,36 @@ String? _extractMessage(dynamic data) {
     final localizedMessage = _mapErrorCode(code);
     if (localizedMessage != null) return localizedMessage;
 
-    if (msg != null && msg.isNotEmpty) return msg;
+    final localizedMessageFromText = _mapKnownMessage(msg);
+    if (localizedMessageFromText != null) return localizedMessageFromText;
   }
 
   // Fallback: top-level message field
   final topMessage = data['message'] as String?;
-  if (topMessage != null && topMessage.isNotEmpty) return topMessage;
+  final localizedTopMessage = _mapKnownMessage(topMessage);
+  if (localizedTopMessage != null) return localizedTopMessage;
 
+  return null;
+}
+
+String? _mapKnownMessage(String? message) {
+  final normalized = message?.trim().toLowerCase();
+  if (normalized == null || normalized.isEmpty) return null;
+
+  const knownMessages = {
+    'user not found': 'errors.userNotFound',
+    'invalid credentials': 'errors.invalidCredentials',
+    'invalid code': 'errors.invalidCode',
+    'code expired': 'errors.expiredCode',
+    'email already exists': 'errors.emailExists',
+    'phone already exists': 'errors.phoneExists',
+    'account disabled': 'errors.accountDisabled',
+    'too many attempts': 'errors.tooManyAttempts',
+  };
+
+  for (final entry in knownMessages.entries) {
+    if (normalized.contains(entry.key)) return entry.value.tr();
+  }
   return null;
 }
 

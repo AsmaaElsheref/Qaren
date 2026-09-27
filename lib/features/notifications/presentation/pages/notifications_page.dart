@@ -18,39 +18,37 @@ class NotificationsPage extends ConsumerWidget {
       notificationsProvider.select((state) => state.isInitialLoading),
     );
 
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        appBar: const NotificationsAppBar(),
-        body: SafeArea(
-          child: isInitialLoading
-              ? const NotificationsLoadingSkeleton()
-              : RefreshIndicator(
-                  onRefresh: () => ref.read(notificationsProvider.notifier).refresh(),
-                  child: NotificationListener<ScrollNotification>(
-                    onNotification: (notification) {
-                      if (notification.metrics.pixels >= notification.metrics.maxScrollExtent - 220) {
-                        ref.read(notificationsProvider.notifier).loadMore();
-                      }
-                      return false;
-                    },
-                    child: const SingleChildScrollView(
-                      physics: AlwaysScrollableScrollPhysics(),
-                      padding: EdgeInsets.all(AppDimensions.paddingM),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          NotificationsUnreadCountCard(),
-                          SizedBox(height: AppDimensions.paddingM),
-                          NotificationsList(),
-                        ],
-                      ),
+    return Scaffold(
+      appBar: const NotificationsAppBar(),
+      body: SafeArea(
+        child: isInitialLoading
+            ? const NotificationsLoadingSkeleton()
+            : RefreshIndicator(
+                onRefresh: () =>
+                    ref.read(notificationsProvider.notifier).refresh(),
+                child: NotificationListener<ScrollNotification>(
+                  onNotification: (notification) {
+                    if (notification.metrics.pixels >=
+                        notification.metrics.maxScrollExtent - 220) {
+                      ref.read(notificationsProvider.notifier).loadMore();
+                    }
+                    return false;
+                  },
+                  child: const SingleChildScrollView(
+                    physics: AlwaysScrollableScrollPhysics(),
+                    padding: EdgeInsets.all(AppDimensions.paddingM),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        NotificationsUnreadCountCard(),
+                        SizedBox(height: AppDimensions.paddingM),
+                        NotificationsList(),
+                      ],
                     ),
                   ),
                 ),
-        ),
+              ),
       ),
     );
   }
 }
-

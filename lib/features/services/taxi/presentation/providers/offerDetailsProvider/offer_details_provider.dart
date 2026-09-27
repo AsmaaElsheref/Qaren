@@ -54,13 +54,10 @@ class OfferDetailsNotifier extends Notifier<OfferDetailsState> {
 
 final offerDetailsProvider =
     NotifierProvider<OfferDetailsNotifier, OfferDetailsState>(
-  OfferDetailsNotifier.new,
-);
+      OfferDetailsNotifier.new,
+    );
 
 /// Granular — status only.
 final offerDetailsStatusProvider = Provider<OfferDetailsStatus>(
-  (ref) => ref.watch(
-    offerDetailsProvider.select((s) => s.status),
-  ),
+  (ref) => ref.watch(offerDetailsProvider.select((s) => s.status)),
 );
-

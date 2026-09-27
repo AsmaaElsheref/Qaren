@@ -1,4 +1,5 @@
 import 'package:qaren/core/localization/easy_localization.dart';
+import 'package:qaren/core/localization/localized_formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
@@ -6,6 +7,7 @@ import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
+import '../../../../../../core/ui/widgets/saudi_riyal_amount.dart';
 import '../../providers/food_providers.dart';
 
 class CheckoutSummarySection extends ConsumerWidget {
@@ -29,9 +31,15 @@ class CheckoutSummarySection extends ConsumerWidget {
       ),
       child: Column(
         children: [
-          _row('food.cart.subtotal'.tr(), subtotal, color: colors.textPrimary),
+          _row(
+            context,
+            'food.cart.subtotal'.tr(),
+            subtotal,
+            color: colors.textPrimary,
+          ),
           const SizedBox(height: 6),
           _row(
+            context,
             'food.checkout.deliveryFee'.tr(),
             deliveryFee,
             color: colors.textPrimary,
@@ -41,6 +49,7 @@ class CheckoutSummarySection extends ConsumerWidget {
             child: Divider(height: 1, color: AppColors.border),
           ),
           _row(
+            context,
             'food.checkout.total'.tr(),
             total,
             isBold: true,
@@ -51,7 +60,13 @@ class CheckoutSummarySection extends ConsumerWidget {
     );
   }
 
-  Widget _row(String label, double amount, {bool isBold = false, color}) {
+  Widget _row(
+    BuildContext context,
+    String label,
+    double amount, {
+    bool isBold = false,
+    Color? color,
+  }) {
     final style = TextStyle(
       fontSize: isBold ? AppDimensions.fontM : AppDimensions.fontS,
       fontWeight: isBold ? FontWeight.w800 : FontWeight.w600,
@@ -61,7 +76,10 @@ class CheckoutSummarySection extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         AppText(label, secondary: !isBold, style: style),
-        AppText('${amount.toInt()} ${'food.currencyShort'.tr()}', style: style),
+        SaudiRiyalAmount(
+          amount: LocalizedFormatters.number(context, amount),
+          style: style,
+        ),
       ],
     );
   }

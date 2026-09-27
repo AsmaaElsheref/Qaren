@@ -18,14 +18,12 @@ class OfferDetailsState extends Equatable {
     OfferDetailsStatus? status,
     OfferDetailsEntity? details,
     String? errorMessage,
-  }) =>
-      OfferDetailsState(
-        status: status ?? this.status,
-        details: details ?? this.details,
-        errorMessage: errorMessage,
-      );
+  }) => OfferDetailsState(
+    status: status ?? this.status,
+    details: details ?? this.details,
+    errorMessage: errorMessage,
+  );
 
   @override
   List<Object?> get props => [status, details, errorMessage];
 }
-

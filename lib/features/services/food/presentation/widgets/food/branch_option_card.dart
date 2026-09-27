@@ -82,4 +82,3 @@ class BranchOptionCard extends StatelessWidget {
     );
   }
 }
-

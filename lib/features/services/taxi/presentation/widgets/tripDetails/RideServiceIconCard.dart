@@ -49,8 +49,6 @@ class _CarFallback extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('🚗', style: TextStyle(fontSize: 34)),
-    );
+    return const Center(child: Text('🚗', style: TextStyle(fontSize: 34)));
   }
 }

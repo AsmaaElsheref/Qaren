@@ -43,4 +43,3 @@ class InvoiceInfoCell extends StatelessWidget {
     );
   }
 }
-

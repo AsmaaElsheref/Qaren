@@ -34,4 +34,3 @@ class ComingSoonIcon extends StatelessWidget {
     );
   }
 }
-

@@ -19,14 +19,20 @@ class ParsedAiParametersEntity extends Equatable {
     this.destinationName,
   });
 
-  LatLng? get pickup =>
-      (pickupLat != null && pickupLng != null) ? LatLng(pickupLat!, pickupLng!) : null;
+  LatLng? get pickup => (pickupLat != null && pickupLng != null)
+      ? LatLng(pickupLat!, pickupLng!)
+      : null;
 
-  LatLng? get dropoff =>
-      (dropoffLat != null && dropoffLng != null) ? LatLng(dropoffLat!, dropoffLng!) : null;
+  LatLng? get dropoff => (dropoffLat != null && dropoffLng != null)
+      ? LatLng(dropoffLat!, dropoffLng!)
+      : null;
 
   @override
-  List<Object?> get props =>
-      [pickupLat, pickupLng, dropoffLat, dropoffLng, destinationName];
+  List<Object?> get props => [
+    pickupLat,
+    pickupLng,
+    dropoffLat,
+    dropoffLng,
+    destinationName,
+  ];
 }
-

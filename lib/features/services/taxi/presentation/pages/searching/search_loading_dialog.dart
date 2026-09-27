@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
@@ -24,10 +25,12 @@ class SearchLoadingDialog extends ConsumerStatefulWidget {
   }
 
   @override
-  ConsumerState<SearchLoadingDialog> createState() => _SearchLoadingDialogState();
+  ConsumerState<SearchLoadingDialog> createState() =>
+      _SearchLoadingDialogState();
 }
 
-class _SearchLoadingDialogState extends ConsumerState<SearchLoadingDialog> with SingleTickerProviderStateMixin {
+class _SearchLoadingDialogState extends ConsumerState<SearchLoadingDialog>
+    with SingleTickerProviderStateMixin {
   late final PageController _pageController;
   late final AnimationController _spinController;
   late final Animation<double> _spinAnimation;
@@ -46,10 +49,7 @@ class _SearchLoadingDialogState extends ConsumerState<SearchLoadingDialog> with 
       duration: const Duration(seconds: 3),
     )..repeat();
 
-    _spinAnimation = Tween<double>(
-      begin: 0,
-      end: 1,
-    ).animate(_spinController);
+    _spinAnimation = Tween<double>(begin: 0, end: 1).animate(_spinController);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(searchLoadingProvider.notifier).startAutoCycle();
@@ -58,7 +58,7 @@ class _SearchLoadingDialogState extends ConsumerState<SearchLoadingDialog> with 
     // Listen to page step changes for the loading animation
     _providerSubscription = ref.listenManual<SearchLoadingState>(
       searchLoadingProvider,
-          (previous, next) {
+      (previous, next) {
         if (!_pageController.hasClients) return;
         if (previous?.currentPage == next.currentPage) return;
 
@@ -73,8 +73,9 @@ class _SearchLoadingDialogState extends ConsumerState<SearchLoadingDialog> with 
     // Listen for API completion (success, empty, or failure)
     _apiSubscription = ref.listenManual<ComparePricesState>(
       comparePricesProvider,
-          (previous, next) {
-        final isDone = next.status == ComparePricesStatus.success ||
+      (previous, next) {
+        final isDone =
+            next.status == ComparePricesStatus.success ||
             next.status == ComparePricesStatus.empty ||
             next.status == ComparePricesStatus.failure;
 
@@ -112,80 +113,74 @@ class _SearchLoadingDialogState extends ConsumerState<SearchLoadingDialog> with 
   Widget build(BuildContext context) {
     final state = ref.watch(searchLoadingProvider);
     final colors = context.appColors;
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Dialog(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        insetPadding: const EdgeInsets.symmetric(horizontal: 32),
-        child: Container(
-          decoration: BoxDecoration(
-            color: colors.surface,
-            border: const Border(
-              top: BorderSide(
-                color: AppColors.primary,
-                width: 7,
-              ),
+    return Dialog(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      insetPadding: const EdgeInsets.symmetric(horizontal: 32),
+      child: Container(
+        decoration: BoxDecoration(
+          color: colors.surface,
+          border: const Border(
+            top: BorderSide(color: AppColors.primary, width: 7),
+          ),
+          borderRadius: BorderRadius.circular(AppDimensions.radiusXL),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.12),
+              blurRadius: 24,
+              offset: const Offset(0, 8),
             ),
-            borderRadius: BorderRadius.circular(AppDimensions.radiusXL),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.12),
-                blurRadius: 24,
-                offset: const Offset(0, 8),
-              ),
-            ],
-          ),
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppDimensions.paddingL,
-            vertical: AppDimensions.paddingXL,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SearchLoading(animation: _spinAnimation),
-              const SizedBox(height: AppDimensions.paddingL),
-              SizedBox(
-                height: context.screenHeight * 0.1,
-                child: PageView.builder(
-                  controller: _pageController,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: state.steps.length,
-                  itemBuilder: (_, index) {
-                    return Center(
-                      child: Text(
-                        state.steps[index],
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'Cairo',
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
-                          color: colors.textPrimary,
-                        ),
+          ],
+        ),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppDimensions.paddingL,
+          vertical: AppDimensions.paddingXL,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SearchLoading(animation: _spinAnimation),
+            const SizedBox(height: AppDimensions.paddingL),
+            SizedBox(
+              height: context.screenHeight * 0.1,
+              child: PageView.builder(
+                controller: _pageController,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: state.steps.length,
+                itemBuilder: (_, index) {
+                  return Center(
+                    child: Text(
+                      state.steps[index].tr(),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Cairo',
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                        color: colors.textPrimary,
                       ),
-                    );
-                  },
-                ),
-              ),
-              const SizedBox(height: AppDimensions.paddingM),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(state.steps.length, (index) {
-                  final isActive = index == state.currentPage;
-                  return AnimatedContainer(
-                    duration: const Duration(milliseconds: 300),
-                    margin: const EdgeInsets.symmetric(horizontal: 4),
-                    width: isActive ? 24 : 8,
-                    height: 8,
-                    decoration: BoxDecoration(
-                      color: isActive ? AppColors.primary : AppColors.border,
-                      borderRadius: BorderRadius.circular(4),
                     ),
                   );
-                }),
+                },
               ),
-            ],
-          ),
+            ),
+            const SizedBox(height: AppDimensions.paddingM),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(state.steps.length, (index) {
+                final isActive = index == state.currentPage;
+                return AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                  width: isActive ? 24 : 8,
+                  height: 8,
+                  decoration: BoxDecoration(
+                    color: isActive ? AppColors.primary : AppColors.border,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                );
+              }),
+            ),
+          ],
         ),
       ),
     );

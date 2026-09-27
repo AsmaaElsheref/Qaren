@@ -26,14 +26,13 @@ class WalletTransactionEntity extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        amount,
-        type,
-        status,
-        description,
-        referenceId,
-        createdAt,
-        createdAtLabel,
-      ];
+    id,
+    amount,
+    type,
+    status,
+    description,
+    referenceId,
+    createdAt,
+    createdAtLabel,
+  ];
 }
-

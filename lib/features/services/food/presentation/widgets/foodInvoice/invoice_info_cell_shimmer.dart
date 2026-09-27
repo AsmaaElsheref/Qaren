@@ -34,4 +34,3 @@ class InvoiceInfoCellShimmer extends StatelessWidget {
     );
   }
 }
-

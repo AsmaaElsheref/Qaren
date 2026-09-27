@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/core/localization/localized_formatters.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
 import 'package:qaren/core/theme/app_colors.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
@@ -13,10 +14,7 @@ import 'notification_status_icon.dart';
 class NotificationCard extends ConsumerWidget {
   final String notificationId;
 
-  const NotificationCard({
-    super.key,
-    required this.notificationId,
-  });
+  const NotificationCard({super.key, required this.notificationId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -27,10 +25,16 @@ class NotificationCard extends ConsumerWidget {
 
     final colors = context.appColors;
     final isUnread = notification.isUnread;
+    final createdAtLabel = LocalizedFormatters.dateTime(
+      context,
+      notification.createdAt,
+    );
 
     return InkWell(
       onTap: isUnread && !isMarking
-          ? () => ref.read(notificationsProvider.notifier).markNotificationRead(notificationId)
+          ? () => ref
+                .read(notificationsProvider.notifier)
+                .markNotificationRead(notificationId)
           : null,
       borderRadius: BorderRadius.circular(AppDimensions.radiusL),
       child: AnimatedContainer(
@@ -83,7 +87,9 @@ class NotificationCard extends ConsumerWidget {
                     const SizedBox(height: AppDimensions.paddingXS),
                     AppText(
                       notification.data.message,
-                      style: AppTextStyles.bodySecondary.copyWith(color: colors.textSecondary),
+                      style: AppTextStyles.bodySecondary.copyWith(
+                        color: colors.textSecondary,
+                      ),
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -93,11 +99,19 @@ class NotificationCard extends ConsumerWidget {
                     spacing: AppDimensions.paddingS,
                     runSpacing: AppDimensions.paddingXS,
                     children: [
-                      AppText(notification.data.status.label,
-                          style: AppTextStyles.caption.copyWith(color: colors.textMuted)),
-                      if (notification.createdAtLabel.isNotEmpty)
-                        AppText(notification.createdAtLabel,
-                            style: AppTextStyles.caption.copyWith(color: colors.textMuted)),
+                      AppText(
+                        notification.data.status.label,
+                        style: AppTextStyles.caption.copyWith(
+                          color: colors.textMuted,
+                        ),
+                      ),
+                      if (createdAtLabel.isNotEmpty)
+                        AppText(
+                          createdAtLabel,
+                          style: AppTextStyles.caption.copyWith(
+                            color: colors.textMuted,
+                          ),
+                        ),
                     ],
                   ),
                 ],

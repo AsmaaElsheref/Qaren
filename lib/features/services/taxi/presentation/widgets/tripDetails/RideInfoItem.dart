@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 
 class RideInfoItem extends StatelessWidget {
-  const RideInfoItem({
-    super.key,
-    required this.title,
-    required this.value,
-  });
+  const RideInfoItem({super.key, required this.title, required this.value});
 
   final String title;
   final String value;

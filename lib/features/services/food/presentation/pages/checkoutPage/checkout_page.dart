@@ -22,43 +22,39 @@ class CheckoutPage extends ConsumerWidget {
       value: SystemUiOverlayStyle.dark.copyWith(
         statusBarColor: Colors.transparent,
       ),
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Scaffold(
-          body: SafeArea(
-            child: Column(
-              children: [
-                const CheckoutHeader(),
-                const SizedBox(height: AppDimensions.paddingS),
-                Expanded(
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.only(
-                      bottom: AppDimensions.paddingM,
-                    ),
-                    child: Column(
-                      children: const [
-                        CheckoutRestaurantSection(),
-                        SizedBox(height: AppDimensions.paddingM),
-                        CheckoutDeliverySection(),
-                        SizedBox(height: AppDimensions.paddingM),
-                        CheckoutItemsList(),
-                        SizedBox(height: AppDimensions.paddingM),
-                        CheckoutNotesInput(),
-                        SizedBox(height: AppDimensions.paddingM),
-                        CheckoutPaymentSection(),
-                        SizedBox(height: AppDimensions.paddingM),
-                        CheckoutSummarySection(),
-                      ],
-                    ),
+      child: Scaffold(
+        body: SafeArea(
+          child: Column(
+            children: [
+              const CheckoutHeader(),
+              const SizedBox(height: AppDimensions.paddingS),
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.only(
+                    bottom: AppDimensions.paddingM,
+                  ),
+                  child: Column(
+                    children: const [
+                      CheckoutRestaurantSection(),
+                      SizedBox(height: AppDimensions.paddingM),
+                      CheckoutDeliverySection(),
+                      SizedBox(height: AppDimensions.paddingM),
+                      CheckoutItemsList(),
+                      SizedBox(height: AppDimensions.paddingM),
+                      CheckoutNotesInput(),
+                      SizedBox(height: AppDimensions.paddingM),
+                      CheckoutPaymentSection(),
+                      SizedBox(height: AppDimensions.paddingM),
+                      CheckoutSummarySection(),
+                    ],
                   ),
                 ),
-                const CheckoutConfirmButton(),
-              ],
-            ),
+              ),
+              const CheckoutConfirmButton(),
+            ],
           ),
         ),
       ),
     );
   }
 }
-

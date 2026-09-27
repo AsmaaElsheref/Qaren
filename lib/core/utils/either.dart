@@ -3,15 +3,12 @@ class Either<L, R> {
   final R? _right;
   final bool _isLeft;
 
-  const Either._leftVal(L value)
-      : _left = value,
-        _right = null,
-        _isLeft = true;
+  const Either._leftVal(L value) : _left = value, _right = null, _isLeft = true;
 
   const Either._rightVal(R value)
-      : _left = null,
-        _right = value,
-        _isLeft = false;
+    : _left = null,
+      _right = value,
+      _isLeft = false;
 
   static Either<L, R> leftOf<L, R>(L value) => Either._leftVal(value);
   static Either<L, R> rightOf<L, R>(R value) => Either._rightVal(value);
@@ -25,10 +22,7 @@ class Either<L, R> {
   /// [onLeft] and [onRight] always receive non-null values —
   /// the internal nullable fields are an implementation detail.
   /// Note: right value may legitimately be null when R is void.
-  T fold<T>(
-    T Function(L left) onLeft,
-    T Function(R right) onRight,
-  ) {
+  T fold<T>(T Function(L left) onLeft, T Function(R right) onRight) {
     if (_isLeft) return onLeft(_left!);
     return onRight(_right as R);
   }

@@ -7,4 +7,3 @@ extension AppColorsContext on BuildContext {
   AppColorTokens get appColors =>
       Theme.of(this).extension<AppColorTokens>() ?? AppColorTokens.light;
 }
-

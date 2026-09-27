@@ -9,8 +9,9 @@ class DepositWalletAmountUseCase {
 
   const DepositWalletAmountUseCase(this.repository);
 
-  Future<Either<Failure, WalletDepositResultEntity>> call({required double amount}) {
+  Future<Either<Failure, WalletDepositResultEntity>> call({
+    required double amount,
+  }) {
     return repository.deposit(amount: amount);
   }
 }
-

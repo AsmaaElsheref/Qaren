@@ -17,7 +17,8 @@ final checkoutItemsProvider = Provider<List<CartItem>>((ref) {
   final partner = ref.watch(selectedProviderForBookingProvider);
   if (partner == null) return cart;
 
-  final isPartial = partner.totalRequested > 0 &&
+  final isPartial =
+      partner.totalRequested > 0 &&
       partner.matchedCount < partner.totalRequested;
   if (!isPartial) return cart;
 
@@ -38,4 +39,3 @@ final checkoutItemsCountProvider = Provider<int>((ref) {
   final items = ref.watch(checkoutItemsProvider);
   return items.fold<int>(0, (sum, i) => sum + i.quantity);
 });
-

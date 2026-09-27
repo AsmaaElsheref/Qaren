@@ -16,36 +16,34 @@ class CustomAppBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.appColors;
     return SafeArea(
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Padding(
-          padding: const EdgeInsets.only(right: 20, left: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              if (isBack == true)
-                IconButton(
-                  onPressed: () => Navigator.pop(context),
-                  icon: Icon(Icons.arrow_back_ios, color: colors.textPrimary),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            if (isBack == true)
+              IconButton(
+                onPressed: () => Navigator.pop(context),
+                icon: Icon(Icons.arrow_back_ios_new, color: colors.textPrimary),
+              ),
+            if (title != null)
+              AppText(
+                title!,
+                style: AppTextStyles.title.copyWith(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: colors.textPrimary,
                 ),
-              if (title != null)
-                AppText(
-                  title!,
-                  style: AppTextStyles.title.copyWith(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: colors.textPrimary,
-                  ),
-                )
-              else
-                const SizedBox(),
-              (icon != null)?
-                IconContainer(
-                  icon: Icon(icon, color: colors.textPrimary),
-                  onTap: () {},
-                ):SizedBox(width: 40),
-            ],
-          ),
+              )
+            else
+              const SizedBox(),
+            (icon != null)
+                ? IconContainer(
+                    icon: Icon(icon, color: colors.textPrimary),
+                    onTap: () {},
+                  )
+                : SizedBox(width: 40),
+          ],
         ),
       ),
     );

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 
 class RoutePointColumn extends StatelessWidget {
-  const RoutePointColumn({super.key,
+  const RoutePointColumn({
+    super.key,
     required this.alignment,
     required this.label,
     required this.mainText,
@@ -16,7 +17,9 @@ class RoutePointColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textAlign = alignment == CrossAxisAlignment.end ? TextAlign.left : TextAlign.right;
+    final textAlign = alignment == CrossAxisAlignment.end
+        ? TextAlign.end
+        : TextAlign.start;
     final colors = context.appColors;
     return Column(
       crossAxisAlignment: alignment,

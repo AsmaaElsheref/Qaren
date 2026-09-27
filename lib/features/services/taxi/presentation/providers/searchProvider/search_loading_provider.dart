@@ -3,19 +3,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'search_loading_state.dart';
 
 final searchLoadingProvider =
-NotifierProvider.autoDispose<SearchLoadingNotifier, SearchLoadingState>(
-  SearchLoadingNotifier.new,
-);
+    NotifierProvider.autoDispose<SearchLoadingNotifier, SearchLoadingState>(
+      SearchLoadingNotifier.new,
+    );
 
 class SearchLoadingNotifier extends AutoDisposeNotifier<SearchLoadingState> {
   Timer? _timer;
 
   static const List<String> _defaultSteps = [
-    'جاري تحليل طلبك...',
-    'التحقق من التوفر...',
-    'البحث عن أفضل الخدمات...',
-    'مقارنة الأسعار...',
-    'تجهيز أفضل النتائج...',
+    'taxi.search.steps.analyzing',
+    'taxi.search.steps.checkingAvailability',
+    'taxi.search.steps.findingServices',
+    'taxi.search.steps.comparingPrices',
+    'taxi.search.steps.preparingResults',
   ];
 
   static const Duration _defaultStepDuration = Duration(seconds: 2);
@@ -62,7 +62,8 @@ class SearchLoadingNotifier extends AutoDisposeNotifier<SearchLoadingState> {
   void previousStep() {
     if (state.isCompleted) return;
 
-    final prev = (state.currentPage - 1 + state.steps.length) % state.steps.length;
+    final prev =
+        (state.currentPage - 1 + state.steps.length) % state.steps.length;
     state = state.copyWith(currentPage: prev);
   }
 
@@ -87,10 +88,7 @@ class SearchLoadingNotifier extends AutoDisposeNotifier<SearchLoadingState> {
   void setSteps(List<String> steps) {
     if (steps.isEmpty) return;
 
-    state = state.copyWith(
-      steps: steps,
-      currentPage: 0,
-    );
+    state = state.copyWith(steps: steps, currentPage: 0);
   }
 
   void setStepDuration(Duration duration) {
@@ -100,10 +98,7 @@ class SearchLoadingNotifier extends AutoDisposeNotifier<SearchLoadingState> {
     _timer?.cancel();
     _timer = null;
 
-    state = state.copyWith(
-      stepDuration: duration,
-      isRunning: false,
-    );
+    state = state.copyWith(stepDuration: duration, isRunning: false);
 
     if (wasRunning && !state.isCompleted) {
       startAutoCycle();
@@ -114,9 +109,6 @@ class SearchLoadingNotifier extends AutoDisposeNotifier<SearchLoadingState> {
     _timer?.cancel();
     _timer = null;
 
-    state = state.copyWith(
-      isRunning: false,
-      isCompleted: true,
-    );
+    state = state.copyWith(isRunning: false, isCompleted: true);
   }
 }

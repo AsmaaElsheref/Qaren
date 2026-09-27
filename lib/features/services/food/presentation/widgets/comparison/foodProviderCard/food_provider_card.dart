@@ -1,4 +1,5 @@
 import 'package:qaren/core/localization/easy_localization.dart';
+import 'package:qaren/core/localization/localized_formatters.dart';
 import 'package:flutter/material.dart';
 import '../../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../../core/theme/app_colors.dart';
@@ -6,6 +7,7 @@ import '../../../../../../../core/theme/app_colors_ext.dart';
 import '../../../../../../../core/ui/widgets/AppButton.dart';
 import '../../../../../../../core/ui/widgets/AppText.dart';
 import '../../../../../../../core/ui/widgets/AppTextStyles.dart';
+import '../../../../../../../core/ui/widgets/saudi_riyal_amount.dart';
 import '../../../../domain/entities/food_provider_model.dart';
 import '../food_best_value_badge.dart';
 import 'foodProviderImage/food_provider_image.dart';
@@ -90,7 +92,11 @@ class FoodProviderCard extends StatelessWidget {
                             ),
                             const SizedBox(width: 2),
                             AppText(
-                              provider.rating!.toStringAsFixed(1),
+                              LocalizedFormatters.number(
+                                context,
+                                provider.rating!,
+                                decimals: 1,
+                              ),
                               secondary: true,
                               style: TextStyle(
                                 fontSize: AppDimensions.fontXS,
@@ -106,7 +112,7 @@ class FoodProviderCard extends StatelessWidget {
                           ],
                           if (provider.tag.isNotEmpty)
                             AppText(
-                              provider.tag,
+                              provider.tag.tr(),
                               secondary: true,
                               style: TextStyle(
                                 fontSize: AppDimensions.fontXS,
@@ -129,27 +135,17 @@ class FoodProviderCard extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            AppText(
-                              '${provider.price.toInt()}',
-                              style: AppTextStyles.headline.copyWith(
-                                fontSize: AppDimensions.fontXXL,
-                                fontWeight: FontWeight.w800,
-                                color: colors.textPrimary,
-                              ),
-                            ),
-                            const SizedBox(width: 4),
-                            AppText(
-                              'food.currencyFull'.tr(),
-                              secondary: true,
-                              style: TextStyle(
-                                fontSize: AppDimensions.fontXS,
-                                color: colors.textSecondary,
-                              ),
-                            ),
-                          ],
+                        SaudiRiyalAmount(
+                          amount: LocalizedFormatters.number(
+                            context,
+                            provider.price,
+                          ),
+                          style: AppTextStyles.headline.copyWith(
+                            fontSize: AppDimensions.fontXXL,
+                            fontWeight: FontWeight.w800,
+                            color: colors.textPrimary,
+                          ),
+                          symbolSize: AppDimensions.fontXL,
                         ),
                       ],
                     ),
@@ -249,8 +245,10 @@ class FoodProviderCard extends StatelessWidget {
                         AppText(
                           'taxi.route.distanceValue'.tr(
                             namedArgs: {
-                              'distance': provider.distanceKm!.toStringAsFixed(
-                                1,
+                              'distance': LocalizedFormatters.number(
+                                context,
+                                provider.distanceKm!,
+                                decimals: 1,
                               ),
                             },
                           ),
@@ -271,7 +269,7 @@ class FoodProviderCard extends StatelessWidget {
                             ),
                             const SizedBox(width: 4),
                             AppText(
-                              '${provider.deliveryTimeMinutes} ${'food.comparison.minutes'.tr()}',
+                              '${LocalizedFormatters.number(context, provider.deliveryTimeMinutes)} ${'food.comparison.minutes'.tr()}',
                               secondary: true,
                               style: TextStyle(
                                 fontSize: AppDimensions.fontXS,
@@ -282,21 +280,38 @@ class FoodProviderCard extends StatelessWidget {
                           ],
                         ),
                       if (provider.deliveryFee != null)
-                        AppText(
-                          provider.deliveryFee == 0
-                              ? 'food.comparison.freeDelivery'.tr()
-                              : 'food.comparison.deliveryFee'.tr(
-                                  namedArgs: {
-                                    'fee': '${provider.deliveryFee!.toInt()}',
-                                    'currency': provider.currency,
-                                  },
+                        provider.deliveryFee == 0
+                            ? AppText(
+                                'food.comparison.freeDelivery'.tr(),
+                                secondary: true,
+                                style: TextStyle(
+                                  fontSize: AppDimensions.fontXS,
+                                  color: colors.textSecondary,
                                 ),
-                          secondary: true,
-                          style: TextStyle(
-                            fontSize: AppDimensions.fontXS,
-                            color: colors.textSecondary,
-                          ),
-                        ),
+                              )
+                            : Wrap(
+                                spacing: 4,
+                                crossAxisAlignment: WrapCrossAlignment.center,
+                                children: [
+                                  AppText(
+                                    'food.checkout.deliveryFee'.tr(),
+                                    secondary: true,
+                                    style: TextStyle(
+                                      fontSize: AppDimensions.fontXS,
+                                      color: colors.textSecondary,
+                                    ),
+                                  ),
+                                  SaudiRiyalAmount(
+                                    amount: provider.deliveryFee!
+                                        .toInt()
+                                        .toString(),
+                                    style: TextStyle(
+                                      fontSize: AppDimensions.fontXS,
+                                      color: colors.textSecondary,
+                                    ),
+                                  ),
+                                ],
+                              ),
                     ],
                   ),
                   const Spacer(),

@@ -42,72 +42,69 @@ class EditProfilePage extends ConsumerWidget {
 
     final notifier = ref.read(editProfileProvider(user).notifier);
 
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        body: SafeArea(
-          child: Column(
-            children: [
-              EditProfileHeader(onBack: () => Navigator.of(context).pop()),
-              Expanded(
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      EditProfileAvatarPicker(providerKey: user),
-                      const SizedBox(height: 28),
-                      EditProfileInputField(
-                        label: 'profile.field.fullName'.tr(),
-                        initialValue: user.name,
-                        icon: Icons.person_outline_rounded,
-                        onChanged: notifier.updateName,
-                        keyboardType: TextInputType.name,
-                      ),
-                      const SizedBox(height: 16),
-                      EditProfileInputField(
-                        label: 'profile.field.email'.tr(),
-                        initialValue: user.email,
-                        icon: Icons.mail_outline_rounded,
-                        onChanged: notifier.updateEmail,
-                        keyboardType: TextInputType.emailAddress,
-                      ),
-                      const SizedBox(height: 16),
-                      EditProfileInputField(
-                        label: 'profile.field.phone'.tr(),
-                        initialValue: user.phone,
-                        icon: Icons.phone_outlined,
-                        onChanged: notifier.updatePhone,
-                        keyboardType: TextInputType.phone,
-                      ),
-                      const SizedBox(height: 16),
-                      EditProfileGenderSelector(providerKey: user),
-                      const SizedBox(height: 16),
-                      EditProfileInputField(
-                        label: 'profile.field.newPassword'.tr(),
-                        initialValue: '',
-                        icon: Icons.lock_outline_rounded,
-                        onChanged: notifier.updatePassword,
-                        obscureText: true,
-                        hintText: 'profile.field.passwordOptionalHint'.tr(),
-                      ),
-                      const SizedBox(height: 16),
-                      EditProfileInputField(
-                        label: 'profile.field.confirmPassword'.tr(),
-                        initialValue: '',
-                        icon: Icons.lock_reset_rounded,
-                        onChanged: notifier.updatePasswordConfirmation,
-                        obscureText: true,
-                      ),
-                      const SizedBox(height: 28),
-                      EditProfileSaveButton(providerKey: user),
-                    ],
-                  ),
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: [
+            EditProfileHeader(onBack: () => Navigator.of(context).pop()),
+            Expanded(
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    EditProfileAvatarPicker(providerKey: user),
+                    const SizedBox(height: 28),
+                    EditProfileInputField(
+                      label: 'profile.field.fullName'.tr(),
+                      initialValue: user.name,
+                      icon: Icons.person_outline_rounded,
+                      onChanged: notifier.updateName,
+                      keyboardType: TextInputType.name,
+                    ),
+                    const SizedBox(height: 16),
+                    EditProfileInputField(
+                      label: 'profile.field.email'.tr(),
+                      initialValue: user.email,
+                      icon: Icons.mail_outline_rounded,
+                      onChanged: notifier.updateEmail,
+                      keyboardType: TextInputType.emailAddress,
+                    ),
+                    const SizedBox(height: 16),
+                    EditProfileInputField(
+                      label: 'profile.field.phone'.tr(),
+                      initialValue: user.phone,
+                      icon: Icons.phone_outlined,
+                      onChanged: notifier.updatePhone,
+                      keyboardType: TextInputType.phone,
+                    ),
+                    const SizedBox(height: 16),
+                    EditProfileGenderSelector(providerKey: user),
+                    const SizedBox(height: 16),
+                    EditProfileInputField(
+                      label: 'profile.field.newPassword'.tr(),
+                      initialValue: '',
+                      icon: Icons.lock_outline_rounded,
+                      onChanged: notifier.updatePassword,
+                      obscureText: true,
+                      hintText: 'profile.field.passwordOptionalHint'.tr(),
+                    ),
+                    const SizedBox(height: 16),
+                    EditProfileInputField(
+                      label: 'profile.field.confirmPassword'.tr(),
+                      initialValue: '',
+                      icon: Icons.lock_reset_rounded,
+                      onChanged: notifier.updatePasswordConfirmation,
+                      obscureText: true,
+                    ),
+                    const SizedBox(height: 28),
+                    EditProfileSaveButton(providerKey: user),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

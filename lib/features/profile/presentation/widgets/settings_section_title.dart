@@ -23,4 +23,3 @@ class SettingsSectionTitle extends StatelessWidget {
     );
   }
 }
-

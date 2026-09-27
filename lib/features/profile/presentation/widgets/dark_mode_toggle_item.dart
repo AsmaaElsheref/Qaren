@@ -9,10 +9,13 @@ class DarkModeToggleItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Only rebuilds when isDarkMode changes
+    // Read the locale explicitly so this item rebuilds immediately when the
+    // language changes while the drawer is still open.
+    final localeCode = context.locale.languageCode;
     final isDarkMode = ref.watch(profileIsDarkModeProvider);
 
     return SettingsToggleItem(
+      key: ValueKey('dark-mode-setting-$localeCode'),
       icon: Icons.dark_mode_outlined,
       iconColor: const Color(0xFF7C3AED),
       iconBackground: const Color(0xFFF3EEFF),

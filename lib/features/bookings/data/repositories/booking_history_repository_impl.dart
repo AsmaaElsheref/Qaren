@@ -1,4 +1,5 @@
 import 'package:qaren/core/network/handelError/errors/failures.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:qaren/core/utils/either.dart';
 
 import '../../domain/entities/booking_details_entity.dart';
@@ -28,8 +29,8 @@ class BookingHistoryRepositoryImpl implements BookingHistoryRepository {
       return Either.rightOf(response.pagination);
     } on Failure catch (failure) {
       return Either.leftOf(failure);
-    } catch (error) {
-      return Either.leftOf(ServerFailure(error.toString()));
+    } catch (_) {
+      return Either.leftOf(ServerFailure('bookings.history.loadError'.tr()));
     }
   }
 
@@ -42,9 +43,8 @@ class BookingHistoryRepositoryImpl implements BookingHistoryRepository {
       return Either.rightOf(details);
     } on Failure catch (failure) {
       return Either.leftOf(failure);
-    } catch (error) {
-      return Either.leftOf(ServerFailure(error.toString()));
+    } catch (_) {
+      return Either.leftOf(ServerFailure('bookings.history.loadError'.tr()));
     }
   }
 }
-

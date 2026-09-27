@@ -17,6 +17,5 @@ class Gap {
   static const SizedBox gapW25 = SizedBox(width: 25);
   static const SizedBox gapW30 = SizedBox(width: 30);
 
-  static SizedBox gapHW({h,w})=> SizedBox(height: h, width: w);
-
+  static SizedBox gapHW({h, w}) => SizedBox(height: h, width: w);
 }

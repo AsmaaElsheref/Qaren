@@ -23,49 +23,45 @@ class BookingDetailsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(bookingDetailsProvider(bookingId));
 
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          centerTitle: true,
-          title: AppText(
-            'bookings.details.title'.tr(),
-            style: AppTextStyles.title,
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        centerTitle: true,
+        title: AppText(
+          'bookings.details.title'.tr(),
+          style: AppTextStyles.title,
         ),
-        body: SafeArea(
-          child: Builder(
-            builder: (context) {
-              if (state.isLoading)
-                return const BookingLoadingSkeleton(itemCount: 4);
+      ),
+      body: SafeArea(
+        child: Builder(
+          builder: (context) {
+            if (state.isLoading)
+              return const BookingLoadingSkeleton(itemCount: 4);
 
-              if (state.errorMessage != null || state.details == null) {
-                return BookingErrorState(
-                  message: state.errorMessage,
-                  onRetry: () => ref
-                      .read(bookingDetailsProvider(bookingId).notifier)
-                      .load(),
-                );
-              }
-
-              final booking = state.details!.booking;
-              return ListView(
-                padding: const EdgeInsets.all(AppDimensions.paddingM),
-                children: [
-                  BookingDetailsHeaderCard(booking: booking),
-                  const SizedBox(height: AppDimensions.paddingM),
-                  BookingDetailsPricingCard(pricing: booking.pricing),
-                  const SizedBox(height: AppDimensions.paddingM),
-                  if (booking.foodOrder != null)
-                    FoodBookingDetailsSection(foodOrder: booking.foodOrder!)
-                  else if (booking.carRental != null)
-                    CarBookingDetailsSection(carRental: booking.carRental!),
-                  const SizedBox(height: AppDimensions.paddingL),
-                ],
+            if (state.errorMessage != null || state.details == null) {
+              return BookingErrorState(
+                message: state.errorMessage,
+                onRetry: () =>
+                    ref.read(bookingDetailsProvider(bookingId).notifier).load(),
               );
-            },
-          ),
+            }
+
+            final booking = state.details!.booking;
+            return ListView(
+              padding: const EdgeInsets.all(AppDimensions.paddingM),
+              children: [
+                BookingDetailsHeaderCard(booking: booking),
+                const SizedBox(height: AppDimensions.paddingM),
+                BookingDetailsPricingCard(pricing: booking.pricing),
+                const SizedBox(height: AppDimensions.paddingM),
+                if (booking.foodOrder != null)
+                  FoodBookingDetailsSection(foodOrder: booking.foodOrder!)
+                else if (booking.carRental != null)
+                  CarBookingDetailsSection(carRental: booking.carRental!),
+                const SizedBox(height: AppDimensions.paddingL),
+              ],
+            );
+          },
         ),
       ),
     );

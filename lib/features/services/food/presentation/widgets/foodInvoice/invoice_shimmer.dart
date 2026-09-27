@@ -52,28 +52,29 @@ class InvoiceShimmer extends StatelessWidget {
                 height: 22,
                 decoration: BoxDecoration(
                   color: colors.disabledBackground,
-                  borderRadius:
-                      BorderRadius.circular(AppDimensions.radiusFull),
+                  borderRadius: BorderRadius.circular(AppDimensions.radiusFull),
                 ),
               ),
               const SizedBox(height: AppDimensions.paddingL),
               // Route section placeholder
               Padding(
                 padding: const EdgeInsets.symmetric(
-                    horizontal: AppDimensions.paddingM),
+                  horizontal: AppDimensions.paddingM,
+                ),
                 child: Container(
                   height: 70,
                   decoration: BoxDecoration(
                     color: colors.disabledBackground,
-                    borderRadius:
-                        BorderRadius.circular(AppDimensions.radiusL),
+                    borderRadius: BorderRadius.circular(AppDimensions.radiusL),
                   ),
                 ),
               ),
               const SizedBox(height: AppDimensions.paddingL),
               // Info grid placeholder — 2x2
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingL),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppDimensions.paddingL,
+                ),
                 child: Column(
                   children: [
                     Row(
@@ -99,4 +100,3 @@ class InvoiceShimmer extends StatelessWidget {
     );
   }
 }
-

@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:qaren/core/ui/widgets/AppText.dart';
@@ -24,13 +25,21 @@ class FoodCategoryChip extends StatelessWidget {
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 3,),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 3),
         decoration: BoxDecoration(
           color: isSelected ? AppColors.black : colors.surface,
           borderRadius: BorderRadius.circular(AppDimensions.radiusFull),
-          border: Border.all(color: isSelected ? const Color(0xFF2D3436) : AppColors.border,),
+          border: Border.all(
+            color: isSelected ? const Color(0xFF2D3436) : AppColors.border,
+          ),
         ),
-        child: AppText(category.name,style: TextStyle(fontSize: 14,color: isSelected ? AppColors.white : AppColors.textSecondary),),
+        child: AppText(
+          category.id == 'all' ? category.name.tr() : category.name,
+          style: TextStyle(
+            fontSize: 14,
+            color: isSelected ? AppColors.white : AppColors.textSecondary,
+          ),
+        ),
       ),
     );
   }

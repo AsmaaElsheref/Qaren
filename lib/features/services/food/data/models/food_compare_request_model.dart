@@ -11,9 +11,8 @@ class FoodCompareRequestModel {
   });
 
   Map<String, dynamic> toJson() => {
-        'product_ids': productIds,
-        'user_lat': userLat,
-        'user_lng': userLng,
-      };
+    'product_ids': productIds,
+    'user_lat': userLat,
+    'user_lng': userLng,
+  };
 }
-

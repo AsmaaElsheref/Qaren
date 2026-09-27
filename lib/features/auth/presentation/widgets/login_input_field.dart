@@ -21,7 +21,8 @@ class LoginInputField extends StatelessWidget {
     this.obscureText = false,
     this.keyboardType = TextInputType.text,
     this.validator,
-    this.customSuffix, this.suffixIcon,
+    this.customSuffix,
+    this.suffixIcon,
   });
 
   @override
@@ -31,8 +32,7 @@ class LoginInputField extends StatelessWidget {
       controller: controller,
       obscureText: obscureText,
       keyboardType: keyboardType,
-      textAlign: TextAlign.right,
-      textDirection: TextDirection.rtl,
+      textAlign: TextAlign.start,
       validator: validator,
       style: TextStyle(
         fontSize: AppDimensions.fontM,
@@ -44,9 +44,10 @@ class LoginInputField extends StatelessWidget {
           color: AppColors.textHint,
           fontSize: AppDimensions.fontM,
         ),
-        prefixIcon: customSuffix ??
+        prefixIcon:
+            customSuffix ??
             Padding(
-              padding: const EdgeInsets.only(right: 16),
+              padding: const EdgeInsetsDirectional.only(start: 16),
               child: Icon(
                 prefixIcon,
                 color: colors.textSecondary,
@@ -57,9 +58,8 @@ class LoginInputField extends StatelessWidget {
           minWidth: 48,
           minHeight: AppDimensions.inputHeight,
         ),
-        suffixIcon: suffixIcon
+        suffixIcon: suffixIcon,
       ),
     );
   }
 }
-

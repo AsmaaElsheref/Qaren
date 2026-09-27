@@ -61,152 +61,149 @@ class _TaxiAppsDrawerState extends ConsumerState<TaxiAppsDrawer> {
     final draft = _draft(state);
     final colors = context.appColors;
 
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Drawer(
-        width: MediaQuery.sizeOf(context).width * 0.88,
-        backgroundColor: colors.bottomSheetBackground,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.horizontal(
-            left: Radius.circular(AppDimensions.radiusXL),
-          ),
+    return Drawer(
+      width: MediaQuery.sizeOf(context).width * 0.88,
+      backgroundColor: colors.bottomSheetBackground,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadiusDirectional.horizontal(
+          start: Radius.circular(AppDimensions.radiusXL),
         ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              // ── Header ──────────────────────────────────────────────────────
-              Padding(
-                padding: const EdgeInsets.fromLTRB(
-                  AppDimensions.paddingM,
-                  AppDimensions.paddingM,
-                  AppDimensions.paddingM,
-                  AppDimensions.paddingS,
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: AppText(
-                        'taxi.apps.title'.tr(),
-                        style: AppTextStyles.title.copyWith(
-                          fontSize: AppDimensions.fontL,
-                          fontWeight: FontWeight.w800,
-                          color: colors.textPrimary,
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () => Navigator.of(context).pop(),
-                      child: Container(
-                        width: 36,
-                        height: 36,
-                        decoration: BoxDecoration(
-                          color: colors.iconBackground,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          Icons.close_rounded,
-                          size: AppDimensions.iconS,
-                          color: colors.textSecondary,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+      ),
+      child: SafeArea(
+        child: Column(
+          children: [
+            // ── Header ──────────────────────────────────────────────────────
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                AppDimensions.paddingM,
+                AppDimensions.paddingM,
+                AppDimensions.paddingM,
+                AppDimensions.paddingS,
               ),
-
-              // ── Loading indicator ────────────────────────────────────────
-              if (state.isLoading)
-                LinearProgressIndicator(
-                  minHeight: 2,
-                  color: AppColors.primary,
-                  backgroundColor: AppColors.primary.withValues(alpha: 0.15),
-                ),
-
-              // ── Counters ────────────────────────────────────────────────────
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppDimensions.paddingM,
-                ),
-                child: Row(
-                  children: [
-                    TaxiCounterChip(
-                      label: 'taxi.apps.selectedCount'.tr(
-                        namedArgs: {'count': '${draft.length}'},
+              child: Row(
+                children: [
+                  Expanded(
+                    child: AppText(
+                      'taxi.apps.title'.tr(),
+                      style: AppTextStyles.title.copyWith(
+                        fontSize: AppDimensions.fontL,
+                        fontWeight: FontWeight.w800,
+                        color: colors.textPrimary,
                       ),
-                      active: true,
                     ),
-                    const SizedBox(width: AppDimensions.paddingS),
-                    TaxiCounterChip(
-                      label: 'taxi.apps.unselectedCount'.tr(
-                        namedArgs: {
-                          'count': '${state.apps.length - draft.length}',
-                        },
-                      ),
-                      active: false,
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: AppDimensions.paddingM),
-
-              // ── Select all / Clear ───────────────────────────────────────────
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppDimensions.paddingM,
-                ),
-                child: Row(
-                  children: [
-                    TaxiActionChip(
-                      label: 'taxi.apps.selectAll'.tr(),
-                      onTap: () => _selectAll(state),
-                      isPrimary: true,
-                    ),
-                    const SizedBox(width: AppDimensions.paddingS),
-                    TaxiActionChip(
-                      label: 'taxi.apps.clearAll'.tr(),
-                      onTap: _clearAll,
-                      isPrimary: false,
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: AppDimensions.paddingM),
-              Divider(height: 1, color: colors.divider),
-              const SizedBox(height: AppDimensions.paddingS),
-
-              // ── Apps list ────────────────────────────────────────────────────
-              Expanded(
-                child: ListView.separated(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppDimensions.paddingM,
                   ),
-                  itemCount: state.apps.length,
-                  separatorBuilder: (_, __) =>
-                      const SizedBox(height: AppDimensions.paddingS),
-                  itemBuilder: (_, index) {
-                    final app = state.apps[index];
-                    return TaxiAppTile(
-                      app: app,
-                      isSelected: draft.contains(app.id),
-                      onTap: () => _toggle(app.id),
-                    );
-                  },
-                ),
+                  GestureDetector(
+                    onTap: () => Navigator.of(context).pop(),
+                    child: Container(
+                      width: 36,
+                      height: 36,
+                      decoration: BoxDecoration(
+                        color: colors.iconBackground,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.close_rounded,
+                        size: AppDimensions.iconS,
+                        color: colors.textSecondary,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            // ── Loading indicator ────────────────────────────────────────
+            if (state.isLoading)
+              LinearProgressIndicator(
+                minHeight: 2,
+                color: AppColors.primary,
+                backgroundColor: AppColors.primary.withValues(alpha: 0.15),
               ),
 
-              // ── Confirm button ───────────────────────────────────────────────
-              Padding(
-                padding: const EdgeInsets.all(AppDimensions.paddingM),
-                child: AppButton(
-                  label: 'taxi.apps.done'.tr(),
-                  icon: Icons.check_rounded,
-                  onTap: draft.isNotEmpty ? () => _confirm(state) : null,
-                ),
+            // ── Counters ────────────────────────────────────────────────────
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppDimensions.paddingM,
               ),
-            ],
-          ),
+              child: Row(
+                children: [
+                  TaxiCounterChip(
+                    label: 'taxi.apps.selectedCount'.tr(
+                      namedArgs: {'count': '${draft.length}'},
+                    ),
+                    active: true,
+                  ),
+                  const SizedBox(width: AppDimensions.paddingS),
+                  TaxiCounterChip(
+                    label: 'taxi.apps.unselectedCount'.tr(
+                      namedArgs: {
+                        'count': '${state.apps.length - draft.length}',
+                      },
+                    ),
+                    active: false,
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: AppDimensions.paddingM),
+
+            // ── Select all / Clear ───────────────────────────────────────────
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppDimensions.paddingM,
+              ),
+              child: Row(
+                children: [
+                  TaxiActionChip(
+                    label: 'taxi.apps.selectAll'.tr(),
+                    onTap: () => _selectAll(state),
+                    isPrimary: true,
+                  ),
+                  const SizedBox(width: AppDimensions.paddingS),
+                  TaxiActionChip(
+                    label: 'taxi.apps.clearAll'.tr(),
+                    onTap: _clearAll,
+                    isPrimary: false,
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: AppDimensions.paddingM),
+            Divider(height: 1, color: colors.divider),
+            const SizedBox(height: AppDimensions.paddingS),
+
+            // ── Apps list ────────────────────────────────────────────────────
+            Expanded(
+              child: ListView.separated(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppDimensions.paddingM,
+                ),
+                itemCount: state.apps.length,
+                separatorBuilder: (_, __) =>
+                    const SizedBox(height: AppDimensions.paddingS),
+                itemBuilder: (_, index) {
+                  final app = state.apps[index];
+                  return TaxiAppTile(
+                    app: app,
+                    isSelected: draft.contains(app.id),
+                    onTap: () => _toggle(app.id),
+                  );
+                },
+              ),
+            ),
+
+            // ── Confirm button ───────────────────────────────────────────────
+            Padding(
+              padding: const EdgeInsets.all(AppDimensions.paddingM),
+              child: AppButton(
+                label: 'taxi.apps.done'.tr(),
+                icon: Icons.check_rounded,
+                onTap: draft.isNotEmpty ? () => _confirm(state) : null,
+              ),
+            ),
+          ],
         ),
       ),
     );

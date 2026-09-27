@@ -17,4 +17,3 @@ abstract class BookingHistoryRepository {
     required int id,
   });
 }
-

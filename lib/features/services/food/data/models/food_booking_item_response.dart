@@ -31,8 +31,10 @@ class FoodBookingItemResponse {
   final String productThumbnailSnapshot;
   final String? specialInstructions;
 
-  String get nameAr => productNameSnapshot['ar'] ?? productNameSnapshot['en'] ?? '';
-  String get nameEn => productNameSnapshot['en'] ?? productNameSnapshot['ar'] ?? '';
+  String get nameAr =>
+      productNameSnapshot['ar'] ?? productNameSnapshot['en'] ?? '';
+  String get nameEn =>
+      productNameSnapshot['en'] ?? productNameSnapshot['ar'] ?? '';
 
   /// Returns the Arabic name if available, otherwise English, otherwise empty.
   String get displayName => nameAr.isNotEmpty ? nameAr : nameEn;
@@ -43,15 +45,16 @@ class FoodBookingItemResponse {
     final List<Map<String, dynamic>> modifiers = rawModifiers == null
         ? []
         : (rawModifiers as List<dynamic>)
-            .map((e) => Map<String, dynamic>.from(e as Map))
-            .toList();
+              .map((e) => Map<String, dynamic>.from(e as Map))
+              .toList();
 
     // name snapshot can be a Map or null
     final rawName = json['product_name_snapshot'];
     final Map<String, String> nameSnapshot = rawName == null
         ? {}
-        : (rawName as Map<String, dynamic>)
-            .map((k, v) => MapEntry(k, v?.toString() ?? ''));
+        : (rawName as Map<String, dynamic>).map(
+            (k, v) => MapEntry(k, v?.toString() ?? ''),
+          );
 
     return FoodBookingItemResponse(
       id: json['id'] as int,
@@ -62,8 +65,7 @@ class FoodBookingItemResponse {
       comparePrice: double.tryParse(json['compare_price'].toString()) ?? 0,
       subtotal: double.tryParse(json['subtotal'].toString()) ?? 0,
       modifiers: modifiers,
-      modifiersPrice:
-          double.tryParse(json['modifiers_price'].toString()) ?? 0,
+      modifiersPrice: double.tryParse(json['modifiers_price'].toString()) ?? 0,
       productNameSnapshot: nameSnapshot,
       productThumbnailSnapshot:
           json['product_thumbnail_snapshot']?.toString() ?? '',
@@ -71,10 +73,7 @@ class FoodBookingItemResponse {
     );
   }
 
-  static List<FoodBookingItemResponse> fromJsonList(List<dynamic> list) =>
-      list
-          .map((e) => FoodBookingItemResponse.fromJson(
-              e as Map<String, dynamic>))
-          .toList();
+  static List<FoodBookingItemResponse> fromJsonList(List<dynamic> list) => list
+      .map((e) => FoodBookingItemResponse.fromJson(e as Map<String, dynamic>))
+      .toList();
 }
-

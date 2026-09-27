@@ -23,4 +23,3 @@ class CartItemsList extends ConsumerWidget {
     );
   }
 }
-

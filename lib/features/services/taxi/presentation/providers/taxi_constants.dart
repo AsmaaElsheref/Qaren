@@ -8,4 +8,3 @@ const kTaxiInitialCameraPosition = CameraPosition(
   target: kInitialPosition,
   zoom: 14,
 );
-

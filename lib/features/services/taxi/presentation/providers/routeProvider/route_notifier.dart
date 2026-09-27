@@ -120,7 +120,7 @@ class RouteNotifier extends Notifier<RouteState> {
     } catch (error) {
       state = state.copyWith(
         loadingRoutes: false,
-        errorMessage: error.toString(),
+        errorMessage: 'taxi.route.loadFailed'.tr(),
       );
     }
   }

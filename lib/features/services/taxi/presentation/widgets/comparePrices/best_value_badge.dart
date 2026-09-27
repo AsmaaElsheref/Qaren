@@ -23,14 +23,18 @@ class BestValueBadge extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.star_rounded, size: 13, color: AppColors.white),
+            const Icon(
+              Icons.star_rounded,
+              size: 13,
+              color: AppColors.onPrimary,
+            ),
             const SizedBox(width: 4),
             AppText(
               'taxi.compare.bestValue'.tr(),
               style: TextStyle(
                 fontSize: AppDimensions.fontXS,
                 fontWeight: FontWeight.w700,
-                color: AppColors.white,
+                color: AppColors.onPrimary,
               ),
             ),
           ],

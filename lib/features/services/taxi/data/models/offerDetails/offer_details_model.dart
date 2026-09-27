@@ -2,17 +2,27 @@ import '../../../domain/entities/offer_details_entity.dart';
 
 class OfferDetailsModel extends OfferDetailsEntity {
   const OfferDetailsModel({
-    super.offerId, super.name, super.type, super.category,
-    super.pricePerDay, super.totalPrice, super.currency,
-    super.specs, super.features, super.images,
-    super.insurance, super.terms, super.location,
-    super.supplier, super.provider,
+    super.offerId,
+    super.name,
+    super.type,
+    super.category,
+    super.pricePerDay,
+    super.totalPrice,
+    super.currency,
+    super.specs,
+    super.features,
+    super.images,
+    super.insurance,
+    super.terms,
+    super.location,
+    super.supplier,
+    super.provider,
   });
 
   factory OfferDetailsModel.fromJson(Map<String, dynamic> json) {
     final data = json['data'] as Map<String, dynamic>? ?? json;
     return OfferDetailsModel(
-      offerId: data['offer_id'] as String?,
+      offerId: (data['id'] ?? data['offer_id'])?.toString(),
       name: data['name'] as String?,
       type: data['type'] as String?,
       category: data['category'] as String?,
@@ -34,8 +44,10 @@ class OfferDetailsModel extends OfferDetailsEntity {
     if (raw is! Map<String, dynamic>) return const OfferSpecsEntity();
     final bags = raw['bags'] as Map<String, dynamic>? ?? {};
     return OfferSpecsEntity(
-      seats: _i(raw['seats']), doors: _i(raw['doors']),
-      largeBags: _i(bags['large']), smallBags: _i(bags['small']),
+      seats: _i(raw['seats']),
+      doors: _i(raw['doors']),
+      largeBags: _i(bags['large']),
+      smallBags: _i(bags['small']),
       transmission: raw['transmission'] as String?,
       fuelType: raw['fuel_type'] as String?,
       airConditioning: raw['air_conditioning'] == true,
@@ -76,7 +88,8 @@ class OfferDetailsModel extends OfferDetailsEntity {
     if (raw is! Map<String, dynamic>) return const OfferLocationPointEntity();
     return OfferLocationPointEntity(
       address: raw['address'] as String?,
-      lat: _d(raw['lat']), lng: _d(raw['lng']),
+      lat: _d(raw['lat']),
+      lng: _d(raw['lng']),
       instructions: raw['instructions'] as String?,
     );
   }
@@ -84,7 +97,8 @@ class OfferDetailsModel extends OfferDetailsEntity {
   static OfferSupplierEntity _parseSupplier(dynamic raw) {
     if (raw is! Map<String, dynamic>) return const OfferSupplierEntity();
     return OfferSupplierEntity(
-      name: raw['name'] as String?, rating: _d(raw['rating']),
+      name: raw['name'] as String?,
+      rating: _d(raw['rating']),
       reviewsCount: _i(raw['reviews_count']),
       badge: raw['badge'] as String?,
     );
@@ -93,7 +107,8 @@ class OfferDetailsModel extends OfferDetailsEntity {
   static OfferProviderEntity _parseProvider(dynamic raw) {
     if (raw is! Map<String, dynamic>) return const OfferProviderEntity();
     return OfferProviderEntity(
-      name: raw['name'] as String?, slug: raw['slug'] as String?,
+      name: raw['name'] as String?,
+      slug: raw['slug'] as String?,
     );
   }
 
@@ -116,4 +131,3 @@ class OfferDetailsModel extends OfferDetailsEntity {
     return v.whereType<String>().toList();
   }
 }
-

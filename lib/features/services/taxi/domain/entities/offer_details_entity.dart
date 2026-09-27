@@ -38,9 +38,22 @@ class OfferDetailsEntity extends Equatable {
 
   @override
   List<Object?> get props => [
-        offerId, name, type, category, pricePerDay, totalPrice, currency,
-        specs, features, images, insurance, terms, location, supplier, provider,
-      ];
+    offerId,
+    name,
+    type,
+    category,
+    pricePerDay,
+    totalPrice,
+    currency,
+    specs,
+    features,
+    images,
+    insurance,
+    terms,
+    location,
+    supplier,
+    provider,
+  ];
 }
 
 // ── Specs ──────────────────────────────────────────────────────────────────────
@@ -66,9 +79,14 @@ class OfferSpecsEntity extends Equatable {
 
   @override
   List<Object?> get props => [
-        seats, doors, largeBags, smallBags,
-        transmission, fuelType, airConditioning,
-      ];
+    seats,
+    doors,
+    largeBags,
+    smallBags,
+    transmission,
+    fuelType,
+    airConditioning,
+  ];
 }
 
 // ── Insurance ─────────────────────────────────────────────────────────────────
@@ -90,8 +108,12 @@ class OfferInsuranceEntity extends Equatable {
 
   @override
   List<Object?> get props => [
-        type, deductible, deductibleCurrency, includesCdw, includesTp,
-      ];
+    type,
+    deductible,
+    deductibleCurrency,
+    includesCdw,
+    includesTp,
+  ];
 }
 
 // ── Terms ─────────────────────────────────────────────────────────────────────
@@ -113,9 +135,12 @@ class OfferTermsEntity extends Equatable {
 
   @override
   List<Object?> get props => [
-        minimumAge, depositRequired, depositAmount,
-        freeCancellationHours, mileageLimit,
-      ];
+    minimumAge,
+    depositRequired,
+    depositAmount,
+    freeCancellationHours,
+    mileageLimit,
+  ];
 }
 
 // ── Location ──────────────────────────────────────────────────────────────────
@@ -180,4 +205,3 @@ class OfferProviderEntity extends Equatable {
   @override
   List<Object?> get props => [name, slug];
 }
-

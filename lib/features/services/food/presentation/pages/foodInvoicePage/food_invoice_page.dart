@@ -15,30 +15,27 @@ class FoodInvoicePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final detailState  = ref.watch(foodInvoiceDetailProvider);
+    final detailState = ref.watch(foodInvoiceDetailProvider);
     final locationName = ref.watch(foodSelectedLocationNameProvider);
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark.copyWith(
         statusBarColor: Colors.transparent,
       ),
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Scaffold(
-          body: SafeArea(
-            child: Column(
-              children: [
-                const SizedBox(height: AppDimensions.paddingS),
-                const InvoiceHeader(),
-                const SizedBox(height: AppDimensions.paddingM),
-                Expanded(
-                  child: InvoiceBody(
-                    detailState: detailState,
-                    locationName: locationName,
-                  ),
+      child: Scaffold(
+        body: SafeArea(
+          child: Column(
+            children: [
+              const SizedBox(height: AppDimensions.paddingS),
+              const InvoiceHeader(),
+              const SizedBox(height: AppDimensions.paddingM),
+              Expanded(
+                child: InvoiceBody(
+                  detailState: detailState,
+                  locationName: locationName,
                 ),
-                SaveInvoiceButton(amount: detailState.detail?.grandTotal,),
-              ],
-            ),
+              ),
+              SaveInvoiceButton(amount: detailState.detail?.grandTotal),
+            ],
           ),
         ),
       ),

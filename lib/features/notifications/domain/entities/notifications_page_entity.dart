@@ -19,9 +19,17 @@ class NotificationsPageEntity extends Equatable {
     required this.nextPageUrl,
   });
 
-  bool get hasMore => currentPage < lastPage || (nextPageUrl != null && nextPageUrl!.isNotEmpty);
+  bool get hasMore =>
+      currentPage < lastPage ||
+      (nextPageUrl != null && nextPageUrl!.isNotEmpty);
 
   @override
-  List<Object?> get props => [notifications, currentPage, lastPage, perPage, total, nextPageUrl];
+  List<Object?> get props => [
+    notifications,
+    currentPage,
+    lastPage,
+    perPage,
+    total,
+    nextPageUrl,
+  ];
 }
-

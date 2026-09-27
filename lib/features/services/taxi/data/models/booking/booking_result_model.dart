@@ -61,4 +61,3 @@ class BookingResultModel extends BookingResultEntity {
     return null;
   }
 }
-

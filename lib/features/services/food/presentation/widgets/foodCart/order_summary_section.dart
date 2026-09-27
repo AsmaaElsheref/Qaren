@@ -1,10 +1,12 @@
 import 'package:qaren/core/localization/easy_localization.dart';
+import 'package:qaren/core/localization/localized_formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
+import '../../../../../../core/ui/widgets/saudi_riyal_amount.dart';
 import '../../providers/food_cart_provider.dart';
 import '../summary_row.dart';
 
@@ -42,13 +44,28 @@ class OrderSummarySection extends ConsumerWidget {
         children: [
           SummaryRow(
             label: 'food.cart.subtotal'.tr(),
-            value:
-                '${subtotal.toStringAsFixed(2)} ${'food.currencyShort'.tr()}',
+            valueWidget: SaudiRiyalAmount(
+              amount: LocalizedFormatters.number(
+                context,
+                subtotal,
+                decimals: 2,
+              ),
+              style: const TextStyle(
+                fontSize: AppDimensions.fontS,
+                color: AppColors.textSecondary,
+              ),
+            ),
           ),
           const SizedBox(height: AppDimensions.paddingS),
           SummaryRow(
             label: 'food.cart.taxAndFees'.tr(),
-            value: '${tax.toStringAsFixed(2)} ${'food.currencyShort'.tr()}',
+            valueWidget: SaudiRiyalAmount(
+              amount: LocalizedFormatters.number(context, tax, decimals: 2),
+              style: const TextStyle(
+                fontSize: AppDimensions.fontS,
+                color: AppColors.textSecondary,
+              ),
+            ),
           ),
           const SizedBox(height: AppDimensions.paddingM),
           Row(
@@ -62,8 +79,8 @@ class OrderSummarySection extends ConsumerWidget {
                   color: colors.textPrimary,
                 ),
               ),
-              AppText(
-                '${total.toStringAsFixed(2)} ${'food.currencyShort'.tr()}',
+              SaudiRiyalAmount(
+                amount: LocalizedFormatters.number(context, total, decimals: 2),
                 style: const TextStyle(
                   fontSize: AppDimensions.fontL,
                   fontWeight: FontWeight.w700,

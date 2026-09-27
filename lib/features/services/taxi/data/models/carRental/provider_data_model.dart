@@ -1,4 +1,3 @@
-
 import '../../../domain/entities/provider_data_entity.dart';
 
 class ProviderDataModel extends ProviderDataEntity {
@@ -25,4 +24,3 @@ class ProviderDataModel extends ProviderDataEntity {
     return null;
   }
 }
-

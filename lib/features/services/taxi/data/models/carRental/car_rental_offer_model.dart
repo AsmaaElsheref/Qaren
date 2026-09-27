@@ -3,6 +3,7 @@ import 'provider_data_model.dart';
 
 class CarRentalOfferModel extends CarRentalOfferEntity {
   const CarRentalOfferModel({
+    super.carId,
     super.offerId,
     super.providerId,
     super.providerName,
@@ -29,23 +30,29 @@ class CarRentalOfferModel extends CarRentalOfferEntity {
         meta['provider_data'] as Map<String, dynamic>? ?? {};
 
     return CarRentalOfferModel(
-      offerId: _asString(json['offer_id']),
-      providerId: _asString(json['provider_id']),
-      providerName: json['provider_name'] as String?,
-      providerSlug: json['provider_slug'] as String?,
-      carName: json['car_name'] as String?,
-      carType: json['car_type'] as String?,
-      carImage: json['car_image'] as String?,
+      carId: _asString(json['id'] ?? json['car_id']),
+      offerId: _asString(json['fare_id'] ?? json['offer_id']),
+      providerId: _asString(json['providerId'] ?? json['provider_id']),
+      providerName: _asString(json['providerName'] ?? json['provider_name']),
+      providerSlug: _asString(
+        json['providerSlug'] ??
+            json['provider_slug'] ??
+            json['providerName'] ??
+            json['providerId'],
+      ),
+      carName: _asString(json['name'] ?? json['car_name']),
+      carType: _asString(json['type'] ?? json['car_type']),
+      carImage: _asString(json['image'] ?? json['car_image']),
       price: _parseDouble(json['price']),
       currency: json['currency'] as String?,
       originalCurrency: json['original_currency'] as String?,
       originalPrice: _parseDouble(json['original_price']),
       priceEgp: _parseDouble(json['price_egp']),
       totalPrice: _parseDouble(json['total_price']),
-      seats: _parseInt(json['seats']),
+      seats: _parseInt(json['capacity'] ?? json['seats']),
       bags: _parseInt(json['bags']),
       available: json['available'] != false,
-      distance: _asString(json['distance_km']),
+      distance: _asString(json['distance'] ?? json['distance_km']),
       providerData: ProviderDataModel.fromJson(providerDataJson),
     );
   }
@@ -71,4 +78,3 @@ class CarRentalOfferModel extends CarRentalOfferEntity {
     return null;
   }
 }
-

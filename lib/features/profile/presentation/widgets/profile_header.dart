@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/localization/easy_localization.dart';
 import '../../../../core/theme/app_colors_ext.dart';
 import '../../../../core/ui/widgets/AppText.dart';
 import '../../../../core/ui/widgets/AppTextStyles.dart';
@@ -15,35 +16,26 @@ class ProfileHeader extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.appColors;
-    final userImage = ref.watch(userProfileProvider).value?.image;
-    final state = ref.watch(
-      profileSettingsProvider.select(
-        (s) => (
-          userName: s.userName,
-          accountSubtitle: s.accountSubtitle,
-          avatarUrl: s.avatarUrl,
-        ),
-      ),
-    );
+    final userProfile = ref.watch(userProfileProvider).valueOrNull;
+    final cachedUserName = ref.watch(profileUserNameProvider);
+    final fetchedUserName = userProfile?.name.trim();
+    final userName = fetchedUserName?.isNotEmpty == true
+        ? fetchedUserName!
+        : cachedUserName.isNotEmpty
+        ? cachedUserName
+        : 'profile.defaultUserName'.tr();
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 28),
       child: Column(
         children: [
-          ProfileAvatar(avatarUrl: userImage),
+          ProfileAvatar(avatarUrl: userProfile?.image),
           const SizedBox(height: 12),
           AppText(
-            state.userName,
+            userName,
             style: AppTextStyles.title.copyWith(
               fontWeight: FontWeight.w700,
               color: colors.textPrimary,
-            ),
-          ),
-          const SizedBox(height: 4),
-          AppText(
-            state.accountSubtitle,
-            style: AppTextStyles.bodySecondary.copyWith(
-              color: colors.textSecondary,
             ),
           ),
           const SizedBox(height: 16),

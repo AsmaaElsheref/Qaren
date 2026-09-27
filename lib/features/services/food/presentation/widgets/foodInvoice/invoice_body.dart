@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:qaren/core/localization/easy_localization.dart';
+import 'package:qaren/core/localization/localized_formatters.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 
 import '../../../../../../core/constants/app_dimensions.dart';
@@ -66,7 +66,13 @@ class InvoiceBody extends StatelessWidget {
           : 'food.invoice.yourLocation'.tr(),
       distance: detail.distanceKm != null
           ? 'taxi.route.distanceValue'.tr(
-              namedArgs: {'distance': detail.distanceKm!.toStringAsFixed(1)},
+              namedArgs: {
+                'distance': LocalizedFormatters.number(
+                  context,
+                  detail.distanceKm!,
+                  decimals: 1,
+                ),
+              },
             )
           : '',
       deliveryTimeMinutes: detail.products.isNotEmpty
@@ -79,8 +85,8 @@ class InvoiceBody extends StatelessWidget {
             })
           : 0,
       itemsCount: detail.matchedCount,
-      orderTime: DateFormat('hh:mm a').format(now),
-      date: DateFormat('dd/MM/yyyy').format(now),
+      orderTime: LocalizedFormatters.time(context, now),
+      date: LocalizedFormatters.date(context, now),
     );
     final colors = context.appColors;
     return SingleChildScrollView(

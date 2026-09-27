@@ -13,4 +13,3 @@ class GetWalletBalanceUseCase {
     return repository.getBalance();
   }
 }
-

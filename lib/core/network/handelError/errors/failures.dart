@@ -15,7 +15,7 @@ class AuthFailure extends Failure {
 
 class AuthCancelledFailure extends Failure {
   AuthCancelledFailure([String? message])
-      : super(message ?? 'errors.cancelled'.tr());
+    : super(message ?? 'errors.cancelled'.tr());
 }
 
 class ServerFailure extends Failure {

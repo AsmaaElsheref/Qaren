@@ -6,10 +6,7 @@ import '../../../../core/theme/app_colors.dart';
 class ProfileAvatarWithCamera extends StatelessWidget {
   final String? avatarUrl;
 
-  const ProfileAvatarWithCamera({
-    super.key,
-    this.avatarUrl,
-  });
+  const ProfileAvatarWithCamera({super.key, this.avatarUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -33,11 +30,13 @@ class ProfileAvatarWithCamera extends StatelessWidget {
           child: RepaintBoundary(
             child: ClipOval(
               child: CachedNetworkImage(
-              imageUrl: avatarUrl??'',
-              placeholder: (context, url) => const ProfileAvatarFallbackIcon(),
-              errorWidget: (context, url, error) => const ProfileAvatarFallbackIcon(),
-              fit: BoxFit.cover,
-            ),
+                imageUrl: avatarUrl ?? '',
+                placeholder: (context, url) =>
+                    const ProfileAvatarFallbackIcon(),
+                errorWidget: (context, url, error) =>
+                    const ProfileAvatarFallbackIcon(),
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         ),
@@ -62,4 +61,3 @@ class ProfileAvatarFallbackIcon extends StatelessWidget {
     );
   }
 }
-

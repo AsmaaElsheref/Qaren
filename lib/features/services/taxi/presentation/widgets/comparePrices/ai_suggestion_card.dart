@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
@@ -32,12 +33,12 @@ class AiSuggestionCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const AppText(
-                  'رأي قارن الذكي',
+                AppText(
+                  'taxi.compare.aiOpinionTitle'.tr(),
                   style: TextStyle(
                     fontSize: AppDimensions.fontS,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.primary,
+                    color: AppColors.primaryDark,
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -76,10 +77,9 @@ class _AiBadge extends StatelessWidget {
       ),
       child: const Icon(
         Icons.auto_awesome_rounded,
-        color: AppColors.white,
+        color: AppColors.onPrimary,
         size: AppDimensions.iconS,
       ),
     );
   }
 }
-

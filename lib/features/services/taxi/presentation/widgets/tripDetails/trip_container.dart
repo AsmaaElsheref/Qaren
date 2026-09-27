@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/localization/easy_localization.dart';
+import 'package:qaren/core/localization/localized_formatters.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
@@ -18,30 +19,15 @@ class TripContainer extends ConsumerWidget {
 
   /// Converts a distance string like "12.5 km" or "12.5" to minutes.
   /// Assumes average city speed of 30 km/h → 2 min per km.
-  static String _distanceToMinutes(String? raw) {
+  static String _distanceToMinutes(BuildContext context, String? raw) {
     if (raw == null || raw.isEmpty) return '—';
     final cleaned = raw.replaceAll(RegExp(r'[^0-9.]'), '');
     final km = double.tryParse(cleaned);
     if (km == null || km <= 0) return '—';
     final minutes = (km / 30 * 60).round().clamp(1, 9999);
-    return 'taxi.route.durationValue'.tr(namedArgs: {'duration': '$minutes'});
-  }
-
-  static String _formatPrice(double? price, String currency) {
-    if (price == null) return '—';
-    final rounded = double.parse(price.toStringAsFixed(2));
-    final formatted = rounded == rounded.truncateToDouble()
-        ? rounded.toInt().toString()
-        : rounded.toStringAsFixed(2);
-    return '$formatted $currency';
-  }
-
-  static String _todayLabel() {
-    final now = DateTime.now();
-    final d = now.day.toString().padLeft(2, '0');
-    final m = now.month.toString().padLeft(2, '0');
-    final y = now.year.toString();
-    return '$d/$m/$y';
+    return 'taxi.route.durationValue'.tr(
+      namedArgs: {'duration': LocalizedFormatters.number(context, minutes)},
+    );
   }
 
   @override
@@ -61,10 +47,6 @@ class TripContainer extends ConsumerWidget {
         }
       }),
     );
-
-    final price = details?.totalPrice ?? details?.pricePerDay;
-    final currency = details?.currency ?? 'SAR';
-    final priceLabel = _formatPrice(price, currency);
 
     return Container(
       decoration: BoxDecoration(
@@ -93,11 +75,11 @@ class TripContainer extends ConsumerWidget {
             children: [
               RideInfoItem(
                 title: 'taxi.tripDetails.date'.tr(),
-                value: _todayLabel(),
+                value: LocalizedFormatters.date(context, DateTime.now()),
               ),
               RideInfoItem(
                 title: 'taxi.tripDetails.arrival'.tr(),
-                value: _distanceToMinutes(distance),
+                value: _distanceToMinutes(context, distance),
               ),
             ],
           ),

@@ -14,4 +14,3 @@ class WalletDepositResultEntity extends Equatable {
   @override
   List<Object?> get props => [transaction, newBalance];
 }
-

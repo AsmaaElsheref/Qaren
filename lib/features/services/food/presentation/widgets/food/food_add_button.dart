@@ -27,4 +27,3 @@ class FoodAddButton extends StatelessWidget {
     );
   }
 }
-

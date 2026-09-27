@@ -22,118 +22,115 @@ class TaxiAppsPage extends ConsumerWidget {
       value: SystemUiOverlayStyle.dark.copyWith(
         statusBarColor: Colors.transparent,
       ),
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Scaffold(
-          backgroundColor: AppColors.background,
-          body: SafeArea(
-            child: Column(
-              children: [
-                // ── Top bar ──────────────────────────────────────────────────
-                const TaxiTopBar(),
+      child: Scaffold(
+        backgroundColor: AppColors.background,
+        body: SafeArea(
+          child: Column(
+            children: [
+              // ── Top bar ──────────────────────────────────────────────────
+              const TaxiTopBar(),
 
-                // ── Title ────────────────────────────────────────────────────
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                    AppDimensions.paddingM,
-                    AppDimensions.paddingS,
-                    AppDimensions.paddingM,
-                    AppDimensions.paddingM,
-                  ),
-                  child: AppText(
-                    'taxi.apps.title'.tr(),
-                    style: const TextStyle(
-                      fontSize: AppDimensions.fontXL,
-                      fontWeight: FontWeight.w800,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
+              // ── Title ────────────────────────────────────────────────────
+              Padding(
+                padding: const EdgeInsets.fromLTRB(
+                  AppDimensions.paddingM,
+                  AppDimensions.paddingS,
+                  AppDimensions.paddingM,
+                  AppDimensions.paddingM,
                 ),
+                child: AppText(
+                  'taxi.apps.title'.tr(),
+                  style: const TextStyle(
+                    fontSize: AppDimensions.fontXL,
+                    fontWeight: FontWeight.w800,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
 
-                // ── Counters row ─────────────────────────────────────────────
-                Padding(
+              // ── Counters row ─────────────────────────────────────────────
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppDimensions.paddingM,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _CounterChip(
+                      label: 'taxi.apps.selectedCount'.tr(
+                        namedArgs: {'count': '${state.selectedCount}'},
+                      ),
+                      active: true,
+                    ),
+                    const SizedBox(width: AppDimensions.paddingS),
+                    _CounterChip(
+                      label: 'taxi.apps.unselectedCount'.tr(
+                        namedArgs: {'count': '${state.unselectedCount}'},
+                      ),
+                      active: false,
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: AppDimensions.paddingM),
+
+              // ── Select all / Cancel row ───────────────────────────────────
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppDimensions.paddingM,
+                ),
+                child: Row(
+                  children: [
+                    _ActionChip(
+                      label: 'taxi.apps.selectAll'.tr(),
+                      onTap: notifier.selectAll,
+                      isPrimary: true,
+                    ),
+                    const SizedBox(width: AppDimensions.paddingS),
+                    _ActionChip(
+                      label: 'taxi.apps.clearAll'.tr(),
+                      onTap: notifier.clearAll,
+                      isPrimary: false,
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: AppDimensions.paddingM),
+
+              // ── Apps list ─────────────────────────────────────────────────
+              Expanded(
+                child: ListView.separated(
                   padding: const EdgeInsets.symmetric(
                     horizontal: AppDimensions.paddingM,
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      _CounterChip(
-                        label: 'taxi.apps.selectedCount'.tr(
-                          namedArgs: {'count': '${state.selectedCount}'},
-                        ),
-                        active: true,
-                      ),
-                      const SizedBox(width: AppDimensions.paddingS),
-                      _CounterChip(
-                        label: 'taxi.apps.unselectedCount'.tr(
-                          namedArgs: {'count': '${state.unselectedCount}'},
-                        ),
-                        active: false,
-                      ),
-                    ],
-                  ),
+                  itemCount: state.apps.length,
+                  separatorBuilder: (_, __) =>
+                      const SizedBox(height: AppDimensions.paddingS),
+                  itemBuilder: (_, index) {
+                    final app = state.apps[index];
+                    return TaxiAppTile(
+                      app: app,
+                      isSelected: state.isSelected(app.id),
+                      onTap: () => notifier.toggle(app.id),
+                    );
+                  },
                 ),
+              ),
 
-                const SizedBox(height: AppDimensions.paddingM),
-
-                // ── Select all / Cancel row ───────────────────────────────────
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppDimensions.paddingM,
-                  ),
-                  child: Row(
-                    children: [
-                      _ActionChip(
-                        label: 'taxi.apps.selectAll'.tr(),
-                        onTap: notifier.selectAll,
-                        isPrimary: true,
-                      ),
-                      const SizedBox(width: AppDimensions.paddingS),
-                      _ActionChip(
-                        label: 'taxi.apps.clearAll'.tr(),
-                        onTap: notifier.clearAll,
-                        isPrimary: false,
-                      ),
-                    ],
-                  ),
+              // ── Confirm button ────────────────────────────────────────────
+              Padding(
+                padding: const EdgeInsets.all(AppDimensions.paddingM),
+                child: AppButton(
+                  label: 'taxi.apps.done'.tr(),
+                  icon: Icons.check_rounded,
+                  onTap: state.selectedCount > 0
+                      ? () => Navigator.of(context).pop(state.selectedIds)
+                      : null,
                 ),
-
-                const SizedBox(height: AppDimensions.paddingM),
-
-                // ── Apps list ─────────────────────────────────────────────────
-                Expanded(
-                  child: ListView.separated(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppDimensions.paddingM,
-                    ),
-                    itemCount: state.apps.length,
-                    separatorBuilder: (_, __) =>
-                        const SizedBox(height: AppDimensions.paddingS),
-                    itemBuilder: (_, index) {
-                      final app = state.apps[index];
-                      return TaxiAppTile(
-                        app: app,
-                        isSelected: state.isSelected(app.id),
-                        onTap: () => notifier.toggle(app.id),
-                      );
-                    },
-                  ),
-                ),
-
-                // ── Confirm button ────────────────────────────────────────────
-                Padding(
-                  padding: const EdgeInsets.all(AppDimensions.paddingM),
-                  child: AppButton(
-                    label: 'taxi.apps.done'.tr(),
-                    icon: Icons.check_rounded,
-                    onTap: state.selectedCount > 0
-                        ? () => Navigator.of(context).pop(state.selectedIds)
-                        : null,
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

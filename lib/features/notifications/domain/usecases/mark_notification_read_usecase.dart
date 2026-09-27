@@ -12,4 +12,3 @@ class MarkNotificationReadUseCase {
     return repository.markNotificationRead(notificationId: notificationId);
   }
 }
-

@@ -3,6 +3,7 @@ import 'provider_data_entity.dart';
 
 /// Represents a single car rental offer from a provider.
 class CarRentalOfferEntity extends Equatable {
+  final String? carId;
   final String? offerId;
   final String? providerId;
   final String? providerName;
@@ -23,6 +24,7 @@ class CarRentalOfferEntity extends Equatable {
   final ProviderDataEntity providerData;
 
   const CarRentalOfferEntity({
+    this.carId,
     this.offerId,
     this.providerId,
     this.providerName,
@@ -45,24 +47,24 @@ class CarRentalOfferEntity extends Equatable {
 
   @override
   List<Object?> get props => [
-        offerId,
-        providerId,
-        providerName,
-        providerSlug,
-        carName,
-        carType,
-        carImage,
-        price,
-        currency,
-        originalCurrency,
-        originalPrice,
-        priceEgp,
-        totalPrice,
-        seats,
-        bags,
-        available,
-        distance,
-        providerData,
-      ];
+    carId,
+    offerId,
+    providerId,
+    providerName,
+    providerSlug,
+    carName,
+    carType,
+    carImage,
+    price,
+    currency,
+    originalCurrency,
+    originalPrice,
+    priceEgp,
+    totalPrice,
+    seats,
+    bags,
+    available,
+    distance,
+    providerData,
+  ];
 }
-

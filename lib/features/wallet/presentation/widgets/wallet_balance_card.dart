@@ -1,4 +1,5 @@
 import 'package:qaren/core/localization/easy_localization.dart';
+import 'package:qaren/core/localization/localized_formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
@@ -18,8 +19,10 @@ class WalletBalanceCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final balance = ref.watch(walletProvider.select((state) => state.balance));
     final amount = balance?.balance ?? 0;
-    final currency = balance?.currency ?? 'EGP';
-    final updatedAtLabel = balance?.updatedAtLabel ?? '';
+    final updatedAtLabel = LocalizedFormatters.dateTime(
+      context,
+      balance?.updatedAt,
+    );
 
     return Container(
       width: double.infinity,
@@ -43,7 +46,7 @@ class WalletBalanceCard extends ConsumerWidget {
             style: AppTextStyles.bodySecondary.copyWith(color: AppColors.white),
           ),
           const SizedBox(height: AppDimensions.paddingS),
-          WalletBalanceAmount(amount: amount, currency: currency),
+          WalletBalanceAmount(amount: amount),
           if (updatedAtLabel.isNotEmpty) ...[
             const SizedBox(height: AppDimensions.paddingS),
             AppText(

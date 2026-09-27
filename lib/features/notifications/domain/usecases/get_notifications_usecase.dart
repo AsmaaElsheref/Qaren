@@ -13,4 +13,3 @@ class GetNotificationsUseCase {
     return repository.getNotifications(page: page);
   }
 }
-

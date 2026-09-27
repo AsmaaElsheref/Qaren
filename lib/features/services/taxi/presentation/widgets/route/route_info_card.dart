@@ -1,10 +1,12 @@
 import 'package:qaren/core/localization/easy_localization.dart';
+import 'package:qaren/core/localization/localized_formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
+import '../../../../../../core/ui/widgets/saudi_riyal_amount.dart';
 import '../../providers/taxi_providers.dart';
 
 class RouteInfoCard extends ConsumerWidget {
@@ -88,7 +90,13 @@ class RouteInfoCard extends ConsumerWidget {
             value: distance == null
                 ? '--'
                 : 'taxi.route.distanceValue'.tr(
-                    namedArgs: {'distance': distance.toStringAsFixed(1)},
+                    namedArgs: {
+                      'distance': LocalizedFormatters.number(
+                        context,
+                        distance,
+                        decimals: 1,
+                      ),
+                    },
                   ),
           ),
           const SizedBox(height: AppDimensions.paddingS),
@@ -97,16 +105,24 @@ class RouteInfoCard extends ConsumerWidget {
             value: duration == null
                 ? '--'
                 : 'taxi.route.durationValue'.tr(
-                    namedArgs: {'duration': '$duration'},
+                    namedArgs: {
+                      'duration': LocalizedFormatters.number(context, duration),
+                    },
                   ),
           ),
           const SizedBox(height: AppDimensions.paddingS),
           _InfoRow(
             label: 'taxi.route.deliveryFee'.tr(),
-            value: fee == null
-                ? '--'
-                : 'taxi.route.feeValue'.tr(
-                    namedArgs: {'fee': fee.toStringAsFixed(0)},
+            value: fee == null ? '--' : '',
+            valueWidget: fee == null
+                ? null
+                : SaudiRiyalAmount(
+                    amount: LocalizedFormatters.number(context, fee),
+                    style: const TextStyle(
+                      color: AppColors.primary,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
             highlight: true,
           ),
@@ -141,11 +157,13 @@ class _InfoRow extends StatelessWidget {
   const _InfoRow({
     required this.label,
     required this.value,
+    this.valueWidget,
     this.highlight = false,
   });
 
   final String label;
   final String value;
+  final Widget? valueWidget;
   final bool highlight;
 
   @override
@@ -158,14 +176,15 @@ class _InfoRow extends StatelessWidget {
           label,
           style: TextStyle(color: colors.textSecondary, fontSize: 13),
         ),
-        AppText(
-          value,
-          style: TextStyle(
-            color: highlight ? AppColors.primary : colors.textPrimary,
-            fontSize: 13,
-            fontWeight: highlight ? FontWeight.w700 : FontWeight.w600,
-          ),
-        ),
+        valueWidget ??
+            AppText(
+              value,
+              style: TextStyle(
+                color: highlight ? AppColors.primary : colors.textPrimary,
+                fontSize: 13,
+                fontWeight: highlight ? FontWeight.w700 : FontWeight.w600,
+              ),
+            ),
       ],
     );
   }

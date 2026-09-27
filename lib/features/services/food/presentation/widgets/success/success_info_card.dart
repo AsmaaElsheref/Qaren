@@ -6,6 +6,7 @@ import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
+import '../../../../../../core/ui/widgets/saudi_riyal_amount.dart';
 import '../../../data/models/food_booking_response.dart';
 import '../../providers/food_providers.dart';
 
@@ -49,7 +50,15 @@ class SuccessInfoCard extends ConsumerWidget {
           ),
           _row(
             'food.checkout.total'.tr(),
-            '${result.totalPrice.toInt()} ${result.currency}',
+            null,
+            valueWidget: SaudiRiyalAmount(
+              amount: result.totalPrice.toInt().toString(),
+              style: const TextStyle(
+                fontSize: AppDimensions.fontS,
+                fontWeight: FontWeight.w800,
+                color: AppColors.primary,
+              ),
+            ),
             highlight: true,
           ),
           if (result.deliveryAddress.isNotEmpty)
@@ -78,7 +87,13 @@ class SuccessInfoCard extends ConsumerWidget {
     }
   }
 
-  Widget _row(String label, String value, {bool highlight = false, color}) {
+  Widget _row(
+    String label,
+    String? value, {
+    Widget? valueWidget,
+    bool highlight = false,
+    color,
+  }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
@@ -94,15 +109,20 @@ class SuccessInfoCard extends ConsumerWidget {
           ),
           Expanded(
             flex: 3,
-            child: AppText(
-              value,
-              maxLines: 2,
-              style: TextStyle(
-                fontSize: AppDimensions.fontS,
-                fontWeight: highlight ? FontWeight.w800 : FontWeight.w600,
-                color: highlight ? AppColors.primary : color,
-                overflow: TextOverflow.ellipsis,
-              ),
+            child: Align(
+              alignment: AlignmentDirectional.topStart,
+              child:
+                  valueWidget ??
+                  AppText(
+                    value!,
+                    maxLines: 2,
+                    style: TextStyle(
+                      fontSize: AppDimensions.fontS,
+                      fontWeight: highlight ? FontWeight.w800 : FontWeight.w600,
+                      color: highlight ? AppColors.primary : color,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
             ),
           ),
         ],

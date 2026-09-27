@@ -4,10 +4,7 @@ class NotificationsResponseModel {
   final bool success;
   final NotificationsPaginationModel page;
 
-  const NotificationsResponseModel({
-    required this.success,
-    required this.page,
-  });
+  const NotificationsResponseModel({required this.success, required this.page});
 
   factory NotificationsResponseModel.fromJson(Map<String, dynamic> json) {
     final data = json['data'];
@@ -19,4 +16,3 @@ class NotificationsResponseModel {
     );
   }
 }
-

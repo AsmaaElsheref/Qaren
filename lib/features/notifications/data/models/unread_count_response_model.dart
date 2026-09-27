@@ -4,10 +4,7 @@ class UnreadCountResponseModel {
   final bool success;
   final int count;
 
-  const UnreadCountResponseModel({
-    required this.success,
-    required this.count,
-  });
+  const UnreadCountResponseModel({required this.success, required this.count});
 
   factory UnreadCountResponseModel.fromJson(Map<String, dynamic> json) {
     final data = NotificationModel.asMap(json['data']);
@@ -17,4 +14,3 @@ class UnreadCountResponseModel {
     );
   }
 }
-

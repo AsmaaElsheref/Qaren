@@ -84,7 +84,7 @@ class AuthRepositoryImpl implements AuthRepository {
     } on Failure catch (f) {
       return Either.leftOf(f);
     } catch (_) {
-      return Either.leftOf(AuthFailure('فشل إنشاء الحساب. حاول مرة أخرى.'));
+      return Either.leftOf(AuthFailure('auth.signup.failed'.tr()));
     }
   }
 
@@ -96,7 +96,7 @@ class AuthRepositoryImpl implements AuthRepository {
     } on Failure catch (f) {
       return Either.leftOf(f);
     } catch (_) {
-      return Either.leftOf(AuthFailure('فشل جلب بيانات المستخدم.'));
+      return Either.leftOf(AuthFailure('auth.errors.fetchUserFailed'.tr()));
     }
   }
 
@@ -110,7 +110,7 @@ class AuthRepositoryImpl implements AuthRepository {
     } on Failure catch (f) {
       return Either.leftOf(f);
     } catch (_) {
-      return Either.leftOf(AuthFailure('فشل تحديث بيانات الملف الشخصي.'));
+      return Either.leftOf(AuthFailure('auth.errors.updateProfileFailed'.tr()));
     }
   }
 
@@ -124,7 +124,7 @@ class AuthRepositoryImpl implements AuthRepository {
     } on Failure catch (f) {
       return Either.leftOf(f);
     } catch (_) {
-      return Either.leftOf(AuthFailure('فشل التحقق بالبصمة.'));
+      return Either.leftOf(AuthFailure('auth.errors.biometricAuthFailed'.tr()));
     }
   }
 
@@ -148,7 +148,7 @@ class AuthRepositoryImpl implements AuthRepository {
     } on Failure catch (f) {
       return Either.leftOf(f);
     } catch (_) {
-      return Either.leftOf(ServerFailure('الكود غير صحيح. حاول مجدداً.'));
+      return Either.leftOf(ServerFailure('errors.invalidCode'.tr()));
     }
   }
 
@@ -170,9 +170,7 @@ class AuthRepositoryImpl implements AuthRepository {
     } on Failure catch (f) {
       return Either.leftOf(f);
     } catch (_) {
-      return Either.leftOf(
-        ServerFailure('فشل تغيير كلمة المرور. حاول مجدداً.'),
-      );
+      return Either.leftOf(ServerFailure('auth.resetPassword.failed'.tr()));
     }
   }
 }

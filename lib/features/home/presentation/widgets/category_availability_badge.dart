@@ -20,7 +20,7 @@ class CategoryAvailabilityBadge extends StatelessWidget {
         style: TextStyle(
           fontSize: 9,
           fontWeight: FontWeight.w600,
-          color: AppColors.primary,
+          color: AppColors.primaryDark,
           height: 1.4,
         ),
       ),

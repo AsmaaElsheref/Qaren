@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:intl/intl.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 
 import '../../data/models/food_compare_request_model.dart';
 import '../../domain/entities/food_invoice_detail.dart';
@@ -31,8 +31,9 @@ final foodSortTypeProvider = StateProvider<FoodSortType>(
 
 /// Set just before navigating to the invoice page.
 /// Null until the user taps "اطلب الآن" / "اطلب المتوفر" on a provider card.
-final selectedProviderForBookingProvider =
-    StateProvider<FoodProviderModel?>((ref) => null);
+final selectedProviderForBookingProvider = StateProvider<FoodProviderModel?>(
+  (ref) => null,
+);
 
 // ── Compare result state ──────────────────────────────────────────────────────
 
@@ -41,24 +42,27 @@ final selectedProviderForBookingProvider =
 class FoodCompareState {
   final List<FoodProviderModel> partners;
   final bool isLoading;
+  final bool hasCompleted;
   final String? error;
 
   const FoodCompareState({
     this.partners = const [],
     this.isLoading = false,
+    this.hasCompleted = false,
     this.error,
   });
 
   FoodCompareState copyWith({
     List<FoodProviderModel>? partners,
     bool? isLoading,
+    bool? hasCompleted,
     String? error,
-  }) =>
-      FoodCompareState(
-        partners: partners ?? this.partners,
-        isLoading: isLoading ?? this.isLoading,
-        error: error,
-      );
+  }) => FoodCompareState(
+    partners: partners ?? this.partners,
+    isLoading: isLoading ?? this.isLoading,
+    hasCompleted: hasCompleted ?? this.hasCompleted,
+    error: error,
+  );
 }
 
 class FoodCompareNotifier extends Notifier<FoodCompareState> {
@@ -70,7 +74,7 @@ class FoodCompareNotifier extends Notifier<FoodCompareState> {
     required double userLat,
     required double userLng,
   }) async {
-    state = state.copyWith(isLoading: true, error: null);
+    state = state.copyWith(isLoading: true, hasCompleted: false, error: null);
     try {
       final dataSource = ref.read(foodRemoteDataSourceProvider);
       final result = await dataSource.compareProducts(
@@ -80,17 +84,25 @@ class FoodCompareNotifier extends Notifier<FoodCompareState> {
           userLng: userLng,
         ),
       );
-      state = state.copyWith(isLoading: false, partners: result);
+      state = state.copyWith(
+        isLoading: false,
+        hasCompleted: true,
+        partners: result,
+      );
     } catch (e) {
-      state = state.copyWith(isLoading: false, error: e.toString());
+      state = state.copyWith(
+        isLoading: false,
+        hasCompleted: true,
+        error: e.toString(),
+      );
     }
   }
 }
 
 final foodCompareNotifierProvider =
     NotifierProvider<FoodCompareNotifier, FoodCompareState>(
-  FoodCompareNotifier.new,
-);
+      FoodCompareNotifier.new,
+    );
 
 // ── Raw providers list ───────────────────────────────────────────────────────
 
@@ -104,8 +116,9 @@ final foodProvidersListProvider = Provider<List<FoodProviderModel>>(
 /// Sorted list derived from the raw list + current sort type.
 final sortedFoodProvidersProvider = Provider<List<FoodProviderModel>>((ref) {
   final sort = ref.watch(foodSortTypeProvider);
-  final list =
-      List<FoodProviderModel>.from(ref.watch(foodProvidersListProvider));
+  final list = List<FoodProviderModel>.from(
+    ref.watch(foodProvidersListProvider),
+  );
 
   switch (sort) {
     case FoodSortType.suggested:
@@ -118,7 +131,8 @@ final sortedFoodProvidersProvider = Provider<List<FoodProviderModel>>((ref) {
       list.sort((a, b) => a.price.compareTo(b.price));
     case FoodSortType.fastest:
       list.sort(
-          (a, b) => a.deliveryTimeMinutes.compareTo(b.deliveryTimeMinutes));
+        (a, b) => a.deliveryTimeMinutes.compareTo(b.deliveryTimeMinutes),
+      );
   }
   return list;
 });
@@ -141,13 +155,13 @@ final foodCompareErrorProvider = Provider<String?>(
 /// - selected user location                  → shown as destination
 /// - current date / time
 final foodInvoiceProvider = Provider<FoodInvoiceModel>((ref) {
-  final provider      = ref.watch(selectedProviderForBookingProvider);
-  final cartState     = ref.watch(foodCartProvider);
-  final locationName  = ref.watch(foodSelectedLocationNameProvider);
+  final provider = ref.watch(selectedProviderForBookingProvider);
+  final cartState = ref.watch(foodCartProvider);
+  final locationName = ref.watch(foodSelectedLocationNameProvider);
 
-  final now      = DateTime.now();
-  final dateStr  = DateFormat('dd/MM/yyyy').format(now);
-  final timeStr  = DateFormat('hh:mm a').format(now);
+  final now = DateTime.now();
+  final dateStr = DateFormat.yMd().format(now);
+  final timeStr = DateFormat.jm().format(now);
 
   // itemsCount = how many products this restaurant actually provides.
   // Falls back to total cart count if no provider is selected yet.
@@ -155,14 +169,18 @@ final foodInvoiceProvider = Provider<FoodInvoiceModel>((ref) {
       ? provider.matchedCount
       : cartState.totalCount;
 
-  final toLocation = locationName.isNotEmpty ? locationName : 'موقعك';
+  final toLocation = locationName.isNotEmpty
+      ? locationName
+      : 'food.invoice.yourLocation'.tr();
 
   return FoodInvoiceModel(
     provider: provider,
     fromLocation: provider?.name ?? '',
     toLocation: toLocation,
     distance: provider?.distanceKm != null
-        ? '${provider!.distanceKm!.toStringAsFixed(1)} كم'
+        ? 'taxi.route.distanceValue'.tr(
+            namedArgs: {'distance': provider!.distanceKm!.toStringAsFixed(1)},
+          )
         : '',
     deliveryTimeMinutes: provider?.deliveryTimeMinutes ?? 0,
     itemsCount: itemsCount,
@@ -189,12 +207,11 @@ class FoodInvoiceDetailState {
     FoodInvoiceDetail? detail,
     bool? isLoading,
     String? error,
-  }) =>
-      FoodInvoiceDetailState(
-        detail: detail ?? this.detail,
-        isLoading: isLoading ?? this.isLoading,
-        error: error,
-      );
+  }) => FoodInvoiceDetailState(
+    detail: detail ?? this.detail,
+    isLoading: isLoading ?? this.isLoading,
+    error: error,
+  );
 }
 
 /// Fetches the full invoice detail from
@@ -228,8 +245,8 @@ class FoodInvoiceDetailNotifier extends Notifier<FoodInvoiceDetailState> {
 
 final foodInvoiceDetailProvider =
     NotifierProvider<FoodInvoiceDetailNotifier, FoodInvoiceDetailState>(
-  FoodInvoiceDetailNotifier.new,
-);
+      FoodInvoiceDetailNotifier.new,
+    );
 
 /// Convenience granular providers — small rebuild scope.
 final foodInvoiceDetailIsLoadingProvider = Provider<bool>(

@@ -13,8 +13,12 @@ class NotificationsList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ids = ref.watch(notificationIdsProvider);
-    final errorMessage = ref.watch(notificationsProvider.select((state) => state.errorMessage));
-    final isLoadingMore = ref.watch(notificationsProvider.select((state) => state.isLoadingMore));
+    final errorMessage = ref.watch(
+      notificationsProvider.select((state) => state.errorMessage),
+    );
+    final isLoadingMore = ref.watch(
+      notificationsProvider.select((state) => state.isLoadingMore),
+    );
 
     if (ids.isEmpty && errorMessage != null) {
       return NotificationsErrorState(
@@ -40,9 +44,9 @@ class NotificationsList extends ConsumerWidget {
           notificationId: ids[index],
         );
       },
-      separatorBuilder: (context, index) => const SizedBox(height: AppDimensions.paddingM),
+      separatorBuilder: (context, index) =>
+          const SizedBox(height: AppDimensions.paddingM),
       itemCount: ids.length + (isLoadingMore ? 1 : 0),
     );
   }
 }
-

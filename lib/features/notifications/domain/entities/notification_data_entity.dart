@@ -16,4 +16,3 @@ class NotificationDataEntity extends Equatable {
   @override
   List<Object?> get props => [title, message, status];
 }
-

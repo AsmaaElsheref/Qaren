@@ -15,7 +15,8 @@ class NotificationStatusIcon extends StatelessWidget {
       NotificationStatus.confirmed => AppColors.success,
       NotificationStatus.info => AppColors.secondary,
       NotificationStatus.pending => AppColors.primary,
-      NotificationStatus.cancelled || NotificationStatus.failed => AppColors.error,
+      NotificationStatus.cancelled ||
+      NotificationStatus.failed => AppColors.error,
       NotificationStatus.unknown => AppColors.textSecondary,
     };
 
@@ -23,7 +24,8 @@ class NotificationStatusIcon extends StatelessWidget {
       NotificationStatus.confirmed => Icons.check_circle_outline_rounded,
       NotificationStatus.info => Icons.info_outline_rounded,
       NotificationStatus.pending => Icons.schedule_rounded,
-      NotificationStatus.cancelled || NotificationStatus.failed => Icons.warning_amber_rounded,
+      NotificationStatus.cancelled ||
+      NotificationStatus.failed => Icons.warning_amber_rounded,
       NotificationStatus.unknown => Icons.notifications_none_rounded,
     };
 
@@ -38,4 +40,3 @@ class NotificationStatusIcon extends StatelessWidget {
     );
   }
 }
-

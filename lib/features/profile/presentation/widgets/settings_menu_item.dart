@@ -53,7 +53,7 @@ class SettingsMenuItem extends StatelessWidget {
               trailing!
             else
               const Icon(
-                Icons.chevron_left_rounded,
+                Icons.arrow_forward_ios_rounded,
                 size: 22,
                 color: AppColors.textHint,
               ),
@@ -63,4 +63,3 @@ class SettingsMenuItem extends StatelessWidget {
     );
   }
 }
-

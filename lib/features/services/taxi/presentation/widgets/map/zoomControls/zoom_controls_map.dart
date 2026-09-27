@@ -13,7 +13,7 @@ class ZoomControlsMap extends StatelessWidget {
   Widget build(BuildContext context) {
     return Positioned(
       left: AppDimensions.paddingM,
-      bottom: context.screenHeight*0.23,
+      bottom: context.screenHeight * 0.23,
       child: Column(
         children: [
           ZoomButton(

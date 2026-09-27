@@ -20,9 +20,11 @@ final filteredCategoriesProvider = Provider<List<CategoryEntity>>((ref) {
   if (query.isEmpty) return all;
 
   return all
-      .where((c) =>
-          c.name.toLowerCase().contains(query) ||
-          c.description.toLowerCase().contains(query))
+      .where(
+        (c) =>
+            c.name.toLowerCase().contains(query) ||
+            c.description.toLowerCase().contains(query),
+      )
       .toList();
 });
 

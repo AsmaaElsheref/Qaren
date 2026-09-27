@@ -50,6 +50,3 @@ class HomeNavItem extends StatelessWidget {
     );
   }
 }
-
-
-

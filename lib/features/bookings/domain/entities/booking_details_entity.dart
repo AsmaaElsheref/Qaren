@@ -10,4 +10,3 @@ class BookingDetailsEntity extends Equatable {
   @override
   List<Object?> get props => [booking];
 }
-

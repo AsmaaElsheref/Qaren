@@ -48,156 +48,151 @@ class BookingFilterSheetState extends ConsumerState<BookingFilterSheet> {
   @override
   Widget build(BuildContext context) {
     final colors = context.appColors;
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Container(
-        decoration: BoxDecoration(
-          color: colors.surface,
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(AppDimensions.radiusXL),
+    return Container(
+      decoration: BoxDecoration(
+        color: colors.surface,
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(AppDimensions.radiusXL),
+        ),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // ── Handle bar ──────────────────────────────────────────────────
+          Center(
+            child: Container(
+              margin: const EdgeInsets.only(top: AppDimensions.paddingM),
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: AppColors.border,
+                borderRadius: BorderRadius.circular(AppDimensions.radiusFull),
+              ),
+            ),
           ),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // ── Handle bar ──────────────────────────────────────────────────
-            Center(
-              child: Container(
-                margin: const EdgeInsets.only(top: AppDimensions.paddingM),
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: AppColors.border,
-                  borderRadius: BorderRadius.circular(AppDimensions.radiusFull),
+          // ── Header ──────────────────────────────────────────────────────
+          Padding(
+            padding: const EdgeInsets.fromLTRB(
+              AppDimensions.paddingM,
+              AppDimensions.paddingM,
+              AppDimensions.paddingM,
+              AppDimensions.paddingXS,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AppText(
+                  'bookings.filter.title'.tr(),
+                  style: AppTextStyles.title,
                 ),
-              ),
-            ),
-            // ── Header ──────────────────────────────────────────────────────
-            Padding(
-              padding: const EdgeInsets.fromLTRB(
-                AppDimensions.paddingM,
-                AppDimensions.paddingM,
-                AppDimensions.paddingM,
-                AppDimensions.paddingXS,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  AppText(
-                    'bookings.filter.title'.tr(),
-                    style: AppTextStyles.title,
-                  ),
-                  TextButton(
-                    onPressed: resetFilters,
-                    child: AppText(
-                      'bookings.filter.reset'.tr(),
-                      style: TextStyle(color: AppColors.error, fontSize: 14),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const Divider(color: AppColors.border, height: 1),
-            // ── Service type ────────────────────────────────────────────────
-            Padding(
-              padding: const EdgeInsets.fromLTRB(
-                AppDimensions.paddingM,
-                AppDimensions.paddingM,
-                AppDimensions.paddingM,
-                AppDimensions.paddingS,
-              ),
-              child: AppText(
-                'bookings.filter.serviceType'.tr(),
-                style: AppTextStyles.body,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppDimensions.paddingM,
-              ),
-              child: Wrap(
-                spacing: AppDimensions.paddingS,
-                runSpacing: AppDimensions.paddingS,
-                children: BookingServiceType.values
-                    .where((t) => t != BookingServiceType.unknown)
-                    .map(
-                      (type) => _FilterChip(
-                        label: type.label,
-                        isSelected: selectedService == type,
-                        onTap: () => setState(() => selectedService = type),
-                      ),
-                    )
-                    .toList(growable: false),
-              ),
-            ),
-            // ── Status ──────────────────────────────────────────────────────
-            Padding(
-              padding: const EdgeInsets.fromLTRB(
-                AppDimensions.paddingM,
-                AppDimensions.paddingL,
-                AppDimensions.paddingM,
-                AppDimensions.paddingS,
-              ),
-              child: AppText(
-                'bookings.filter.status'.tr(),
-                style: AppTextStyles.body,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppDimensions.paddingM,
-              ),
-              child: Wrap(
-                spacing: AppDimensions.paddingS,
-                runSpacing: AppDimensions.paddingS,
-                children: BookingStatusFilter.values
-                    .map(
-                      (status) => _FilterChip(
-                        label: status.label,
-                        isSelected: selectedStatus == status,
-                        onTap: () => setState(() => selectedStatus = status),
-                      ),
-                    )
-                    .toList(growable: false),
-              ),
-            ),
-            // ── Apply button ────────────────────────────────────────────────
-            Padding(
-              padding: EdgeInsets.fromLTRB(
-                AppDimensions.paddingM,
-                AppDimensions.paddingL,
-                AppDimensions.paddingM,
-                AppDimensions.paddingM + MediaQuery.of(context).padding.bottom,
-              ),
-              child: SizedBox(
-                width: double.infinity,
-                height: AppDimensions.buttonHeight,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    foregroundColor: AppColors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                        AppDimensions.radiusM,
-                      ),
-                    ),
-                    elevation: 0,
-                  ),
-                  onPressed: applyFilters,
+                TextButton(
+                  onPressed: resetFilters,
                   child: AppText(
-                    'bookings.filter.apply'.tr(),
-                    style: TextStyle(
-                      color: AppColors.white,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 16,
+                    'bookings.filter.reset'.tr(),
+                    style: TextStyle(color: AppColors.error, fontSize: 14),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const Divider(color: AppColors.border, height: 1),
+          // ── Service type ────────────────────────────────────────────────
+          Padding(
+            padding: const EdgeInsets.fromLTRB(
+              AppDimensions.paddingM,
+              AppDimensions.paddingM,
+              AppDimensions.paddingM,
+              AppDimensions.paddingS,
+            ),
+            child: AppText(
+              'bookings.filter.serviceType'.tr(),
+              style: AppTextStyles.body,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppDimensions.paddingM,
+            ),
+            child: Wrap(
+              spacing: AppDimensions.paddingS,
+              runSpacing: AppDimensions.paddingS,
+              children: BookingServiceType.values
+                  .where((t) => t != BookingServiceType.unknown)
+                  .map(
+                    (type) => _FilterChip(
+                      label: type.label,
+                      isSelected: selectedService == type,
+                      onTap: () => setState(() => selectedService = type),
                     ),
+                  )
+                  .toList(growable: false),
+            ),
+          ),
+          // ── Status ──────────────────────────────────────────────────────
+          Padding(
+            padding: const EdgeInsets.fromLTRB(
+              AppDimensions.paddingM,
+              AppDimensions.paddingL,
+              AppDimensions.paddingM,
+              AppDimensions.paddingS,
+            ),
+            child: AppText(
+              'bookings.filter.status'.tr(),
+              style: AppTextStyles.body,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppDimensions.paddingM,
+            ),
+            child: Wrap(
+              spacing: AppDimensions.paddingS,
+              runSpacing: AppDimensions.paddingS,
+              children: BookingStatusFilter.values
+                  .map(
+                    (status) => _FilterChip(
+                      label: status.label,
+                      isSelected: selectedStatus == status,
+                      onTap: () => setState(() => selectedStatus = status),
+                    ),
+                  )
+                  .toList(growable: false),
+            ),
+          ),
+          // ── Apply button ────────────────────────────────────────────────
+          Padding(
+            padding: EdgeInsets.fromLTRB(
+              AppDimensions.paddingM,
+              AppDimensions.paddingL,
+              AppDimensions.paddingM,
+              AppDimensions.paddingM + MediaQuery.of(context).padding.bottom,
+            ),
+            child: SizedBox(
+              width: double.infinity,
+              height: AppDimensions.buttonHeight,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: AppColors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(AppDimensions.radiusM),
+                  ),
+                  elevation: 0,
+                ),
+                onPressed: applyFilters,
+                child: AppText(
+                  'bookings.filter.apply'.tr(),
+                  style: TextStyle(
+                    color: AppColors.white,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16,
                   ),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

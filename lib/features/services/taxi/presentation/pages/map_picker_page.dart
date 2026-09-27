@@ -29,25 +29,22 @@ class _MapPickerPageState extends ConsumerState<MapPickerPage> {
   @override
   Widget build(BuildContext context) {
     if (!AppConfig.hasGoogleMapsApiKey) {
-      return Directionality(
-        textDirection: TextDirection.rtl,
-        child: Scaffold(
-          body: Stack(
-            children: [
-              const MapUnavailableView(
-                titleKey: 'taxi.map.pickerDisabledTitle',
-                messageKey: 'taxi.map.pickerDisabledMessage',
+      return Scaffold(
+        body: Stack(
+          children: [
+            const MapUnavailableView(
+              titleKey: 'taxi.map.pickerDisabledTitle',
+              messageKey: 'taxi.map.pickerDisabledMessage',
+            ),
+            PositionedDirectional(
+              top: MediaQuery.of(context).padding.top + 12,
+              start: 16,
+              child: IconButton.filled(
+                onPressed: () => Navigator.of(context).pop(),
+                icon: const Icon(Icons.arrow_back_ios_rounded),
               ),
-              Positioned(
-                top: MediaQuery.of(context).padding.top + 12,
-                right: 16,
-                child: IconButton.filled(
-                  onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(Icons.arrow_back_ios_rounded),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       );
     }
@@ -59,30 +56,27 @@ class _MapPickerPageState extends ConsumerState<MapPickerPage> {
         ? 'taxi.location.pickup'.tr()
         : 'taxi.location.destination'.tr();
 
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        body: Stack(
-          children: [
-            const RepaintBoundary(child: TaxiMapView(isPicker: true)),
-            const PinMap(),
-            SearchMap(
-              searchController: notifier.searchController,
-              searchAddress: (_) => notifier.searchAddress(),
-            ),
-            ZoomControlsMap(mapController: mapController),
-            ConfirmLocationButton(
-              title: title,
-              addressLabel: state.addressLabel,
-              isResolving: state.isResolving,
-              isConfirming: state.isConfirming,
-              confirm: () async {
-                await notifier.confirm();
-                if (context.mounted) Navigator.of(context).pop();
-              },
-            ),
-          ],
-        ),
+    return Scaffold(
+      body: Stack(
+        children: [
+          const RepaintBoundary(child: TaxiMapView(isPicker: true)),
+          const PinMap(),
+          SearchMap(
+            searchController: notifier.searchController,
+            searchAddress: (_) => notifier.searchAddress(),
+          ),
+          ZoomControlsMap(mapController: mapController),
+          ConfirmLocationButton(
+            title: title,
+            addressLabel: state.addressLabel,
+            isResolving: state.isResolving,
+            isConfirming: state.isConfirming,
+            confirm: () async {
+              await notifier.confirm();
+              if (context.mounted) Navigator.of(context).pop();
+            },
+          ),
+        ],
       ),
     );
   }

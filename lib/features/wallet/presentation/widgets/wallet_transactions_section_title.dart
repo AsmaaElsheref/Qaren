@@ -9,7 +9,7 @@ class WalletTransactionsSectionTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppText(
-      'wallet.transactions.title'.tr(),
+      context.tr('wallet.transactions.title'),
       style: AppTextStyles.title,
     );
   }

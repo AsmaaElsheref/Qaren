@@ -1,3 +1,5 @@
+import 'package:qaren/core/localization/easy_localization.dart';
+import 'package:qaren/core/localization/localized_formatters.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../../core/constants/app_dimensions.dart';
@@ -42,7 +44,7 @@ class FoodRestaurantHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppText(
-                restaurant.name,
+                restaurant.name.tr(),
                 style: const TextStyle(
                   fontSize: AppDimensions.fontM,
                   fontWeight: FontWeight.w700,
@@ -54,7 +56,15 @@ class FoodRestaurantHeader extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   AppText(
-                    '${restaurant.menuCount} ${restaurant.category}',
+                    'food.mockRestaurant.menuSummary'.tr(
+                      namedArgs: {
+                        'count': LocalizedFormatters.number(
+                          context,
+                          restaurant.menuCount,
+                        ),
+                        'category': restaurant.category.tr(),
+                      },
+                    ),
                     style: const TextStyle(
                       fontSize: AppDimensions.fontXS,
                       color: AppColors.textSecondary,
@@ -73,7 +83,7 @@ class FoodRestaurantHeader extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       AppText(
-                        restaurant.deliveryTime,
+                        restaurant.deliveryTime.tr(),
                         style: const TextStyle(
                           fontSize: AppDimensions.fontXS,
                           color: AppColors.textSecondary,
@@ -108,7 +118,11 @@ class FoodRestaurantHeader extends StatelessWidget {
                 ),
                 const SizedBox(width: 4),
                 AppText(
-                  restaurant.rating.toStringAsFixed(1),
+                  LocalizedFormatters.number(
+                    context,
+                    restaurant.rating,
+                    decimals: 1,
+                  ),
                   style: const TextStyle(
                     fontSize: AppDimensions.fontXS,
                     fontWeight: FontWeight.w700,

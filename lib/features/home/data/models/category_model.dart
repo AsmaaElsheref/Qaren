@@ -13,9 +13,9 @@ class CategoryTranslationModel extends CategoryTranslation {
 
   factory CategoryTranslationModel.fromJson(Map<String, dynamic> json) {
     return CategoryTranslationModel(
-      locale:      json['locale']      as String? ?? '',
-      name:        json['name']        as String? ?? '',
-      slug:        json['slug']        as String? ?? '',
+      locale: json['locale'] as String? ?? '',
+      name: json['name'] as String? ?? '',
+      slug: json['slug'] as String? ?? '',
       description: json['description'] as String? ?? '',
     );
   }
@@ -37,10 +37,10 @@ class CategoryModel extends CategoryEntity {
       json['translation'] as Map<String, dynamic>? ?? {},
     );
     return CategoryModel(
-      id:          (json['id'] as num).toInt(),
-      type:        json['type']   as String? ?? '',
-      icon:        json['icon']   as String? ?? '',
-      status:      json['status'] as bool?   ?? false,
+      id: (json['id'] as num).toInt(),
+      type: json['type'] as String? ?? '',
+      icon: json['icon'] as String? ?? '',
+      status: json['status'] as bool? ?? false,
       translation: translation,
     );
   }

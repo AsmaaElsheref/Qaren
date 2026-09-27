@@ -17,4 +17,3 @@ class ServiceCategory {
     required this.iconBgColor,
   });
 }
-

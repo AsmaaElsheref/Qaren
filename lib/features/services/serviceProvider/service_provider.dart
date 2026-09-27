@@ -22,6 +22,3 @@ final serviceRoutesProvider = Provider<Map<String, Widget>>((ref) {
     // 'events':         EventsPage(),
   };
 });
-
-
-

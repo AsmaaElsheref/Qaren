@@ -13,12 +13,11 @@ class AiSearchParams extends Equatable {
   });
 
   Map<String, dynamic> toJson() => {
-        'prompt': prompt,
-        'current_lat': currentLat,
-        'current_lng': currentLng,
-      };
+    'prompt': prompt,
+    'current_lat': currentLat,
+    'current_lng': currentLng,
+  };
 
   @override
   List<Object?> get props => [prompt, currentLat, currentLng];
 }
-

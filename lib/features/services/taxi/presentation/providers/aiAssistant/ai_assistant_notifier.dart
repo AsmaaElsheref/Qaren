@@ -1,32 +1,15 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/localization/easy_localization.dart';
 
-import '../../../data/datasources/car_rental_remote_datasource.dart';
-import '../../../data/repositories/car_rental_repository_impl.dart';
 import '../../../domain/entities/ai_search_params.dart';
-import '../../../domain/repositories/car_rental_repository.dart';
-import '../../../domain/usecases/ai_search_car_rental_usecase.dart';
+import '../comparePricesProvider/compare_prices_provider.dart';
+import '../comparePricesProvider/compare_prices_state.dart';
 import '../currentLocationProvider/current_location_provider.dart';
-import '../taxi_notifier.dart';
 import 'ai_assistant_providers.dart';
 import 'ai_assistant_state.dart';
 
-// ── Private data-layer providers (kept local to AI assistant) ───────────────
-final _aiRemoteDataSourceProvider = Provider<CarRentalRemoteDataSource>(
-  (ref) => const CarRentalRemoteDataSourceImpl(),
-);
-
-final _aiRepositoryProvider = Provider<CarRentalRepository>(
-  (ref) => CarRentalRepositoryImpl(ref.watch(_aiRemoteDataSourceProvider)),
-);
-
-final _aiSearchUseCaseProvider = Provider<AiSearchCarRentalUseCase>(
-  (ref) => AiSearchCarRentalUseCase(ref.watch(_aiRepositoryProvider)),
-);
-
-/// Submits the AI-assistant prompt to `/api/compare/car-rental/ai-search`
-/// **only** to parse pickup/destination. The actual price-comparison call
-/// still happens when the user taps "مقارنة الأسعار" on [LocationSheet].
+/// Submits the AI-assistant prompt and stores the returned cars in the same
+/// comparison state used by the regular taxi search.
 class AiAssistantNotifier extends Notifier<AiAssistantState> {
   @override
   AiAssistantState build() => const AiAssistantState();
@@ -34,13 +17,14 @@ class AiAssistantNotifier extends Notifier<AiAssistantState> {
   /// Resets the overlay state but does not touch pickup/destination.
   void reset() => state = const AiAssistantState();
 
-  /// Submit prompt and fill pickup/destination providers on success.
-  Future<void> submit(String rawPrompt) async {
+  /// Returns `true` when the API completed successfully, including an empty
+  /// result set. The caller can then navigate to the comparison screen.
+  Future<bool> submit(String rawPrompt) async {
     final prompt = rawPrompt.trim();
 
     if (prompt.isEmpty) {
       state = state.copyWith(errorMessage: 'taxi.ai.enterPromptFirst'.tr());
-      return;
+      return false;
     }
 
     final current = ref
@@ -49,14 +33,14 @@ class AiAssistantNotifier extends Notifier<AiAssistantState> {
 
     if (current == null) {
       state = state.copyWith(errorMessage: 'taxi.ai.locationFailed'.tr());
-      return;
+      return false;
     }
 
     state = const AiAssistantState(isLoading: true);
 
-    final result = await ref
-        .read(_aiSearchUseCaseProvider)
-        .call(
+    await ref
+        .read(comparePricesProvider.notifier)
+        .aiSearch(
           AiSearchParams(
             prompt: prompt,
             currentLat: current.latitude,
@@ -64,41 +48,23 @@ class AiAssistantNotifier extends Notifier<AiAssistantState> {
           ),
         );
 
-    await result.fold(
-      (failure) async {
-        state = state.copyWith(
-          isLoading: false,
-          errorMessage: 'taxi.ai.parseFailed'.tr(),
-        );
-      },
-      (data) async {
-        final parsed = data.parsedParameters;
-        if (parsed == null || parsed.pickup == null || parsed.dropoff == null) {
-          state = state.copyWith(
-            isLoading: false,
-            errorMessage: 'taxi.ai.parseFailed'.tr(),
-          );
-          return;
-        }
+    final compareState = ref.read(comparePricesProvider);
+    final succeeded =
+        compareState.status == ComparePricesStatus.success ||
+        compareState.status == ComparePricesStatus.empty;
 
-        // Fill the SAME providers used by the normal manual flow.
-        // TaxiMapView listens to taxiPickupLocationProvider /
-        // taxiDestinationLocationProvider (both derived from taxiProvider)
-        // and animates / fits the camera automatically.
-        await ref
-            .read(taxiProvider.notifier)
-            .fillFromParsedParameters(
-              parsed,
-              aiDestinationName: parsed.destinationName,
-              overwrite: true,
-            );
+    if (!succeeded) {
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: compareState.errorMessage ?? 'taxi.ai.parseFailed'.tr(),
+      );
+      return false;
+    }
 
-        // Hide the overlay and clear its transient state.
-        ref.read(aiAssistantVisibilityProvider.notifier).state = false;
-        ref.read(aiAssistantPromptProvider.notifier).state = '';
-        state = const AiAssistantState();
-      },
-    );
+    ref.read(aiAssistantVisibilityProvider.notifier).state = false;
+    ref.read(aiAssistantPromptProvider.notifier).state = '';
+    state = const AiAssistantState();
+    return true;
   }
 
   void clearError() {

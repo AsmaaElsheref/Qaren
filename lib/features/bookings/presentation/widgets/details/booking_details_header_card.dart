@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/localization/localized_formatters.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
 import 'package:qaren/core/theme/app_colors.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
@@ -16,6 +17,10 @@ class BookingDetailsHeaderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.appColors;
+    final bookedAtLabel = LocalizedFormatters.dateTime(
+      context,
+      booking.bookedAt,
+    );
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(AppDimensions.paddingM),
@@ -31,18 +36,26 @@ class BookingDetailsHeaderCard extends StatelessWidget {
             children: [
               Expanded(
                 child: AppText(
-                  booking.bookingReference.isEmpty ? '#${booking.id}' : booking.bookingReference,
+                  booking.bookingReference.isEmpty
+                      ? '#${booking.id}'
+                      : booking.bookingReference,
                   style: AppTextStyles.title,
                 ),
               ),
-              BookingStatusBadge(status: booking.status, label: booking.statusLabel),
+              BookingStatusBadge(
+                status: booking.status,
+                label: booking.statusLabel,
+              ),
             ],
           ),
           const SizedBox(height: AppDimensions.paddingS),
-          AppText(booking.serviceType.cardLabel, style: AppTextStyles.bodySecondary),
-          if (booking.bookedAtLabel.isNotEmpty) ...[
+          AppText(
+            booking.serviceType.cardLabel,
+            style: AppTextStyles.bodySecondary,
+          ),
+          if (bookedAtLabel.isNotEmpty) ...[
             const SizedBox(height: AppDimensions.paddingXS),
-            AppText(booking.bookedAtLabel, style: AppTextStyles.caption),
+            AppText(bookedAtLabel, style: AppTextStyles.caption),
           ],
           if (booking.providerSlug.isNotEmpty) ...[
             const SizedBox(height: AppDimensions.paddingXS),
@@ -53,4 +66,3 @@ class BookingDetailsHeaderCard extends StatelessWidget {
     );
   }
 }
-

@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 enum CompareSortType { suggested, cheapest, fastest }
 
 extension CompareSortTypeX on CompareSortType {
-  String get label {
+  String get translationKey {
     switch (this) {
       case CompareSortType.suggested:
-        return 'المقترح';
+        return 'common.sort.recommended';
       case CompareSortType.cheapest:
-        return 'الأرخص';
+        return 'common.sort.cheapest';
       case CompareSortType.fastest:
-        return 'الأسرع';
+        return 'common.sort.fastest';
     }
   }
 
@@ -68,5 +68,3 @@ class PriceResult {
     return double.tryParse(match.group(0)!) ?? double.infinity;
   }
 }
-
-

@@ -14,9 +14,10 @@ class BookingHistoryResponseModel {
     return BookingHistoryResponseModel(
       status: json['status'] as bool? ?? false,
       pagination: BookingPaginationModel.fromJson(
-        data is Map<String, dynamic> ? data : Map<String, dynamic>.from(data as Map? ?? {}),
+        data is Map<String, dynamic>
+            ? data
+            : Map<String, dynamic>.from(data as Map? ?? {}),
       ),
     );
   }
 }
-

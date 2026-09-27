@@ -64,11 +64,7 @@ class ContentList extends ConsumerWidget {
           vertical: AppDimensions.paddingM,
         ),
         children: [
-          const AiSuggestionCard(
-            suggestion:
-                'أنا قارن، للوصول إلى شارع الأمير سلطان بن سلمان، أرشح لك تطبيق '
-                'أوبر لسرعة الاستجابة أو بولت إذا كنت تفضل السعر الأقل.',
-          ),
+          AiSuggestionCard(suggestion: 'taxi.compare.aiOpinionBody'.tr()),
           const SizedBox(height: AppDimensions.paddingM),
           const SortTabBar(),
           const SizedBox(height: AppDimensions.paddingM),
@@ -83,7 +79,7 @@ class ContentList extends ConsumerWidget {
                     MaterialPageRoute(
                       builder: (context) => TripDetails(
                         serviceName: result.appName,
-                        offerId: result.id,
+                        carId: result.id,
                       ),
                     ),
                   ),
@@ -95,7 +91,7 @@ class ContentList extends ConsumerWidget {
                         MaterialPageRoute(
                           builder: (context) => TripDetails(
                             serviceName: result.appName,
-                            offerId: result.id,
+                            carId: result.id,
                           ),
                         ),
                       );

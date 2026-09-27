@@ -10,4 +10,3 @@ abstract class WalletRemoteDataSource {
 
   Future<WalletDepositResponseModel> deposit(WalletDepositRequestModel request);
 }
-

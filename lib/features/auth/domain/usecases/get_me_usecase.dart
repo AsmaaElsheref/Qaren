@@ -12,4 +12,3 @@ class GetMeUseCase {
     return _repository.getMe();
   }
 }
-

@@ -1,4 +1,5 @@
 import 'package:qaren/core/network/dioHelper/dio_helper.dart';
+import 'package:qaren/core/network/apiRoutes/api_routes.dart';
 
 import '../models/wallet_balance_model.dart';
 import '../models/wallet_deposit_request_model.dart';
@@ -9,9 +10,9 @@ import 'wallet_remote_datasource.dart';
 class WalletRemoteDataSourceImpl implements WalletRemoteDataSource {
   const WalletRemoteDataSourceImpl();
 
-  static const String balanceEndpoint = '/api/wallet/balance';
-  static const String transactionsEndpoint = '/api/wallet/transactions';
-  static const String depositEndpoint = '/api/wallet/deposit';
+  static const String balanceEndpoint = ApiRoutes.walletBalance;
+  static const String transactionsEndpoint = ApiRoutes.walletTransactions;
+  static const String depositEndpoint = ApiRoutes.walletDeposit;
 
   @override
   Future<WalletBalanceModel> getBalance() async {
@@ -24,7 +25,9 @@ class WalletRemoteDataSourceImpl implements WalletRemoteDataSource {
   }
 
   @override
-  Future<WalletTransactionsResponseModel> getTransactions({required int page}) async {
+  Future<WalletTransactionsResponseModel> getTransactions({
+    required int page,
+  }) async {
     final response = await DioHelper.getData(
       url: transactionsEndpoint,
       query: <String, dynamic>{'page': page},
@@ -35,7 +38,9 @@ class WalletRemoteDataSourceImpl implements WalletRemoteDataSource {
   }
 
   @override
-  Future<WalletDepositResponseModel> deposit(WalletDepositRequestModel request) async {
+  Future<WalletDepositResponseModel> deposit(
+    WalletDepositRequestModel request,
+  ) async {
     final response = await DioHelper.postData(
       url: depositEndpoint,
       data: request.toJson(),
@@ -45,4 +50,3 @@ class WalletRemoteDataSourceImpl implements WalletRemoteDataSource {
     );
   }
 }
-

@@ -82,36 +82,30 @@ class SearchMapBar extends StatelessWidget {
             onPlaceSelected?.call(prediction);
           },
           itemBuilder: (context, index, Prediction prediction) {
-            return Directionality(
-              textDirection: TextDirection.rtl,
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 10,
-                ),
-                color: AppColors.surface,
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.location_on_outlined,
-                      size: 20,
-                      color: AppColors.textSecondary,
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        prediction.description ?? '',
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontSize: 13,
-                          color: AppColors.textPrimary,
-                          fontWeight: FontWeight.w500,
-                        ),
+            return Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              color: AppColors.surface,
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.location_on_outlined,
+                    size: 20,
+                    color: AppColors.textSecondary,
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      prediction.description ?? '',
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        color: AppColors.textPrimary,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             );
           },

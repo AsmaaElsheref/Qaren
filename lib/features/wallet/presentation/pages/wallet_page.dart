@@ -16,48 +16,48 @@ class WalletPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isInitialLoading = ref.watch(walletProvider.select((state) => state.isInitialLoading));
+    final isInitialLoading = ref.watch(
+      walletProvider.select((state) => state.isInitialLoading),
+    );
 
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        // appBar: const WalletAppBar(),
-        body: SafeArea(
-          child: isInitialLoading
-              ? const WalletLoadingSkeleton()
-              : RefreshIndicator(
-                  onRefresh: () => ref.read(walletProvider.notifier).refresh(),
-                  child: NotificationListener<ScrollNotification>(
-                    onNotification: (notification) {
-                      if (notification.metrics.pixels >= notification.metrics.maxScrollExtent - 220) {
-                        ref.read(walletProvider.notifier).loadMore();
-                      }
-                      return false;
-                    },
-                    child: SingleChildScrollView(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      padding: const EdgeInsets.all(AppDimensions.paddingM),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          WalletBalanceCard(
-                            onAddBalance: () => showModalBottomSheet<void>(
-                              context: context,
-                              isScrollControlled: true,
-                              backgroundColor: Colors.transparent,
-                              builder: (_) => const WalletDepositSheet(),
-                            ),
+    return Scaffold(
+      // appBar: const WalletAppBar(),
+      body: SafeArea(
+        child: isInitialLoading
+            ? const WalletLoadingSkeleton()
+            : RefreshIndicator(
+                onRefresh: () => ref.read(walletProvider.notifier).refresh(),
+                child: NotificationListener<ScrollNotification>(
+                  onNotification: (notification) {
+                    if (notification.metrics.pixels >=
+                        notification.metrics.maxScrollExtent - 220) {
+                      ref.read(walletProvider.notifier).loadMore();
+                    }
+                    return false;
+                  },
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    padding: const EdgeInsets.all(AppDimensions.paddingM),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        WalletBalanceCard(
+                          onAddBalance: () => showModalBottomSheet<void>(
+                            context: context,
+                            isScrollControlled: true,
+                            backgroundColor: Colors.transparent,
+                            builder: (_) => const WalletDepositSheet(),
                           ),
-                          const SizedBox(height: AppDimensions.paddingL),
-                          const WalletTransactionsSectionTitle(),
-                          const SizedBox(height: AppDimensions.paddingM),
-                          const WalletTransactionsList(),
-                        ],
-                      ),
+                        ),
+                        const SizedBox(height: AppDimensions.paddingL),
+                        const WalletTransactionsSectionTitle(),
+                        const SizedBox(height: AppDimensions.paddingM),
+                        const WalletTransactionsList(),
+                      ],
                     ),
                   ),
                 ),
-        ),
+              ),
       ),
     );
   }

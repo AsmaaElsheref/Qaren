@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:qaren/core/ui/widgets/AppTextField.dart';
 
 import '../../../../../../core/constants/app_dimensions.dart';
@@ -57,7 +58,7 @@ class _FoodSearchFieldState extends ConsumerState<FoodSearchField> {
       padding: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingM),
       child: AppTextField(
         controller: _controller,
-        hint: 'ابحث عن طعام أو مطعم...',
+        hint: 'food.searchHint'.tr(),
         onChanged: _onChanged,
       ),
     );

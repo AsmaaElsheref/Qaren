@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/comparePricesProvider/compare_prices_provider.dart';
@@ -13,7 +14,7 @@ class RouteCenterDivider extends StatelessWidget {
     final km = double.tryParse(cleaned);
     if (km == null || km <= 0) return '—';
     final minutes = (km / 30 * 60).round().clamp(1, 9999);
-    return '$minutes دقيقة';
+    return 'taxi.route.durationValue'.tr(namedArgs: {'duration': '$minutes'});
   }
 
   @override

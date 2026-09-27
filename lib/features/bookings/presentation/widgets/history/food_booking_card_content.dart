@@ -19,7 +19,7 @@ class FoodBookingCardContent extends StatelessWidget {
       children: [
         if (foodOrder.itemsCount != null)
           AppText(
-            '${foodOrder.itemsCount} ${'food.cart.itemsCount'.tr()}',
+            'food.cart.itemsCount'.plural(foodOrder.itemsCount!),
             style: AppTextStyles.caption,
           ),
         if (foodOrder.deliveryAddress.isNotEmpty) ...[

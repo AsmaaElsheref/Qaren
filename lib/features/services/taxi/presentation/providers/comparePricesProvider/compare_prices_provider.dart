@@ -13,6 +13,7 @@ import '../../../domain/repositories/car_rental_repository.dart';
 import '../../../domain/usecases/ai_search_car_rental_usecase.dart';
 import '../../../domain/usecases/search_car_rental_usecase.dart';
 import '../taxi_notifier.dart';
+import '../taxi_apps/taxi_apps_notifier.dart';
 import 'compare_prices_state.dart';
 
 // ── Data layer providers (private) ──────────────────────────────────────────
@@ -80,8 +81,8 @@ class ComparePricesNotifier extends Notifier<ComparePricesState> {
         errorMessage: failure.message,
       ),
       (data) async {
-        // Fill pickup/destination from AI parsed_parameters if user did
-        // not select them manually before launching the search.
+        // This response describes the new AI trip, replacing any previous
+        // route so the map, results and booking use the same coordinates.
         final parsed = data.parsedParameters;
         if (parsed != null) {
           await ref
@@ -89,6 +90,7 @@ class ComparePricesNotifier extends Notifier<ComparePricesState> {
               .fillFromParsedParameters(
                 parsed,
                 aiDestinationName: parsed.destinationName,
+                overwrite: true,
               );
         }
         _applyResult(data);
@@ -98,16 +100,34 @@ class ComparePricesNotifier extends Notifier<ComparePricesState> {
 
   /// Shared success-branch handler for both [search] and [aiSearch].
   void _applyResult(dynamic data) {
-    if (data.offers.isEmpty) {
+    final allOffers = List<CarRentalOfferEntity>.from(data.offers as List);
+    final appsState = ref.read(taxiAppsProvider);
+    final knownProviderIds = appsState.apps.map((app) => app.id).toSet();
+    final selectedProviderIds = appsState.selectedIds;
+    final canFilterByProvider = allOffers.any(
+      (offer) => knownProviderIds.contains(offer.providerId),
+    );
+    final offers = canFilterByProvider
+        ? allOffers
+              .where((offer) => selectedProviderIds.contains(offer.providerId))
+              .toList()
+        : allOffers;
+
+    if (offers.isEmpty) {
       state = state.copyWith(status: ComparePricesStatus.empty, results: []);
       return;
     }
 
-    final cheapestId = data.cheapest?.offerId;
-    final mapped = (data.offers as List).map((offer) {
+    final cheapest = offers.reduce(
+      (current, next) =>
+          (next.price ?? double.infinity) < (current.price ?? double.infinity)
+          ? next
+          : current,
+    );
+    final mapped = offers.map((offer) {
       return _mapOfferToPriceResult(
-        offer as CarRentalOfferEntity,
-        isBestValue: offer.offerId == cheapestId,
+        offer,
+        isBestValue: offer.offerId == cheapest.offerId,
       );
     }).toList();
 
@@ -124,7 +144,7 @@ class ComparePricesNotifier extends Notifier<ComparePricesState> {
     bool isBestValue = false,
   }) {
     return PriceResult(
-      id: offer.offerId ?? '',
+      id: offer.carId ?? offer.offerId ?? '',
       appName:
           offer.providerName ??
           offer.carName ??

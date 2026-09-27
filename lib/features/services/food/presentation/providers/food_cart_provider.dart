@@ -84,8 +84,9 @@ class FoodCartNotifier extends Notifier<FoodCartState> {
 
 // ── Providers ────────────────────────────────────────────────────────────────
 
-final foodCartProvider =
-    NotifierProvider<FoodCartNotifier, FoodCartState>(FoodCartNotifier.new);
+final foodCartProvider = NotifierProvider<FoodCartNotifier, FoodCartState>(
+  FoodCartNotifier.new,
+);
 
 /// Granular — total badge count only (minimises rebuild scope for header badge).
 final foodCartTotalCountProvider = Provider<int>(
@@ -102,9 +103,9 @@ final foodItemQuantityProvider = Provider.family<int, String>(
 /// when the item is not in the cart yet.
 final foodItemSelectedWarehouseProvider =
     Provider.family<FoodWarehouse?, String>(
-  (ref, itemId) =>
-      ref.watch(foodCartProvider.select((s) => s.items[itemId]?.warehouse)),
-);
+      (ref, itemId) =>
+          ref.watch(foodCartProvider.select((s) => s.items[itemId]?.warehouse)),
+    );
 
 /// Whether the cart is empty — drives empty/filled UI switch.
 final foodCartIsEmptyProvider = Provider<bool>(
@@ -146,4 +147,3 @@ final cartProductsNameMapProvider = Provider<Map<int, String>>(
     }),
   ),
 );
-

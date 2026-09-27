@@ -4,10 +4,7 @@ import 'package:qaren/core/theme/app_colors.dart';
 class NotificationReadIndicator extends StatelessWidget {
   final bool isUnread;
 
-  const NotificationReadIndicator({
-    super.key,
-    required this.isUnread,
-  });
+  const NotificationReadIndicator({super.key, required this.isUnread});
 
   @override
   Widget build(BuildContext context) {
@@ -23,4 +20,3 @@ class NotificationReadIndicator extends StatelessWidget {
     );
   }
 }
-

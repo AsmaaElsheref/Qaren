@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
@@ -19,14 +20,14 @@ class FoodBestValueBadge extends StatelessWidget {
           gradient: AppColors.primaryGradient,
           borderRadius: BorderRadius.circular(AppDimensions.radiusFull),
         ),
-        child: const Row(
+        child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.star_rounded, size: 13, color: AppColors.white),
-            SizedBox(width: 4),
+            const Icon(Icons.star_rounded, size: 13, color: AppColors.white),
+            const SizedBox(width: 4),
             AppText(
-              'الأفضل قيمة',
-              style: TextStyle(
+              'food.comparison.bestValue'.tr(),
+              style: const TextStyle(
                 fontSize: AppDimensions.fontXS,
                 fontWeight: FontWeight.w700,
                 color: AppColors.white,
@@ -38,4 +39,3 @@ class FoodBestValueBadge extends StatelessWidget {
     );
   }
 }
-

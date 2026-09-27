@@ -31,4 +31,3 @@ class FoodOrderBookingModel extends FoodOrderBookingEntity {
     return int.tryParse(value.toString());
   }
 }
-

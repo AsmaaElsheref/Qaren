@@ -32,16 +32,16 @@ class FoodBookingRequestModel {
   final List<FoodBookingItemModel> items;
 
   Map<String, dynamic> toJson() => {
-        'main_partner_id': mainPartnerId,
-        'delivery_type': deliveryType,
-        'payment_method': paymentMethod,
-        'delivery_address': deliveryAddress,
-        'delivery_lat': deliveryLat,
-        'delivery_lng': deliveryLng,
-        'coupon_code': couponCode,
-        'customer_notes': customerNotes,
-        'items': items.map((i) => i.toJson()).toList(),
-      };
+    'main_partner_id': mainPartnerId,
+    'delivery_type': deliveryType,
+    'payment_method': paymentMethod,
+    'delivery_address': deliveryAddress,
+    'delivery_lat': deliveryLat,
+    'delivery_lng': deliveryLng,
+    'coupon_code': couponCode,
+    'customer_notes': customerNotes,
+    'items': items.map((i) => i.toJson()).toList(),
+  };
 
   /// Build a request body from cart items, filtering out any cart entry
   /// that does not belong to [allowedProductIds] (used for partial-match
@@ -86,4 +86,3 @@ class FoodBookingRequestModel {
     );
   }
 }
-

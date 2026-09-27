@@ -65,4 +65,3 @@ class BookingModel extends BookingEntity {
     return DateFormat('yyyy/MM/dd - HH:mm').format(date.toLocal());
   }
 }
-

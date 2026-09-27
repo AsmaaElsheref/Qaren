@@ -58,8 +58,7 @@ class FoodBookingResponse {
       bookingNumber: data['booking_number']?.toString() ?? '',
       status: data['status']?.toString() ?? '',
       subtotal: double.tryParse(data['subtotal'].toString()) ?? 0,
-      discountAmount:
-          double.tryParse(data['discount_amount'].toString()) ?? 0,
+      discountAmount: double.tryParse(data['discount_amount'].toString()) ?? 0,
       deliveryFee: double.tryParse(data['delivery_fee'].toString()) ?? 0,
       taxAmount: double.tryParse(data['tax_amount'].toString()) ?? 0,
       totalPrice: double.tryParse(data['total_price'].toString()) ?? 0,
@@ -68,16 +67,12 @@ class FoodBookingResponse {
       paymentStatus: data['payment_status']?.toString() ?? '',
       deliveryType: data['delivery_type']?.toString() ?? 'delivery',
       deliveryAddress: data['delivery_address']?.toString() ?? '',
-      deliveryLat:
-          double.tryParse(data['delivery_lat'].toString()) ?? 0,
-      deliveryLng:
-          double.tryParse(data['delivery_lng'].toString()) ?? 0,
+      deliveryLat: double.tryParse(data['delivery_lat'].toString()) ?? 0,
+      deliveryLng: double.tryParse(data['delivery_lng'].toString()) ?? 0,
       customerNotes: data['customer_notes']?.toString() ?? '',
       children: FoodBookingItemResponse.fromJsonList(rawChildren),
-      estimatedDeliveryMinutes:
-          data['estimated_delivery_minutes'] as int?,
+      estimatedDeliveryMinutes: data['estimated_delivery_minutes'] as int?,
       couponCode: data['coupon_code']?.toString(),
     );
   }
 }
-

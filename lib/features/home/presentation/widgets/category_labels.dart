@@ -22,18 +22,21 @@ class CategoryLabels extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.appColors;
-    final titleColor =
-        isEnabled ? colors.textPrimary : colors.disabledText;
-    final descColor =
-        isEnabled ? colors.textSecondary : colors.disabledText.withValues(alpha: 0.7);
+    final titleColor = isEnabled ? colors.textPrimary : colors.disabledText;
+    final descColor = isEnabled
+        ? colors.textSecondary
+        : colors.disabledText.withValues(alpha: 0.7);
 
     return Column(
+      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         AppText(
           name,
-          textAlign: TextAlign.right,
+          textAlign: TextAlign.start,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
           style: AppTextStyles.body.copyWith(
             fontWeight: FontWeight.w500,
             color: titleColor,
@@ -44,13 +47,10 @@ class CategoryLabels extends StatelessWidget {
         Gap.gapH5,
         AppText(
           description,
-          textAlign: TextAlign.right,
+          textAlign: TextAlign.start,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          style: AppTextStyles.caption.copyWith(
-            color: descColor,
-            height: 1.3,
-          ),
+          style: AppTextStyles.caption.copyWith(color: descColor, height: 1.3),
         ),
       ],
     );

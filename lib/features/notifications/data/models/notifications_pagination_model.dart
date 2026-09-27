@@ -16,9 +16,15 @@ class NotificationsPaginationModel extends NotificationsPageEntity {
     return NotificationsPaginationModel(
       notifications: data
           .whereType<Map>()
-          .map((item) => NotificationModel.fromJson(Map<String, dynamic>.from(item)))
+          .map(
+            (item) =>
+                NotificationModel.fromJson(Map<String, dynamic>.from(item)),
+          )
           .toList(growable: false),
-      currentPage: NotificationModel.parseInt(json['current_page'], fallback: 1),
+      currentPage: NotificationModel.parseInt(
+        json['current_page'],
+        fallback: 1,
+      ),
       lastPage: NotificationModel.parseInt(json['last_page'], fallback: 1),
       perPage: NotificationModel.parseInt(json['per_page'], fallback: 15),
       total: NotificationModel.parseInt(json['total']),
@@ -26,4 +32,3 @@ class NotificationsPaginationModel extends NotificationsPageEntity {
     );
   }
 }
-

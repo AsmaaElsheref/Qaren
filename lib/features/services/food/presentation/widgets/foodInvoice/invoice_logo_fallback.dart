@@ -16,4 +16,3 @@ class InvoiceLogoFallback extends StatelessWidget {
     );
   }
 }
-

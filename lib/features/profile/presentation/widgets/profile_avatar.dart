@@ -25,7 +25,8 @@ class ProfileAvatar extends StatelessWidget {
                 ? Image.network(
                     avatarUrl!,
                     fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => const ProfileAvatarPlaceholder(),
+                    errorBuilder: (_, __, ___) =>
+                        const ProfileAvatarPlaceholder(),
                   )
                 : const ProfileAvatarPlaceholder(),
           ),
@@ -41,11 +42,7 @@ class ProfileAvatar extends StatelessWidget {
               color: const Color(0xFFF4A730),
               border: Border.all(color: AppColors.white, width: 2),
             ),
-            child: Icon(
-              Icons.star_rounded,
-              size: 12,
-              color: colors.surface,
-            ),
+            child: Icon(Icons.star_rounded, size: 12, color: colors.surface),
           ),
         ),
       ],
@@ -69,4 +66,3 @@ class ProfileAvatarPlaceholder extends StatelessWidget {
     );
   }
 }
-

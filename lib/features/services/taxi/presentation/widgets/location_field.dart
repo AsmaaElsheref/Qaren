@@ -52,19 +52,24 @@ class LocationField extends StatelessWidget {
                 color: iconBgColor,
                 shape: BoxShape.circle,
               ),
-              child: Icon(leadingIcon, color: iconColor, size: AppDimensions.iconS),
+              child: Icon(
+                leadingIcon,
+                color: iconColor,
+                size: AppDimensions.iconS,
+              ),
             ),
             const SizedBox(width: AppDimensions.paddingM),
             // Label / hint
             Expanded(
               child: Text(
                 isEmpty ? hint : value,
-                textDirection: TextDirection.rtl,
-                textAlign: TextAlign.right,
+                textAlign: TextAlign.start,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: isEmpty
-                    ? AppTextStyles.bodySecondary.copyWith(color: colors.textMuted)
+                    ? AppTextStyles.bodySecondary.copyWith(
+                        color: colors.textSecondary,
+                      )
                     : AppTextStyles.body.copyWith(color: colors.textPrimary),
               ),
             ),

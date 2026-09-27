@@ -6,6 +6,7 @@ import '../../../../../core/constants/app_dimensions.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/theme/app_colors_ext.dart';
 import '../../../../../core/ui/widgets/AppText.dart';
+import '../pages/comparePrices/compare_prices.dart';
 import '../providers/aiAssistant/ai_assistant_notifier.dart';
 import '../providers/aiAssistant/ai_assistant_providers.dart';
 
@@ -57,10 +58,18 @@ class AiAssistantSearchOverlayState
 
   Future<void> _onSend() async {
     final prompt = _controller.text;
+    final navigator = Navigator.of(context);
     // Persist prompt so it survives rebuilds and can be edited after errors.
     ref.read(aiAssistantPromptProvider.notifier).state = prompt;
     FocusScope.of(context).unfocus();
-    await ref.read(aiAssistantNotifierProvider.notifier).submit(prompt);
+    final succeeded = await ref
+        .read(aiAssistantNotifierProvider.notifier)
+        .submit(prompt);
+    if (!succeeded || !navigator.mounted) return;
+
+    await navigator.push(
+      MaterialPageRoute(builder: (_) => const ComparePricesPage()),
+    );
   }
 
   @override
@@ -99,7 +108,7 @@ class AiAssistantSearchOverlayState
                     ),
                     child: TextField(
                       controller: _controller,
-                      textAlign: TextAlign.right,
+                      textAlign: TextAlign.start,
                       textInputAction: TextInputAction.search,
                       onSubmitted: (_) => _onSend(),
                       onChanged: (v) {
@@ -151,7 +160,7 @@ class AiAssistantSendButton extends ConsumerWidget {
         height: 48,
         decoration: BoxDecoration(
           color: isLoading
-              ? AppColors.primary.withOpacity(0.6)
+              ? AppColors.primary.withValues(alpha: 0.6)
               : AppColors.primary,
           shape: BoxShape.circle,
         ),
@@ -187,9 +196,9 @@ class AiAssistantErrorMessage extends ConsumerWidget {
           vertical: AppDimensions.paddingS,
         ),
         decoration: BoxDecoration(
-          color: AppColors.error.withOpacity(0.1),
+          color: AppColors.error.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(AppDimensions.radiusM),
-          border: Border.all(color: AppColors.error.withOpacity(0.4)),
+          border: Border.all(color: AppColors.error.withValues(alpha: 0.4)),
         ),
         child: AppText(
           error,

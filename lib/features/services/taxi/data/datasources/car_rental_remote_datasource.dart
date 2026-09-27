@@ -9,13 +9,11 @@ import '../models/carRental/car_rental_search_result_model.dart';
 import '../models/offerDetails/offer_details_model.dart';
 
 abstract class CarRentalRemoteDataSource {
-  Future<CarRentalSearchResultModel> searchOffers(
-    CarRentalSearchParams params,
-  );
+  Future<CarRentalSearchResultModel> searchOffers(CarRentalSearchParams params);
 
   Future<CarRentalSearchResultModel> aiSearchOffers(AiSearchParams params);
 
-  Future<OfferDetailsModel> getOfferDetails(String offerId);
+  Future<OfferDetailsModel> getOfferDetails(String carId);
 
   Future<BookingResultModel> bookOffer(BookCarRentalParams params);
 }
@@ -28,9 +26,9 @@ class CarRentalRemoteDataSourceImpl implements CarRentalRemoteDataSource {
     CarRentalSearchParams params,
   ) async {
     try {
-      final response = await DioHelper.getData(
+      final response = await DioHelper.postData(
         url: ApiRoutes.carRentalSearch,
-        query: params.toQueryParameters(),
+        data: params.toJson(),
       );
 
       final body = response.data as Map<String, dynamic>;
@@ -46,7 +44,6 @@ class CarRentalRemoteDataSourceImpl implements CarRentalRemoteDataSource {
     AiSearchParams params,
   ) async {
     try {
-      print('Data =======>>>>> ${params.toJson()}');
       final response = await DioHelper.postData(
         url: ApiRoutes.carRentalAiSearch,
         data: params.toJson(),
@@ -63,10 +60,10 @@ class CarRentalRemoteDataSourceImpl implements CarRentalRemoteDataSource {
   }
 
   @override
-  Future<OfferDetailsModel> getOfferDetails(String offerId) async {
+  Future<OfferDetailsModel> getOfferDetails(String carId) async {
     try {
       final response = await DioHelper.getData(
-        url: '${ApiRoutes.carRentalDetails}/$offerId',
+        url: ApiRoutes.carRentalDetails(carId),
       );
 
       final body = response.data as Map<String, dynamic>;
@@ -93,4 +90,3 @@ class CarRentalRemoteDataSourceImpl implements CarRentalRemoteDataSource {
     }
   }
 }
-

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
@@ -51,7 +52,7 @@ class BookingSuccessPage extends StatelessWidget {
 
               // ── Title ──────────────────────────────────────────────────
               AppText(
-                'تم الحجز بنجاح!',
+                'taxi.booking.successTitle'.tr(),
                 style: TextStyle(
                   fontSize: AppDimensions.fontXXL,
                   fontWeight: FontWeight.w700,
@@ -73,43 +74,45 @@ class BookingSuccessPage extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: AppDimensions.paddingL),
+              if (bookingReference.trim().isNotEmpty) ...[
+                const SizedBox(height: AppDimensions.paddingL),
 
-              // ── Booking reference card ─────────────────────────────────
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(AppDimensions.paddingM),
-                decoration: BoxDecoration(
-                  color: colors.surface,
-                  borderRadius: BorderRadius.circular(AppDimensions.radiusM),
-                  border: Border.all(color: AppColors.border),
-                ),
-                child: Column(
-                  children: [
-                    AppText(
-                      'رقم الحجز',
-                      secondary: true,
-                      style: const TextStyle(fontSize: AppDimensions.fontS),
-                    ),
-                    const SizedBox(height: AppDimensions.paddingS),
-                    AppText(
-                      bookingReference,
-                      style: const TextStyle(
-                        fontSize: AppDimensions.fontL,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.primary,
-                        letterSpacing: 1.2,
+                // ── Booking reference card ───────────────────────────────
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(AppDimensions.paddingM),
+                  decoration: BoxDecoration(
+                    color: colors.surface,
+                    borderRadius: BorderRadius.circular(AppDimensions.radiusM),
+                    border: Border.all(color: AppColors.border),
+                  ),
+                  child: Column(
+                    children: [
+                      AppText(
+                        'taxi.booking.referenceLabel'.tr(),
+                        secondary: true,
+                        style: const TextStyle(fontSize: AppDimensions.fontS),
                       ),
-                    ),
-                  ],
+                      const SizedBox(height: AppDimensions.paddingS),
+                      AppText(
+                        bookingReference.trim(),
+                        style: const TextStyle(
+                          fontSize: AppDimensions.fontL,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.primary,
+                          letterSpacing: 1.2,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+              ],
 
               const Spacer(),
 
               // ── Navigate home CTA ──────────────────────────────────────
               AppButton(
-                label: 'العودة للرئيسية',
+                label: 'taxi.booking.backToHome'.tr(),
                 icon: Icons.home_rounded,
                 onTap: () => Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(builder: (_) => const HomePage()),
@@ -125,4 +128,3 @@ class BookingSuccessPage extends StatelessWidget {
     );
   }
 }
-

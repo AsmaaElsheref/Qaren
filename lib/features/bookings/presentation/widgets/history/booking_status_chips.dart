@@ -35,15 +35,14 @@ class BookingStatusChips extends ConsumerWidget {
                 color: isSelected ? AppColors.primary : AppColors.border,
               ),
             ),
-            onSelected: (_) => ref
-                .read(bookingHistoryProvider.notifier)
-                .changeStatus(item),
+            onSelected: (_) =>
+                ref.read(bookingHistoryProvider.notifier).changeStatus(item),
           );
         },
-        separatorBuilder: (context, index) => const SizedBox(width: AppDimensions.paddingS),
+        separatorBuilder: (context, index) =>
+            const SizedBox(width: AppDimensions.paddingS),
         itemCount: BookingStatusFilter.values.length,
       ),
     );
   }
 }
-

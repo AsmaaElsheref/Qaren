@@ -20,7 +20,11 @@ class WalletTransactionsResponseModel extends WalletTransactionsPageEntity {
     return WalletTransactionsResponseModel(
       transactions: data
           .whereType<Map>()
-          .map((item) => WalletTransactionModel.fromJson(Map<String, dynamic>.from(item)))
+          .map(
+            (item) => WalletTransactionModel.fromJson(
+              Map<String, dynamic>.from(item),
+            ),
+          )
           .toList(growable: false),
       currentPage: meta.currentPage,
       lastPage: meta.lastPage,
@@ -36,4 +40,3 @@ class WalletTransactionsResponseModel extends WalletTransactionsPageEntity {
     return null;
   }
 }
-

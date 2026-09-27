@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../../core/theme/app_colors.dart';
+import '../../../../../../../core/theme/app_colors_ext.dart';
 import '../../../../../../../core/ui/widgets/AppText.dart';
 import '../../../providers/food_providers.dart';
 import '../food_stepper_icon_button.dart';
@@ -16,6 +17,7 @@ class CartQuantityControl extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final quantity = ref.watch(foodItemQuantityProvider(itemId));
+    final colors = context.appColors;
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppDimensions.radiusS),
@@ -33,11 +35,11 @@ class CartQuantityControl extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: AppText(
               '$quantity',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: AppDimensions.fontM,
                 fontWeight: FontWeight.w700,
                 fontFamily: 'Cairo',
-                color: AppColors.textPrimary,
+                color: colors.textPrimary,
               ),
             ),
           ),
@@ -48,7 +50,9 @@ class CartQuantityControl extends ConsumerWidget {
               final cartState = ref.read(foodCartProvider);
               final item = cartState.items[itemId];
               if (item != null) {
-                ref.read(foodCartProvider.notifier).increment(
+                ref
+                    .read(foodCartProvider.notifier)
+                    .increment(
                       itemId,
                       name: item.name,
                       imageUrl: item.imageUrl,
@@ -62,4 +66,3 @@ class CartQuantityControl extends ConsumerWidget {
     );
   }
 }
-

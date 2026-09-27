@@ -14,4 +14,3 @@ class CarRentalBookingEntity extends Equatable {
   @override
   List<Object?> get props => [offerId, customerName, customerPhone];
 }
-

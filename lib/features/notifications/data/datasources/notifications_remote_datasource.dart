@@ -7,8 +7,9 @@ abstract class NotificationsRemoteDataSource {
 
   Future<UnreadCountResponseModel> getUnreadCount();
 
-  Future<MarkNotificationReadResponseModel> markNotificationRead({required String notificationId});
+  Future<MarkNotificationReadResponseModel> markNotificationRead({
+    required String notificationId,
+  });
 
   Future<MarkNotificationReadResponseModel> markAllNotificationsRead();
 }
-

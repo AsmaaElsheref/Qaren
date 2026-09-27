@@ -1,4 +1,5 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 
 /// Builds all taxi map markers from the selected pickup/destination state.
 class MapMarkerBuilder {
@@ -19,7 +20,9 @@ class MapMarkerBuilder {
           markerId: pickupMarkerId,
           position: pickup,
           infoWindow: InfoWindow(
-            title: pickupLabel.isNotEmpty ? pickupLabel : 'نقطة الانطلاق',
+            title: pickupLabel.isNotEmpty
+                ? pickupLabel
+                : 'taxi.location.pickup'.tr(),
           ),
         ),
       if (destination != null)
@@ -27,13 +30,12 @@ class MapMarkerBuilder {
           markerId: destinationMarkerId,
           position: destination,
           infoWindow: InfoWindow(
-            title: destinationLabel.isNotEmpty ? destinationLabel : 'الوجهة',
+            title: destinationLabel.isNotEmpty
+                ? destinationLabel
+                : 'taxi.location.destination'.tr(),
           ),
-          icon: BitmapDescriptor.defaultMarkerWithHue(
-            BitmapDescriptor.hueRed,
-          ),
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
         ),
     };
   }
 }
-

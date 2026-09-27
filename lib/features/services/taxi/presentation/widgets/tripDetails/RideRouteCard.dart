@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
@@ -19,27 +20,25 @@ class RideRouteCard extends ConsumerWidget {
       decoration: BoxDecoration(
         color: colors.surface,
         borderRadius: BorderRadius.circular(22),
-        border: Border.all(
-          color: const Color(0xFFE6E6E6),
-        ),
+        border: Border.all(color: const Color(0xFFE6E6E6)),
       ),
       child: Column(
         children: [
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'من',
-                style: TextStyle(
+                'taxi.route.from'.tr(),
+                style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
                   color: Color(0xFF9CA3AF),
                 ),
               ),
-              RouteCenterDivider(),
+              const RouteCenterDivider(),
               Text(
-                'إلى',
-                style: TextStyle(
+                'taxi.route.to'.tr(),
+                style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
                   color: Color(0xFF9CA3AF),
@@ -54,7 +53,7 @@ class RideRouteCard extends ConsumerWidget {
               Expanded(
                 child: RoutePointColumn(
                   alignment: CrossAxisAlignment.start,
-                  label: 'من',
+                  label: 'taxi.route.from'.tr(),
                   mainText: pickup,
                   subText: '',
                 ),
@@ -62,7 +61,7 @@ class RideRouteCard extends ConsumerWidget {
               Expanded(
                 child: RoutePointColumn(
                   alignment: CrossAxisAlignment.end,
-                  label: 'إلى',
+                  label: 'taxi.route.to'.tr(),
                   mainText: destination,
                   subText: '',
                 ),

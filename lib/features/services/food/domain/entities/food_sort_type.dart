@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 enum FoodSortType { suggested, cheapest, fastest }
 
 extension FoodSortTypeX on FoodSortType {
-  String get label {
+  String get translationKey {
     switch (this) {
       case FoodSortType.suggested:
-        return 'المقترح';
+        return 'common.sort.recommended';
       case FoodSortType.cheapest:
-        return 'الأرخص';
+        return 'common.sort.cheapest';
       case FoodSortType.fastest:
-        return 'الأسرع';
+        return 'common.sort.fastest';
     }
   }
 
@@ -26,4 +26,3 @@ extension FoodSortTypeX on FoodSortType {
     }
   }
 }
-

@@ -55,7 +55,7 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
                 MaterialPageRoute(builder: (_) => PersonalProfilePage()),
               ),
               child: Padding(
-                padding: const EdgeInsets.only(right: 16),
+                padding: const EdgeInsetsDirectional.only(start: 16),
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
@@ -150,7 +150,7 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
               ),
               Gap.gapW10,
               Padding(
-                padding: const EdgeInsets.only(left: 20),
+                padding: const EdgeInsetsDirectional.only(end: 20),
                 child: IconContainer(
                   icon: Icon(
                     Icons.menu,

@@ -4,6 +4,8 @@ class AppColors {
   AppColors._();
 
   static const Color primary = Color(0xFF8DC73F);
+  static const Color primaryDark = Color(0xFF355E00);
+  static const Color onPrimary = Color(0xFF102000);
   static const Color secondary = Color(0xFF27AAE1);
   static const Color primaryLight = Color(0xFFE8FAF6);
   static const Color primaryGlow = Color(0xFF4CAF50);
@@ -28,9 +30,9 @@ class AppColors {
   static const Color darkBlue = Color(0xFF020B18);
 
   static const LinearGradient primaryGradient = LinearGradient(
-    colors: [primary,primaryGlow],
+    colors: [primary, primaryGlow],
     begin: Alignment.centerLeft,
-    end: Alignment.centerRight
+    end: Alignment.centerRight,
   );
 
   static const LinearGradient glowGradient = LinearGradient(
@@ -39,4 +41,3 @@ class AppColors {
     end: Alignment.centerRight,
   );
 }
-

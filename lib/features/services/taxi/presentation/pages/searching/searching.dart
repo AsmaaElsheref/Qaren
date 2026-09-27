@@ -1,26 +1,62 @@
 import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:qaren/core/constants/app_images.dart';
-import 'package:qaren/core/theme/app_colors.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:qaren/core/ui/widgets/AppButton.dart';
 import 'package:qaren/core/ui/widgets/AppText.dart';
 import 'package:qaren/core/utils/extensions/contextSizeX.dart';
-import 'package:qaren/features/profile/presentation/providers/profileSettings/profile_settings_provider.dart';
 import '../../../../../../core/ui/widgets/custom_app_bar.dart';
 import '../../../../../../core/ui/widgets/logo_loading.dart';
 import '../../../domain/entities/car_rental_search_params.dart';
+import '../../providers/comparePricesProvider/compare_prices_state.dart';
 import '../../providers/comparePricesProvider/compare_prices_provider.dart';
 import '../../providers/taxi_notifier.dart';
-import 'search_loading_dialog.dart';
+import '../comparePrices/compare_prices.dart';
 
-class Searching extends ConsumerWidget {
+class Searching extends ConsumerStatefulWidget {
   const Searching({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final isDarkMode = ref.watch(profileIsDarkModeProvider);
+  ConsumerState<Searching> createState() => _SearchingState();
+}
+
+class _SearchingState extends ConsumerState<Searching> {
+  bool _searchStarted = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _startSearch());
+  }
+
+  void _startSearch() {
+    if (!mounted) return;
+
+    final taxiState = ref.read(taxiProvider);
+    final pickup = taxiState.pickupLatLng;
+    final destination = taxiState.destinationLatLng;
+    if (pickup == null || destination == null) return;
+
+    setState(() => _searchStarted = true);
+    ref
+        .read(comparePricesProvider.notifier)
+        .search(
+          CarRentalSearchParams(
+            pickupLat: pickup.latitude,
+            pickupLng: pickup.longitude,
+            dropoffLat: destination.latitude,
+            dropoffLng: destination.longitude,
+          ),
+        );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final status = ref.watch(comparePricesStatusProvider);
+    final canShowResults =
+        _searchStarted &&
+        (status == ComparePricesStatus.success ||
+            status == ComparePricesStatus.empty);
     final colors = context.appColors;
     return Scaffold(
       appBar: PreferredSize(
@@ -66,22 +102,14 @@ class Searching extends ConsumerWidget {
             Spacer(),
             AppButton(
               label: 'taxi.search.showResults'.tr(),
-              onTap: () async {
-                // Build search params from taxi state
-                final taxiState = ref.read(taxiProvider);
-                final params = CarRentalSearchParams(
-                  pickupLat: taxiState.pickupLatLng!.latitude,
-                  pickupLng: taxiState.pickupLatLng!.longitude,
-                  dropoffLat: taxiState.destinationLatLng!.latitude,
-                  dropoffLng: taxiState.destinationLatLng!.longitude,
-                );
-
-                // Trigger search API call
-                ref.read(comparePricesProvider.notifier).search(params);
-
-                // Show loading dialog (waits for API completion)
-                await SearchLoadingDialog.show(context);
-              },
+              onTap: canShowResults
+                  ? () => Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const ComparePricesPage(),
+                      ),
+                    )
+                  : null,
             ),
             SizedBox(height: context.screenHeight * 0.1),
           ],

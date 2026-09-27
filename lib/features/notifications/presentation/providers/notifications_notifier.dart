@@ -22,19 +22,28 @@ class NotificationsNotifier extends StateNotifier<NotificationsState> {
 
   Future<void> loadInitial() async {
     state = state.copyWith(isInitialLoading: true, clearError: true);
-    await Future.wait([fetchNotifications(page: 1, append: false), fetchUnreadCount()]);
+    await Future.wait([
+      fetchNotifications(page: 1, append: false),
+      fetchUnreadCount(),
+    ]);
     if (!mounted) return;
     state = state.copyWith(isInitialLoading: false);
   }
 
   Future<void> refresh() async {
     state = state.copyWith(isRefreshing: true, clearError: true);
-    await Future.wait([fetchNotifications(page: 1, append: false), fetchUnreadCount()]);
+    await Future.wait([
+      fetchNotifications(page: 1, append: false),
+      fetchUnreadCount(),
+    ]);
     if (!mounted) return;
     state = state.copyWith(isRefreshing: false);
   }
 
-  Future<void> fetchNotifications({required int page, required bool append}) async {
+  Future<void> fetchNotifications({
+    required int page,
+    required bool append,
+  }) async {
     final result = await getNotificationsUseCase(page: page);
     if (!mounted) return;
     result.fold(
@@ -72,22 +81,37 @@ class NotificationsNotifier extends StateNotifier<NotificationsState> {
   }
 
   Future<void> markNotificationRead(String notificationId) async {
-    final target = state.notifications.where((item) => item.id == notificationId).firstOrNull;
-    if (target == null || !target.isUnread || state.markingReadIds.contains(notificationId)) return;
+    final target = state.notifications
+        .where((item) => item.id == notificationId)
+        .firstOrNull;
+    if (target == null ||
+        !target.isUnread ||
+        state.markingReadIds.contains(notificationId))
+      return;
 
-    state = state.copyWith(markingReadIds: {...state.markingReadIds, notificationId});
-    final result = await markNotificationReadUseCase(notificationId: notificationId);
+    state = state.copyWith(
+      markingReadIds: {...state.markingReadIds, notificationId},
+    );
+    final result = await markNotificationReadUseCase(
+      notificationId: notificationId,
+    );
     if (!mounted) return;
 
     result.fold(
       (failure) {
         final nextIds = {...state.markingReadIds}..remove(notificationId);
-        state = state.copyWith(markingReadIds: nextIds, errorMessage: failure.message);
+        state = state.copyWith(
+          markingReadIds: nextIds,
+          errorMessage: failure.message,
+        );
       },
       (_) {
         final readAt = DateTime.now().toIso8601String();
         final updated = state.notifications
-            .map((item) => item.id == notificationId ? item.copyAsRead(readAt) : item)
+            .map(
+              (item) =>
+                  item.id == notificationId ? item.copyAsRead(readAt) : item,
+            )
             .toList(growable: false);
         final nextIds = {...state.markingReadIds}..remove(notificationId);
         state = state.copyWith(
@@ -109,7 +133,10 @@ class NotificationsNotifier extends StateNotifier<NotificationsState> {
 
     return result.fold(
       (failure) {
-        state = state.copyWith(isMarkingAllRead: false, errorMessage: failure.message);
+        state = state.copyWith(
+          isMarkingAllRead: false,
+          errorMessage: failure.message,
+        );
         return false;
       },
       (_) {
@@ -129,4 +156,3 @@ class NotificationsNotifier extends StateNotifier<NotificationsState> {
     );
   }
 }
-

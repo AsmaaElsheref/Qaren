@@ -6,29 +6,34 @@ class CarRentalSearchParams extends Equatable {
   final double pickupLng;
   final double dropoffLat;
   final double dropoffLng;
+  final String carType;
+  final bool useFakeData;
 
   const CarRentalSearchParams({
     required this.pickupLat,
     required this.pickupLng,
     required this.dropoffLat,
     required this.dropoffLng,
+    this.carType = 'luxury',
+    this.useFakeData = true,
   });
 
-  Map<String, dynamic> toQueryParameters() {
+  Map<String, dynamic> toJson() {
     return {
-      'pickup_lat': pickupLat,
-      'pickup_lng': pickupLng,
-      'dropoff_lat': dropoffLat,
-      'dropoff_lng': dropoffLng,
+      'pickup': {'lat': pickupLat, 'lng': pickupLng},
+      'destination': {'lat': dropoffLat, 'lng': dropoffLng},
+      'filters': {'carType': carType},
+      'useFakeData': useFakeData,
     };
   }
 
   @override
   List<Object?> get props => [
-        pickupLat,
-        pickupLng,
-        dropoffLat,
-        dropoffLng,
-      ];
+    pickupLat,
+    pickupLng,
+    dropoffLat,
+    dropoffLng,
+    carType,
+    useFakeData,
+  ];
 }
-

@@ -7,11 +7,12 @@ class MarkNotificationReadResponseModel {
     required this.message,
   });
 
-  factory MarkNotificationReadResponseModel.fromJson(Map<String, dynamic> json) {
+  factory MarkNotificationReadResponseModel.fromJson(
+    Map<String, dynamic> json,
+  ) {
     return MarkNotificationReadResponseModel(
       success: json['success'] as bool? ?? false,
       message: json['message'] as String? ?? '',
     );
   }
 }
-

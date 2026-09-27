@@ -80,6 +80,3 @@ class CartItemModifier extends Equatable {
   @override
   List<Object?> get props => [name, value, price];
 }
-
-
-

@@ -1,10 +1,12 @@
 import 'package:qaren/core/localization/easy_localization.dart';
+import 'package:qaren/core/localization/localized_formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
 import 'package:qaren/core/theme/app_colors.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:qaren/core/ui/widgets/AppText.dart';
 import 'package:qaren/core/ui/widgets/AppTextStyles.dart';
+import 'package:qaren/core/ui/widgets/saudi_riyal_amount.dart';
 
 import '../../domain/entities/wallet_transaction_entity.dart';
 import 'wallet_transaction_icon.dart';
@@ -12,13 +14,8 @@ import 'wallet_transaction_status_badge.dart';
 
 class WalletTransactionCard extends StatelessWidget {
   final WalletTransactionEntity transaction;
-  final String currency;
 
-  const WalletTransactionCard({
-    super.key,
-    required this.transaction,
-    required this.currency,
-  });
+  const WalletTransactionCard({super.key, required this.transaction});
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +24,10 @@ class WalletTransactionCard extends StatelessWidget {
     final amountColor = transaction.type.isPositive
         ? AppColors.success
         : AppColors.error;
+    final createdAtLabel = LocalizedFormatters.dateTime(
+      context,
+      transaction.createdAt,
+    );
 
     return Container(
       padding: const EdgeInsets.all(AppDimensions.paddingM),
@@ -48,20 +49,24 @@ class WalletTransactionCard extends StatelessWidget {
                   children: [
                     Expanded(
                       child: AppText(
-                        transaction.type.label,
+                        transaction.type.localizationKey.tr(),
                         style: AppTextStyles.body.copyWith(
                           fontWeight: FontWeight.w700,
                           color: colors.textPrimary,
                         ),
                       ),
                     ),
-                    AppText(
-                      '$sign${transaction.amount.toStringAsFixed(2)} $currency',
+                    SaudiRiyalAmount(
+                      amount: LocalizedFormatters.number(
+                        context,
+                        transaction.amount,
+                        decimals: 2,
+                      ),
+                      sign: sign,
                       style: AppTextStyles.body.copyWith(
                         color: amountColor,
                         fontWeight: FontWeight.w700,
                       ),
-                      textDirection: TextDirection.ltr,
                     ),
                   ],
                 ),
@@ -86,12 +91,9 @@ class WalletTransactionCard extends StatelessWidget {
                     style: AppTextStyles.caption,
                   ),
                 ],
-                if (transaction.createdAtLabel.isNotEmpty) ...[
+                if (createdAtLabel.isNotEmpty) ...[
                   const SizedBox(height: AppDimensions.paddingXS),
-                  AppText(
-                    transaction.createdAtLabel,
-                    style: AppTextStyles.caption,
-                  ),
+                  AppText(createdAtLabel, style: AppTextStyles.caption),
                 ],
               ],
             ),

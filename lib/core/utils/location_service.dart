@@ -18,14 +18,12 @@ class LocationService {
   LocationService._();
 
   /// Requests permission if needed, then returns the current [LatLng].
-  /// Returns a [LocationResult.failure] with an Arabic message on any error.
+  /// Returns a [LocationResult.failure] with a localization key on error.
   static Future<LocationResult> getCurrentLocation() async {
     // 1. Check if location services are enabled on the device.
     final serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      return const LocationResult.failure(
-        'خدمة الموقع معطّلة، يرجى تفعيلها من الإعدادات',
-      );
+      return const LocationResult.failure('errors.locationDisabled');
     }
 
     // 2. Check / request permission.
@@ -33,15 +31,11 @@ class LocationService {
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        return const LocationResult.failure(
-          'تم رفض إذن الموقع',
-        );
+        return const LocationResult.failure('errors.locationDenied');
       }
     }
     if (permission == LocationPermission.deniedForever) {
-      return const LocationResult.failure(
-        'إذن الموقع محظور دائمًا، يرجى تفعيله من إعدادات التطبيق',
-      );
+      return const LocationResult.failure('errors.locationPermanentlyDenied');
     }
 
     // 3. Fetch position.
@@ -54,8 +48,7 @@ class LocationService {
       );
       return LocationResult.success(LatLng(pos.latitude, pos.longitude));
     } catch (_) {
-      return const LocationResult.failure('تعذّر تحديد موقعك الحالي');
+      return const LocationResult.failure('errors.locationFailed');
     }
   }
 }
-

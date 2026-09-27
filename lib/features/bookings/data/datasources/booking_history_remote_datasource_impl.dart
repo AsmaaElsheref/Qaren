@@ -1,4 +1,5 @@
 import 'package:qaren/core/network/dioHelper/dio_helper.dart';
+import 'package:qaren/core/network/apiRoutes/api_routes.dart';
 
 import '../../domain/entities/booking_service_type.dart';
 import '../../domain/entities/booking_status_filter.dart';
@@ -6,10 +7,11 @@ import '../models/booking_details_model.dart';
 import '../models/booking_history_response_model.dart';
 import 'booking_history_remote_datasource.dart';
 
-class BookingHistoryRemoteDataSourceImpl implements BookingHistoryRemoteDataSource {
+class BookingHistoryRemoteDataSourceImpl
+    implements BookingHistoryRemoteDataSource {
   const BookingHistoryRemoteDataSourceImpl();
 
-  static const String endpoint = '/api/booking-history';
+  static const String endpoint = ApiRoutes.bookingHistory;
 
   @override
   Future<BookingHistoryResponseModel> getBookingHistory({
@@ -38,4 +40,3 @@ class BookingHistoryRemoteDataSourceImpl implements BookingHistoryRemoteDataSour
     );
   }
 }
-

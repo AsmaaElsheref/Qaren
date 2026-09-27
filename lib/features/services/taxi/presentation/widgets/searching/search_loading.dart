@@ -30,7 +30,7 @@ class SearchLoading extends StatelessWidget {
           child: SizedBox(
             width: 86,
             height: 86,
-            child: Icon(Icons.search,color: AppColors.primary,size: 40,),
+            child: Icon(Icons.search, color: AppColors.primary, size: 40),
           ),
         ),
         SizedBox(

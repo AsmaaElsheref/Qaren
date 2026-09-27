@@ -21,78 +21,70 @@ class WalletDepositSheet extends ConsumerWidget {
       walletDepositProvider.select((state) => state.errorMessage),
     );
 
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Container(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
+    return Container(
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+      ),
+      decoration: BoxDecoration(
+        color: colors.bottomSheetBackground,
+        borderRadius: const BorderRadius.vertical(
+          top: Radius.circular(AppDimensions.radiusXL),
         ),
-        decoration: BoxDecoration(
-          color: colors.bottomSheetBackground,
-          borderRadius: const BorderRadius.vertical(
-            top: Radius.circular(AppDimensions.radiusXL),
-          ),
+      ),
+      child: SingleChildScrollView(
+        padding: EdgeInsets.fromLTRB(
+          AppDimensions.paddingM,
+          AppDimensions.paddingM,
+          AppDimensions.paddingM,
+          AppDimensions.paddingM + MediaQuery.of(context).padding.bottom,
         ),
-        child: SingleChildScrollView(
-          padding: EdgeInsets.fromLTRB(
-            AppDimensions.paddingM,
-            AppDimensions.paddingM,
-            AppDimensions.paddingM,
-            AppDimensions.paddingM + MediaQuery.of(context).padding.bottom,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Container(
-                  width: 40,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: colors.border,
-                    borderRadius: BorderRadius.circular(
-                      AppDimensions.radiusFull,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: colors.border,
+                  borderRadius: BorderRadius.circular(AppDimensions.radiusFull),
+                ),
+              ),
+            ),
+            const SizedBox(height: AppDimensions.paddingM),
+            Row(
+              children: [
+                Expanded(
+                  child: AppText(
+                    'wallet.deposit.title'.tr(),
+                    style: AppTextStyles.title.copyWith(
+                      color: colors.textPrimary,
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: AppDimensions.paddingM),
-              Row(
-                children: [
-                  Expanded(
-                    child: AppText(
-                      'wallet.deposit.title'.tr(),
-                      style: AppTextStyles.title.copyWith(
-                        color: colors.textPrimary,
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () => Navigator.pop(context),
-                    icon: Icon(
-                      Icons.close_rounded,
-                      color: colors.textSecondary,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: AppDimensions.paddingM),
-              const WalletAmountInput(),
-              const SizedBox(height: AppDimensions.paddingM),
-              const WalletQuickAmountChips(),
-              if (errorMessage != null) ...[
-                const SizedBox(height: AppDimensions.paddingS),
-                AppText(
-                  errorMessage,
-                  style: AppTextStyles.caption.copyWith(
-                    color: Theme.of(context).colorScheme.error,
-                  ),
+                IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: Icon(Icons.close_rounded, color: colors.textSecondary),
                 ),
               ],
-              const SizedBox(height: AppDimensions.paddingM),
-              const WalletDepositButton(),
+            ),
+            const SizedBox(height: AppDimensions.paddingM),
+            const WalletAmountInput(),
+            const SizedBox(height: AppDimensions.paddingM),
+            const WalletQuickAmountChips(),
+            if (errorMessage != null) ...[
+              const SizedBox(height: AppDimensions.paddingS),
+              AppText(
+                errorMessage,
+                style: AppTextStyles.caption.copyWith(
+                  color: Theme.of(context).colorScheme.error,
+                ),
+              ),
             ],
-          ),
+            const SizedBox(height: AppDimensions.paddingM),
+            const WalletDepositButton(),
+          ],
         ),
       ),
     );

@@ -44,4 +44,3 @@ class FoodInvoiceDetail extends Equatable {
   @override
   List<Object?> get props => [partnerId];
 }
-

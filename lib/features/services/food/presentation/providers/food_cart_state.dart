@@ -33,12 +33,9 @@ class FoodCartState extends Equatable {
   double get total => subtotal + tax;
 
   FoodCartState copyWith({Map<String, CartItem>? items}) {
-    return FoodCartState(
-      items: items ?? this.items,
-    );
+    return FoodCartState(items: items ?? this.items);
   }
 
   @override
   List<Object?> get props => [items];
 }
-

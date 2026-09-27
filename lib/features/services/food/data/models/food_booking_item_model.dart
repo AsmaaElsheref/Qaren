@@ -23,19 +23,15 @@ class FoodBookingItemModel {
   final String specialInstructions;
 
   Map<String, dynamic> toJson() => {
-        'food_product_warehouse_id': foodProductWarehouseId,
-        'quantity': quantity,
-        if (comparePrice != null) 'compare_price': comparePrice,
-        'unit_price': unitPrice,
-        'modifiers': modifiers
-            .map((m) => {
-                  'name': m.name,
-                  'value': m.value,
-                  'price': m.price,
-                })
-            .toList(),
-        'special_instructions': specialInstructions,
-      };
+    'food_product_warehouse_id': foodProductWarehouseId,
+    'quantity': quantity,
+    if (comparePrice != null) 'compare_price': comparePrice,
+    'unit_price': unitPrice,
+    'modifiers': modifiers
+        .map((m) => {'name': m.name, 'value': m.value, 'price': m.price})
+        .toList(),
+    'special_instructions': specialInstructions,
+  };
 
   /// Builds a booking item from a single cart item.
   /// Returns null if the cart item has no selected warehouse — the caller
@@ -53,4 +49,3 @@ class FoodBookingItemModel {
     );
   }
 }
-

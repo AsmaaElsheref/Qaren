@@ -31,4 +31,3 @@ class WalletDepositState extends Equatable {
   @override
   List<Object?> get props => [amount, isLoading, errorMessage];
 }
-

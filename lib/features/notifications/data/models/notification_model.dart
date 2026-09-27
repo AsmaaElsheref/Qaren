@@ -43,4 +43,3 @@ class NotificationModel extends NotificationEntity {
     return DateFormat('yyyy/MM/dd - hh:mm a').format(parsed.toLocal());
   }
 }
-

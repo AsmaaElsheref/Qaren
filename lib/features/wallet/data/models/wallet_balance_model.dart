@@ -15,7 +15,7 @@ class WalletBalanceModel extends WalletBalanceEntity {
     return WalletBalanceModel(
       id: parseInt(json['id']) ?? 0,
       balance: parseDouble(json['balance']) ?? 0,
-      currency: json['currency'] as String? ?? 'EGP',
+      currency: json['currency'] as String? ?? 'SAR',
       updatedAt: json['updated_at'] as String? ?? '',
       updatedAtLabel: formatDate(json['updated_at'] as String?),
     );
@@ -40,4 +40,3 @@ class WalletBalanceModel extends WalletBalanceEntity {
     return DateFormat('yyyy/MM/dd - hh:mm a').format(parsed.toLocal());
   }
 }
-

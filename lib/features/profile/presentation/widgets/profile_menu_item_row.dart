@@ -34,7 +34,11 @@ class ProfileMenuItemRow extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             child: Row(
               children: [
-                Icon(Icons.chevron_left_rounded, size: 20, color: colors.textMuted),
+                Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  size: 18,
+                  color: colors.textMuted,
+                ),
                 const Spacer(),
                 AppText(
                   label,

@@ -45,8 +45,7 @@ class EditProfileInputField extends StatelessWidget {
           onChanged: onChanged,
           keyboardType: keyboardType,
           obscureText: obscureText,
-          textDirection: TextDirection.rtl,
-          textAlign: TextAlign.right,
+          textAlign: TextAlign.start,
           style: TextStyle(
             fontSize: AppDimensions.fontM,
             color: colors.textPrimary,
@@ -64,4 +63,3 @@ class EditProfileInputField extends StatelessWidget {
     );
   }
 }
-

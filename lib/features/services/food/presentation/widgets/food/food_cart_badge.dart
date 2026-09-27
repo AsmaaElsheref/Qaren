@@ -21,12 +21,15 @@ class FoodCartBadge extends ConsumerWidget {
       clipBehavior: Clip.none,
       children: [
         IconContainer(
-          icon:  Icon(
+          icon: Icon(
             Icons.shopping_bag_outlined,
             size: 26,
             color: colors.textPrimary,
           ),
-          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => FoodCartPage()),),
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => FoodCartPage()),
+          ),
         ),
         if (totalCount > 0)
           Positioned(
@@ -54,4 +57,3 @@ class FoodCartBadge extends ConsumerWidget {
     );
   }
 }
-

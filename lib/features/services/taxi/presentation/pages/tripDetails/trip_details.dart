@@ -7,11 +7,13 @@ import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:qaren/core/theme/app_colors.dart';
 import 'package:qaren/core/ui/widgets/AppButton.dart';
 import 'package:qaren/core/ui/widgets/custom_app_bar.dart';
+import 'package:qaren/features/auth/presentation/providers/user_profile_provider.dart';
 import '../../../domain/entities/book_car_rental_params.dart';
 import '../../providers/bookingProvider/booking_provider.dart';
 import '../../providers/bookingProvider/booking_state.dart';
 import '../../providers/offerDetailsProvider/offer_details_provider.dart';
 import '../../providers/offerDetailsProvider/offer_details_state.dart';
+import '../../providers/taxi_notifier.dart';
 import '../../providers/taxi_reset_controller.dart';
 import '../../widgets/tripDetails/trip_container.dart';
 import '../bookingSuccess/booking_success_page.dart';
@@ -20,11 +22,11 @@ class TripDetails extends ConsumerStatefulWidget {
   const TripDetails({
     super.key,
     required this.serviceName,
-    required this.offerId,
+    required this.carId,
   });
 
   final String serviceName;
-  final String offerId;
+  final String carId;
 
   @override
   ConsumerState<TripDetails> createState() => _TripDetailsState();
@@ -35,7 +37,7 @@ class _TripDetailsState extends ConsumerState<TripDetails> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(offerDetailsProvider.notifier).fetch(widget.offerId);
+      ref.read(offerDetailsProvider.notifier).fetch(widget.carId);
       ref.read(bookingProvider.notifier).reset();
     });
   }
@@ -116,9 +118,8 @@ class _TripDetailsState extends ConsumerState<TripDetails> {
               AppButton(
                 label: 'common.retry'.tr(),
                 icon: Icons.refresh,
-                onTap: () => ref
-                    .read(offerDetailsProvider.notifier)
-                    .fetch(widget.offerId),
+                onTap: () =>
+                    ref.read(offerDetailsProvider.notifier).fetch(widget.carId),
               ),
             ],
           ),
@@ -126,14 +127,10 @@ class _TripDetailsState extends ConsumerState<TripDetails> {
 
       case OfferDetailsStatus.success:
         final bookingStatus = ref.watch(bookingStatusProvider);
-        final details = ref.watch(offerDetailsProvider).details;
+        final taxiState = ref.watch(taxiProvider);
         final isBooking = bookingStatus == BookingStatus.loading;
-
-        // Read cached user data — set once at login/signup.
-        final cachedName =
-            CacheHelper.getData(key: AppConstants.userName) as String? ?? '';
-        final cachedPhone =
-            CacheHelper.getData(key: AppConstants.userPhone) as String? ?? '';
+        final pickup = taxiState.pickupLatLng;
+        final dropoff = taxiState.destinationLatLng;
 
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -144,7 +141,6 @@ class _TripDetailsState extends ConsumerState<TripDetails> {
                 TripContainer(serviceName: widget.serviceName),
                 const SizedBox(height: AppDimensions.paddingL),
                 AppButton(
-                  color: AppColors.black,
                   radius: 15,
                   removeShadow: true,
                   icon: Icons.file_download_outlined,
@@ -152,15 +148,39 @@ class _TripDetailsState extends ConsumerState<TripDetails> {
                   isLoading: isBooking,
                   onTap: isBooking
                       ? null
-                      : () {
+                      : () async {
+                          if (pickup == null || dropoff == null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'taxi.errors.selectPickupDestination'.tr(),
+                                ),
+                              ),
+                            );
+                            return;
+                          }
+
+                          final cachedUserId = CacheHelper.getData(
+                            key: AppConstants.userId,
+                          );
+                          final userId = cachedUserId is int
+                              ? cachedUserId
+                              : int.tryParse(cachedUserId?.toString() ?? '') ??
+                                    (await ref.read(
+                                      userProfileProvider.future,
+                                    )).id;
+
+                          if (!mounted) return;
                           ref
                               .read(bookingProvider.notifier)
                               .book(
                                 BookCarRentalParams(
-                                  offerId: widget.offerId,
-                                  name: cachedName,
-                                  phone: cachedPhone,
-                                  providerSlug: details?.provider.slug ?? '',
+                                  userId: userId.toString(),
+                                  pickupLat: pickup.latitude,
+                                  pickupLng: pickup.longitude,
+                                  dropoffLat: dropoff.latitude,
+                                  dropoffLng: dropoff.longitude,
+                                  carId: widget.carId,
                                 ),
                               );
                         },

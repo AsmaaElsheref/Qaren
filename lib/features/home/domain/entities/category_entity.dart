@@ -17,11 +17,10 @@ class CategoryEntity extends Equatable {
   });
 
   /// Convenience getters — derived from translation, no duplication.
-  String get name        => translation.name;
+  String get name => translation.name;
   String get description => translation.description;
-  String get slug        => translation.slug;
+  String get slug => translation.slug;
 
   @override
   List<Object> get props => [id, type, icon, status, translation];
 }
-

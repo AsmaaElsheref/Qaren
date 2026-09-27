@@ -17,4 +17,3 @@ class FoodCategory extends Equatable {
   @override
   List<Object?> get props => [id];
 }
-

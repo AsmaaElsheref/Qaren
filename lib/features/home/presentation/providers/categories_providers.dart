@@ -22,22 +22,22 @@ final getCategoriesUseCaseProvider = Provider<GetCategoriesUseCase>(
 // ── Notifier ───────────────────────────────────────────────────────────────────
 final categoriesNotifierProvider =
     StateNotifierProvider<CategoriesNotifier, CategoriesState>(
-  (ref) => CategoriesNotifier(
-    getCategoriesUseCase: ref.watch(getCategoriesUseCaseProvider),
-  )..fetchCategories(),
-);
+      (ref) => CategoriesNotifier(
+        getCategoriesUseCase: ref.watch(getCategoriesUseCaseProvider),
+      )..fetchCategories(),
+    );
 
 class CategoriesNotifier extends StateNotifier<CategoriesState> {
   final GetCategoriesUseCase _getCategoriesUseCase;
 
   CategoriesNotifier({required GetCategoriesUseCase getCategoriesUseCase})
-      : _getCategoriesUseCase = getCategoriesUseCase,
-        super(const CategoriesState());
+    : _getCategoriesUseCase = getCategoriesUseCase,
+      super(const CategoriesState());
 
-  Future<void> fetchCategories({String lang = 'ar'}) async {
+  Future<void> fetchCategories() async {
     state = state.copyWith(status: CategoriesStatus.loading);
 
-    final result = await _getCategoriesUseCase(lang: lang);
+    final result = await _getCategoriesUseCase();
 
     result.fold(
       (failure) => state = state.copyWith(

@@ -64,8 +64,7 @@ class EditProfileState extends Equatable {
       phone: phone ?? this.phone,
       gender: gender ?? this.gender,
       password: password ?? this.password,
-      passwordConfirmation:
-          passwordConfirmation ?? this.passwordConfirmation,
+      passwordConfirmation: passwordConfirmation ?? this.passwordConfirmation,
       imagePath: clearImage ? null : (imagePath ?? this.imagePath),
       currentImageUrl: currentImageUrl ?? this.currentImageUrl,
       status: status ?? this.status,
@@ -76,17 +75,16 @@ class EditProfileState extends Equatable {
 
   @override
   List<Object?> get props => [
-        name,
-        email,
-        phone,
-        gender,
-        password,
-        passwordConfirmation,
-        imagePath,
-        currentImageUrl,
-        status,
-        errorMessage,
-        updatedUser,
-      ];
+    name,
+    email,
+    phone,
+    gender,
+    password,
+    passwordConfirmation,
+    imagePath,
+    currentImageUrl,
+    status,
+    errorMessage,
+    updatedUser,
+  ];
 }
-

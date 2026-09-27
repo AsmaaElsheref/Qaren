@@ -7,4 +7,3 @@ class WalletDepositRequestModel {
     return <String, dynamic>{'amount': amount};
   }
 }
-

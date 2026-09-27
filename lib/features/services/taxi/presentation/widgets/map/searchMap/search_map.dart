@@ -5,10 +5,14 @@ import 'search_icon.dart';
 import 'search_map_bar.dart';
 
 class SearchMap extends StatelessWidget {
-  const SearchMap({super.key, required this.searchController, required this.searchAddress});
+  const SearchMap({
+    super.key,
+    required this.searchController,
+    required this.searchAddress,
+  });
 
-  final TextEditingController searchController ;
-  final Function(String) searchAddress ;
+  final TextEditingController searchController;
+  final Function(String) searchAddress;
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +28,13 @@ class SearchMap extends StatelessWidget {
           ),
           child: Row(
             children: [
-              SearchMapBar(searchController: searchController,searchAddress: searchAddress,googleApiKey: AppConfig.googleMapsApiKey,),
+              SearchMapBar(
+                searchController: searchController,
+                searchAddress: searchAddress,
+                googleApiKey: AppConfig.googleMapsApiKey,
+              ),
               const SizedBox(width: AppDimensions.paddingS),
-              SearchIcon(searchAddress: searchAddress,),
+              SearchIcon(searchAddress: searchAddress),
             ],
           ),
         ),

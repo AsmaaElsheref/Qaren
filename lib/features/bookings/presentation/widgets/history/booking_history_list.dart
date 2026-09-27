@@ -42,7 +42,8 @@ class BookingHistoryList extends ConsumerWidget {
       onRefresh: () => ref.read(bookingHistoryProvider.notifier).refresh(),
       child: NotificationListener<ScrollNotification>(
         onNotification: (notification) {
-          if (notification.metrics.pixels >= notification.metrics.maxScrollExtent - 220) {
+          if (notification.metrics.pixels >=
+              notification.metrics.maxScrollExtent - 220) {
             ref.read(bookingHistoryProvider.notifier).loadMore();
           }
           return false;
@@ -64,16 +65,17 @@ class BookingHistoryList extends ConsumerWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => BookingDetailsPage(bookingId: booking.id),
+                  builder: (context) =>
+                      BookingDetailsPage(bookingId: booking.id),
                 ),
               ),
             );
           },
-          separatorBuilder: (context, index) => const SizedBox(height: AppDimensions.paddingM),
+          separatorBuilder: (context, index) =>
+              const SizedBox(height: AppDimensions.paddingM),
           itemCount: bookings.length + (isLoadingMore ? 1 : 0),
         ),
       ),
     );
   }
 }
-

@@ -33,33 +33,107 @@ class LocationPickerSheet extends ConsumerWidget {
     final currentLocation = ref.watch(currentLocationProvider).valueOrNull;
     final colors = context.appColors;
     final canUseMap = AppConfig.hasGoogleMapsApiKey;
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Container(
-        decoration: BoxDecoration(
-          color: colors.surface,
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(AppDimensions.radiusXL),
-          ),
+    return Container(
+      decoration: BoxDecoration(
+        color: colors.surface,
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(AppDimensions.radiusXL),
         ),
-        child: SafeArea(
-          top: false,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // ── Handle ───────────────────────────────────────────────────
-              Container(
-                width: 40,
-                height: 4,
-                margin: const EdgeInsets.only(
-                  top: AppDimensions.paddingM,
-                  bottom: AppDimensions.paddingS,
-                ),
-                decoration: BoxDecoration(
-                  color: AppColors.border,
-                  borderRadius: BorderRadius.circular(AppDimensions.radiusFull),
-                ),
+      ),
+      child: SafeArea(
+        top: false,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // ── Handle ───────────────────────────────────────────────────
+            Container(
+              width: 40,
+              height: 4,
+              margin: const EdgeInsets.only(
+                top: AppDimensions.paddingM,
+                bottom: AppDimensions.paddingS,
               ),
+              decoration: BoxDecoration(
+                color: AppColors.border,
+                borderRadius: BorderRadius.circular(AppDimensions.radiusFull),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppDimensions.paddingM,
+                vertical: AppDimensions.paddingS,
+              ),
+              child: Row(
+                children: [
+                  AppText(
+                    title,
+                    style: const TextStyle(
+                      fontSize: AppDimensions.fontL,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Divider(height: 1, color: AppColors.border),
+
+            // ── Use current location ──────────────────────────────────────
+            _PickerOption(
+              icon: Icons.my_location_rounded,
+              iconColor: AppColors.primary,
+              iconBgColor: AppColors.primaryLight,
+              label: 'taxi.location.useCurrent'.tr(),
+              labelColor: colors.textPrimary,
+              isLoading: isLocationLoading,
+              onTap: isLocationLoading
+                  ? null
+                  : () async {
+                      final error = await ref
+                          .read(taxiProvider.notifier)
+                          .useCurrentLocation(
+                            field,
+                            currentLocation?.currentLocation,
+                            currentLocation?.locationName,
+                          );
+                      if (!context.mounted) return;
+                      if (error != null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(error),
+                            backgroundColor: Colors.redAccent,
+                          ),
+                        );
+                      } else {
+                        Navigator.of(context).pop();
+                      }
+                    },
+            ),
+            const Divider(height: 1, indent: 64, color: AppColors.border),
+
+            // ── Pick on map ───────────────────────────────────────────────
+            _PickerOption(
+              icon: Icons.map_outlined,
+              iconColor: AppColors.textSecondary,
+              iconBgColor: AppColors.surfaceVariant,
+              label: canUseMap
+                  ? 'taxi.location.pickOnMap'.tr()
+                  : 'taxi.location.mapDisabledOption'.tr(),
+              labelColor: canUseMap ? null : AppColors.textSecondary,
+              onTap: canUseMap
+                  ? () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => MapPickerPage(field: field),
+                        ),
+                      );
+                    }
+                  : null,
+            ),
+
+            // ── Recent / other suggestion ─────────────────────────────────
+            if (otherLabel.isNotEmpty && otherLatLng != null) ...[
+              const Divider(height: 1, color: AppColors.border),
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: AppDimensions.paddingM,
@@ -68,110 +142,33 @@ class LocationPickerSheet extends ConsumerWidget {
                 child: Row(
                   children: [
                     AppText(
-                      title,
-                      style: const TextStyle(
-                        fontSize: AppDimensions.fontL,
-                        fontWeight: FontWeight.w700,
-                      ),
+                      'taxi.location.recentPlaces'.tr(),
+                      secondary: true,
+                      style: const TextStyle(fontSize: AppDimensions.fontXS),
                     ),
                   ],
                 ),
               ),
-              const Divider(height: 1, color: AppColors.border),
-
-              // ── Use current location ──────────────────────────────────────
               _PickerOption(
-                icon: Icons.my_location_rounded,
-                iconColor: AppColors.primary,
-                iconBgColor: AppColors.primaryLight,
-                label: 'taxi.location.useCurrent'.tr(),
-                labelColor: AppColors.primary,
-                isLoading: isLocationLoading,
-                onTap: isLocationLoading
-                    ? null
-                    : () async {
-                        final error = await ref
-                            .read(taxiProvider.notifier)
-                            .useCurrentLocation(
-                              field,
-                              currentLocation?.currentLocation,
-                              currentLocation?.locationName,
-                            );
-                        if (!context.mounted) return;
-                        if (error != null) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(error),
-                              backgroundColor: Colors.redAccent,
-                            ),
-                          );
-                        } else {
-                          Navigator.of(context).pop();
-                        }
-                      },
+                icon: Icons.location_on_rounded,
+                iconColor: const Color(0xFFE85D5D),
+                iconBgColor: const Color(0xFFFFF0F0),
+                label: otherLabel,
+                onTap: () {
+                  ref
+                      .read(taxiProvider.notifier)
+                      .confirmLocation(
+                        field: field,
+                        latLng: otherLatLng,
+                        label: otherLabel,
+                      );
+                  Navigator.of(context).pop();
+                },
               ),
-              const Divider(height: 1, indent: 64, color: AppColors.border),
-
-              // ── Pick on map ───────────────────────────────────────────────
-              _PickerOption(
-                icon: Icons.map_outlined,
-                iconColor: AppColors.textSecondary,
-                iconBgColor: AppColors.surfaceVariant,
-                label: canUseMap
-                    ? 'taxi.location.pickOnMap'.tr()
-                    : 'taxi.location.mapDisabledOption'.tr(),
-                labelColor: canUseMap ? null : AppColors.textSecondary,
-                onTap: canUseMap
-                    ? () {
-                        Navigator.of(context).pop();
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => MapPickerPage(field: field),
-                          ),
-                        );
-                      }
-                    : null,
-              ),
-
-              // ── Recent / other suggestion ─────────────────────────────────
-              if (otherLabel.isNotEmpty && otherLatLng != null) ...[
-                const Divider(height: 1, color: AppColors.border),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppDimensions.paddingM,
-                    vertical: AppDimensions.paddingS,
-                  ),
-                  child: Row(
-                    children: [
-                      AppText(
-                        'taxi.location.recentPlaces'.tr(),
-                        secondary: true,
-                        style: const TextStyle(fontSize: AppDimensions.fontXS),
-                      ),
-                    ],
-                  ),
-                ),
-                _PickerOption(
-                  icon: Icons.location_on_rounded,
-                  iconColor: const Color(0xFFE85D5D),
-                  iconBgColor: const Color(0xFFFFF0F0),
-                  label: otherLabel,
-                  onTap: () {
-                    ref
-                        .read(taxiProvider.notifier)
-                        .confirmLocation(
-                          field: field,
-                          latLng: otherLatLng,
-                          label: otherLabel,
-                        );
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-
-              const SizedBox(height: AppDimensions.paddingM),
             ],
-          ),
+
+            const SizedBox(height: AppDimensions.paddingM),
+          ],
         ),
       ),
     );
@@ -217,7 +214,7 @@ class _PickerOption extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                   color: labelColor,
                 ),
-                textAlign: TextAlign.right,
+                textAlign: TextAlign.start,
               ),
             ),
             const SizedBox(width: AppDimensions.paddingM),

@@ -16,4 +16,3 @@ class AiSearchCarRentalUseCase {
     return _repository.aiSearchOffers(params);
   }
 }
-

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:intl/intl.dart';
 import '../../utils/print/custom_print.dart';
 import '../apiRoutes/api_routes.dart';
 import '../handelError/handel_error.dart';
@@ -16,7 +17,12 @@ class DioHelper {
   static Dio? _dio;
 
   static Dio get _instance {
-    _dio ??= Dio(
+    _dio ??= _createDio();
+    return _dio!;
+  }
+
+  static Dio _createDio() {
+    final dio = Dio(
       BaseOptions(
         baseUrl: ApiRoutes.baseUrl,
         connectTimeout: const Duration(seconds: 15),
@@ -26,7 +32,76 @@ class DioHelper {
         maxRedirects: 0,
       ),
     );
-    return _dio!;
+
+    dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) {
+          options.queryParameters['lang'] = _currentLanguageCode;
+          customPrint('REQUEST ${options.method} ➜ ${options.uri}');
+          if (options.data != null) {
+            customPrint('REQUEST BODY ➜ ${_sanitizeForLog(options.data)}');
+          }
+          handler.next(options);
+        },
+        onResponse: (response, handler) {
+          customPrint(
+            'RESPONSE ${response.statusCode} ⇦ ${response.requestOptions.uri}',
+          );
+          customPrint('RESPONSE DATA ⇦ ${_sanitizeForLog(response.data)}');
+          handler.next(response);
+        },
+        onError: (error, handler) {
+          final response = error.response;
+          if (response != null) {
+            customPrint(
+              'RESPONSE ${response.statusCode} ⇦ ${response.requestOptions.uri}',
+              isError: true,
+            );
+            customPrint(
+              'RESPONSE DATA ⇦ ${_sanitizeForLog(response.data)}',
+              isError: true,
+            );
+          } else {
+            customPrint(
+              'REQUEST FAILED ⇦ ${error.requestOptions.uri}: ${error.message}',
+              isError: true,
+            );
+          }
+          handler.next(error);
+        },
+      ),
+    );
+
+    return dio;
+  }
+
+  static String get _currentLanguageCode {
+    final localeName = Intl.getCurrentLocale().toLowerCase();
+    return localeName == 'ar' || localeName.startsWith('ar_') ? 'ar' : 'en';
+  }
+
+  static dynamic _sanitizeForLog(dynamic value) {
+    if (value is Map) {
+      return value.map((key, item) {
+        final keyText = key.toString();
+        return MapEntry(
+          keyText,
+          _isSensitiveKey(keyText) ? '***' : _sanitizeForLog(item),
+        );
+      });
+    }
+    if (value is Iterable) {
+      return value.map(_sanitizeForLog).toList(growable: false);
+    }
+    return value;
+  }
+
+  static bool _isSensitiveKey(String key) {
+    final normalized = key.toLowerCase().replaceAll(RegExp('[^a-z]'), '');
+    return normalized == 'authorization' ||
+        normalized.contains('token') ||
+        normalized.contains('password') ||
+        normalized.contains('secret');
   }
 
   /// Re-initialises the Dio instance (e.g. after changing base URL or token).
@@ -47,8 +122,6 @@ class DioHelper {
         data: data,
         options: Options(headers: networkHeaders(), responseType: responseType),
       ),
-      url: url,
-      method: 'GET',
     );
   }
 
@@ -72,8 +145,6 @@ class DioHelper {
           responseType: responseType,
         ),
       ),
-      url: url,
-      method: 'POST',
     );
   }
 
@@ -87,8 +158,6 @@ class DioHelper {
         data: data,
         options: Options(headers: networkHeaders()),
       ),
-      url: url,
-      method: 'PUT',
     );
   }
 
@@ -102,24 +171,18 @@ class DioHelper {
         queryParameters: query,
         options: Options(headers: networkHeaders()),
       ),
-      url: url,
-      method: 'DELETE',
     );
   }
 
   // ── Private ────────────────────────────────────────────────────────────────
 
   static Future<Response<dynamic>> _request(
-    Future<Response<dynamic>> Function() call, {
-    required String url,
-    required String method,
-  }) async {
+    Future<Response<dynamic>> Function() call,
+  ) async {
     try {
-      customPrint('$method ➜ ${ApiRoutes.baseUrl}$url');
       return await call();
     } on DioException catch (e) {
-      customPrint('Login Error ===> ${e.message}');
-      customPrint('Login Error ===> ${e.error}');
+      customPrint('Request Error ===> ${e.message}', isError: true);
       throw handleDioError(e);
     }
   }

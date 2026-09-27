@@ -8,4 +8,3 @@ final appThemeModeProvider = Provider<ThemeMode>((ref) {
   final isDark = ref.watch(profileIsDarkModeProvider);
   return isDark ? ThemeMode.dark : ThemeMode.light;
 });
-

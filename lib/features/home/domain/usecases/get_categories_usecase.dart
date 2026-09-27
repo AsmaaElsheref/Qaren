@@ -8,9 +8,7 @@ class GetCategoriesUseCase {
 
   const GetCategoriesUseCase(this._repository);
 
-  Future<Either<Failure, List<CategoryEntity>>> call({
-    required String lang,
-  }) {
-    return _repository.getCategories(lang: lang);
+  Future<Either<Failure, List<CategoryEntity>>> call() {
+    return _repository.getCategories();
   }
 }

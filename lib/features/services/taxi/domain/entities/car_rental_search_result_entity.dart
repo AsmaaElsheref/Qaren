@@ -21,6 +21,11 @@ class CarRentalSearchResultEntity extends Equatable {
   });
 
   @override
-  List<Object?> get props =>
-      [status, count, cheapest, offers, parsedParameters];
+  List<Object?> get props => [
+    status,
+    count,
+    cheapest,
+    offers,
+    parsedParameters,
+  ];
 }

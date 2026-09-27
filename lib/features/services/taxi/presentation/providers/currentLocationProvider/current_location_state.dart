@@ -4,8 +4,5 @@ class CurrentLocationData {
   final LatLng? currentLocation;
   final String? locationName;
 
-  CurrentLocationData({
-    this.currentLocation,
-    this.locationName,
-  });
+  CurrentLocationData({this.currentLocation, this.locationName});
 }

@@ -16,10 +16,15 @@ class FoodSectionTitle extends StatelessWidget {
         vertical: AppDimensions.paddingS,
       ),
       child: Align(
-        alignment: Alignment.centerRight,
-        child: AppText(title,style: TextStyle(fontWeight: FontWeight.w700,color: AppColors.textSecondary),)
+        alignment: AlignmentDirectional.centerStart,
+        child: AppText(
+          title,
+          style: TextStyle(
+            fontWeight: FontWeight.w700,
+            color: AppColors.textSecondary,
+          ),
+        ),
       ),
     );
   }
 }
-

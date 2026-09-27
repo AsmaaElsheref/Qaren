@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/ui/widgets/AppButton.dart';
+import '../../../../../../core/ui/widgets/AppText.dart';
+import '../../../../../../core/ui/widgets/saudi_riyal_amount.dart';
 import '../../pages/checkoutPage/checkout_page.dart';
 
 class SaveInvoiceButton extends StatelessWidget {
@@ -18,9 +20,7 @@ class SaveInvoiceButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final label = amount == null
-        ? 'food.comparison.orderNow'.tr()
-        : '${'food.comparison.orderNow'.tr()} ${amount!.toInt()} ${'food.currencyShort'.tr()}';
+    final label = 'food.comparison.orderNow'.tr();
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: AppDimensions.paddingM,
@@ -28,6 +28,30 @@ class SaveInvoiceButton extends StatelessWidget {
       ),
       child: AppButton(
         label: label,
+        labelWidget: amount == null
+            ? null
+            : Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  AppText(
+                    label,
+                    style: const TextStyle(
+                      fontSize: AppDimensions.fontM,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(width: 6),
+                  SaudiRiyalAmount(
+                    amount: amount!.toInt().toString(),
+                    style: const TextStyle(
+                      fontSize: AppDimensions.fontM,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
         icon: Icons.receipt_long_rounded,
         onTap: () => _onTap(context),
       ),

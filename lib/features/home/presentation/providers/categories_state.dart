@@ -9,7 +9,7 @@ class CategoriesState extends Equatable {
   final String? errorMessage;
 
   const CategoriesState({
-    this.status     = CategoriesStatus.initial,
+    this.status = CategoriesStatus.initial,
     this.categories = const [],
     this.errorMessage,
   });
@@ -20,8 +20,8 @@ class CategoriesState extends Equatable {
     String? errorMessage,
   }) {
     return CategoriesState(
-      status:       status       ?? this.status,
-      categories:   categories   ?? this.categories,
+      status: status ?? this.status,
+      categories: categories ?? this.categories,
       errorMessage: errorMessage,
     );
   }
@@ -29,4 +29,3 @@ class CategoriesState extends Equatable {
   @override
   List<Object?> get props => [status, categories, errorMessage];
 }
-

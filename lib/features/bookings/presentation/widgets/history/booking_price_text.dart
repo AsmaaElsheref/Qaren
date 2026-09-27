@@ -1,8 +1,10 @@
 import 'package:qaren/core/localization/easy_localization.dart';
+import 'package:qaren/core/localization/localized_formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/theme/app_colors.dart';
 import 'package:qaren/core/ui/widgets/AppText.dart';
 import 'package:qaren/core/ui/widgets/AppTextStyles.dart';
+import 'package:qaren/core/ui/widgets/saudi_riyal_amount.dart';
 
 import '../../../domain/entities/booking_pricing_entity.dart';
 
@@ -20,10 +22,13 @@ class BookingPriceText extends StatelessWidget {
       );
     }
 
-    return AppText(
-      '${pricing.totalPrice!.toStringAsFixed(2)} ${pricing.currency}',
+    return SaudiRiyalAmount(
+      amount: LocalizedFormatters.number(
+        context,
+        pricing.totalPrice!,
+        decimals: 2,
+      ),
       style: AppTextStyles.title.copyWith(color: AppColors.primary),
-      textDirection: TextDirection.ltr,
     );
   }
 }

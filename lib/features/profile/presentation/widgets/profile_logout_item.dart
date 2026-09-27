@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/ui/widgets/AppText.dart';
 import '../../../../core/ui/widgets/AppTextStyles.dart';
@@ -32,7 +33,7 @@ class ProfileLogoutItem extends StatelessWidget {
             ),
             const SizedBox(width: 14),
             AppText(
-              'تسجيل الخروج',
+              'profile.logout.title'.tr(),
               style: AppTextStyles.body.copyWith(
                 color: AppColors.error,
                 fontWeight: FontWeight.w600,

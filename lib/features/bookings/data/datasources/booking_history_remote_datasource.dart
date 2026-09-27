@@ -12,4 +12,3 @@ abstract class BookingHistoryRemoteDataSource {
 
   Future<BookingDetailsModel> getBookingDetails({required int id});
 }
-

@@ -66,101 +66,98 @@ class _FoodLocationPickerSheetState
   Widget build(BuildContext context) {
     final colors = context.appColors;
     final canUseMap = AppConfig.hasGoogleMapsApiKey;
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Container(
-        decoration: BoxDecoration(
-          color: colors.surface,
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(AppDimensions.radiusXL),
-          ),
+    return Container(
+      decoration: BoxDecoration(
+        color: colors.surface,
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(AppDimensions.radiusXL),
         ),
-        child: SafeArea(
-          top: false,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // ── Handle ──────────────────────────────────────────────────
-              Container(
-                width: 40,
-                height: 4,
-                margin: const EdgeInsets.only(
-                  top: AppDimensions.paddingM,
-                  bottom: AppDimensions.paddingS,
-                ),
-                decoration: BoxDecoration(
-                  color: AppColors.border,
-                  borderRadius: BorderRadius.circular(AppDimensions.radiusFull),
-                ),
+      ),
+      child: SafeArea(
+        top: false,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // ── Handle ──────────────────────────────────────────────────
+            Container(
+              width: 40,
+              height: 4,
+              margin: const EdgeInsets.only(
+                top: AppDimensions.paddingM,
+                bottom: AppDimensions.paddingS,
               ),
+              decoration: BoxDecoration(
+                color: AppColors.border,
+                borderRadius: BorderRadius.circular(AppDimensions.radiusFull),
+              ),
+            ),
 
-              // ── Title ────────────────────────────────────────────────────
+            // ── Title ────────────────────────────────────────────────────
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppDimensions.paddingM,
+                vertical: AppDimensions.paddingS,
+              ),
+              child: Row(
+                children: [
+                  AppText(
+                    'food.location.chooseLocation'.tr(),
+                    style: const TextStyle(
+                      fontSize: AppDimensions.fontL,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const Divider(height: 1, color: AppColors.border),
+
+            // ── Use current GPS location ─────────────────────────────────
+            _LocationOption(
+              icon: Icons.my_location_rounded,
+              iconColor: AppColors.primary,
+              iconBgColor: AppColors.primaryLight,
+              label: 'food.location.useCurrent'.tr(),
+              labelColor: AppColors.primary,
+              isLoading: _isGpsLoading,
+              onTap: _isGpsLoading ? null : _useCurrentLocation,
+            ),
+
+            if (_error != null)
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: AppDimensions.paddingM,
-                  vertical: AppDimensions.paddingS,
                 ),
-                child: Row(
-                  children: [
-                    AppText(
-                      'food.location.chooseLocation'.tr(),
-                      style: const TextStyle(
-                        fontSize: AppDimensions.fontL,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              const Divider(height: 1, color: AppColors.border),
-
-              // ── Use current GPS location ─────────────────────────────────
-              _LocationOption(
-                icon: Icons.my_location_rounded,
-                iconColor: AppColors.primary,
-                iconBgColor: AppColors.primaryLight,
-                label: 'food.location.useCurrent'.tr(),
-                labelColor: AppColors.primary,
-                isLoading: _isGpsLoading,
-                onTap: _isGpsLoading ? null : _useCurrentLocation,
-              ),
-
-              if (_error != null)
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppDimensions.paddingM,
-                  ),
-                  child: AppText(
-                    _error!,
-                    style: const TextStyle(
-                      fontSize: AppDimensions.fontXS,
-                      color: Color(0xFFE85D5D),
-                    ),
+                child: AppText(
+                  _error!.tr(),
+                  style: const TextStyle(
+                    fontSize: AppDimensions.fontXS,
+                    color: Color(0xFFE85D5D),
                   ),
                 ),
-
-              const Divider(
-                height: 1,
-                indent: AppDimensions.paddingXL,
-                color: AppColors.border,
               ),
 
-              // ── Pick on map ──────────────────────────────────────────────
-              _LocationOption(
-                icon: Icons.map_outlined,
-                iconColor: AppColors.textSecondary,
-                iconBgColor: AppColors.surfaceVariant,
-                label: canUseMap
-                    ? 'food.location.pickOnMap'.tr()
-                    : 'food.location.mapDisabledOption'.tr(),
-                labelColor: canUseMap ? null : AppColors.textSecondary,
-                onTap: _isGpsLoading || !canUseMap ? null : _openMapPicker,
-              ),
+            const Divider(
+              height: 1,
+              indent: AppDimensions.paddingXL,
+              color: AppColors.border,
+            ),
 
-              const SizedBox(height: AppDimensions.paddingL),
-            ],
-          ),
+            // ── Pick on map ──────────────────────────────────────────────
+            _LocationOption(
+              icon: Icons.map_outlined,
+              iconColor: AppColors.textSecondary,
+              iconBgColor: AppColors.surfaceVariant,
+              label: canUseMap
+                  ? 'food.location.pickOnMap'.tr()
+                  : 'food.location.mapDisabledOption'.tr(),
+              labelColor: canUseMap ? null : AppColors.textSecondary,
+              onTap: _isGpsLoading || !canUseMap ? null : _openMapPicker,
+            ),
+
+            const SizedBox(height: AppDimensions.paddingL),
+          ],
         ),
       ),
     );

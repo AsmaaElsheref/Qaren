@@ -6,12 +6,14 @@ import '../../../../core/ui/widgets/AppTextStyles.dart';
 
 class ProfileStatItem extends StatelessWidget {
   final String value;
+  final Widget? valueWidget;
   final String label;
   final bool highlight;
 
   const ProfileStatItem({
     super.key,
     required this.value,
+    this.valueWidget,
     required this.label,
     this.highlight = false,
   });
@@ -22,13 +24,14 @@ class ProfileStatItem extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        AppText(
-          value,
-          style: AppTextStyles.title.copyWith(
-            fontWeight: FontWeight.w800,
-            color: highlight ? AppColors.primary : colors.textPrimary,
-          ),
-        ),
+        valueWidget ??
+            AppText(
+              value,
+              style: AppTextStyles.title.copyWith(
+                fontWeight: FontWeight.w800,
+                color: highlight ? AppColors.primary : colors.textPrimary,
+              ),
+            ),
         const SizedBox(height: 4),
         AppText(
           label,

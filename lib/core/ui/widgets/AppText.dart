@@ -29,11 +29,12 @@ class AppText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = context.appColors;
-    final defaultColor =
-        secondary ? tokens.textSecondary : tokens.textPrimary;
+    final defaultColor = secondary ? tokens.textSecondary : tokens.textPrimary;
 
-    final baseStyle = (secondary ? AppTextStyles.bodySecondary : AppTextStyles.body)
-        .copyWith(color: defaultColor);
+    final baseStyle =
+        (secondary ? AppTextStyles.bodySecondary : AppTextStyles.body).copyWith(
+          color: defaultColor,
+        );
 
     return Text(
       text,
@@ -45,5 +46,3 @@ class AppText extends StatelessWidget {
     );
   }
 }
-
-

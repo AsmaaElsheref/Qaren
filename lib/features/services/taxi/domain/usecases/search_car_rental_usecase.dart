@@ -15,4 +15,3 @@ class SearchCarRentalUseCase {
     return _repository.searchOffers(params);
   }
 }
-

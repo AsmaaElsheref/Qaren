@@ -12,4 +12,3 @@ class GetOfferDetailsUseCase {
     return _repository.getOfferDetails(offerId);
   }
 }
-

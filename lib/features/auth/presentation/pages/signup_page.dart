@@ -163,7 +163,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                       obscureText: !signupState.isPasswordVisible,
                       validator: Validators.validatePassword,
                       customSuffix: const Padding(
-                        padding: EdgeInsets.only(right: 16),
+                        padding: EdgeInsetsDirectional.only(start: 16),
                         child: Icon(
                           Icons.lock_outline,
                           color: AppColors.textSecondary,
@@ -173,7 +173,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                       suffixIcon: GestureDetector(
                         onTap: notifier.togglePasswordVisibility,
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 4),
+                          padding: const EdgeInsetsDirectional.only(end: 4),
                           child: Icon(
                             signupState.isPasswordVisible
                                 ? Icons.visibility_off_outlined
@@ -197,7 +197,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                         value,
                       ),
                       customSuffix: const Padding(
-                        padding: EdgeInsets.only(right: 16),
+                        padding: EdgeInsetsDirectional.only(start: 16),
                         child: Icon(
                           Icons.lock_outline,
                           color: AppColors.textSecondary,
@@ -207,7 +207,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                       suffixIcon: GestureDetector(
                         onTap: notifier.toggleConfirmPasswordVisibility,
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 4),
+                          padding: const EdgeInsetsDirectional.only(end: 4),
                           child: Icon(
                             signupState.isConfirmPasswordVisible
                                 ? Icons.visibility_off_outlined

@@ -29,8 +29,7 @@ class PasswordTextFieldState extends State<PasswordTextField> {
     return TextFormField(
       controller: widget.controller,
       obscureText: _obscure,
-      textAlign: TextAlign.right,
-      textDirection: TextDirection.rtl,
+      textAlign: TextAlign.start,
       validator: widget.validator,
       style: TextStyle(
         fontSize: AppDimensions.fontM,
@@ -43,7 +42,7 @@ class PasswordTextFieldState extends State<PasswordTextField> {
           color: AppColors.textHint,
         ),
         prefixIcon: Padding(
-          padding: const EdgeInsets.only(right: 16),
+          padding: const EdgeInsetsDirectional.only(start: 16),
           child: Icon(
             Icons.lock_outline_rounded,
             color: colors.textSecondary,
@@ -56,7 +55,9 @@ class PasswordTextFieldState extends State<PasswordTextField> {
         ),
         suffixIcon: IconButton(
           icon: Icon(
-            _obscure ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+            _obscure
+                ? Icons.visibility_off_outlined
+                : Icons.visibility_outlined,
             color: colors.textSecondary,
             size: AppDimensions.iconS,
           ),
@@ -66,4 +67,3 @@ class PasswordTextFieldState extends State<PasswordTextField> {
     );
   }
 }
-

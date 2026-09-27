@@ -11,29 +11,41 @@ class TaxiProvidersRemoteDatasource {
 
   Future<List<TaxiApp>> fetchProviders() async {
     try {
-      final response = await DioHelper.getData(url: ApiRoutes.carRentalProviders);
+      final response = await DioHelper.getData(
+        url: ApiRoutes.carRentalProviders,
+      );
       final body = response.data as Map<String, dynamic>;
-      final dataList = body['data'] as List<dynamic>? ?? [];
+      final data = body['data'];
+      final dataList = data is Map<String, dynamic>
+          ? data['providers'] as List<dynamic>? ?? const []
+          : data as List<dynamic>? ?? const [];
 
-      return dataList.map((e) {
-        final json = e as Map<String, dynamic>;
-        final slug = json['slug'] as String? ?? '';
-        final name = json['name'] as String? ?? slug;
-        final rating = (json['rating'] as num?)?.toDouble() ?? 0.0;
+      return dataList
+          .where((e) {
+            final json = e as Map<String, dynamic>;
+            return json['is_active'] != false;
+          })
+          .map((e) {
+            final json = e as Map<String, dynamic>;
+            final slug = json['slug'] as String? ?? '';
+            final providerId = json['provider_id']?.toString() ?? slug;
+            final name = json['name'] as String? ?? slug;
+            final rating = (json['rating'] as num?)?.toDouble() ?? 0.0;
 
-        return TaxiApp(
-          id: slug,
-          name: name,
-          description: rating > 0 ? '⭐ $rating' : '',
-          iconBgColor: TaxiAppIconResolver.bgColorFor(slug),
-          iconColor: TaxiAppIconResolver.iconColorFor(slug),
-          icon: TaxiAppIconResolver.iconFor(slug),
-        );
-      }).toList();
+            return TaxiApp(
+              id: providerId,
+              name: name,
+              logoUrl: json['logo_url'] as String?,
+              description: rating > 0 ? '⭐ $rating' : '',
+              iconBgColor: TaxiAppIconResolver.bgColorFor(slug),
+              iconColor: TaxiAppIconResolver.iconColorFor(slug),
+              icon: TaxiAppIconResolver.iconFor(slug),
+            );
+          })
+          .toList();
     } catch (e) {
       customPrint('TaxiProviders fetch error: $e', isError: true);
       rethrow;
     }
   }
 }
-

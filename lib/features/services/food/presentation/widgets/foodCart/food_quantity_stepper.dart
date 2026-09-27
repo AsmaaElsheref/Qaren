@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
+import '../../../../../../core/theme/app_colors_ext.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
 import 'food_stepper_icon_button.dart';
 
@@ -18,6 +19,7 @@ class FoodQuantityStepper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppDimensions.radiusS),
@@ -27,18 +29,15 @@ class FoodQuantityStepper extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          FoodStepperIconButton(
-            icon: Icons.remove_rounded,
-            onTap: onDecrement,
-          ),
+          FoodStepperIconButton(icon: Icons.remove_rounded, onTap: onDecrement),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: AppText(
               '$quantity',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: AppDimensions.fontM,
                 fontWeight: FontWeight.w700,
-                color: AppColors.textPrimary,
+                color: colors.textPrimary,
               ),
             ),
           ),

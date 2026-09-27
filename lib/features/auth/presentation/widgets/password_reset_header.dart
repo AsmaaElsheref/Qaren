@@ -34,11 +34,7 @@ class PasswordResetHeader extends StatelessWidget {
               ),
             ],
           ),
-          child: Icon(
-            icon,
-            color: AppColors.white,
-            size: 40,
-          ),
+          child: Icon(icon, color: AppColors.white, size: 40),
         ),
         const SizedBox(height: AppDimensions.paddingL),
         AppText(
@@ -51,13 +47,9 @@ class PasswordResetHeader extends StatelessWidget {
           subtitle,
           secondary: true,
           textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontSize: AppDimensions.fontM,
-            height: 1.6,
-          ),
+          style: const TextStyle(fontSize: AppDimensions.fontM, height: 1.6),
         ),
       ],
     );
   }
 }
-

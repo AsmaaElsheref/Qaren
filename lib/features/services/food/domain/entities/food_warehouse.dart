@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 /// Immutable entity representing one warehouse/branch of a food product.
 ///
 /// Maps the `warehouses[]` array returned by
-/// GET /api/compare/food-delivery/products. The booking API requires
+/// GET /food/products/compare. The booking API requires
 /// [foodProductWarehouseId] for every ordered item.
 class FoodWarehouse extends Equatable {
   final int foodProductWarehouseId;
@@ -31,4 +31,3 @@ class FoodWarehouse extends Equatable {
   @override
   List<Object?> get props => [foodProductWarehouseId];
 }
-

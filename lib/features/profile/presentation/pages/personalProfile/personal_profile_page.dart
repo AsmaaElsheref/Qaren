@@ -2,13 +2,13 @@ import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/ui/widgets/loading.dart';
-import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/ui/widgets/AppText.dart';
 import '../../../../../core/ui/widgets/AppTextStyles.dart';
 import '../../../../auth/presentation/pages/login_page.dart';
 import '../../../../auth/presentation/providers/user_profile_provider.dart';
 import '../../../../auth/presentation/providers/login_providers.dart';
 import '../editProfile/edit_profile_page.dart';
+import '../../providers/profileSettings/profile_settings_provider.dart';
 import '../../widgets/logout_confirmation_sheet.dart';
 import '../../widgets/personal_profile_app_bar.dart';
 import '../../widgets/personal_profile_card.dart';
@@ -33,14 +33,14 @@ class PersonalProfilePage extends ConsumerWidget {
   }
 
   Future<void> _performLogout(BuildContext context, WidgetRef ref) async {
-    Navigator.of(context).pop();
+    final navigator = Navigator.of(context, rootNavigator: true);
     await ref.read(loginNotifierProvider.notifier).logout();
-    if (context.mounted) {
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (_) => const LoginPage()),
-        (_) => false,
-      );
-    }
+    ref.invalidate(userProfileProvider);
+    ref.invalidate(profileSettingsProvider);
+    navigator.pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_) => const LoginPage()),
+      (_) => false,
+    );
   }
 
   @override

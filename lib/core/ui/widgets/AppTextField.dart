@@ -35,7 +35,10 @@ class AppTextField extends StatelessWidget {
     this.maxLines = 1,
     this.minLines,
     this.prefixIcon,
-    this.suffixIcon, this.fillColor, this.nonBorder, this.onSubmitted,
+    this.suffixIcon,
+    this.fillColor,
+    this.nonBorder,
+    this.onSubmitted,
   });
 
   @override
@@ -60,8 +63,7 @@ class AppTextField extends StatelessWidget {
       enabled: enabled,
       maxLines: obscureText ? 1 : maxLines,
       minLines: obscureText ? 1 : minLines,
-      textAlign: TextAlign.right,
-      textDirection: TextDirection.rtl,
+      textAlign: TextAlign.start,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       style: AppTextStyles.body.copyWith(color: colors.textPrimary),
       decoration: InputDecoration(
@@ -69,12 +71,18 @@ class AppTextField extends StatelessWidget {
         hintText: hint,
         filled: true,
         fillColor: fillColor ?? colors.inputBackground,
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 14,
+        ),
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
-        labelStyle: AppTextStyles.bodySecondary.copyWith(color: colors.textSecondary),
-        hintStyle: AppTextStyles.bodySecondary.copyWith(color: colors.textMuted),
+        labelStyle: AppTextStyles.bodySecondary.copyWith(
+          color: colors.textSecondary,
+        ),
+        hintStyle: AppTextStyles.bodySecondary.copyWith(
+          color: colors.textMuted,
+        ),
         enabledBorder: border,
         focusedBorder: border.copyWith(
           borderSide: const BorderSide(color: AppColors.primary, width: 1.2),

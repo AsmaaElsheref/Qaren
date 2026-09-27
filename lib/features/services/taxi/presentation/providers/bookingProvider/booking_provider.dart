@@ -33,15 +33,8 @@ class BookingNotifier extends Notifier<BookingState> {
   void reset() => state = const BookingState();
 
   Future<void> book(BookCarRentalParams params) async {
-    customPrint(params);
-    customPrint(params.offerId);
-    customPrint(params.name);
-    customPrint(params.providerSlug);
-    customPrint(params.phone);
-    state = state.copyWith(
-      status: BookingStatus.loading,
-      errorMessage: null,
-    );
+    customPrint('Booking car: ${params.carId}');
+    state = state.copyWith(status: BookingStatus.loading, errorMessage: null);
 
     final useCase = ref.read(_useCaseProvider);
     final result = await useCase(params);
@@ -53,10 +46,7 @@ class BookingNotifier extends Notifier<BookingState> {
       ),
       (data) {
         ref.read(taxiResetControllerProvider).resetAfterSuccessfulBooking();
-        state = state.copyWith(
-          status: BookingStatus.success,
-          result: data,
-        );
+        state = state.copyWith(status: BookingStatus.success, result: data);
       },
     );
   }
@@ -72,4 +62,3 @@ final bookingProvider = NotifierProvider<BookingNotifier, BookingState>(
 final bookingStatusProvider = Provider<BookingStatus>(
   (ref) => ref.watch(bookingProvider.select((s) => s.status)),
 );
-

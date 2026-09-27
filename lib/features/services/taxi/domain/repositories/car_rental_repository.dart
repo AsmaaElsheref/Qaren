@@ -16,12 +16,9 @@ abstract class CarRentalRepository {
     AiSearchParams params,
   );
 
-  Future<Either<Failure, OfferDetailsEntity>> getOfferDetails(
-    String offerId,
-  );
+  Future<Either<Failure, OfferDetailsEntity>> getOfferDetails(String offerId);
 
   Future<Either<Failure, BookingResultEntity>> bookOffer(
     BookCarRentalParams params,
   );
 }
-

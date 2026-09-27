@@ -32,11 +32,9 @@ class TaxiAppsState {
     List<TaxiApp>? apps,
     Set<String>? selectedIds,
     bool? isLoading,
-  }) =>
-      TaxiAppsState(
-        apps: apps ?? this.apps,
-        selectedIds: selectedIds ?? this.selectedIds,
-        isLoading: isLoading ?? this.isLoading,
-      );
+  }) => TaxiAppsState(
+    apps: apps ?? this.apps,
+    selectedIds: selectedIds ?? this.selectedIds,
+    isLoading: isLoading ?? this.isLoading,
+  );
 }
-

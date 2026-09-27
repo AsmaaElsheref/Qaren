@@ -1,3 +1,4 @@
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
 import 'package:qaren/core/theme/app_colors.dart';
@@ -24,18 +25,20 @@ class TaxiAppTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.appColors;
+    final description = app.description.startsWith('taxi.')
+        ? app.description.tr()
+        : app.description;
 
     // ── Resolved token values ──────────────────────────────────────────────
-    final cardColor =
-        isSelected ? colors.card : colors.disabledBackground;
-    final borderColor =
-        isSelected ? AppColors.primary : colors.border.withValues(alpha: 0.4);
-    final iconBgColor =
-        isSelected ? app.iconBgColor : colors.disabledBackground;
-    final iconColor =
-        isSelected ? app.iconColor : colors.disabledText;
-    final titleColor =
-        isSelected ? colors.textPrimary : colors.disabledText;
+    final cardColor = isSelected ? colors.card : colors.disabledBackground;
+    final borderColor = isSelected
+        ? AppColors.primary
+        : colors.border.withValues(alpha: 0.4);
+    final iconBgColor = isSelected
+        ? app.iconBgColor
+        : colors.disabledBackground;
+    final iconColor = isSelected ? app.iconColor : colors.disabledText;
+    final titleColor = isSelected ? colors.textPrimary : colors.disabledText;
     final descColor = isSelected
         ? colors.textSecondary
         : colors.disabledText.withValues(alpha: 0.7);
@@ -73,10 +76,10 @@ class TaxiAppTile extends StatelessWidget {
                   color: iconBgColor,
                   shape: BoxShape.circle,
                 ),
-                child: Icon(
-                  app.icon,
-                  color: iconColor,
-                  size: AppDimensions.iconM,
+                child: _ProviderLogo(
+                  logoUrl: app.logoUrl,
+                  fallbackIcon: app.icon,
+                  iconColor: iconColor,
                 ),
               ),
 
@@ -94,18 +97,18 @@ class TaxiAppTile extends StatelessWidget {
                         fontWeight: FontWeight.w700,
                         color: titleColor,
                       ),
-                      textDirection: TextDirection.rtl,
                     ),
-                    const SizedBox(height: 2),
-                    AppText(
-                      app.description,
-                      secondary: true,
-                      style: TextStyle(
-                        fontSize: AppDimensions.fontS,
-                        color: descColor,
+                    if (description.isNotEmpty) ...[
+                      const SizedBox(height: 2),
+                      AppText(
+                        description,
+                        secondary: true,
+                        style: TextStyle(
+                          fontSize: AppDimensions.fontS,
+                          color: descColor,
+                        ),
                       ),
-                      textDirection: TextDirection.rtl,
-                    ),
+                    ],
                   ],
                 ),
               ),
@@ -139,4 +142,33 @@ class TaxiAppTile extends StatelessWidget {
       ),
     );
   }
+}
+
+class _ProviderLogo extends StatelessWidget {
+  const _ProviderLogo({
+    required this.logoUrl,
+    required this.fallbackIcon,
+    required this.iconColor,
+  });
+
+  final String? logoUrl;
+  final IconData fallbackIcon;
+  final Color iconColor;
+
+  @override
+  Widget build(BuildContext context) {
+    final url = logoUrl?.trim() ?? '';
+    if (url.isEmpty) return _fallback();
+
+    return ClipOval(
+      child: Image.network(
+        url,
+        fit: BoxFit.cover,
+        errorBuilder: (_, __, ___) => _fallback(),
+      ),
+    );
+  }
+
+  Widget _fallback() =>
+      Icon(fallbackIcon, color: iconColor, size: AppDimensions.iconM);
 }

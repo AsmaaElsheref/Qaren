@@ -16,7 +16,7 @@ class CartItemsCount extends ConsumerWidget {
     final count = ref.watch(foodCartTotalCountProvider);
 
     return AppText(
-      '$count ${'food.cart.itemsCount'.tr()}',
+      'food.cart.itemsCount'.plural(count),
       style: const TextStyle(fontSize: 13, color: AppColors.textSecondary),
     );
   }

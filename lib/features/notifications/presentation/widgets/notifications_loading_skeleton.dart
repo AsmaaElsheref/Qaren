@@ -24,7 +24,8 @@ class NotificationsLoadingSkeleton extends StatelessWidget {
           ),
         );
       },
-      separatorBuilder: (_, __) => const SizedBox(height: AppDimensions.paddingM),
+      separatorBuilder: (_, __) =>
+          const SizedBox(height: AppDimensions.paddingM),
       itemCount: 6,
     );
   }

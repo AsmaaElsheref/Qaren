@@ -7,6 +7,7 @@ import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:qaren/core/ui/widgets/map_unavailable_view.dart';
 
 import '../../../../../../../core/constants/app_dimensions.dart';
+import '../../../../../../../core/constants/map_stayles.dart';
 import '../../../../../../../core/theme/app_colors.dart';
 import '../../../../../../../core/ui/widgets/AppButton.dart';
 import '../../../../../../../core/ui/widgets/AppText.dart';
@@ -60,13 +61,14 @@ class _FoodMapPickerPageState extends State<FoodMapPickerPage> {
         ].where((s) => s != null && s.isNotEmpty).toList();
         setState(() {
           _addressLabel = parts.isNotEmpty
-              ? parts.join('، ')
+              ? parts.join(', ')
               : 'food.location.unknown';
         });
       }
     } catch (_) {
-      if (mounted)
+      if (mounted) {
         setState(() => _addressLabel = 'food.location.resolveFailed');
+      }
     } finally {
       if (mounted) setState(() => _isResolving = false);
     }
@@ -97,116 +99,112 @@ class _FoodMapPickerPageState extends State<FoodMapPickerPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (!AppConfig.hasGoogleMapsApiKey) {
-      return Directionality(
-        textDirection: TextDirection.rtl,
-        child: Scaffold(
-          body: Stack(
-            children: [
-              const MapUnavailableView(
-                titleKey: 'food.location.mapDisabledTitle',
-                messageKey: 'food.location.mapDisabledMessage',
-              ),
-              Positioned(
-                top:
-                    MediaQuery.of(context).padding.top + AppDimensions.paddingS,
-                right: AppDimensions.paddingM,
-                child: _CircleIconButton(
-                  icon: Icons.arrow_back_ios_rounded,
-                  onTap: () => Navigator.of(context).pop(),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
+    if (!AppConfig.hasGoogleMapsApiKey) {
+      return Scaffold(
         body: Stack(
           children: [
-            // ── Map ──────────────────────────────────────────────────────────
-            GoogleMap(
-              initialCameraPosition: CameraPosition(
-                target: _pickedLatLng,
-                zoom: 14,
-              ),
-              myLocationButtonEnabled: false,
-              zoomControlsEnabled: false,
-              mapToolbarEnabled: false,
-              onMapCreated: (c) => _mapController = c,
-              onCameraMove: (pos) {
-                _pickedLatLng = pos.target;
-              },
-              onCameraIdle: () => _resolveAddress(_pickedLatLng),
+            const MapUnavailableView(
+              titleKey: 'food.location.mapDisabledTitle',
+              messageKey: 'food.location.mapDisabledMessage',
             ),
-
-            // ── Centre pin ───────────────────────────────────────────────────
-            const _FoodMapPin(),
-
-            // ── Back button ──────────────────────────────────────────────────
-            Positioned(
+            PositionedDirectional(
               top: MediaQuery.of(context).padding.top + AppDimensions.paddingS,
-              right: AppDimensions.paddingM,
+              start: AppDimensions.paddingM,
               child: _CircleIconButton(
                 icon: Icons.arrow_back_ios_rounded,
                 onTap: () => Navigator.of(context).pop(),
               ),
             ),
+          ],
+        ),
+      );
+    }
 
-            // ── GPS button ───────────────────────────────────────────────────
-            Positioned(
-              bottom: 180,
-              left: AppDimensions.paddingM,
-              child: _CircleIconButton(
-                icon: Icons.my_location_rounded,
-                onTap: _goToMyLocation,
-              ),
+    return Scaffold(
+      body: Stack(
+        children: [
+          // ── Map ──────────────────────────────────────────────────────────
+          GoogleMap(
+            initialCameraPosition: CameraPosition(
+              target: _pickedLatLng,
+              zoom: 14,
             ),
+            style: isDarkMode ? MapStyles.dark : null,
+            myLocationButtonEnabled: false,
+            zoomControlsEnabled: false,
+            mapToolbarEnabled: false,
+            onMapCreated: (c) => _mapController = c,
+            onCameraMove: (pos) {
+              _pickedLatLng = pos.target;
+            },
+            onCameraIdle: () => _resolveAddress(_pickedLatLng),
+          ),
 
-            // ── Confirm button ───────────────────────────────────────────────
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: SafeArea(
-                top: false,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                    AppDimensions.paddingM,
-                    0,
-                    AppDimensions.paddingM,
-                    AppDimensions.paddingM,
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      _AddressCard(
-                        address: _addressLabel,
-                        isResolving: _isResolving,
-                      ),
-                      const SizedBox(height: AppDimensions.paddingM),
-                      AppButton(
-                        label: 'food.location.confirm'.tr(),
-                        icon: Icons.check_circle_outline_rounded,
-                        onTap: _isResolving
-                            ? null
-                            : () => Navigator.of(context).pop(
-                                FoodLocationResult(
-                                  latLng: _pickedLatLng,
-                                  name: _localizedAddressLabel(),
-                                ),
+          // ── Centre pin ───────────────────────────────────────────────────
+          const _FoodMapPin(),
+
+          // ── Back button ──────────────────────────────────────────────────
+          PositionedDirectional(
+            top: MediaQuery.of(context).padding.top + AppDimensions.paddingS,
+            start: AppDimensions.paddingM,
+            child: _CircleIconButton(
+              icon: Icons.arrow_back_ios_rounded,
+              onTap: () => Navigator.of(context).pop(),
+            ),
+          ),
+
+          // ── GPS button ───────────────────────────────────────────────────
+          PositionedDirectional(
+            bottom: 180,
+            end: AppDimensions.paddingM,
+            child: _CircleIconButton(
+              icon: Icons.my_location_rounded,
+              onTap: _goToMyLocation,
+            ),
+          ),
+
+          // ── Confirm button ───────────────────────────────────────────────
+          PositionedDirectional(
+            bottom: 0,
+            start: 0,
+            end: 0,
+            child: SafeArea(
+              top: false,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(
+                  AppDimensions.paddingM,
+                  0,
+                  AppDimensions.paddingM,
+                  AppDimensions.paddingM,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _AddressCard(
+                      address: _addressLabel,
+                      isResolving: _isResolving,
+                    ),
+                    const SizedBox(height: AppDimensions.paddingM),
+                    AppButton(
+                      label: 'food.location.confirm'.tr(),
+                      icon: Icons.check_circle_outline_rounded,
+                      onTap: _isResolving
+                          ? null
+                          : () => Navigator.of(context).pop(
+                              FoodLocationResult(
+                                latLng: _pickedLatLng,
+                                name: _localizedAddressLabel(),
                               ),
-                      ),
-                    ],
-                  ),
+                            ),
+                    ),
+                  ],
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

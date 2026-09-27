@@ -1,10 +1,12 @@
 import 'package:qaren/core/localization/easy_localization.dart';
+import 'package:qaren/core/localization/localized_formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
 import 'package:qaren/core/theme/app_colors.dart';
 import 'package:qaren/core/theme/app_colors_ext.dart';
 import 'package:qaren/core/ui/widgets/AppText.dart';
 import 'package:qaren/core/ui/widgets/AppTextStyles.dart';
+import 'package:qaren/core/ui/widgets/saudi_riyal_amount.dart';
 
 import '../../../domain/entities/booking_pricing_entity.dart';
 
@@ -48,37 +50,54 @@ class BookingDetailsPricingCard extends StatelessWidget {
             style: AppTextStyles.title,
           ),
           const SizedBox(height: AppDimensions.paddingM),
-          AppText(
-            'bookings.details.subtotal'.tr(
-              namedArgs: {'price': formatPrice(pricing.subtotal)},
-            ),
-            textDirection: TextDirection.rtl,
+          _priceRow(
+            context,
+            'bookings.details.subtotalLabel'.tr(),
+            pricing.subtotal,
           ),
           const SizedBox(height: AppDimensions.paddingS),
-          AppText(
-            'bookings.details.deliveryFee'.tr(
-              namedArgs: {'price': formatPrice(pricing.deliveryFee)},
-            ),
-            textDirection: TextDirection.rtl,
+          _priceRow(
+            context,
+            'bookings.details.deliveryFeeLabel'.tr(),
+            pricing.deliveryFee,
           ),
           const Divider(
             height: AppDimensions.paddingL,
             color: AppColors.border,
           ),
-          AppText(
-            'bookings.details.total'.tr(
-              namedArgs: {'price': formatPrice(pricing.totalPrice)},
-            ),
+          _priceRow(
+            context,
+            'bookings.details.totalLabel'.tr(),
+            pricing.totalPrice,
             style: AppTextStyles.title.copyWith(color: AppColors.primary),
-            textDirection: TextDirection.rtl,
           ),
         ],
       ),
     );
   }
 
-  String formatPrice(double? value) {
-    if (value == null) return 'bookings.price.unavailable'.tr();
-    return '${value.toStringAsFixed(2)} ${pricing.currency}';
+  Widget _priceRow(
+    BuildContext context,
+    String label,
+    double? value, {
+    TextStyle? style,
+  }) {
+    if (value == null) {
+      return AppText(
+        '$label ${'bookings.price.unavailable'.tr()}',
+        style: style,
+      );
+    }
+    return Wrap(
+      spacing: 6,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      children: [
+        AppText(label, style: style),
+        SaudiRiyalAmount(
+          amount: LocalizedFormatters.number(context, value, decimals: 2),
+          style: style,
+        ),
+      ],
+    );
   }
 }

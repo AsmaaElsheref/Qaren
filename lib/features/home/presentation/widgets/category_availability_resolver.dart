@@ -3,8 +3,7 @@
 class CategoryAvailabilityResolver {
   CategoryAvailabilityResolver._();
 
-  static const _enabledTypes = {'taxi', 'food_delivery','car_rental'};
+  static const _enabledTypes = {'taxi', 'food_delivery', 'car_rental'};
 
   static bool isEnabled(String type) => _enabledTypes.contains(type);
 }
-

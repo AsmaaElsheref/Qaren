@@ -55,8 +55,9 @@ class TaxiTopBar extends ConsumerWidget {
             // ── AI / magic button ──────────────────────────────────────────
             IconContainer(
               onTap: () {
-                final notifier =
-                    ref.read(aiAssistantVisibilityProvider.notifier);
+                final notifier = ref.read(
+                  aiAssistantVisibilityProvider.notifier,
+                );
                 notifier.state = !notifier.state;
               },
               icon: const Icon(

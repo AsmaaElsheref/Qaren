@@ -6,7 +6,12 @@ import '../../../../../../../core/ui/widgets/AppText.dart';
 import 'selection_loading.dart';
 
 class SelectedLocationAddress extends StatelessWidget {
-  const SelectedLocationAddress({super.key, required this.title, required this.addressLabel, required this.isResolving});
+  const SelectedLocationAddress({
+    super.key,
+    required this.title,
+    required this.addressLabel,
+    required this.isResolving,
+  });
 
   final String title;
   final String addressLabel;
@@ -36,7 +41,7 @@ class SelectedLocationAddress extends StatelessWidget {
         children: [
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 AppText(
                   title,
@@ -45,21 +50,21 @@ class SelectedLocationAddress extends StatelessWidget {
                     fontSize: AppDimensions.fontXS,
                     fontWeight: FontWeight.w500,
                   ),
-                  textAlign: TextAlign.right,
+                  textAlign: TextAlign.start,
                 ),
                 const SizedBox(height: 4),
-                isResolving ?
-                SelectionLoading():
-                AppText(
-                  addressLabel,
-                  style: const TextStyle(
-                    fontSize: AppDimensions.fontM,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  textAlign: TextAlign.right,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                isResolving
+                    ? SelectionLoading()
+                    : AppText(
+                        addressLabel,
+                        style: const TextStyle(
+                          fontSize: AppDimensions.fontM,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        textAlign: TextAlign.start,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
               ],
             ),
           ),

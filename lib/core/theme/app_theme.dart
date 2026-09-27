@@ -35,8 +35,7 @@ class AppTheme {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide:
-            const BorderSide(color: AppColors.primary, width: 1.5),
+        borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
@@ -44,8 +43,7 @@ class AppTheme {
       ),
       focusedErrorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide:
-            const BorderSide(color: AppColors.error, width: 1.5),
+        borderSide: const BorderSide(color: AppColors.error, width: 1.5),
       ),
     );
   }
@@ -55,8 +53,7 @@ class AppTheme {
       backgroundColor: AppColors.primary,
       foregroundColor: AppColors.white,
       minimumSize: const Size(double.infinity, 56),
-      shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       elevation: 0,
     ),
   );
@@ -100,8 +97,7 @@ class AppTheme {
       inputDecorationTheme: _inputThemeDark,
       elevatedButtonTheme: _buttonTheme,
       extensions: const [AppColorTokens.dark],
-      iconTheme: IconThemeData(color: AppColors.surface)
+      iconTheme: IconThemeData(color: AppColors.surface),
     );
   }
 }
-

@@ -16,7 +16,12 @@ class GradientLoginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppButton(label: label, onTap: onPressed, isLoading: isLoading,color: AppColors.primary,radius: 16,);
+    return AppButton(
+      label: label,
+      onTap: onPressed,
+      isLoading: isLoading,
+      color: AppColors.primary,
+      radius: 16,
+    );
   }
 }
-

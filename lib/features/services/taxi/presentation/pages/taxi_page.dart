@@ -54,6 +54,7 @@ class _TaxiPageState extends ConsumerState<TaxiPage> {
               setState(() => _appsDrawerKey++);
               Scaffold.of(innerContext).openDrawer();
             }
+
             return curLocationState.when(
               loading: () => Stack(
                 children: [
@@ -88,7 +89,7 @@ class _TaxiPageState extends ConsumerState<TaxiPage> {
                           left: 0,
                           right: 0,
                           child: TaxiTopBar(onMenuTap: openAppsDrawer),
-                        ),     
+                        ),
                         // ── AI assistant overlay ───────────────────────────
                         Positioned(
                           top: 0,
@@ -96,8 +97,9 @@ class _TaxiPageState extends ConsumerState<TaxiPage> {
                           right: 0,
                           child: Consumer(
                             builder: (_, ref, __) {
-                              final visible = ref
-                                  .watch(aiAssistantVisibilityProvider);
+                              final visible = ref.watch(
+                                aiAssistantVisibilityProvider,
+                              );
                               if (!visible) return const SizedBox.shrink();
                               return const AiAssistantSearchOverlay();
                             },
@@ -115,6 +117,4 @@ class _TaxiPageState extends ConsumerState<TaxiPage> {
       ),
     );
   }
-
 }
-

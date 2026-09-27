@@ -23,9 +23,11 @@ final getWalletBalanceUseCaseProvider = Provider<GetWalletBalanceUseCase>(
   (ref) => GetWalletBalanceUseCase(ref.watch(walletRepositoryProvider)),
 );
 
-final getWalletTransactionsUseCaseProvider = Provider<GetWalletTransactionsUseCase>(
-  (ref) => GetWalletTransactionsUseCase(ref.watch(walletRepositoryProvider)),
-);
+final getWalletTransactionsUseCaseProvider =
+    Provider<GetWalletTransactionsUseCase>(
+      (ref) =>
+          GetWalletTransactionsUseCase(ref.watch(walletRepositoryProvider)),
+    );
 
 final depositWalletAmountUseCaseProvider = Provider<DepositWalletAmountUseCase>(
   (ref) => DepositWalletAmountUseCase(ref.watch(walletRepositoryProvider)),
@@ -34,7 +36,9 @@ final depositWalletAmountUseCaseProvider = Provider<DepositWalletAmountUseCase>(
 final walletProvider = StateNotifierProvider<WalletNotifier, WalletState>(
   (ref) => WalletNotifier(
     getWalletBalanceUseCase: ref.watch(getWalletBalanceUseCaseProvider),
-    getWalletTransactionsUseCase: ref.watch(getWalletTransactionsUseCaseProvider),
+    getWalletTransactionsUseCase: ref.watch(
+      getWalletTransactionsUseCaseProvider,
+    ),
   )..loadInitial(),
 );
 
@@ -49,14 +53,20 @@ class WalletNotifier extends StateNotifier<WalletState> {
 
   Future<void> loadInitial() async {
     state = state.copyWith(isInitialLoading: true, clearError: true);
-    await Future.wait([loadBalance(), fetchTransactions(page: 1, append: false)]);
+    await Future.wait([
+      loadBalance(),
+      fetchTransactions(page: 1, append: false),
+    ]);
     if (!mounted) return;
     state = state.copyWith(isInitialLoading: false);
   }
 
   Future<void> refresh() async {
     state = state.copyWith(isRefreshing: true, clearError: true);
-    await Future.wait([loadBalance(), fetchTransactions(page: 1, append: false)]);
+    await Future.wait([
+      loadBalance(),
+      fetchTransactions(page: 1, append: false),
+    ]);
     if (!mounted) return;
     state = state.copyWith(isRefreshing: false);
   }
@@ -70,7 +80,10 @@ class WalletNotifier extends StateNotifier<WalletState> {
     );
   }
 
-  Future<void> fetchTransactions({required int page, required bool append}) async {
+  Future<void> fetchTransactions({
+    required int page,
+    required bool append,
+  }) async {
     final result = await getWalletTransactionsUseCase(page: page);
     if (!mounted) return;
     result.fold(
@@ -101,11 +114,12 @@ class WalletNotifier extends StateNotifier<WalletState> {
   void applyDepositResult(WalletDepositResultEntity result) {
     final currentBalance = state.balance;
     state = state.copyWith(
-      balance: currentBalance?.copyWith(balance: result.newBalance) ??
+      balance:
+          currentBalance?.copyWith(balance: result.newBalance) ??
           WalletBalanceEntity(
             id: 0,
             balance: result.newBalance,
-            currency: 'EGP',
+            currency: 'SAR',
             updatedAt: result.transaction.createdAt,
             updatedAtLabel: result.transaction.createdAtLabel,
           ),

@@ -28,9 +28,9 @@ class BookingLoadingSkeleton extends StatelessWidget {
           ),
         );
       },
-      separatorBuilder: (context, index) => const SizedBox(height: AppDimensions.paddingM),
+      separatorBuilder: (context, index) =>
+          const SizedBox(height: AppDimensions.paddingM),
       itemCount: itemCount,
     );
   }
 }
-

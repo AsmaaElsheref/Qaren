@@ -16,21 +16,20 @@ class TaxiAppIconResolver {
   // ── Maps ────────────────────────────────────────────────────────────────────
 
   static const Map<String, IconData> _icons = {
-    'uber':   Icons.directions_car_rounded,
+    'uber': Icons.directions_car_rounded,
     'careem': Icons.directions_car_filled_rounded,
-    'jeeny':  Icons.electric_car_rounded,
-    'bolt':   Icons.bolt_rounded,
-    'yelo':   Icons.local_taxi_rounded,
-    'lumi':   Icons.drive_eta_rounded,
+    'jeeny': Icons.electric_car_rounded,
+    'bolt': Icons.bolt_rounded,
+    'yelo': Icons.local_taxi_rounded,
+    'lumi': Icons.drive_eta_rounded,
   };
 
   static const Map<String, Color> _bgColors = {
-    'uber':   Color(0xFF1A1A1A),
+    'uber': Color(0xFF1A1A1A),
     'careem': Color(0xFF1DB954),
-    'jeeny':  Color(0xFF0066CC),
-    'bolt':   Color(0xFF34D058),
-    'yelo':   Color(0xFFFFCC00),
-    'lumi':   Color(0xFF9B59B6),
+    'jeeny': Color(0xFF0066CC),
+    'bolt': Color(0xFF34D058),
+    'yelo': Color(0xFFFFCC00),
+    'lumi': Color(0xFF9B59B6),
   };
 }
-

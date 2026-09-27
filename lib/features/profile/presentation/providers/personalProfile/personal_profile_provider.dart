@@ -56,10 +56,7 @@ class ProfileIdentity {
   final String name;
   final String location;
 
-  const ProfileIdentity({
-    required this.name,
-    required this.location,
-  });
+  const ProfileIdentity({required this.name, required this.location});
 }
 
 class ProfileStats {
@@ -80,27 +77,24 @@ class ProfileContactInfo {
   final String email;
   final String phone;
 
-  const ProfileContactInfo({
-    required this.email,
-    required this.phone,
-  });
+  const ProfileContactInfo({required this.email, required this.phone});
 }
 
 class PersonalProfileNotifier extends StateNotifier<PersonalProfileState> {
   PersonalProfileNotifier()
-      : super(
-    const PersonalProfileState(
-      name: 'Dinda Kaulina',
-      avatarUrl: '',
-      location: 'Riyadh, Saudi Arabia',
-      email: 'dinda@example.com',
-      phone: '+966 55 123 4567',
-      orders: 23,
-      trips: 48,
-      savings: 1250,
-      currency: 'ر.س',
-    ),
-  );
+    : super(
+        const PersonalProfileState(
+          name: 'Dinda Kaulina',
+          avatarUrl: '',
+          location: 'Riyadh, Saudi Arabia',
+          email: 'dinda@example.com',
+          phone: '+966 55 123 4567',
+          orders: 23,
+          trips: 48,
+          savings: 1250,
+          currency: 'SAR',
+        ),
+      );
 
   void updateAvatar(String avatarUrl) {
     state = state.copyWith(avatarUrl: avatarUrl);
@@ -133,23 +127,18 @@ class PersonalProfileNotifier extends StateNotifier<PersonalProfileState> {
 }
 
 final personalProfileProvider =
-StateNotifierProvider<PersonalProfileNotifier, PersonalProfileState>(
+    StateNotifierProvider<PersonalProfileNotifier, PersonalProfileState>(
       (ref) => PersonalProfileNotifier(),
-);
+    );
 
 final profileAvatarUrlProvider = Provider<String>((ref) {
-  return ref.watch(
-    personalProfileProvider.select((state) => state.avatarUrl),
-  );
+  return ref.watch(personalProfileProvider.select((state) => state.avatarUrl));
 });
 
 final profileIdentityProvider = Provider<ProfileIdentity>((ref) {
   return ref.watch(
     personalProfileProvider.select(
-          (state) => ProfileIdentity(
-        name: state.name,
-        location: state.location,
-      ),
+      (state) => ProfileIdentity(name: state.name, location: state.location),
     ),
   );
 });
@@ -157,7 +146,7 @@ final profileIdentityProvider = Provider<ProfileIdentity>((ref) {
 final profileStatsProvider = Provider<ProfileStats>((ref) {
   return ref.watch(
     personalProfileProvider.select(
-          (state) => ProfileStats(
+      (state) => ProfileStats(
         orders: state.orders,
         trips: state.trips,
         savings: state.savings,
@@ -170,10 +159,7 @@ final profileStatsProvider = Provider<ProfileStats>((ref) {
 final profileContactInfoProvider = Provider<ProfileContactInfo>((ref) {
   return ref.watch(
     personalProfileProvider.select(
-          (state) => ProfileContactInfo(
-        email: state.email,
-        phone: state.phone,
-      ),
+      (state) => ProfileContactInfo(email: state.email, phone: state.phone),
     ),
   );
 });

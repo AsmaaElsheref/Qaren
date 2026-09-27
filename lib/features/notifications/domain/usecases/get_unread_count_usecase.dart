@@ -12,4 +12,3 @@ class GetUnreadCountUseCase {
     return repository.getUnreadCount();
   }
 }
-

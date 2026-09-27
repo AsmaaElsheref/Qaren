@@ -21,4 +21,3 @@ class CarRentalBookingModel extends CarRentalBookingEntity {
     return int.tryParse(value.toString());
   }
 }
-

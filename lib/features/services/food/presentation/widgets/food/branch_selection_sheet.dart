@@ -28,10 +28,7 @@ class BranchSelectionSheet extends StatelessWidget {
           top: Radius.circular(AppDimensions.radiusXL),
         ),
       ),
-      builder: (_) => Directionality(
-        textDirection: TextDirection.rtl,
-        child: BranchSelectionSheet(warehouses: warehouses),
-      ),
+      builder: (_) => BranchSelectionSheet(warehouses: warehouses),
     );
   }
 

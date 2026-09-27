@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import '../../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../../core/theme/app_colors.dart';
 import '../../../../../../../core/ui/widgets/AppText.dart';
@@ -12,11 +13,9 @@ class SelectionLoading extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         AppText(
-          'جاري التحديد...',
+          'taxi.location.selecting'.tr(),
           secondary: true,
-          style: const TextStyle(
-            fontSize: AppDimensions.fontM,
-          ),
+          style: const TextStyle(fontSize: AppDimensions.fontM),
         ),
         const SizedBox(width: 8),
         const SizedBox(

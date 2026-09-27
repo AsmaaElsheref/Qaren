@@ -1,28 +1,41 @@
 import 'package:equatable/equatable.dart';
 
-/// Parameters required to book a car rental offer.
-/// API body: { "offer_id", "provider_slug", "name", "phone" }
+/// Parameters required to book a taxi trip.
 class BookCarRentalParams extends Equatable {
-  final String offerId;
-  final String name;
-  final String phone;
-  final String providerSlug;
+  final String userId;
+  final double pickupLat;
+  final double pickupLng;
+  final double dropoffLat;
+  final double dropoffLng;
+  final String carId;
+  final String paymentMethod;
 
   const BookCarRentalParams({
-    required this.offerId,
-    required this.name,
-    required this.phone,
-    required this.providerSlug,
+    required this.userId,
+    required this.pickupLat,
+    required this.pickupLng,
+    required this.dropoffLat,
+    required this.dropoffLng,
+    required this.carId,
+    this.paymentMethod = 'cash',
   });
 
   Map<String, dynamic> toJson() => {
-        'offer_id': offerId,
-        'provider_slug': providerSlug,
-        'name': name,
-        'phone': phone,
-      };
+    'userId': userId,
+    'carId': carId,
+    'pickup': {'lat': pickupLat, 'lng': pickupLng},
+    'destination': {'lat': dropoffLat, 'lng': dropoffLng},
+    'paymentMethod': paymentMethod,
+  };
 
   @override
-  List<Object?> get props => [offerId, name, phone, providerSlug];
+  List<Object?> get props => [
+    userId,
+    pickupLat,
+    pickupLng,
+    dropoffLat,
+    dropoffLng,
+    carId,
+    paymentMethod,
+  ];
 }
-

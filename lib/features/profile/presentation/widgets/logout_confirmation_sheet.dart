@@ -5,10 +5,29 @@ import '../../../../core/theme/app_colors_ext.dart';
 import '../../../../core/ui/widgets/AppText.dart';
 import '../../../../core/ui/widgets/AppTextStyles.dart';
 
-class LogoutConfirmationSheet extends StatelessWidget {
-  final VoidCallback onConfirm;
+class LogoutConfirmationSheet extends StatefulWidget {
+  final Future<void> Function() onConfirm;
 
   const LogoutConfirmationSheet({super.key, required this.onConfirm});
+
+  @override
+  State<LogoutConfirmationSheet> createState() =>
+      _LogoutConfirmationSheetState();
+}
+
+class _LogoutConfirmationSheetState extends State<LogoutConfirmationSheet> {
+  bool _isLoading = false;
+
+  Future<void> _confirmLogout() async {
+    if (_isLoading) return;
+
+    setState(() => _isLoading = true);
+    try {
+      await widget.onConfirm();
+    } catch (_) {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +87,7 @@ class LogoutConfirmationSheet extends StatelessWidget {
             width: double.infinity,
             height: 52,
             child: ElevatedButton(
-              onPressed: onConfirm,
+              onPressed: _isLoading ? null : _confirmLogout,
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.error,
                 foregroundColor: AppColors.white,
@@ -77,13 +96,22 @@ class LogoutConfirmationSheet extends StatelessWidget {
                   borderRadius: BorderRadius.circular(14),
                 ),
               ),
-              child: AppText(
-                'profile.logout.title'.tr(),
-                style: AppTextStyles.body.copyWith(
-                  color: AppColors.white,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
+              child: _isLoading
+                  ? const SizedBox(
+                      width: 22,
+                      height: 22,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2.5,
+                        color: AppColors.white,
+                      ),
+                    )
+                  : AppText(
+                      'profile.logout.title'.tr(),
+                      style: AppTextStyles.body.copyWith(
+                        color: AppColors.white,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
             ),
           ),
           const SizedBox(height: 12),
@@ -92,7 +120,7 @@ class LogoutConfirmationSheet extends StatelessWidget {
             width: double.infinity,
             height: 52,
             child: OutlinedButton(
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: _isLoading ? null : () => Navigator.of(context).pop(),
               style: OutlinedButton.styleFrom(
                 foregroundColor: colors.textPrimary,
                 side: BorderSide(color: colors.border),

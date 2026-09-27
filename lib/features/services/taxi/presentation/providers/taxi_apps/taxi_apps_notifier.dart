@@ -4,7 +4,6 @@ import 'taxi_apps_state.dart';
 import 'taxi_providers_provider.dart';
 
 class TaxiAppsNotifier extends Notifier<TaxiAppsState> {
-
   Set<String>? _selectedIds;
 
   @override
@@ -77,5 +76,6 @@ class TaxiAppsNotifier extends Notifier<TaxiAppsState> {
   }
 }
 
-final taxiAppsProvider =
-    NotifierProvider<TaxiAppsNotifier, TaxiAppsState>(TaxiAppsNotifier.new);
+final taxiAppsProvider = NotifierProvider<TaxiAppsNotifier, TaxiAppsState>(
+  TaxiAppsNotifier.new,
+);

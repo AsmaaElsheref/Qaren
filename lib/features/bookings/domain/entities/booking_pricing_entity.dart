@@ -18,6 +18,11 @@ class BookingPricingEntity extends Equatable {
   bool get canShowTotal => available && totalPrice != null;
 
   @override
-  List<Object?> get props => [totalPrice, subtotal, deliveryFee, currency, available];
+  List<Object?> get props => [
+    totalPrice,
+    subtotal,
+    deliveryFee,
+    currency,
+    available,
+  ];
 }
-

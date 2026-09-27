@@ -6,11 +6,7 @@ import '../../../../../core/ui/widgets/AppText.dart';
 
 /// Small chip that displays a counter (selected / unselected apps).
 class TaxiCounterChip extends StatelessWidget {
-  const TaxiCounterChip({
-    super.key,
-    required this.label,
-    required this.active,
-  });
+  const TaxiCounterChip({super.key, required this.label, required this.active});
 
   final String label;
   final bool active;
@@ -24,7 +20,9 @@ class TaxiCounterChip extends StatelessWidget {
         vertical: AppDimensions.paddingXS,
       ),
       decoration: BoxDecoration(
-        color: active ? AppColors.primary.withValues(alpha: 0.12) : colors.disabledBackground,
+        color: active
+            ? AppColors.primary.withValues(alpha: 0.12)
+            : colors.disabledBackground,
         borderRadius: BorderRadius.circular(AppDimensions.radiusFull),
       ),
       child: AppText(
@@ -38,4 +36,3 @@ class TaxiCounterChip extends StatelessWidget {
     );
   }
 }
-

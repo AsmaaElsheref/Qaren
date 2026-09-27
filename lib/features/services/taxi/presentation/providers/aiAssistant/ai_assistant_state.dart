@@ -9,10 +9,7 @@ class AiAssistantState extends Equatable {
   final bool isLoading;
   final String? errorMessage;
 
-  const AiAssistantState({
-    this.isLoading = false,
-    this.errorMessage,
-  });
+  const AiAssistantState({this.isLoading = false, this.errorMessage});
 
   AiAssistantState copyWith({
     bool? isLoading,
@@ -28,4 +25,3 @@ class AiAssistantState extends Equatable {
   @override
   List<Object?> get props => [isLoading, errorMessage];
 }
-

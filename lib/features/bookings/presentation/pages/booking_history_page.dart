@@ -11,18 +11,15 @@ class BookingHistoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        appBar: BookingHistoryHeader(),
-        body: SafeArea(
-          child: Column(
-            children: [
-              SizedBox(height: AppDimensions.paddingS),
-              ActiveFiltersRow(),
-              Expanded(child: BookingHistoryList()),
-            ],
-          ),
+    return const Scaffold(
+      appBar: BookingHistoryHeader(),
+      body: SafeArea(
+        child: Column(
+          children: [
+            SizedBox(height: AppDimensions.paddingS),
+            ActiveFiltersRow(),
+            Expanded(child: BookingHistoryList()),
+          ],
         ),
       ),
     );

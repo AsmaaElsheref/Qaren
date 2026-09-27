@@ -13,4 +13,3 @@ class GetBookingDetailsUseCase {
     return repository.getBookingDetails(id: id);
   }
 }
-

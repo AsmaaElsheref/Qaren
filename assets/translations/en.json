@@ -10,6 +10,7 @@
     "done": "Done",
     "edit": "Edit",
     "version": "Version {version}",
+    "currency": "SAR",
     "currencyShort": "SAR",
     "currencyFull": "Saudi Riyal",
     "notAvailable": "Not available",
@@ -17,6 +18,11 @@
     "mapUnavailable": {
       "title": "Map is unavailable",
       "message": "Google Maps is disabled because no API key is configured. You can still use your current location."
+    },
+    "sort": {
+      "recommended": "Recommended",
+      "cheapest": "Cheapest",
+      "fastest": "Fastest"
     }
   },
   "validation": {
@@ -157,7 +163,6 @@
     "loadError": "Unable to load data. Please try again.",
     "saveChanges": "Save changes",
     "defaultUserName": "User",
-    "accountLabel": "User account",
     "section": {
       "account": "Account",
       "general": "General"
@@ -178,7 +183,12 @@
     "menu": {
       "notifications": "Notifications",
       "darkMode": "Dark mode",
-      "language": "App language"
+      "language": "App language",
+      "languageWithValue": "App language: {language}"
+    },
+    "language": {
+      "arabic": "العربية",
+      "english": "English"
     },
     "logout": {
       "title": "Sign out",
@@ -197,11 +207,27 @@
     "currencyFull": "Saudi Riyal",
     "caloriesUnit": "cal",
     "categoryBurger": "Burger",
+    "categories": {
+      "all": "All"
+    },
+    "mockRestaurant": {
+      "name": "Burger King",
+      "category": "Burger",
+      "deliveryTime": "20–30 min",
+      "menuSummary": "{count} {category} items"
+    },
     "deliveryTimeShort": "m",
     "itemUnavailable": "This item is currently unavailable",
     "cart": {
       "orderSummary": "Order summary",
-      "itemsCount": "items",
+      "itemsCount": {
+        "zero": "No items",
+        "one": "{} item",
+        "two": "{} items",
+        "few": "{} items",
+        "many": "{} items",
+        "other": "{} items"
+      },
       "empty": "Your cart is empty",
       "addMore": "Add more",
       "subtotal": "Subtotal",
@@ -345,6 +371,7 @@
     "compare": {
       "title": "Price comparison",
       "aiOpinionTitle": "Qaren AI opinion",
+      "aiOpinionBody": "Qaren compares the available providers to help you choose the best balance of response time and price.",
       "bestValue": "Best value",
       "distance": "Distance",
       "kilometer": " km",
@@ -358,15 +385,25 @@
       "unselectedCount": "Unselected: {count}",
       "selectAll": "Select all",
       "clearAll": "Clear",
-      "done": "Done"
+      "done": "Done",
+      "uberDescription": "Fast and reliable",
+      "careemDescription": "A popular local choice"
     },
     "search": {
       "searchingDrivers": "Searching for drivers...",
-      "showResults": "Show results"
+      "showResults": "Show results",
+      "steps": {
+        "analyzing": "Analyzing your request...",
+        "checkingAvailability": "Checking availability...",
+        "findingServices": "Finding the best services...",
+        "comparingPrices": "Comparing prices...",
+        "preparingResults": "Preparing the best results..."
+      }
     },
     "errors": {
       "samePickupDestination": "Pickup and destination are the same. Please choose a different destination.",
       "currentLocationFailed": "Unable to determine current location",
+      "selectPickupDestination": "Please select the pickup point and destination again.",
       "generic": "An error occurred. Try again."
     },
     "tripDetails": {
@@ -455,8 +492,11 @@
       "title": "Order details",
       "priceSummary": "Price summary",
       "subtotal": "Subtotal: {price}",
+      "subtotalLabel": "Subtotal:",
       "deliveryFee": "Delivery fee: {price}",
+      "deliveryFeeLabel": "Delivery fee:",
       "total": "Total: {price}",
+      "totalLabel": "Total:",
       "reorder": "Reorder",
       "share": "Share details",
       "back": "Back",
@@ -529,5 +569,64 @@
     "title": "This service will be available soon",
     "description": "We are currently preparing this page and it will be available to you soon.",
     "backToHome": "Back to home"
+  },
+  "legal": {
+    "sectionTitle": "Legal and privacy",
+    "privacyPolicy": "Privacy policy",
+    "privacy": {
+      "loadErrorTitle": "Unable to load the privacy policy",
+      "loadErrorBody": "Check your internet connection, then try again."
+    },
+    "terms": {
+      "title": "Terms of use",
+      "offlineNotice": "The official terms could not be loaded. A temporary offline copy is shown below.",
+      "introduction": "These temporary terms govern your use of Qaren until the official online terms are published. By using the application, you agree to these terms and the privacy policy.",
+      "sections": {
+        "acceptance": {
+          "title": "Acceptance of terms",
+          "body": "You must read and accept these terms before using Qaren. If you do not agree with any part of them, please stop using the application."
+        },
+        "account": {
+          "title": "Account responsibility",
+          "body": "You are responsible for providing accurate information, protecting your account and verification methods, and notifying us if you suspect unauthorized access."
+        },
+        "service": {
+          "title": "Purpose of the service",
+          "body": "Qaren helps users discover and compare available services, prices and offers. Availability and comparison results may vary by location, time and provider."
+        },
+        "providers": {
+          "title": "Third-party providers",
+          "body": "Some services are supplied by independent providers. Their availability, quality, fulfilment and additional conditions remain the responsibility of the relevant provider."
+        },
+        "prices": {
+          "title": "Prices and payments",
+          "body": "Displayed prices may change before final confirmation. You must review the final price, fees, payment method and cancellation terms before completing a request."
+        },
+        "location": {
+          "title": "Location and permissions",
+          "body": "Location, notifications, camera or biometric permissions are used only when needed for an enabled feature and can be managed through your device settings."
+        },
+        "prohibited": {
+          "title": "Prohibited use",
+          "body": "You may not misuse the application, attempt unauthorized access, interfere with its operation, submit unlawful content, impersonate others or use the service for fraud."
+        },
+        "availability": {
+          "title": "Availability and liability",
+          "body": "We work to keep Qaren accurate and available, but uninterrupted operation or error-free third-party information cannot be guaranteed. Nothing in these terms excludes rights that cannot legally be excluded."
+        },
+        "termination": {
+          "title": "Suspension and termination",
+          "body": "Access may be limited or suspended when required for security, maintenance, legal compliance or a material breach of these terms."
+        },
+        "changes": {
+          "title": "Changes to these terms",
+          "body": "These temporary terms may be updated when the service changes or the official online terms are published. The latest applicable version will be made available through Qaren."
+        },
+        "contact": {
+          "title": "Contact and complaints",
+          "body": "For questions, complaints or privacy requests, use Qaren's official support channels. Privacy-related requests are handled according to the published privacy policy."
+        }
+      }
+    }
   }
 }

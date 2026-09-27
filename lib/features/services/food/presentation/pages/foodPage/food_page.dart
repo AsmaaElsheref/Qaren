@@ -55,27 +55,24 @@ class _FoodPageState extends ConsumerState<FoodPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const SizedBox(height: AppDimensions.paddingS),
-                const FoodAppHeader(),
-                const SizedBox(height: AppDimensions.paddingM),
-                const FoodSearchField(),
-                const SizedBox(height: AppDimensions.paddingM),
-                const FoodCategoryChips(),
-                const SizedBox(height: AppDimensions.paddingM),
-                FoodSectionTitle(title: 'food.mostOrdered'.tr()),
-                const SizedBox(height: AppDimensions.paddingS),
-                const FoodRestaurantCard(),
-                const SizedBox(height: AppDimensions.paddingXL),
-              ],
-            ),
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SizedBox(height: AppDimensions.paddingS),
+              const FoodAppHeader(),
+              const SizedBox(height: AppDimensions.paddingM),
+              const FoodSearchField(),
+              const SizedBox(height: AppDimensions.paddingM),
+              const FoodCategoryChips(),
+              const SizedBox(height: AppDimensions.paddingM),
+              FoodSectionTitle(title: 'food.mostOrdered'.tr()),
+              const SizedBox(height: AppDimensions.paddingS),
+              const FoodRestaurantCard(),
+              const SizedBox(height: AppDimensions.paddingXL),
+            ],
           ),
         ),
       ),

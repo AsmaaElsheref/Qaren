@@ -21,7 +21,7 @@ class BookingHistoryHeader extends StatelessWidget
     return AppBar(
       elevation: 0,
       centerTitle: true,
-      actionsPadding: EdgeInsets.only(left: 20),
+      actionsPadding: EdgeInsetsDirectional.only(end: 20),
       title: AppText('bookings.history.title'.tr(), style: AppTextStyles.title),
       actions: [
         IconContainer(

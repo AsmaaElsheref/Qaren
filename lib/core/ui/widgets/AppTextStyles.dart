@@ -38,5 +38,3 @@ class AppTextStyles {
     fontFamily: 'DroidKufi',
   );
 }
-
-

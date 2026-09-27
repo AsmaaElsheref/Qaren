@@ -7,4 +7,3 @@ import 'taxi_providers_datasource.dart';
 final taxiProvidersRemoteProvider = FutureProvider<List<TaxiApp>>((ref) {
   return const TaxiProvidersRemoteDatasource().fetchProviders();
 });
-

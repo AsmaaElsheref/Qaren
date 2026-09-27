@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
@@ -20,7 +21,7 @@ class FoodItemList extends ConsumerWidget {
         padding: const EdgeInsets.all(AppDimensions.paddingM),
         child: Center(
           child: AppText(
-            'حدث خطأ في تحميل المنتجات',
+            'food.errors.loadProducts'.tr(),
             style: const TextStyle(
               fontSize: AppDimensions.fontS,
               color: AppColors.textSecondary,
@@ -37,7 +38,7 @@ class FoodItemList extends ConsumerWidget {
             ),
             child: Center(
               child: AppText(
-                'لا توجد نتائج',
+                'food.errors.noResults'.tr(),
                 style: const TextStyle(
                   fontSize: AppDimensions.fontS,
                   color: AppColors.textSecondary,

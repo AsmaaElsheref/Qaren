@@ -23,7 +23,8 @@ class BookingServiceTabs extends ConsumerWidget {
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           final item = BookingServiceType.values[index];
-          if (item == BookingServiceType.unknown) return const SizedBox.shrink();
+          if (item == BookingServiceType.unknown)
+            return const SizedBox.shrink();
           final isSelected = item == selected;
           return ChoiceChip(
             selected: isSelected,
@@ -41,10 +42,10 @@ class BookingServiceTabs extends ConsumerWidget {
                 .changeServiceType(item),
           );
         },
-        separatorBuilder: (context, index) => const SizedBox(width: AppDimensions.paddingS),
+        separatorBuilder: (context, index) =>
+            const SizedBox(width: AppDimensions.paddingS),
         itemCount: BookingServiceType.values.length - 1,
       ),
     );
   }
 }
-

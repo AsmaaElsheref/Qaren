@@ -17,7 +17,9 @@ import '../models/food_product_model.dart';
 abstract class FoodRemoteDataSource {
   Future<List<FoodItem>> getProducts({String? search, String? categoryId});
   Future<List<FoodCategory>> getCategories();
-  Future<List<FoodProviderModel>> compareProducts(FoodCompareRequestModel request);
+  Future<List<FoodProviderModel>> compareProducts(
+    FoodCompareRequestModel request,
+  );
 
   /// Fetches full invoice detail for a single partner.
   /// [partnerId]  — the partner to fetch
@@ -55,8 +57,8 @@ class FoodRemoteDataSourceImpl implements FoodRemoteDataSource {
         query: query.isEmpty ? null : query,
       );
 
-      final body     = response.data as Map<String, dynamic>;
-      final dataList = body['data'] as List<dynamic>;
+      final body = response.data as Map<String, dynamic>;
+      final dataList = body['data'] as List<dynamic>? ?? const [];
       return FoodProductModel.fromJsonList(dataList);
     } catch (e) {
       customPrint('Food products error ===> $e', isError: true);
@@ -67,11 +69,9 @@ class FoodRemoteDataSourceImpl implements FoodRemoteDataSource {
   @override
   Future<List<FoodCategory>> getCategories() async {
     try {
-      final response = await DioHelper.getData(
-        url: ApiRoutes.foodCategories,
-      );
+      final response = await DioHelper.getData(url: ApiRoutes.foodCategories);
 
-      final body     = response.data as Map<String, dynamic>;
+      final body = response.data as Map<String, dynamic>;
       final dataList = body['data'] as List<dynamic>;
       return FoodCategoryModel.fromJsonList(dataList);
     } catch (e) {
@@ -81,7 +81,9 @@ class FoodRemoteDataSourceImpl implements FoodRemoteDataSource {
   }
 
   @override
-  Future<List<FoodProviderModel>> compareProducts(FoodCompareRequestModel request) async {
+  Future<List<FoodProviderModel>> compareProducts(
+    FoodCompareRequestModel request,
+  ) async {
     try {
       final response = await DioHelper.postData(
         url: ApiRoutes.foodCompare,

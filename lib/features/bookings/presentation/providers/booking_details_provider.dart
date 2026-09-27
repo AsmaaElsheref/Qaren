@@ -5,16 +5,17 @@ import 'booking_details_state.dart';
 import 'booking_history_provider.dart';
 
 final getBookingDetailsUseCaseProvider = Provider<GetBookingDetailsUseCase>(
-  (ref) => GetBookingDetailsUseCase(ref.watch(bookingHistoryRepositoryProvider)),
+  (ref) =>
+      GetBookingDetailsUseCase(ref.watch(bookingHistoryRepositoryProvider)),
 );
 
 final bookingDetailsProvider = StateNotifierProvider.autoDispose
     .family<BookingDetailsNotifier, BookingDetailsState, int>(
-  (ref, id) => BookingDetailsNotifier(
-    id: id,
-    getBookingDetailsUseCase: ref.watch(getBookingDetailsUseCaseProvider),
-  )..load(),
-);
+      (ref, id) => BookingDetailsNotifier(
+        id: id,
+        getBookingDetailsUseCase: ref.watch(getBookingDetailsUseCaseProvider),
+      )..load(),
+    );
 
 class BookingDetailsNotifier extends StateNotifier<BookingDetailsState> {
   final int id;
@@ -45,4 +46,3 @@ class BookingDetailsNotifier extends StateNotifier<BookingDetailsState> {
     );
   }
 }
-

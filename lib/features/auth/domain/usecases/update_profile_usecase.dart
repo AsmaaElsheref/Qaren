@@ -13,4 +13,3 @@ class UpdateProfileUseCase {
     return _repository.updateProfile(params);
   }
 }
-

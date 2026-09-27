@@ -30,10 +30,18 @@ class BookingResultEntity extends Equatable {
 
   @override
   List<Object?> get props => [
-        id, userId, serviceType, providerSlug, bookingReference,
-        status, sessionId, bookingDetails, providerResponse,
-        createdAt, updatedAt,
-      ];
+    id,
+    userId,
+    serviceType,
+    providerSlug,
+    bookingReference,
+    status,
+    sessionId,
+    bookingDetails,
+    providerResponse,
+    createdAt,
+    updatedAt,
+  ];
 }
 
 /// Nested booking details (offer_id, customer info).
@@ -57,12 +65,8 @@ class BookingProviderResponseEntity extends Equatable {
   final String? message;
   final String? simulatedProvider;
 
-  const BookingProviderResponseEntity({
-    this.message,
-    this.simulatedProvider,
-  });
+  const BookingProviderResponseEntity({this.message, this.simulatedProvider});
 
   @override
   List<Object?> get props => [message, simulatedProvider];
 }
-

@@ -10,9 +10,6 @@ class BookingDetailsModel extends BookingDetailsEntity {
         ? data
         : Map<String, dynamic>.from(data as Map? ?? json);
 
-    return BookingDetailsModel(
-      booking: BookingModel.fromJson(bookingJson),
-    );
+    return BookingDetailsModel(booking: BookingModel.fromJson(bookingJson));
   }
 }
-

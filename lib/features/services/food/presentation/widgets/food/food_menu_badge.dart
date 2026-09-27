@@ -17,7 +17,7 @@ class FoodMenuBadge extends StatelessWidget {
             size: 26,
             color: AppColors.textPrimary,
           ),
-          onTap: (){}
+          onTap: () {},
         ),
         Positioned(
           top: -4,
@@ -44,4 +44,3 @@ class FoodMenuBadge extends StatelessWidget {
     );
   }
 }
-

@@ -28,11 +28,16 @@ final userProfileProvider = FutureProvider.autoDispose<UserEntity>((ref) async {
     },
     (user) async {
       await CacheHelper.saveData(key: AppConstants.userName, value: user.name);
-      await CacheHelper.saveData(key: AppConstants.userEmail, value: user.email);
-      await CacheHelper.saveData(key: AppConstants.userPhone, value: user.phone);
+      await CacheHelper.saveData(
+        key: AppConstants.userEmail,
+        value: user.email,
+      );
+      await CacheHelper.saveData(
+        key: AppConstants.userPhone,
+        value: user.phone,
+      );
       customPrint('UserProfile: fetched name=${user.name} phone=${user.phone}');
       return user;
     },
   );
 });
-

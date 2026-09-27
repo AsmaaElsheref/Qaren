@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/localization/easy_localization.dart';
+import 'package:qaren/core/localization/localized_formatters.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/theme/app_colors_ext.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
+import '../../../../../../core/ui/widgets/saudi_riyal_amount.dart';
 import '../../../domain/entities/food_item.dart';
 import '../../../domain/entities/food_warehouse.dart';
 import '../../providers/food_cart_provider.dart';
@@ -123,7 +125,11 @@ class FoodItemCard extends ConsumerWidget {
                       ),
                       const SizedBox(width: 2),
                       AppText(
-                        item.rating.toStringAsFixed(1),
+                        LocalizedFormatters.number(
+                          context,
+                          item.rating,
+                          decimals: 1,
+                        ),
                         style: TextStyle(
                           fontSize: 10,
                           fontWeight: FontWeight.w700,
@@ -163,16 +169,8 @@ class FoodItemCard extends ConsumerWidget {
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    AppText(
-                      'food.currencyShort'.tr(),
-                      style: TextStyle(
-                        fontSize: AppDimensions.fontXS,
-                        color: colors.textSecondary,
-                      ),
-                    ),
-                    const SizedBox(width: 4),
-                    AppText(
-                      '${item.price.toInt()}',
+                    SaudiRiyalAmount(
+                      amount: item.price.toInt().toString(),
                       style: TextStyle(
                         fontSize: AppDimensions.fontM,
                         fontWeight: FontWeight.w700,

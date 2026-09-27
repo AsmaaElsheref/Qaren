@@ -12,13 +12,8 @@ class CartCloseButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.appColors;
     return IconContainer(
-      icon: Icon(
-        Icons.close_rounded,
-        size: 20,
-        color: colors.textPrimary,
-      ),
+      icon: Icon(Icons.close_rounded, size: 20, color: colors.textPrimary),
       onTap: () => Navigator.of(context).pop(),
     );
   }
 }
-

@@ -36,20 +36,18 @@ class TaxiState {
     bool clearDestinationLatLng = false,
     bool clearPickupDate = false,
     bool clearReturnDate = false,
-  }) =>
-      TaxiState(
-        pickup: pickup ?? this.pickup,
-        destination: destination ?? this.destination,
-        isLoading: isLoading ?? this.isLoading,
-        isLocationLoading: isLocationLoading ?? this.isLocationLoading,
-        pickupLatLng:
-            clearPickupLatLng ? null : (pickupLatLng ?? this.pickupLatLng),
-        destinationLatLng: clearDestinationLatLng
-            ? null
-            : (destinationLatLng ?? this.destinationLatLng),
-        pickupDate:
-            clearPickupDate ? null : (pickupDate ?? this.pickupDate),
-        returnDate:
-            clearReturnDate ? null : (returnDate ?? this.returnDate),
-      );
+  }) => TaxiState(
+    pickup: pickup ?? this.pickup,
+    destination: destination ?? this.destination,
+    isLoading: isLoading ?? this.isLoading,
+    isLocationLoading: isLocationLoading ?? this.isLocationLoading,
+    pickupLatLng: clearPickupLatLng
+        ? null
+        : (pickupLatLng ?? this.pickupLatLng),
+    destinationLatLng: clearDestinationLatLng
+        ? null
+        : (destinationLatLng ?? this.destinationLatLng),
+    pickupDate: clearPickupDate ? null : (pickupDate ?? this.pickupDate),
+    returnDate: clearReturnDate ? null : (returnDate ?? this.returnDate),
+  );
 }

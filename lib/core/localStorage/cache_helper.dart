@@ -21,10 +21,10 @@ class CacheHelper {
     required String key,
     required dynamic value,
   }) async {
-    if (value is String)  return _prefs.setString(key, value);
-    if (value is int)     return _prefs.setInt(key, value);
-    if (value is double)  return _prefs.setDouble(key, value);
-    if (value is bool)    return _prefs.setBool(key, value);
+    if (value is String) return _prefs.setString(key, value);
+    if (value is int) return _prefs.setInt(key, value);
+    if (value is double) return _prefs.setDouble(key, value);
+    if (value is bool) return _prefs.setBool(key, value);
     throw ArgumentError(
       'CacheHelper.saveData: unsupported type ${value.runtimeType}',
     );
@@ -37,9 +37,7 @@ class CacheHelper {
 
   // ── Delete ─────────────────────────────────────────────────────────────────
 
-  static Future<bool> removeData({required String key}) =>
-      _prefs.remove(key);
+  static Future<bool> removeData({required String key}) => _prefs.remove(key);
 
   static Future<bool> clearAll() => _prefs.clear();
 }
-

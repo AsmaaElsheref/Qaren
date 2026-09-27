@@ -1,4 +1,5 @@
 import 'package:qaren/core/localization/easy_localization.dart';
+import 'package:qaren/core/localization/localized_formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:qaren/core/constants/app_dimensions.dart';
 import 'package:qaren/core/theme/app_colors.dart';
@@ -22,6 +23,10 @@ class BookingCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.appColors;
+    final bookedAtLabel = LocalizedFormatters.dateTime(
+      context,
+      booking.bookedAt,
+    );
     final icon = switch (booking.serviceType) {
       BookingServiceType.foodOrder => Icons.restaurant_rounded,
       BookingServiceType.carRental => Icons.directions_car_rounded,
@@ -108,10 +113,10 @@ class BookingCard extends StatelessWidget {
                 BookingPriceText(pricing: booking.pricing),
               ],
             ),
-            if (booking.bookedAtLabel.isNotEmpty) ...[
+            if (bookedAtLabel.isNotEmpty) ...[
               const SizedBox(height: AppDimensions.paddingXS),
               AppText(
-                booking.bookedAtLabel,
+                bookedAtLabel,
                 style: AppTextStyles.caption.copyWith(color: colors.textMuted),
               ),
             ],

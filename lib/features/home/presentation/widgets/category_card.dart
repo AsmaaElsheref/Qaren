@@ -27,16 +27,19 @@ class CategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.appColors;
-    final cardColor = colors.card;
     final borderColor = colors.border.withValues(alpha: 0.6);
     final shadowColor = colors.shadow;
 
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         decoration: BoxDecoration(
-          color: isEnabled ? CategoryIconResolver.colorFor(category.type).withValues(alpha: 0.05) : colors.disabledBackground,
+          color: isEnabled
+              ? CategoryIconResolver.colorFor(
+                  category.type,
+                ).withValues(alpha: 0.05)
+              : colors.disabledBackground,
           borderRadius: BorderRadius.circular(AppDimensions.radiusL),
           border: Border.all(color: borderColor),
           boxShadow: [
@@ -48,24 +51,31 @@ class CategoryCard extends StatelessWidget {
           ],
         ),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CategoryIconWidget(
               icon: CategoryIconResolver.resolve(category.icon),
               color: CategoryIconResolver.colorFor(category.type),
               isEnabled: isEnabled,
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: 10),
             Expanded(
-              child: CategoryLabels(
-                name: category.name,
-                description: category.description,
-                isEnabled: isEnabled,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CategoryLabels(
+                    name: category.name,
+                    description: category.description,
+                    isEnabled: isEnabled,
+                  ),
+                  if (!isEnabled) ...[
+                    const SizedBox(height: 4),
+                    const CategoryAvailabilityBadge(),
+                  ],
+                ],
               ),
             ),
-            if (!isEnabled) ...[
-              const SizedBox(width: 4),
-              const CategoryAvailabilityBadge(),
-            ],
           ],
         ),
       ),

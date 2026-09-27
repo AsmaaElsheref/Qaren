@@ -6,10 +6,9 @@ class AppLocales {
 
   static const translationsPath = 'assets/translations';
 
-  static const supportedLocales = [Locale('en'), Locale('ar')];
+  static const supportedLocales = [Locale('ar'), Locale('en')];
 
   static const fallbackLocale = Locale('en');
-  static const defaultLocale = Locale('ar');
 
   static bool isArabic(Locale locale) => locale.languageCode == 'ar';
 }

@@ -43,6 +43,5 @@ class VerifyCodeNotifier extends StateNotifier<VerifyCodeState> {
 
 final verifyCodeNotifierProvider =
     StateNotifierProvider.autoDispose<VerifyCodeNotifier, VerifyCodeState>(
-  (ref) => VerifyCodeNotifier(ref.watch(authRepositoryProvider)),
-);
-
+      (ref) => VerifyCodeNotifier(ref.watch(authRepositoryProvider)),
+    );

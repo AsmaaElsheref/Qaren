@@ -1,4 +1,5 @@
 import 'package:qaren/core/network/handelError/errors/failures.dart';
+import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:qaren/core/utils/either.dart';
 import 'package:qaren/core/utils/print/custom_print.dart';
 
@@ -12,14 +13,16 @@ class NotificationsRepositoryImpl implements NotificationsRepository {
   const NotificationsRepositoryImpl(this.remoteDataSource);
 
   @override
-  Future<Either<Failure, NotificationsPageEntity>> getNotifications({required int page}) async {
+  Future<Either<Failure, NotificationsPageEntity>> getNotifications({
+    required int page,
+  }) async {
     try {
       final response = await remoteDataSource.getNotifications(page: page);
       return Either.rightOf(response.page);
     } on Failure catch (failure) {
       return Either.leftOf(failure);
-    } catch (error) {
-      return Either.leftOf(ServerFailure(error.toString()));
+    } catch (_) {
+      return Either.leftOf(ServerFailure('notifications.loadFailed'.tr()));
     }
   }
 
@@ -30,20 +33,24 @@ class NotificationsRepositoryImpl implements NotificationsRepository {
       return Either.rightOf(response.count);
     } on Failure catch (failure) {
       return Either.leftOf(failure);
-    } catch (error) {
-      return Either.leftOf(ServerFailure(error.toString()));
+    } catch (_) {
+      return Either.leftOf(ServerFailure('notifications.loadFailed'.tr()));
     }
   }
 
   @override
-  Future<Either<Failure, bool>> markNotificationRead({required String notificationId}) async {
+  Future<Either<Failure, bool>> markNotificationRead({
+    required String notificationId,
+  }) async {
     try {
-      final response = await remoteDataSource.markNotificationRead(notificationId: notificationId);
+      final response = await remoteDataSource.markNotificationRead(
+        notificationId: notificationId,
+      );
       return Either.rightOf(response.success);
     } on Failure catch (failure) {
       return Either.leftOf(failure);
-    } catch (error) {
-      return Either.leftOf(ServerFailure(error.toString()));
+    } catch (_) {
+      return Either.leftOf(ServerFailure('errors.server'.tr()));
     }
   }
 
@@ -54,9 +61,8 @@ class NotificationsRepositoryImpl implements NotificationsRepository {
       return Either.rightOf(response.success);
     } on Failure catch (failure) {
       return Either.leftOf(failure);
-    } catch (error) {
-      return Either.leftOf(ServerFailure(error.toString()));
+    } catch (_) {
+      return Either.leftOf(ServerFailure('errors.server'.tr()));
     }
   }
 }
-

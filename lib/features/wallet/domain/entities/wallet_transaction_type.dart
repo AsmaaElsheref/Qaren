@@ -1,16 +1,13 @@
-import 'package:qaren/core/localization/easy_localization.dart';
-
 enum WalletTransactionType {
   deposit,
   payment,
   unknown;
 
-  String get label {
+  String get localizationKey {
     return switch (this) {
-      WalletTransactionType.deposit => 'wallet.transactionType.deposit'.tr(),
-      WalletTransactionType.payment => 'wallet.transactionType.payment'.tr(),
-      WalletTransactionType.unknown =>
-        'wallet.transactionType.transaction'.tr(),
+      WalletTransactionType.deposit => 'wallet.transactionType.deposit',
+      WalletTransactionType.payment => 'wallet.transactionType.payment',
+      WalletTransactionType.unknown => 'wallet.transactionType.transaction',
     };
   }
 

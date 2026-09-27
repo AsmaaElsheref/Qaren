@@ -20,15 +20,11 @@ final _foodLocalDataSourceProvider = Provider<FoodLocalDataSource>(
 
 /// Currently selected category ID.
 /// 'all' = no category filter; otherwise the numeric string id from the API.
-final selectedFoodCategoryProvider = StateProvider<String>(
-  (ref) => 'all',
-);
+final selectedFoodCategoryProvider = StateProvider<String>((ref) => 'all');
 
 /// The debounced search query that actually triggers an API call.
 /// Updated by [FoodSearchField] after a 500 ms debounce.
-final foodSearchQueryProvider = StateProvider<String>(
-  (ref) => '',
-);
+final foodSearchQueryProvider = StateProvider<String>((ref) => '');
 
 // ── Categories — fetched from API ─────────────────────────────────────────────
 
@@ -38,7 +34,7 @@ final foodCategoriesProvider = FutureProvider<List<FoodCategory>>((ref) async {
   final dataSource = ref.watch(foodRemoteDataSourceProvider);
   final categories = await dataSource.getCategories();
   return [
-    const FoodCategory(id: 'all', name: 'الكل'),
+    const FoodCategory(id: 'all', name: 'food.categories.all'),
     ...categories,
   ];
 });
@@ -53,12 +49,14 @@ final foodCategoriesProvider = FutureProvider<List<FoodCategory>>((ref) async {
 /// [FoodSearchField] debounces updates to [foodSearchQueryProvider].
 final foodItemsProvider = FutureProvider.autoDispose<List<FoodItem>>((ref) {
   final categoryId = ref.watch(selectedFoodCategoryProvider);
-  final search     = ref.watch(foodSearchQueryProvider);
+  final search = ref.watch(foodSearchQueryProvider);
 
-  return ref.watch(foodRemoteDataSourceProvider).getProducts(
-    search:     search.isEmpty     ? null : search,
-    categoryId: categoryId == 'all' ? null : categoryId,
-  );
+  return ref
+      .watch(foodRemoteDataSourceProvider)
+      .getProducts(
+        search: search.isEmpty ? null : search,
+        categoryId: categoryId == 'all' ? null : categoryId,
+      );
 });
 
 // ── Restaurant — still served from local dummy data ──────────────────────────

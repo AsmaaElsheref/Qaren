@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../../../core/localization/localized_formatters.dart';
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
 import '../../../data/models/comparePrices/compare_prices_model.dart';
@@ -25,10 +26,10 @@ class AppInfo extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             AppText(
-            result.rating.toStringAsFixed(1),
-            secondary: true,
-            style: const TextStyle(fontSize: AppDimensions.fontXS),
-          ),
+              LocalizedFormatters.number(context, result.rating, decimals: 1),
+              secondary: true,
+              style: const TextStyle(fontSize: AppDimensions.fontXS),
+            ),
             const SizedBox(width: 2),
             const Icon(Icons.star_rounded, size: 13, color: Color(0xFFFFC107)),
             const SizedBox(width: 6),

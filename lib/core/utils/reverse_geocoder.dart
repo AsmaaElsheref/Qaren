@@ -14,14 +14,16 @@ class ReverseGeocoder {
       );
       if (placemarks.isEmpty) return null;
       final p = placemarks.first;
-      final parts = [p.street, p.subLocality, p.locality, p.country]
-          .where((s) => s != null && s.trim().isNotEmpty)
-          .toList();
+      final parts = [
+        p.street,
+        p.subLocality,
+        p.locality,
+        p.country,
+      ].where((s) => s != null && s.trim().isNotEmpty).toList();
       if (parts.isEmpty) return null;
-      return parts.join('، ');
+      return parts.join(', ');
     } catch (_) {
       return null;
     }
   }
 }
-

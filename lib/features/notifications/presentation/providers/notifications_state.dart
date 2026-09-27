@@ -29,7 +29,8 @@ class NotificationsState extends Equatable {
     this.errorMessage,
   });
 
-  bool get isEmpty => !isInitialLoading && notifications.isEmpty && errorMessage == null;
+  bool get isEmpty =>
+      !isInitialLoading && notifications.isEmpty && errorMessage == null;
 
   NotificationsState copyWith({
     List<NotificationEntity>? notifications,
@@ -62,17 +63,16 @@ class NotificationsState extends Equatable {
 
   @override
   List<Object?> get props => [
-        notifications,
-        unreadCount,
-        currentPage,
-        lastPage,
-        hasMore,
-        isInitialLoading,
-        isRefreshing,
-        isLoadingMore,
-        isMarkingAllRead,
-        markingReadIds,
-        errorMessage,
-      ];
+    notifications,
+    unreadCount,
+    currentPage,
+    lastPage,
+    hasMore,
+    isInitialLoading,
+    isRefreshing,
+    isLoadingMore,
+    isMarkingAllRead,
+    markingReadIds,
+    errorMessage,
+  ];
 }
-

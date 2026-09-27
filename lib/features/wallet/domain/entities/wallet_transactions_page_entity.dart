@@ -19,9 +19,16 @@ class WalletTransactionsPageEntity extends Equatable {
     required this.nextLink,
   });
 
-  bool get hasMore => currentPage < lastPage || (nextLink != null && nextLink!.isNotEmpty);
+  bool get hasMore =>
+      currentPage < lastPage || (nextLink != null && nextLink!.isNotEmpty);
 
   @override
-  List<Object?> get props => [transactions, currentPage, lastPage, perPage, total, nextLink];
+  List<Object?> get props => [
+    transactions,
+    currentPage,
+    lastPage,
+    perPage,
+    total,
+    nextLink,
+  ];
 }
-
