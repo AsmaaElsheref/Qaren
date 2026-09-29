@@ -8,6 +8,7 @@ class ApiRoutes {
   /// Auth endpoints — paths relative to [baseUrl].
   static const String login = '/auth/login';
   static const String googleLogin = '/auth/google/token';
+  static const String appleLogin = '/auth/apple/token';
   static const String register = '/auth/register';
   static const String me = '/auth/me';
   static const String forgotPassword = '/auth/forgot-password';

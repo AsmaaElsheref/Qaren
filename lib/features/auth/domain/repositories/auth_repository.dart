@@ -8,6 +8,7 @@ import 'package:qaren/features/auth/domain/entities/user_entity.dart';
 abstract class AuthRepository {
   Future<Either<Failure, UserEntity>> login(LoginParams params);
   Future<Either<Failure, UserEntity>> loginWithGoogle();
+  Future<Either<Failure, UserEntity>> loginWithApple();
   Future<Either<Failure, UserEntity>> register(RegisterParams params);
   Future<Either<Failure, UserEntity>> getMe();
   Future<Either<Failure, UserEntity>> updateProfile(UpdateProfileParams params);

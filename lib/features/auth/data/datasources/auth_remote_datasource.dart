@@ -7,10 +7,13 @@ import 'package:qaren/features/auth/domain/entities/register_params.dart';
 import 'package:qaren/features/auth/domain/entities/update_profile_params.dart';
 import 'package:qaren/features/auth/data/models/user_model.dart';
 import 'package:qaren/features/auth/data/models/google_login_response_model.dart';
+import 'package:qaren/features/auth/data/models/apple_login_response_model.dart';
+import 'package:qaren/features/auth/domain/entities/apple_login_params.dart';
 
 abstract class AuthRemoteDataSource {
   Future<UserModel> login(LoginParams params);
   Future<UserModel> loginWithGoogleAccessToken(String accessToken);
+  Future<UserModel> loginWithApple(AppleLoginParams params);
   Future<UserModel> register(RegisterParams params);
   Future<UserModel> getMe();
   Future<UserModel> updateProfile(UpdateProfileParams params);
@@ -56,6 +59,16 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       authenticated: false,
     );
     return GoogleLoginResponseModel.fromJson(response.data).data.user;
+  }
+
+  @override
+  Future<UserModel> loginWithApple(AppleLoginParams params) async {
+    final response = await DioHelper.postData(
+      url: ApiRoutes.appleLogin,
+      data: params.toJson(),
+      authenticated: false,
+    );
+    return AppleLoginResponseModel.fromJson(response.data).data.user;
   }
 
   @override

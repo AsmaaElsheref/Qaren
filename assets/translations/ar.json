@@ -81,11 +81,17 @@
       "signUpLink": "إنشاء حساب",
       "failed": "فشل تسجيل الدخول. تحقق من بياناتك.",
       "continueWithGoogle": "المتابعة باستخدام Google",
+      "continueWithApple": "المتابعة باستخدام Apple",
       "googleLoginCancelled": "تم إلغاء تسجيل الدخول باستخدام Google.",
       "googleAccessTokenMissing": "تعذر إكمال المصادقة باستخدام Google.",
       "googleInvalidToken": "جلسة Google غير صالحة. يرجى المحاولة مرة أخرى.",
       "googleLoginFailed": "تعذر تسجيل الدخول باستخدام Google. يرجى المحاولة مرة أخرى.",
       "googleAccountNotAvailable": "لا يتوفر حساب Google على هذا الجهاز.",
+      "appleLoginCancelled": "تم إلغاء تسجيل الدخول باستخدام Apple.",
+      "appleCredentialsMissing": "تعذر إكمال المصادقة باستخدام Apple.",
+      "appleTokenRejected": "رفض الخادم رمز Apple. يرجى المحاولة مرة أخرى.",
+      "appleLoginFailed": "تعذر تسجيل الدخول باستخدام Apple. يرجى المحاولة مرة أخرى.",
+      "appleAccountNotAvailable": "تسجيل الدخول باستخدام Apple غير متاح على هذا الجهاز.",
       "sessionSaveFailed": "تعذر حفظ جلسة تسجيل الدخول بأمان. يرجى المحاولة مرة أخرى."
     },
     "signup": {

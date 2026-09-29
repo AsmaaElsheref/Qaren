@@ -1,4 +1,5 @@
 import 'package:qaren/core/localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/constants/gap.dart';
@@ -14,6 +15,7 @@ import '../widgets/login_input_field.dart';
 import '../widgets/gradient_login_button.dart';
 import '../widgets/biometrics_button.dart';
 import '../widgets/google_sign_in_button.dart';
+import '../widgets/apple_sign_in_button.dart';
 import '../../../home/presentation/pages/home_page.dart';
 import 'forgot_password_page.dart';
 import 'signup_page.dart';
@@ -103,6 +105,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     ref.read(loginNotifierProvider.notifier).loginWithGoogle();
   }
 
+  void _onApplePressed() {
+    ref.read(loginNotifierProvider.notifier).loginWithApple();
+  }
+
   @override
   Widget build(BuildContext context) {
     // ── Listen for login success / failure ──────────────────────
@@ -142,6 +148,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     final loginState = ref.watch(loginNotifierProvider);
     final notifier = ref.read(loginNotifierProvider.notifier);
     final isBusy = loginState.status == LoginStatus.loading;
+    final showAppleSignIn =
+        !kIsWeb && defaultTargetPlatform == TargetPlatform.iOS;
 
     return Scaffold(
       body: SafeArea(
@@ -233,6 +241,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       isLoading: loginState.activeMethod == LoginMethod.google,
                       onPressed: isBusy ? null : _onGooglePressed,
                     ),
+                    if (showAppleSignIn) ...[
+                      const SizedBox(height: AppDimensions.paddingM),
+                      AppleSignInButton(
+                        label: 'auth.login.continueWithApple'.tr(),
+                        isLoading: loginState.activeMethod == LoginMethod.apple,
+                        onPressed: isBusy ? null : _onApplePressed,
+                      ),
+                    ],
                     const SizedBox(height: AppDimensions.paddingXL),
                     BiometricsButton(
                       onPressed: isBusy ? null : _onBiometricPressed,

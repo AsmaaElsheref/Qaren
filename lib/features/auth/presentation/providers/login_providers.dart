@@ -10,12 +10,14 @@ import '../../data/datasources/auth_remote_datasource.dart';
 import '../../data/repositories/auth_repository_impl.dart';
 import '../../data/services/auth_session_service.dart';
 import '../../data/services/google_sign_in_service.dart';
+import '../../data/services/apple_sign_in_service.dart';
 import '../../domain/entities/login_params.dart';
 import '../../domain/entities/user_entity.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../../domain/usecases/login_usecase.dart';
 import '../../domain/usecases/google_login_usecase.dart';
 import '../../domain/usecases/delete_account_usecase.dart';
+import '../../domain/usecases/apple_login_usecase.dart';
 import 'login_state.dart';
 
 // ── Data layer ─────────────────────────────────────────────────────────────────
@@ -27,6 +29,10 @@ final googleSignInServiceProvider = Provider<GoogleSignInService>(
   (ref) => GoogleSignInService(),
 );
 
+final appleSignInServiceProvider = Provider<AppleSignInService>(
+  (ref) => const AppleSignInService(),
+);
+
 final authSessionServiceProvider = Provider<AuthSessionService>(
   (ref) => AuthSessionService(ref.watch(secureStorageProvider)),
 );
@@ -35,6 +41,7 @@ final authRepositoryProvider = Provider<AuthRepository>(
   (ref) => AuthRepositoryImpl(
     ref.watch(authRemoteDataSourceProvider),
     ref.watch(googleSignInServiceProvider),
+    ref.watch(appleSignInServiceProvider),
   ),
 );
 
@@ -47,6 +54,10 @@ final googleLoginUseCaseProvider = Provider<GoogleLoginUseCase>(
   (ref) => GoogleLoginUseCase(ref.watch(authRepositoryProvider)),
 );
 
+final appleLoginUseCaseProvider = Provider<AppleLoginUseCase>(
+  (ref) => AppleLoginUseCase(ref.watch(authRepositoryProvider)),
+);
+
 final deleteAccountUseCaseProvider = Provider<DeleteAccountUseCase>(
   (ref) => DeleteAccountUseCase(ref.watch(authRepositoryProvider)),
 );
@@ -57,6 +68,7 @@ final loginNotifierProvider =
       (ref) => LoginNotifier(
         loginUseCase: ref.watch(loginUseCaseProvider),
         googleLoginUseCase: ref.watch(googleLoginUseCaseProvider),
+        appleLoginUseCase: ref.watch(appleLoginUseCaseProvider),
         biometricService: ref.watch(biometricServiceProvider),
         secureStorage: ref.watch(secureStorageProvider),
         sessionService: ref.watch(authSessionServiceProvider),
@@ -67,6 +79,7 @@ final loginNotifierProvider =
 class LoginNotifier extends StateNotifier<LoginState> {
   final LoginUseCase _loginUseCase;
   final GoogleLoginUseCase _googleLoginUseCase;
+  final AppleLoginUseCase _appleLoginUseCase;
   final BiometricService _biometricService;
   final SecureStorageService _secureStorage;
   final AuthSessionService _sessionService;
@@ -75,12 +88,14 @@ class LoginNotifier extends StateNotifier<LoginState> {
   LoginNotifier({
     required LoginUseCase loginUseCase,
     required GoogleLoginUseCase googleLoginUseCase,
+    required AppleLoginUseCase appleLoginUseCase,
     required BiometricService biometricService,
     required SecureStorageService secureStorage,
     required AuthSessionService sessionService,
     required GoogleSignInService googleSignInService,
   }) : _loginUseCase = loginUseCase,
        _googleLoginUseCase = googleLoginUseCase,
+       _appleLoginUseCase = appleLoginUseCase,
        _biometricService = biometricService,
        _secureStorage = secureStorage,
        _sessionService = sessionService,
@@ -152,6 +167,34 @@ class LoginNotifier extends StateNotifier<LoginState> {
     );
 
     final result = await _googleLoginUseCase();
+    if (result.isLeft) {
+      final failure = result.leftValue;
+      if (failure is AuthCancelledFailure) {
+        if (mounted) {
+          state = state.copyWith(
+            status: LoginStatus.initial,
+            errorMessage: null,
+            activeMethod: null,
+          );
+        }
+        return;
+      }
+      _failMounted(failure.message);
+      return;
+    }
+
+    await _completeLogin(result.rightValue);
+  }
+
+  Future<void> loginWithApple() async {
+    if (state.status == LoginStatus.loading) return;
+    state = state.copyWith(
+      status: LoginStatus.loading,
+      errorMessage: null,
+      activeMethod: LoginMethod.apple,
+    );
+
+    final result = await _appleLoginUseCase();
     if (result.isLeft) {
       final failure = result.leftValue;
       if (failure is AuthCancelledFailure) {

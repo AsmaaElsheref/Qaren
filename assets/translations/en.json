@@ -81,11 +81,17 @@
       "signUpLink": "Create account",
       "failed": "Sign in failed. Check your credentials.",
       "continueWithGoogle": "Continue with Google",
+      "continueWithApple": "Continue with Apple",
       "googleLoginCancelled": "Google sign-in was cancelled.",
       "googleAccessTokenMissing": "Google authentication could not be completed.",
       "googleInvalidToken": "The Google session is invalid. Please try again.",
       "googleLoginFailed": "Unable to sign in with Google. Please try again.",
       "googleAccountNotAvailable": "No Google account is available on this device.",
+      "appleLoginCancelled": "Apple sign-in was cancelled.",
+      "appleCredentialsMissing": "Apple authentication could not be completed.",
+      "appleTokenRejected": "The server rejected the Apple token. Please try again.",
+      "appleLoginFailed": "Unable to sign in with Apple. Please try again.",
+      "appleAccountNotAvailable": "Sign in with Apple is not available on this device.",
       "sessionSaveFailed": "Unable to save your sign-in session securely. Please try again."
     },
     "signup": {

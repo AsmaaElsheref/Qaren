@@ -9,12 +9,19 @@ import 'package:qaren/features/auth/domain/repositories/auth_repository.dart';
 import 'package:qaren/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:qaren/features/auth/data/models/google_login_response_model.dart';
 import 'package:qaren/features/auth/data/services/google_sign_in_service.dart';
+import 'package:qaren/features/auth/data/services/apple_sign_in_service.dart';
+import 'package:qaren/features/auth/data/models/apple_login_response_model.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource _remoteDataSource;
   final GoogleSignInService _googleSignInService;
+  final AppleSignInService _appleSignInService;
 
-  const AuthRepositoryImpl(this._remoteDataSource, this._googleSignInService);
+  const AuthRepositoryImpl(
+    this._remoteDataSource,
+    this._googleSignInService,
+    this._appleSignInService,
+  );
 
   @override
   Future<Either<Failure, UserEntity>> login(LoginParams params) async {
@@ -73,6 +80,39 @@ class AuthRepositoryImpl implements AuthRepository {
       return Either.leftOf(AuthFailure('auth.login.googleLoginFailed'.tr()));
     } catch (_) {
       return Either.leftOf(AuthFailure('auth.login.googleLoginFailed'.tr()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, UserEntity>> loginWithApple() async {
+    try {
+      final credential = await _appleSignInService.getCredential();
+      final user = await _remoteDataSource.loginWithApple(credential);
+      return Either.rightOf(user);
+    } on AppleSignInCancelledException {
+      return Either.leftOf(
+        AuthCancelledFailure('auth.login.appleLoginCancelled'.tr()),
+      );
+    } on AppleCredentialsMissingException {
+      return Either.leftOf(
+        AuthFailure('auth.login.appleCredentialsMissing'.tr()),
+      );
+    } on AppleAccountUnavailableException {
+      return Either.leftOf(
+        AuthFailure('auth.login.appleAccountNotAvailable'.tr()),
+      );
+    } on AppleSignInSdkException {
+      return Either.leftOf(AuthFailure('auth.login.appleLoginFailed'.tr()));
+    } on NetworkFailure catch (failure) {
+      return Either.leftOf(failure);
+    } on Failure {
+      return Either.leftOf(AuthFailure('auth.login.appleTokenRejected'.tr()));
+    } on AppleLoginRejectedException {
+      return Either.leftOf(AuthFailure('auth.login.appleTokenRejected'.tr()));
+    } on AppleLoginResponseException {
+      return Either.leftOf(AuthFailure('auth.login.appleLoginFailed'.tr()));
+    } catch (_) {
+      return Either.leftOf(AuthFailure('auth.login.appleLoginFailed'.tr()));
     }
   }
 
