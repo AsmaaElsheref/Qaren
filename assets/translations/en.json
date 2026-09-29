@@ -194,6 +194,13 @@
       "title": "Sign out",
       "confirmMessage": "Are you sure you want to sign out?"
     },
+    "deleteAccount": {
+      "title": "Delete account",
+      "confirmTitle": "Delete your account?",
+      "confirmMessage": "This action is permanent. Your account and access will be removed and cannot be restored.",
+      "confirmButton": "Delete permanently",
+      "failed": "Unable to delete your account. Please try again."
+    },
     "settings": {
       "generalSection": "General settings"
     }

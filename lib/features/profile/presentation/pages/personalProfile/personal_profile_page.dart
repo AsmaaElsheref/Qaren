@@ -15,6 +15,7 @@ import '../../widgets/personal_profile_card.dart';
 import '../../widgets/profile_account_card.dart';
 import '../../widgets/profile_general_menu_card.dart';
 import '../../widgets/profile_section_title.dart';
+import '../../widgets/delete_account_confirmation_sheet.dart';
 
 class PersonalProfilePage extends ConsumerWidget {
   const PersonalProfilePage({super.key, this.isHome});
@@ -41,6 +42,38 @@ class PersonalProfilePage extends ConsumerWidget {
       MaterialPageRoute(builder: (_) => const LoginPage()),
       (_) => false,
     );
+  }
+
+  Future<void> _showDeleteAccountSheet(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
+    await showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (_) => DeleteAccountConfirmationSheet(
+        onConfirm: () => _performDeleteAccount(context, ref),
+      ),
+    );
+  }
+
+  Future<String?> _performDeleteAccount(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
+    final navigator = Navigator.of(context, rootNavigator: true);
+    final result = await ref.read(deleteAccountUseCaseProvider)();
+    if (result.isLeft) return result.leftValue.message;
+
+    await ref
+        .read(loginNotifierProvider.notifier)
+        .logout(keepBiometricData: false);
+    navigator.pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_) => const LoginPage()),
+      (_) => false,
+    );
+    return null;
   }
 
   @override
@@ -100,6 +133,7 @@ class PersonalProfilePage extends ConsumerWidget {
                 onNotifications: () {},
                 onPrivacy: () {},
                 onLogout: () => _showLogoutSheet(context, ref),
+                onDeleteAccount: () => _showDeleteAccountSheet(context, ref),
               ),
 
               const SizedBox(height: 24),

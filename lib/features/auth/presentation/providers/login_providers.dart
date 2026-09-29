@@ -15,6 +15,7 @@ import '../../domain/entities/user_entity.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../../domain/usecases/login_usecase.dart';
 import '../../domain/usecases/google_login_usecase.dart';
+import '../../domain/usecases/delete_account_usecase.dart';
 import 'login_state.dart';
 
 // ── Data layer ─────────────────────────────────────────────────────────────────
@@ -44,6 +45,10 @@ final loginUseCaseProvider = Provider<LoginUseCase>(
 
 final googleLoginUseCaseProvider = Provider<GoogleLoginUseCase>(
   (ref) => GoogleLoginUseCase(ref.watch(authRepositoryProvider)),
+);
+
+final deleteAccountUseCaseProvider = Provider<DeleteAccountUseCase>(
+  (ref) => DeleteAccountUseCase(ref.watch(authRepositoryProvider)),
 );
 
 // ── Notifier ───────────────────────────────────────────────────────────────────

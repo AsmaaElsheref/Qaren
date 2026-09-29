@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors_ext.dart';
 import 'profile_logout_item.dart';
-import 'profile_menu_item_row.dart';
+import 'delete_account_menu_item.dart';
 
 class ProfileGeneralMenuCard extends StatelessWidget {
   final VoidCallback onWallet;
@@ -9,6 +9,7 @@ class ProfileGeneralMenuCard extends StatelessWidget {
   final VoidCallback onNotifications;
   final VoidCallback onPrivacy;
   final VoidCallback onLogout;
+  final VoidCallback onDeleteAccount;
 
   const ProfileGeneralMenuCard({
     super.key,
@@ -17,6 +18,7 @@ class ProfileGeneralMenuCard extends StatelessWidget {
     required this.onNotifications,
     required this.onPrivacy,
     required this.onLogout,
+    required this.onDeleteAccount,
   });
 
   @override
@@ -59,6 +61,11 @@ class ProfileGeneralMenuCard extends StatelessWidget {
           //   onTap: onPrivacy,
           // ),
           ProfileLogoutItem(onTap: onLogout),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Divider(height: 1, color: colors.divider),
+          ),
+          DeleteAccountMenuItem(onTap: onDeleteAccount),
         ],
       ),
     );

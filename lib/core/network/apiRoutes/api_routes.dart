@@ -14,6 +14,7 @@ class ApiRoutes {
   static const String verifyCode = '/auth/verify-code';
   static const String resetPassword = '/auth/reset-password';
   static const String updateProfile = '/auth/update-profile';
+  static const String deleteAccount = '/delete/me';
 
   /// Home endpoints
   static const String categories = '/categories';

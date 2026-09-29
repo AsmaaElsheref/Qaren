@@ -115,6 +115,18 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<Either<Failure, void>> deleteAccount() async {
+    try {
+      await _remoteDataSource.deleteAccount();
+      return Either.rightOf(null);
+    } on Failure catch (failure) {
+      return Either.leftOf(failure);
+    } catch (_) {
+      return Either.leftOf(ServerFailure('profile.deleteAccount.failed'.tr()));
+    }
+  }
+
+  @override
   Future<Either<Failure, void>> loginWithBiometrics(
     UserTypeTab userType,
   ) async {

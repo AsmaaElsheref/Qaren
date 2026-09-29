@@ -14,6 +14,7 @@ abstract class AuthRemoteDataSource {
   Future<UserModel> register(RegisterParams params);
   Future<UserModel> getMe();
   Future<UserModel> updateProfile(UpdateProfileParams params);
+  Future<void> deleteAccount();
   Future<void> loginWithBiometrics(UserTypeTab userType);
   Future<void> forgotPassword(String login);
   Future<void> verifyCode(String login, String code);
@@ -118,6 +119,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final body = response.data as Map<String, dynamic>;
     final data = body['data'] as Map<String, dynamic>;
     return UserModel.fromJson(data);
+  }
+
+  @override
+  Future<void> deleteAccount() async {
+    await DioHelper.deleteData(url: ApiRoutes.deleteAccount);
   }
 
   @override

@@ -13,6 +13,8 @@ import '../../widgets/logout_menu_item.dart';
 import '../../widgets/profile_header.dart';
 import '../../widgets/settings_section_title.dart';
 import '../../widgets/settings_menu_item.dart';
+import '../../widgets/delete_account_confirmation_sheet.dart';
+import '../../widgets/delete_account_menu_item.dart';
 import '../../../../../core/theme/app_color_tokens.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/theme/app_colors_ext.dart';
@@ -54,6 +56,38 @@ class ProfileSettingsPage extends ConsumerWidget {
       MaterialPageRoute(builder: (_) => const LoginPage()),
       (_) => false,
     );
+  }
+
+  Future<void> _showDeleteAccountSheet(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
+    await showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (_) => DeleteAccountConfirmationSheet(
+        onConfirm: () => _performDeleteAccount(context, ref),
+      ),
+    );
+  }
+
+  Future<String?> _performDeleteAccount(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
+    final navigator = Navigator.of(context, rootNavigator: true);
+    final result = await ref.read(deleteAccountUseCaseProvider)();
+    if (result.isLeft) return result.leftValue.message;
+
+    await ref
+        .read(loginNotifierProvider.notifier)
+        .logout(keepBiometricData: false);
+    navigator.pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_) => const LoginPage()),
+      (_) => false,
+    );
+    return null;
   }
 
   @override
@@ -184,6 +218,10 @@ class ProfileSettingsPage extends ConsumerWidget {
                     const SizedBox(height: 32),
                     // ── Logout ────────────────────────────────────────────
                     LogoutMenuItem(onTap: () => _showLogoutSheet(context, ref)),
+                    DeleteAccountMenuItem(
+                      horizontalPadding: 20,
+                      onTap: () => _showDeleteAccountSheet(context, ref),
+                    ),
                   ],
                 ),
               ),

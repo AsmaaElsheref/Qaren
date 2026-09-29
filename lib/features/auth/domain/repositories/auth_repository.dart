@@ -11,6 +11,7 @@ abstract class AuthRepository {
   Future<Either<Failure, UserEntity>> register(RegisterParams params);
   Future<Either<Failure, UserEntity>> getMe();
   Future<Either<Failure, UserEntity>> updateProfile(UpdateProfileParams params);
+  Future<Either<Failure, void>> deleteAccount();
   Future<Either<Failure, void>> loginWithBiometrics(UserTypeTab userType);
   Future<Either<Failure, void>> forgotPassword(String login);
   Future<Either<Failure, void>> verifyCode(String login, String code);
