@@ -7,11 +7,20 @@ import '../../../../../../core/ui/widgets/AppButton.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
 import '../../pages/successPage/success_page.dart';
 import '../../providers/food_providers.dart';
+import '../../../../../auth/presentation/guards/guest_access_guard.dart';
 
 class CheckoutConfirmButton extends ConsumerWidget {
   const CheckoutConfirmButton({super.key});
 
   Future<void> _submit(BuildContext context, WidgetRef ref) async {
+    if (!await GuestAccessGuard.ensureAuthenticated(
+      context: context,
+      ref: ref,
+    )) {
+      return;
+    }
+    if (!context.mounted) return;
+
     final notes = ref.read(checkoutNotesProvider);
     final method = ref.read(checkoutPaymentMethodProvider);
     final coupon = ref.read(checkoutCouponProvider);

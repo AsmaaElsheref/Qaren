@@ -8,7 +8,6 @@ import '../../../../core/services/biometric_service.dart';
 import '../../../../core/services/secure_storage_service.dart';
 import '../../data/datasources/auth_remote_datasource.dart';
 import '../../data/repositories/auth_repository_impl.dart';
-import '../../data/services/auth_session_service.dart';
 import '../../data/services/google_sign_in_service.dart';
 import '../../data/services/apple_sign_in_service.dart';
 import '../../domain/entities/login_params.dart';
@@ -18,6 +17,8 @@ import '../../domain/usecases/login_usecase.dart';
 import '../../domain/usecases/google_login_usecase.dart';
 import '../../domain/usecases/delete_account_usecase.dart';
 import '../../domain/usecases/apple_login_usecase.dart';
+import '../../domain/usecases/guest_login_usecase.dart';
+import 'auth_session_provider.dart';
 import 'login_state.dart';
 
 // ── Data layer ─────────────────────────────────────────────────────────────────
@@ -31,10 +32,6 @@ final googleSignInServiceProvider = Provider<GoogleSignInService>(
 
 final appleSignInServiceProvider = Provider<AppleSignInService>(
   (ref) => const AppleSignInService(),
-);
-
-final authSessionServiceProvider = Provider<AuthSessionService>(
-  (ref) => AuthSessionService(ref.watch(secureStorageProvider)),
 );
 
 final authRepositoryProvider = Provider<AuthRepository>(
@@ -58,6 +55,10 @@ final appleLoginUseCaseProvider = Provider<AppleLoginUseCase>(
   (ref) => AppleLoginUseCase(ref.watch(authRepositoryProvider)),
 );
 
+final guestLoginUseCaseProvider = Provider<GuestLoginUseCase>(
+  (ref) => GuestLoginUseCase(ref.watch(authRepositoryProvider)),
+);
+
 final deleteAccountUseCaseProvider = Provider<DeleteAccountUseCase>(
   (ref) => DeleteAccountUseCase(ref.watch(authRepositoryProvider)),
 );
@@ -69,9 +70,10 @@ final loginNotifierProvider =
         loginUseCase: ref.watch(loginUseCaseProvider),
         googleLoginUseCase: ref.watch(googleLoginUseCaseProvider),
         appleLoginUseCase: ref.watch(appleLoginUseCaseProvider),
+        guestLoginUseCase: ref.watch(guestLoginUseCaseProvider),
         biometricService: ref.watch(biometricServiceProvider),
         secureStorage: ref.watch(secureStorageProvider),
-        sessionService: ref.watch(authSessionServiceProvider),
+        sessionNotifier: ref.read(authSessionProvider.notifier),
         googleSignInService: ref.watch(googleSignInServiceProvider),
       ),
     );
@@ -80,25 +82,28 @@ class LoginNotifier extends StateNotifier<LoginState> {
   final LoginUseCase _loginUseCase;
   final GoogleLoginUseCase _googleLoginUseCase;
   final AppleLoginUseCase _appleLoginUseCase;
+  final GuestLoginUseCase _guestLoginUseCase;
   final BiometricService _biometricService;
   final SecureStorageService _secureStorage;
-  final AuthSessionService _sessionService;
+  final AuthSessionNotifier _sessionNotifier;
   final GoogleSignInService _googleSignInService;
 
   LoginNotifier({
     required LoginUseCase loginUseCase,
     required GoogleLoginUseCase googleLoginUseCase,
     required AppleLoginUseCase appleLoginUseCase,
+    required GuestLoginUseCase guestLoginUseCase,
     required BiometricService biometricService,
     required SecureStorageService secureStorage,
-    required AuthSessionService sessionService,
+    required AuthSessionNotifier sessionNotifier,
     required GoogleSignInService googleSignInService,
   }) : _loginUseCase = loginUseCase,
        _googleLoginUseCase = googleLoginUseCase,
        _appleLoginUseCase = appleLoginUseCase,
+       _guestLoginUseCase = guestLoginUseCase,
        _biometricService = biometricService,
        _secureStorage = secureStorage,
-       _sessionService = sessionService,
+       _sessionNotifier = sessionNotifier,
        _googleSignInService = googleSignInService,
        super(const LoginState()) {
     _checkBiometricAvailability();
@@ -214,6 +219,39 @@ class LoginNotifier extends StateNotifier<LoginState> {
     await _completeLogin(result.rightValue);
   }
 
+  Future<void> continueAsGuest() async {
+    if (state.status == LoginStatus.loading) return;
+
+    final activeSession = _sessionNotifier.state;
+    if (activeSession.isAuthenticated ||
+        (activeSession.isGuest && activeSession.hasToken)) {
+      state = state.copyWith(status: LoginStatus.success, activeMethod: null);
+      return;
+    }
+
+    state = state.copyWith(
+      status: LoginStatus.loading,
+      errorMessage: null,
+      activeMethod: LoginMethod.guest,
+    );
+
+    final result = await _guestLoginUseCase();
+    if (result.isLeft) {
+      _failMounted(result.leftValue.message);
+      return;
+    }
+
+    try {
+      await _sessionNotifier.persistGuest(result.rightValue);
+      if (mounted) {
+        state = state.copyWith(status: LoginStatus.success, activeMethod: null);
+      }
+    } catch (_) {
+      await _sessionNotifier.clear();
+      _failMounted('auth.guest_login_failed'.tr());
+    }
+  }
+
   Future<void> _completeLogin(
     UserEntity user, {
     String? login,
@@ -221,7 +259,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
     Future<bool> Function()? askEnableBiometrics,
   }) async {
     try {
-      await _sessionService.persist(user);
+      await _sessionNotifier.persistAuthenticated(user);
 
       if (askEnableBiometrics != null && login != null && password != null) {
         final bioAvailable = await _biometricService.isAvailable();
@@ -248,7 +286,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
         );
       }
     } catch (_) {
-      await _sessionService.clear();
+      await _sessionNotifier.clear();
       _failMounted('auth.login.sessionSaveFailed'.tr());
     }
   }
@@ -346,7 +384,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
   /// [keepBiometricData] = true → user can still quick-login with biometrics
   /// after logout. Set to false to fully wipe everything.
   Future<void> logout({bool keepBiometricData = true}) async {
-    await _sessionService.clear();
+    await _sessionNotifier.clear();
     try {
       await _googleSignInService.signOut();
     } catch (_) {

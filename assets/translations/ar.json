@@ -26,6 +26,8 @@
     }
   },
   "validation": {
+    "loginRequired": "البريد الإلكتروني أو رقم الهاتف مطلوب",
+    "loginInvalid": "أدخل بريدًا إلكترونيًا أو رقم هاتف صحيحًا",
     "emailRequired": "البريد الإلكتروني مطلوب",
     "emailInvalid": "البريد الإلكتروني غير صحيح",
     "passwordRequired": "كلمة المرور مطلوبة",
@@ -61,12 +63,19 @@
     "locationFailed": "تعذّر تحديد موقعك الحالي"
   },
   "auth": {
+    "continue_as_guest": "المتابعة كزائر",
+    "guest_login_failed": "تعذر المتابعة كزائر. يرجى المحاولة مرة أخرى.",
+    "login_required": "يجب تسجيل الدخول لإكمال هذه العملية.",
+    "login_action": "تسجيل الدخول",
+    "create_account": "إنشاء حساب",
+    "cancel": "إلغاء",
     "userType": {
       "user": "مستخدم",
       "partner": "شريك",
       "admin": "إدارة"
     },
     "login": {
+      "loginHint": "البريد الإلكتروني أو رقم الهاتف",
       "emailHint": "user@qaren.com",
       "passwordHint": "••••••",
       "forgotPassword": "نسيت كلمة المرور؟",
@@ -97,9 +106,9 @@
     "signup": {
       "title": "إنشاء حساب جديد",
       "nameHint": "الاسم الكامل",
-      "phoneHint": "رقم الهاتف",
+      "phoneHint": "رقم الهاتف (اختياري)",
       "confirmPasswordHint": "تأكيد كلمة المرور",
-      "genderHint": "الجنس",
+      "genderHint": "الجنس (اختياري)",
       "genderMale": "ذكر",
       "genderFemale": "أنثى",
       "button": "إنشاء الحساب",

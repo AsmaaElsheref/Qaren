@@ -2,11 +2,13 @@ import '../../../../core/network/handelError/errors/failures.dart';
 import '../../../../core/utils/either.dart';
 import 'package:qaren/features/auth/domain/entities/login_params.dart';
 import 'package:qaren/features/auth/domain/entities/register_params.dart';
+import 'package:qaren/features/auth/domain/entities/guest_auth_data.dart';
 import 'package:qaren/features/auth/domain/entities/update_profile_params.dart';
 import 'package:qaren/features/auth/domain/entities/user_entity.dart';
 
 abstract class AuthRepository {
   Future<Either<Failure, UserEntity>> login(LoginParams params);
+  Future<Either<Failure, GuestAuthData>> continueAsGuest();
   Future<Either<Failure, UserEntity>> loginWithGoogle();
   Future<Either<Failure, UserEntity>> loginWithApple();
   Future<Either<Failure, UserEntity>> register(RegisterParams params);

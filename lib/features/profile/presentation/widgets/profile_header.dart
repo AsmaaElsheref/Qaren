@@ -5,6 +5,7 @@ import '../../../../core/theme/app_colors_ext.dart';
 import '../../../../core/ui/widgets/AppText.dart';
 import '../../../../core/ui/widgets/AppTextStyles.dart';
 import '../../../auth/presentation/providers/user_profile_provider.dart';
+import '../../../auth/presentation/providers/auth_session_provider.dart';
 import '../providers/profileSettings/profile_settings_provider.dart';
 import 'edit_profile_button.dart';
 import 'profile_avatar.dart';
@@ -16,7 +17,10 @@ class ProfileHeader extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.appColors;
-    final userProfile = ref.watch(userProfileProvider).valueOrNull;
+    final isAuthenticated = ref.watch(authSessionProvider).isAuthenticated;
+    final userProfile = isAuthenticated
+        ? ref.watch(userProfileProvider).valueOrNull
+        : null;
     final cachedUserName = ref.watch(profileUserNameProvider);
     final fetchedUserName = userProfile?.name.trim();
     final userName = fetchedUserName?.isNotEmpty == true

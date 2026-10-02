@@ -8,6 +8,7 @@ import 'package:qaren/core/theme/app_colors.dart';
 import 'package:qaren/core/ui/widgets/AppButton.dart';
 import 'package:qaren/core/ui/widgets/custom_app_bar.dart';
 import 'package:qaren/features/auth/presentation/providers/user_profile_provider.dart';
+import 'package:qaren/features/auth/presentation/guards/guest_access_guard.dart';
 import '../../../domain/entities/book_car_rental_params.dart';
 import '../../providers/bookingProvider/booking_provider.dart';
 import '../../providers/bookingProvider/booking_state.dart';
@@ -149,6 +150,14 @@ class _TripDetailsState extends ConsumerState<TripDetails> {
                   onTap: isBooking
                       ? null
                       : () async {
+                          if (!await GuestAccessGuard.ensureAuthenticated(
+                            context: context,
+                            ref: ref,
+                          )) {
+                            return;
+                          }
+                          if (!mounted) return;
+
                           if (pickup == null || dropoff == null) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(

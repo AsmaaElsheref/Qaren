@@ -15,6 +15,7 @@ class DioHelper {
   DioHelper._();
 
   static Dio? _dio;
+  static Future<void> Function()? onUnauthorized;
 
   static Dio get _instance {
     _dio ??= _createDio();
@@ -50,7 +51,7 @@ class DioHelper {
           customPrint('RESPONSE DATA ⇦ ${_sanitizeForLog(response.data)}');
           handler.next(response);
         },
-        onError: (error, handler) {
+        onError: (error, handler) async {
           final response = error.response;
           if (response != null) {
             customPrint(
@@ -66,6 +67,16 @@ class DioHelper {
               'REQUEST FAILED ⇦ ${error.requestOptions.uri}: ${error.message}',
               isError: true,
             );
+          }
+          final authorization = error.requestOptions.headers['Authorization'];
+          if (response?.statusCode == 401 &&
+              authorization is String &&
+              authorization.isNotEmpty) {
+            try {
+              await onUnauthorized?.call();
+            } catch (_) {
+              // The original network failure remains the actionable error.
+            }
           }
           handler.next(error);
         },

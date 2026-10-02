@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/localization/easy_localization.dart';
-import '../../data/services/auth_session_service.dart';
 import '../../domain/entities/register_params.dart';
 import '../../domain/usecases/register_usecase.dart';
+import 'auth_session_provider.dart';
 import 'login_providers.dart';
 import 'signup_state.dart';
 
@@ -16,19 +16,19 @@ final signupNotifierProvider =
     StateNotifierProvider.autoDispose<SignupNotifier, SignupState>(
       (ref) => SignupNotifier(
         registerUseCase: ref.watch(registerUseCaseProvider),
-        sessionService: ref.watch(authSessionServiceProvider),
+        sessionNotifier: ref.read(authSessionProvider.notifier),
       ),
     );
 
 class SignupNotifier extends StateNotifier<SignupState> {
   final RegisterUseCase _registerUseCase;
-  final AuthSessionService _sessionService;
+  final AuthSessionNotifier _sessionNotifier;
 
   SignupNotifier({
     required RegisterUseCase registerUseCase,
-    required AuthSessionService sessionService,
+    required AuthSessionNotifier sessionNotifier,
   }) : _registerUseCase = registerUseCase,
-       _sessionService = sessionService,
+       _sessionNotifier = sessionNotifier,
        super(const SignupState());
 
   Future<void> register({
@@ -36,7 +36,7 @@ class SignupNotifier extends StateNotifier<SignupState> {
     required String email,
     required String password,
     required String passwordConfirmation,
-    required String phone,
+    String? phone,
   }) async {
     state = state.copyWith(status: SignupStatus.loading, errorMessage: null);
 
@@ -62,7 +62,7 @@ class SignupNotifier extends StateNotifier<SignupState> {
 
     try {
       final user = result.rightValue;
-      await _sessionService.persist(user);
+      await _sessionNotifier.persistAuthenticated(user);
       if (mounted) {
         state = state.copyWith(status: SignupStatus.success, user: user);
       }

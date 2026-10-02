@@ -3,6 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 /// Keys for secure storage entries.
 abstract class _Keys {
   static const sessionToken = 'session_access_token';
+  static const sessionIsGuest = 'session_is_guest';
   static const refreshToken = 'bio_refresh_token';
   static const accessToken = 'bio_access_token';
   static const biometricsEnabled = 'biometrics_enabled';
@@ -47,15 +48,49 @@ class SecureStorageService {
     _cachedSessionToken = token;
   }
 
+  /// Stores the active API token together with its explicit session type.
+  ///
+  /// Guest state is deliberately persisted separately from the token so the
+  /// application never infers access level from token presence alone.
+  Future<void> saveActiveSession({
+    required String token,
+    required bool isGuest,
+  }) async {
+    final normalizedToken = token.trim();
+    if (normalizedToken.isEmpty) {
+      throw ArgumentError.value(token, 'token', 'Token must not be empty.');
+    }
+
+    // When creating a guest session, write the restrictive flag first. When
+    // upgrading a guest, replace the token first. An interrupted write can
+    // therefore never elevate a guest token to authenticated access.
+    if (isGuest) {
+      await _storage.write(key: _Keys.sessionIsGuest, value: 'true');
+      await saveSessionToken(normalizedToken);
+    } else {
+      await saveSessionToken(normalizedToken);
+      await _storage.write(key: _Keys.sessionIsGuest, value: 'false');
+    }
+  }
+
   Future<String?> getSessionToken() async {
     final token = await _storage.read(key: _Keys.sessionToken);
     _cachedSessionToken = token;
     return token;
   }
 
+  Future<bool?> getSessionIsGuest() async {
+    final value = await _storage.read(key: _Keys.sessionIsGuest);
+    if (value == null) return null;
+    return value == 'true';
+  }
+
   Future<void> clearSessionToken() async {
     _cachedSessionToken = null;
-    await _storage.delete(key: _Keys.sessionToken);
+    await Future.wait([
+      _storage.delete(key: _Keys.sessionToken),
+      _storage.delete(key: _Keys.sessionIsGuest),
+    ]);
   }
 
   // ── Token storage ────────────────────────────────────────────

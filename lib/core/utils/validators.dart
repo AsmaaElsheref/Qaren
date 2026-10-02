@@ -43,6 +43,29 @@ class Validators {
     return null;
   }
 
+  static String? validateOptionalPhone(String? value) {
+    if (value == null || value.trim().isEmpty) return null;
+    final phoneRegex = RegExp(r'^\+?[0-9]{7,15}$');
+    if (!phoneRegex.hasMatch(value.trim())) {
+      return 'validation.phoneInvalid'.tr();
+    }
+    return null;
+  }
+
+  static String? validateLogin(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'validation.loginRequired'.tr();
+    }
+
+    final normalized = value.trim();
+    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    final phoneRegex = RegExp(r'^\+?[0-9]{7,15}$');
+    if (!emailRegex.hasMatch(normalized) && !phoneRegex.hasMatch(normalized)) {
+      return 'validation.loginInvalid'.tr();
+    }
+    return null;
+  }
+
   static String? confirmPasswordValidator(String? password, value) {
     customPrint('PASS : $password');
     if (value == null || value.isEmpty) {

@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/features/profile/presentation/pages/personalProfile/personal_profile_page.dart';
 import '../../../../auth/presentation/pages/login_page.dart';
 import '../../../../auth/presentation/providers/login_providers.dart';
+import '../../../../auth/presentation/providers/auth_session_provider.dart';
+import '../../../../auth/presentation/guards/guest_access_guard.dart';
 import '../../widgets/dark_mode_toggle_item.dart';
 import '../../widgets/language_toggle_item.dart';
 import '../../widgets/logout_confirmation_sheet.dart';
@@ -92,6 +94,7 @@ class ProfileSettingsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isAuthenticated = ref.watch(authSessionProvider).isAuthenticated;
     final localeCode = context.locale.languageCode;
     final appVersion = ref.watch(
       profileSettingsProvider.select((s) => s.appVersion),
@@ -117,7 +120,14 @@ class ProfileSettingsPage extends ConsumerWidget {
                   children: [
                     // ── Profile header ────────────────────────────────────
                     ProfileHeader(
-                      onEditProfile: () {
+                      onEditProfile: () async {
+                        if (!await GuestAccessGuard.ensureAuthenticated(
+                          context: context,
+                          ref: ref,
+                        )) {
+                          return;
+                        }
+                        if (!context.mounted) return;
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -218,10 +228,11 @@ class ProfileSettingsPage extends ConsumerWidget {
                     const SizedBox(height: 32),
                     // ── Logout ────────────────────────────────────────────
                     LogoutMenuItem(onTap: () => _showLogoutSheet(context, ref)),
-                    DeleteAccountMenuItem(
-                      horizontalPadding: 20,
-                      onTap: () => _showDeleteAccountSheet(context, ref),
-                    ),
+                    if (isAuthenticated)
+                      DeleteAccountMenuItem(
+                        horizontalPadding: 20,
+                        onTap: () => _showDeleteAccountSheet(context, ref),
+                      ),
                   ],
                 ),
               ),

@@ -26,6 +26,8 @@
     }
   },
   "validation": {
+    "loginRequired": "Email or phone number is required",
+    "loginInvalid": "Enter a valid email address or phone number",
     "emailRequired": "Email is required",
     "emailInvalid": "Invalid email address",
     "passwordRequired": "Password is required",
@@ -61,12 +63,19 @@
     "locationFailed": "Unable to determine your current location"
   },
   "auth": {
+    "continue_as_guest": "Continue as Guest",
+    "guest_login_failed": "Unable to continue as guest. Please try again.",
+    "login_required": "Please sign in to continue.",
+    "login_action": "Login",
+    "create_account": "Create Account",
+    "cancel": "Cancel",
     "userType": {
       "user": "User",
       "partner": "Partner",
       "admin": "Admin"
     },
     "login": {
+      "loginHint": "Email or phone number",
       "emailHint": "user@qaren.com",
       "passwordHint": "••••••",
       "forgotPassword": "Forgot password?",
@@ -97,9 +106,9 @@
     "signup": {
       "title": "Create a new account",
       "nameHint": "Full name",
-      "phoneHint": "Phone number",
+      "phoneHint": "Phone number (optional)",
       "confirmPasswordHint": "Confirm password",
-      "genderHint": "Gender",
+      "genderHint": "Gender (optional)",
       "genderMale": "Male",
       "genderFemale": "Female",
       "button": "Create account",

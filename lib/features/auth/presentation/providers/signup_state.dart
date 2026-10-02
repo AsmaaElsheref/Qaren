@@ -7,7 +7,7 @@ class SignupState extends Equatable {
   final SignupStatus status;
   final bool isPasswordVisible;
   final bool isConfirmPasswordVisible;
-  final String selectedGender;
+  final String? selectedGender;
   final String? imagePath;
   final UserEntity? user;
   final String? errorMessage;
@@ -16,7 +16,7 @@ class SignupState extends Equatable {
     this.status = SignupStatus.initial,
     this.isPasswordVisible = false,
     this.isConfirmPasswordVisible = false,
-    this.selectedGender = 'male',
+    this.selectedGender,
     this.imagePath,
     this.user,
     this.errorMessage,

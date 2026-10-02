@@ -10,6 +10,8 @@ import '../../../../core/ui/widgets/AppText.dart';
 import '../../../../core/ui/widgets/AppTextStyles.dart';
 import '../../../../core/ui/widgets/icon_container.dart';
 import '../../../auth/presentation/providers/user_profile_provider.dart';
+import '../../../auth/presentation/providers/auth_session_provider.dart';
+import '../../../auth/presentation/guards/guest_access_guard.dart';
 import '../../../notifications/presentation/pages/notifications_page.dart';
 import '../../../profile/presentation/pages/personalProfile/personal_profile_page.dart';
 import 'home_search_bar.dart';
@@ -24,8 +26,11 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userData = ref.watch(userProfileProvider);
-    final user = userData.hasError ? null : userData.value;
+    final session = ref.watch(authSessionProvider);
+    final userData = session.isAuthenticated
+        ? ref.watch(userProfileProvider)
+        : null;
+    final user = userData?.hasError == true ? null : userData?.value;
     final colors = context.appColors;
 
     return Container(
@@ -50,10 +55,19 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
             elevation: 0,
             scrolledUnderElevation: 0,
             leading: GestureDetector(
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => PersonalProfilePage()),
-              ),
+              onTap: () async {
+                if (!await GuestAccessGuard.ensureAuthenticated(
+                  context: context,
+                  ref: ref,
+                )) {
+                  return;
+                }
+                if (!context.mounted) return;
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => PersonalProfilePage()),
+                );
+              },
               child: Padding(
                 padding: const EdgeInsetsDirectional.only(start: 16),
                 child: Stack(
@@ -143,10 +157,19 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
                   color: colors.textPrimary,
                   size: AppDimensions.iconM,
                 ),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => NotificationsPage()),
-                ),
+                onTap: () async {
+                  if (!await GuestAccessGuard.ensureAuthenticated(
+                    context: context,
+                    ref: ref,
+                  )) {
+                    return;
+                  }
+                  if (!context.mounted) return;
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => NotificationsPage()),
+                  );
+                },
               ),
               Gap.gapW10,
               Padding(

@@ -16,6 +16,7 @@ import '../widgets/gradient_login_button.dart';
 import '../widgets/biometrics_button.dart';
 import '../widgets/google_sign_in_button.dart';
 import '../widgets/apple_sign_in_button.dart';
+import '../widgets/guest_sign_in_button.dart';
 import '../../../home/presentation/pages/home_page.dart';
 import 'forgot_password_page.dart';
 import 'signup_page.dart';
@@ -109,6 +110,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     ref.read(loginNotifierProvider.notifier).loginWithApple();
   }
 
+  void _onGuestPressed() {
+    ref.read(loginNotifierProvider.notifier).continueAsGuest();
+  }
+
   @override
   Widget build(BuildContext context) {
     // ── Listen for login success / failure ──────────────────────
@@ -116,9 +121,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       if (!mounted) return;
       if (next.status == LoginStatus.success &&
           previous?.status != LoginStatus.success) {
-        Navigator.of(
-          context,
-        ).pushReplacement(MaterialPageRoute(builder: (_) => const HomePage()));
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (_) => const HomePage()),
+          (_) => false,
+        );
       }
       if (next.status == LoginStatus.failure &&
           previous?.status != LoginStatus.failure) {
@@ -171,10 +177,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     SizedBox(height: context.screenHeight * 0.05),
                     LoginInputField(
                       controller: _emailController,
-                      hint: 'auth.login.emailHint'.tr(),
+                      hint: 'auth.login.loginHint'.tr(),
                       prefixIcon: Icons.mail_outline,
                       keyboardType: TextInputType.emailAddress,
-                      validator: Validators.validateEmail,
+                      validator: Validators.validateLogin,
                     ),
                     const SizedBox(height: AppDimensions.paddingS),
                     LoginInputField(
@@ -253,20 +259,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     BiometricsButton(
                       onPressed: isBusy ? null : _onBiometricPressed,
                     ),
+                    const SizedBox(height: AppDimensions.paddingM),
+                    GuestSignInButton(
+                      label: 'auth.continue_as_guest'.tr(),
+                      isLoading: loginState.activeMethod == LoginMethod.guest,
+                      onPressed: isBusy ? null : _onGuestPressed,
+                    ),
                     const SizedBox(height: AppDimensions.paddingL),
-
-                    // TextButton(
-                    //   onPressed: () {},
-                    //   child: const AppText(
-                    //     'auth.login.browseAsGuest'.tr(),
-                    //     style: TextStyle(
-                    //       fontSize: AppDimensions.fontS,
-                    //       color: AppColors.textSecondary,
-                    //       decorationColor: AppColors.textSecondary,
-                    //     ),
-                    //   ),
-                    // ),
-                    const SizedBox(height: AppDimensions.paddingS),
 
                     // ── Sign Up link ──────────────────────────────────────
                     Row(
@@ -280,11 +279,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           ),
                         ),
                         TextButton(
-                          onPressed: () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => const SignupPage(),
-                            ),
-                          ),
+                          onPressed: () =>
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                  builder: (_) => const SignupPage(),
+                                ),
+                              ),
                           style: TextButton.styleFrom(
                             padding: const EdgeInsets.symmetric(horizontal: 6),
                             minimumSize: Size.zero,

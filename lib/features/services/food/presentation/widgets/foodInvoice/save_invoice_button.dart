@@ -1,25 +1,34 @@
 import 'package:qaren/core/localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../../core/constants/app_dimensions.dart';
 import '../../../../../../core/ui/widgets/AppButton.dart';
 import '../../../../../../core/ui/widgets/AppText.dart';
 import '../../../../../../core/ui/widgets/saudi_riyal_amount.dart';
 import '../../pages/checkoutPage/checkout_page.dart';
+import '../../../../../auth/presentation/guards/guest_access_guard.dart';
 
-class SaveInvoiceButton extends StatelessWidget {
+class SaveInvoiceButton extends ConsumerWidget {
   const SaveInvoiceButton({super.key, this.amount});
 
   final double? amount;
 
-  void _onTap(BuildContext context) {
+  Future<void> _onTap(BuildContext context, WidgetRef ref) async {
+    if (!await GuestAccessGuard.ensureAuthenticated(
+      context: context,
+      ref: ref,
+    )) {
+      return;
+    }
+    if (!context.mounted) return;
     Navigator.of(
       context,
     ).push(MaterialPageRoute(builder: (_) => const CheckoutPage()));
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final label = 'food.comparison.orderNow'.tr();
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -53,7 +62,7 @@ class SaveInvoiceButton extends StatelessWidget {
                 ],
               ),
         icon: Icons.receipt_long_rounded,
-        onTap: () => _onTap(context),
+        onTap: () => _onTap(context, ref),
       ),
     );
   }

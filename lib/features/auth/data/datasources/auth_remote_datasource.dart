@@ -8,10 +8,12 @@ import 'package:qaren/features/auth/domain/entities/update_profile_params.dart';
 import 'package:qaren/features/auth/data/models/user_model.dart';
 import 'package:qaren/features/auth/data/models/google_login_response_model.dart';
 import 'package:qaren/features/auth/data/models/apple_login_response_model.dart';
+import 'package:qaren/features/auth/data/models/guest_auth_response_model.dart';
 import 'package:qaren/features/auth/domain/entities/apple_login_params.dart';
 
 abstract class AuthRemoteDataSource {
   Future<UserModel> login(LoginParams params);
+  Future<GuestAuthDataModel> continueAsGuest();
   Future<UserModel> loginWithGoogleAccessToken(String accessToken);
   Future<UserModel> loginWithApple(AppleLoginParams params);
   Future<UserModel> register(RegisterParams params);
@@ -38,6 +40,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final response = await DioHelper.postData(
         url: ApiRoutes.login,
         data: params.toJson(),
+        authenticated: false,
       );
       final body = response.data as Map<String, dynamic>;
       final data = body['data'] as Map<String, dynamic>;
@@ -49,6 +52,15 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       customPrint('Login Error ===> $e');
       rethrow;
     }
+  }
+
+  @override
+  Future<GuestAuthDataModel> continueAsGuest() async {
+    final response = await DioHelper.postData(
+      url: ApiRoutes.guest,
+      authenticated: false,
+    );
+    return GuestAuthResponseModel.fromJson(response.data).data;
   }
 
   @override

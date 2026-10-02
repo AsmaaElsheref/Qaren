@@ -11,6 +11,8 @@ import 'package:qaren/features/auth/data/models/google_login_response_model.dart
 import 'package:qaren/features/auth/data/services/google_sign_in_service.dart';
 import 'package:qaren/features/auth/data/services/apple_sign_in_service.dart';
 import 'package:qaren/features/auth/data/models/apple_login_response_model.dart';
+import 'package:qaren/features/auth/data/models/guest_auth_response_model.dart';
+import 'package:qaren/features/auth/domain/entities/guest_auth_data.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource _remoteDataSource;
@@ -32,6 +34,22 @@ class AuthRepositoryImpl implements AuthRepository {
       return Either.leftOf(f);
     } catch (_) {
       return Either.leftOf(AuthFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, GuestAuthData>> continueAsGuest() async {
+    try {
+      final guest = await _remoteDataSource.continueAsGuest();
+      return Either.rightOf(guest);
+    } on NetworkFailure catch (failure) {
+      return Either.leftOf(failure);
+    } on Failure catch (failure) {
+      return Either.leftOf(failure);
+    } on GuestAuthResponseException {
+      return Either.leftOf(AuthFailure('auth.guest_login_failed'.tr()));
+    } catch (_) {
+      return Either.leftOf(AuthFailure('auth.guest_login_failed'.tr()));
     }
   }
 

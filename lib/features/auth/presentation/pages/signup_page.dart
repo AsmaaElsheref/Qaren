@@ -16,6 +16,7 @@ import '../widgets/gradient_login_button.dart';
 import '../widgets/login_input_field.dart';
 import '../widgets/qaren_logo.dart';
 import '../widgets/signup_avatar_picker.dart';
+import 'login_page.dart';
 
 class SignupPage extends ConsumerStatefulWidget {
   const SignupPage({super.key});
@@ -61,9 +62,10 @@ class _SignupPageState extends ConsumerState<SignupPage> {
     ref.listen<SignupState>(signupNotifierProvider, (previous, next) {
       if (next.status == SignupStatus.success &&
           previous?.status != SignupStatus.success) {
-        Navigator.of(
-          context,
-        ).pushReplacement(MaterialPageRoute(builder: (_) => const HomePage()));
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (_) => const HomePage()),
+          (_) => false,
+        );
       }
       if (next.status == SignupStatus.failure &&
           previous?.status != SignupStatus.failure) {
@@ -144,7 +146,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                       hint: 'auth.signup.phoneHint'.tr(),
                       prefixIcon: Icons.phone_outlined,
                       keyboardType: TextInputType.phone,
-                      validator: Validators.validatePhone,
+                      validator: Validators.validateOptionalPhone,
                     ),
                     const SizedBox(height: AppDimensions.paddingS),
 
@@ -242,7 +244,12 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                           ),
                         ),
                         TextButton(
-                          onPressed: () => Navigator.of(context).pop(),
+                          onPressed: () =>
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                  builder: (_) => const LoginPage(),
+                                ),
+                              ),
                           style: TextButton.styleFrom(
                             padding: const EdgeInsets.symmetric(horizontal: 6),
                             minimumSize: Size.zero,
@@ -275,7 +282,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
 // ── Gender Selector ────────────────────────────────────────────────────────────
 
 class GenderSelector extends StatelessWidget {
-  final String selected;
+  final String? selected;
   final void Function(String) onChanged;
 
   const GenderSelector({

@@ -4,7 +4,7 @@ import '../../domain/entities/user_entity.dart';
 
 enum LoginStatus { initial, loading, success, failure }
 
-enum LoginMethod { password, google, apple, biometric }
+enum LoginMethod { password, google, apple, biometric, guest }
 
 class LoginState extends Equatable {
   final LoginStatus status;
