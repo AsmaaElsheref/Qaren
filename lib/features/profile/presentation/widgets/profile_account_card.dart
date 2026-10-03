@@ -15,6 +15,8 @@ class ProfileAccountCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.appColors;
+    final hasPhone = phone.trim().isNotEmpty;
+
     return Container(
       decoration: BoxDecoration(
         color: colors.card,
@@ -29,15 +31,17 @@ class ProfileAccountCard extends StatelessWidget {
             icon: Icons.mail_outline_rounded,
             iconColor: const Color(0xFF27AAE1),
             iconBackground: const Color(0xFFE8F4FD),
+            showDivider: hasPhone,
           ),
-          ProfileAccountInfoItem(
-            label: 'profile.field.phone'.tr(),
-            value: phone,
-            icon: Icons.phone_outlined,
-            iconColor: const Color(0xFF8DC73F),
-            iconBackground: const Color(0xFFEFF8E2),
-            showDivider: false,
-          ),
+          if (hasPhone)
+            ProfileAccountInfoItem(
+              label: 'profile.field.phone'.tr(),
+              value: phone,
+              icon: Icons.phone_outlined,
+              iconColor: const Color(0xFF8DC73F),
+              iconBackground: const Color(0xFFEFF8E2),
+              showDivider: false,
+            ),
         ],
       ),
     );
