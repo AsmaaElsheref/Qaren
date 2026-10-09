@@ -3,13 +3,12 @@ import 'package:qaren/features/auth/domain/entities/register_params.dart';
 
 void main() {
   group('RegisterParams.toFields', () {
-    test('omits optional phone and gender when empty', () {
+    test('serializes only supported registration fields', () {
       const params = RegisterParams(
         name: ' John Doe ',
         email: ' user@example.com ',
         password: 'SecurePassword123!',
         passwordConfirmation: 'SecurePassword123!',
-        phone: '   ',
       );
 
       expect(params.toFields(), {
@@ -20,18 +19,16 @@ void main() {
       });
     });
 
-    test('serializes trimmed optional phone and gender when supplied', () {
+    test('does not include phone or gender in the registration payload', () {
       const params = RegisterParams(
         name: 'John Doe',
         email: 'user@example.com',
         password: 'SecurePassword123!',
         passwordConfirmation: 'SecurePassword123!',
-        phone: ' 0500000000 ',
-        gender: ' male ',
       );
 
-      expect(params.toFields()['phone'], '0500000000');
-      expect(params.toFields()['gender'], 'male');
+      expect(params.toFields(), isNot(contains('phone')));
+      expect(params.toFields(), isNot(contains('gender')));
     });
   });
 }

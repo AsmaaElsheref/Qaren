@@ -29,7 +29,6 @@ class _SignupPageState extends ConsumerState<SignupPage> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
-  final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
@@ -37,7 +36,6 @@ class _SignupPageState extends ConsumerState<SignupPage> {
   void dispose() {
     _nameController.dispose();
     _emailController.dispose();
-    _phoneController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
@@ -52,7 +50,6 @@ class _SignupPageState extends ConsumerState<SignupPage> {
             email: _emailController.text.trim(),
             password: _passwordController.text,
             passwordConfirmation: _confirmPasswordController.text,
-            phone: _phoneController.text.trim(),
           );
     }
   }
@@ -141,21 +138,9 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                     const SizedBox(height: AppDimensions.paddingS),
 
                     // ── Phone ─────────────────────────────────────────────────
-                    LoginInputField(
-                      controller: _phoneController,
-                      hint: 'auth.signup.phoneHint'.tr(),
-                      prefixIcon: Icons.phone_outlined,
-                      keyboardType: TextInputType.phone,
-                      validator: Validators.validateOptionalPhone,
-                    ),
                     const SizedBox(height: AppDimensions.paddingS),
 
                     // ── Gender ────────────────────────────────────────────────
-                    GenderSelector(
-                      selected: signupState.selectedGender,
-                      onChanged: notifier.selectGender,
-                    ),
-                    const SizedBox(height: AppDimensions.paddingS),
 
                     // ── Password ──────────────────────────────────────────────
                     LoginInputField(
@@ -280,99 +265,3 @@ class _SignupPageState extends ConsumerState<SignupPage> {
 }
 
 // ── Gender Selector ────────────────────────────────────────────────────────────
-
-class GenderSelector extends StatelessWidget {
-  final String? selected;
-  final void Function(String) onChanged;
-
-  const GenderSelector({
-    super.key,
-    required this.selected,
-    required this.onChanged,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: GenderOption(
-            label: 'auth.signup.genderMale'.tr(),
-            value: 'male',
-            icon: Icons.male_rounded,
-            isSelected: selected == 'male',
-            onTap: () => onChanged('male'),
-          ),
-        ),
-        const SizedBox(width: AppDimensions.paddingS),
-        Expanded(
-          child: GenderOption(
-            label: 'auth.signup.genderFemale'.tr(),
-            value: 'female',
-            icon: Icons.female_rounded,
-            isSelected: selected == 'female',
-            onTap: () => onChanged('female'),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class GenderOption extends StatelessWidget {
-  final String label;
-  final String value;
-  final IconData icon;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  const GenderOption({
-    super.key,
-    required this.label,
-    required this.value,
-    required this.icon,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.appColors;
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        height: AppDimensions.inputHeight,
-        decoration: BoxDecoration(
-          color: isSelected
-              ? AppColors.primary.withValues(alpha: 0.08)
-              : colors.surface,
-          border: Border.all(
-            color: isSelected ? AppColors.primary : AppColors.border,
-            width: isSelected ? 1.5 : 1.0,
-          ),
-          borderRadius: BorderRadius.circular(AppDimensions.radiusL),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              icon,
-              color: isSelected ? AppColors.primary : colors.textSecondary,
-              size: AppDimensions.iconM,
-            ),
-            const SizedBox(width: 6),
-            AppText(
-              label,
-              style: TextStyle(
-                fontSize: AppDimensions.fontM,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-                color: isSelected ? AppColors.primary : colors.textSecondary,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}

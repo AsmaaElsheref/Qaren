@@ -4,13 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qaren/core/ui/widgets/toast/toast.dart';
 
 import '../../../../auth/domain/entities/user_entity.dart';
-import '../../../../../core/constants/app_dimensions.dart';
-import '../../../../../core/theme/app_colors.dart';
-import '../../../../../core/ui/widgets/AppText.dart';
 import '../../providers/editProfile/edit_profile_provider.dart';
 import '../../providers/editProfile/edit_profile_state.dart';
 import '../../widgets/editProfile/edit_profile_avatar_picker.dart';
-import '../../widgets/editProfile/edit_profile_gender_selector.dart';
 import '../../widgets/editProfile/edit_profile_header.dart';
 import '../../widgets/editProfile/edit_profile_input_field.dart';
 import '../../widgets/editProfile/edit_profile_save_button.dart';
@@ -71,16 +67,6 @@ class EditProfilePage extends ConsumerWidget {
                       onChanged: notifier.updateEmail,
                       keyboardType: TextInputType.emailAddress,
                     ),
-                    const SizedBox(height: 16),
-                    EditProfileInputField(
-                      label: 'profile.field.phone'.tr(),
-                      initialValue: user.phone,
-                      icon: Icons.phone_outlined,
-                      onChanged: notifier.updatePhone,
-                      keyboardType: TextInputType.phone,
-                    ),
-                    const SizedBox(height: 16),
-                    EditProfileGenderSelector(providerKey: user),
                     const SizedBox(height: 16),
                     EditProfileInputField(
                       label: 'profile.field.newPassword'.tr(),

@@ -36,7 +36,6 @@ class SignupNotifier extends StateNotifier<SignupState> {
     required String email,
     required String password,
     required String passwordConfirmation,
-    String? phone,
   }) async {
     state = state.copyWith(status: SignupStatus.loading, errorMessage: null);
 
@@ -46,8 +45,6 @@ class SignupNotifier extends StateNotifier<SignupState> {
         email: email,
         password: password,
         passwordConfirmation: passwordConfirmation,
-        phone: phone,
-        gender: state.selectedGender,
         imagePath: state.imagePath,
       ),
     );
@@ -82,10 +79,6 @@ class SignupNotifier extends StateNotifier<SignupState> {
     } else {
       state = state.copyWith(imagePath: path);
     }
-  }
-
-  void selectGender(String gender) {
-    state = state.copyWith(selectedGender: gender);
   }
 
   void togglePasswordVisibility() {

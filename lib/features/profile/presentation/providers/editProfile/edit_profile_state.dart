@@ -7,8 +7,6 @@ enum EditProfileStatus { initial, loading, success, failure }
 class EditProfileState extends Equatable {
   final String name;
   final String email;
-  final String phone;
-  final String gender;
   final String password;
   final String passwordConfirmation;
   final String? imagePath;
@@ -20,8 +18,6 @@ class EditProfileState extends Equatable {
   const EditProfileState({
     required this.name,
     required this.email,
-    required this.phone,
-    required this.gender,
     this.password = '',
     this.passwordConfirmation = '',
     this.imagePath,
@@ -35,8 +31,6 @@ class EditProfileState extends Equatable {
     return EditProfileState(
       name: user.name,
       email: user.email,
-      phone: user.phone,
-      gender: user.gender.isEmpty ? 'male' : user.gender,
       currentImageUrl: user.image,
     );
   }
@@ -47,8 +41,6 @@ class EditProfileState extends Equatable {
   EditProfileState copyWith({
     String? name,
     String? email,
-    String? phone,
-    String? gender,
     String? password,
     String? passwordConfirmation,
     String? imagePath,
@@ -61,8 +53,6 @@ class EditProfileState extends Equatable {
     return EditProfileState(
       name: name ?? this.name,
       email: email ?? this.email,
-      phone: phone ?? this.phone,
-      gender: gender ?? this.gender,
       password: password ?? this.password,
       passwordConfirmation: passwordConfirmation ?? this.passwordConfirmation,
       imagePath: clearImage ? null : (imagePath ?? this.imagePath),
@@ -77,8 +67,6 @@ class EditProfileState extends Equatable {
   List<Object?> get props => [
     name,
     email,
-    phone,
-    gender,
     password,
     passwordConfirmation,
     imagePath,

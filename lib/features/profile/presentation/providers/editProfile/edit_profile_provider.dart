@@ -44,14 +44,6 @@ class EditProfileNotifier extends StateNotifier<EditProfileState> {
     state = state.copyWith(email: value, status: EditProfileStatus.initial);
   }
 
-  void updatePhone(String value) {
-    state = state.copyWith(phone: value, status: EditProfileStatus.initial);
-  }
-
-  void updateGender(String value) {
-    state = state.copyWith(gender: value, status: EditProfileStatus.initial);
-  }
-
   void updatePassword(String value) {
     state = state.copyWith(password: value, status: EditProfileStatus.initial);
   }
@@ -88,8 +80,6 @@ class EditProfileNotifier extends StateNotifier<EditProfileState> {
       UpdateProfileParams(
         name: state.name.trim(),
         email: state.email.trim(),
-        phone: state.phone.trim(),
-        gender: state.gender,
         password: state.password.trim().isEmpty ? null : state.password,
         passwordConfirmation: state.password.trim().isEmpty
             ? null
@@ -132,7 +122,6 @@ class EditProfileNotifier extends StateNotifier<EditProfileState> {
   String? validate() {
     return Validators.validateName(state.name) ??
         Validators.validateEmail(state.email) ??
-        Validators.validatePhone(state.phone) ??
         validatePasswordFields();
   }
 
